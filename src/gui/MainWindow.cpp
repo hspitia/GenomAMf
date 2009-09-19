@@ -38,7 +38,7 @@ void MainWindow::connectSignalsSlots()
   connect(ui->loadSequencesAction , SIGNAL(triggered()), this, SLOT(loadSequences()));
   connect(ui->makeCgrAction , SIGNAL(triggered()), this, SLOT(makeCgr()));
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this, SLOT(makeMultifractalAnalisys()));
-//  connect(, SIGNAL(triggered()), this, SLOT(makeMultifractalAnalisys()));
+  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(displayMfaResults()));
 }
 
 void MainWindow::loadSequences()
@@ -79,5 +79,6 @@ void MainWindow::makeMultifractalAnalisys(){
 
 void MainWindow::displayMfaResults(){
   MfaResultsForm *mfaResultsForm = new MfaResultsForm(this);
+  ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
 }

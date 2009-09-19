@@ -2,13 +2,16 @@
 #define MFARESULTSFORM_H
 
 #include <QtGui/QWidget>
+#include <QtGui/QMdiSubWindow>
 #include "ui_MfaResultsForm.h"
 
 namespace Ui {
     class MfaResultsForm;
 }
 
-class MfaResultsForm : public QWidget
+class MfaResultsForm : 
+//  public QMdiSubWindow
+  public QWidget
 {
     Q_OBJECT
 

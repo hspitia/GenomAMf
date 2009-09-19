@@ -14,26 +14,24 @@
    <string>GenomAMf</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"> QGroupBox {
+   <string notr="true">/* QGroupBox {
     border: 1px solid gray;
     border-radius: 3px;
-    margin-top: 1ex; /* leave space at the top for the title */
-	padding: 10px;
+    margin-top: 1ex; 
+	padding: 9px;
  }
 
  QGroupBox::title {
-	font-weight: bold;
     subcontrol-origin: margin;
-    subcontrol-position: top left; /* position at the top left */
+    subcontrol-position: top left;
     padding: 0 3px;
- }
+ }*/
 
 QDockWidget::title {
     text-align: left; /* align the text to the left */
-    padding-left: 10px;
-    padding-top: 6px;
- }
-</string>
+    padding-left: 6px;
+    padding-top: 4px;
+ }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -51,8 +49,11 @@ QDockWidget::title {
     </property>
     <item row="0" column="0">
      <widget class="QMdiArea" name="mdiArea">
-      <property name="documentMode">
-       <bool>false</bool>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
      </widget>
     </item>
@@ -64,7 +65,7 @@ QDockWidget::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Archivo">
@@ -98,10 +99,16 @@ QDockWidget::title {
     </property>
     <addaction name="testAction"/>
    </widget>
+   <widget class="QMenu" name="menu_Ventana">
+    <property name="title">
+     <string>&amp;Ventana</string>
+    </property>
+   </widget>
    <addaction name="menu_Archivo"/>
    <addaction name="menuJuego_del_Caos"/>
    <addaction name="menuA_n_lisis"/>
    <addaction name="menu_Herramientas"/>
+   <addaction name="menu_Ventana"/>
    <addaction name="menuTest"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -128,6 +135,9 @@ QDockWidget::title {
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="margin">
+      <number>4</number>
+     </property>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">

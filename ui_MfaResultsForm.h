@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MfaResultsForm.ui'
 **
-** Created: Thu Sep 17 17:54:48 2009
+** Created: Fri Sep 18 22:34:57 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -15,6 +15,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QDialogButtonBox>
+#include <QtGui/QGraphicsView>
 #include <QtGui/QGridLayout>
 #include <QtGui/QGroupBox>
 #include <QtGui/QHBoxLayout>
@@ -31,6 +32,7 @@ QT_BEGIN_NAMESPACE
 class Ui_MfaResultsForm
 {
 public:
+    QGridLayout *gridLayout_3;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_2;
     QGridLayout *gridLayout;
@@ -38,28 +40,31 @@ public:
     QLineEdit *SequenceNameLineEdit;
     QLabel *sequenceTypeLabel;
     QLineEdit *SequenceTypeLineEdit;
-    QWidget *widget;
-    QHBoxLayout *horizontalLayout;
-    QSpacerItem *horizontalSpacer;
-    QDialogButtonBox *buttonBox;
-    QWidget *widget1;
     QVBoxLayout *verticalLayout;
     QLabel *label;
     QTabWidget *tabWidget;
     QWidget *tab;
+    QGraphicsView *graphicsView;
     QWidget *tab_2;
     QWidget *tab_3;
     QWidget *tab_4;
     QWidget *tab_5;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QDialogButtonBox *buttonBox;
 
     void setupUi(QWidget *MfaResultsForm)
     {
         if (MfaResultsForm->objectName().isEmpty())
             MfaResultsForm->setObjectName(QString::fromUtf8("MfaResultsForm"));
-        MfaResultsForm->resize(700, 706);
+        MfaResultsForm->resize(680, 590);
+        MfaResultsForm->setMinimumSize(QSize(680, 590));
+        gridLayout_3 = new QGridLayout(MfaResultsForm);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setMargin(11);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
         groupBox = new QGroupBox(MfaResultsForm);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 671, 96));
         gridLayout_2 = new QGridLayout(groupBox);
         gridLayout_2->setSpacing(6);
         gridLayout_2->setMargin(11);
@@ -90,41 +95,24 @@ public:
 
         gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
 
-        widget = new QWidget(MfaResultsForm);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(10, 660, 671, 36));
-        horizontalLayout = new QHBoxLayout(widget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setMargin(11);
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addItem(horizontalSpacer);
+        gridLayout_3->addWidget(groupBox, 0, 0, 1, 1);
 
-        buttonBox = new QDialogButtonBox(widget);
-        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
-        buttonBox->setStandardButtons(QDialogButtonBox::Close);
-
-        horizontalLayout->addWidget(buttonBox);
-
-        widget1 = new QWidget(MfaResultsForm);
-        widget1->setObjectName(QString::fromUtf8("widget1"));
-        widget1->setGeometry(QRect(10, 150, 671, 501));
-        verticalLayout = new QVBoxLayout(widget1);
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
-        verticalLayout->setMargin(11);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(widget1);
+        label = new QLabel(MfaResultsForm);
         label->setObjectName(QString::fromUtf8("label"));
 
         verticalLayout->addWidget(label);
 
-        tabWidget = new QTabWidget(widget1);
+        tabWidget = new QTabWidget(MfaResultsForm);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
+        graphicsView = new QGraphicsView(tab);
+        graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
+        graphicsView->setGeometry(QRect(10, 10, 350, 350));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -142,7 +130,28 @@ public:
         verticalLayout->addWidget(tabWidget);
 
 
+        gridLayout_3->addLayout(verticalLayout, 1, 0, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(-1, 9, -1, -1);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        buttonBox = new QDialogButtonBox(MfaResultsForm);
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+        horizontalLayout->addWidget(buttonBox);
+
+
+        gridLayout_3->addLayout(horizontalLayout, 2, 0, 1, 1);
+
+
         retranslateUi(MfaResultsForm);
+        QObject::connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), MfaResultsForm, SLOT(hide()));
 
         tabWidget->setCurrentIndex(0);
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.ui'
 **
-** Created: Thu Sep 17 18:10:41 2009
+** Created: Fri Sep 18 22:18:53 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -47,6 +47,7 @@ public:
     QMenu *menu_Herramientas;
     QMenu *menuJuego_del_Caos;
     QMenu *menuTest;
+    QMenu *menu_Ventana;
     QStatusBar *statusbar;
     QToolBar *toolBar;
     QDockWidget *dockWidget;
@@ -62,28 +63,24 @@ public:
         if (MainWindowClass->objectName().isEmpty())
             MainWindowClass->setObjectName(QString::fromUtf8("MainWindowClass"));
         MainWindowClass->resize(800, 600);
-        MainWindowClass->setStyleSheet(QString::fromUtf8(" QGroupBox {\n"
-"     border: 1px solid gray;\n"
-"     border-radius: 3px;\n"
-"     margin-top: 1ex; /* leave space at the top for the title */\n"
-"	 padding: 10px;\n"
+        MainWindowClass->setStyleSheet(QString::fromUtf8("/* QGroupBox {\n"
+"    border: 1px solid gray;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex; \n"
+"	padding: 9px;\n"
 " }\n"
 "\n"
 " QGroupBox::title {\n"
-"	 font-weight: bold;\n"
-"     subcontrol-origin: margin;\n"
-"     subcontrol-position: top left; /* position at the top left */\n"
-"     padding: 0 3px;\n"
-" }\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top left;\n"
+"    padding: 0 3px;\n"
+" }*/\n"
 "\n"
 "QDockWidget::title {\n"
-"     text-align: left; /* align the text to the left */\n"
-"/*     background: lightgray;*/\n"
-"     padding-left: 10px;\n"
-"     padding-top: 6px;\n"
-" font-weight: bold;		 \n"
-" }\n"
-""));
+"    text-align: left; /* align the text to the left */\n"
+"    padding-left: 6px;\n"
+"    padding-top: 4px;\n"
+" }"));
         loadSequencesAction = new QAction(MainWindowClass);
         loadSequencesAction->setObjectName(QString::fromUtf8("loadSequencesAction"));
         exitAction = new QAction(MainWindowClass);
@@ -103,14 +100,15 @@ public:
         gridLayout->setContentsMargins(4, 0, 0, 0);
         mdiArea = new QMdiArea(centralwidget);
         mdiArea->setObjectName(QString::fromUtf8("mdiArea"));
-        mdiArea->setDocumentMode(false);
+        mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
         gridLayout->addWidget(mdiArea, 0, 0, 1, 1);
 
         MainWindowClass->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindowClass);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 25));
+        menubar->setGeometry(QRect(0, 0, 800, 24));
         menu_Archivo = new QMenu(menubar);
         menu_Archivo->setObjectName(QString::fromUtf8("menu_Archivo"));
         menuA_n_lisis = new QMenu(menubar);
@@ -121,6 +119,8 @@ public:
         menuJuego_del_Caos->setObjectName(QString::fromUtf8("menuJuego_del_Caos"));
         menuTest = new QMenu(menubar);
         menuTest->setObjectName(QString::fromUtf8("menuTest"));
+        menu_Ventana = new QMenu(menubar);
+        menu_Ventana->setObjectName(QString::fromUtf8("menu_Ventana"));
         MainWindowClass->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindowClass);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -130,7 +130,6 @@ public:
         MainWindowClass->addToolBar(Qt::TopToolBarArea, toolBar);
         dockWidget = new QDockWidget(MainWindowClass);
         dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
-        dockWidget->setAutoFillBackground(false);
         dockWidget->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
@@ -141,6 +140,7 @@ public:
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         verticalLayout_3 = new QVBoxLayout(dockWidgetContents);
+        verticalLayout_3->setMargin(4);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
@@ -160,6 +160,7 @@ public:
         menubar->addAction(menuJuego_del_Caos->menuAction());
         menubar->addAction(menuA_n_lisis->menuAction());
         menubar->addAction(menu_Herramientas->menuAction());
+        menubar->addAction(menu_Ventana->menuAction());
         menubar->addAction(menuTest->menuAction());
         menu_Archivo->addAction(loadSequencesAction);
         menu_Archivo->addAction(exitAction);
@@ -190,6 +191,7 @@ public:
         menu_Herramientas->setTitle(QApplication::translate("MainWindowClass", "&Herramientas", 0, QApplication::UnicodeUTF8));
         menuJuego_del_Caos->setTitle(QApplication::translate("MainWindowClass", "&Juego del Caos", 0, QApplication::UnicodeUTF8));
         menuTest->setTitle(QApplication::translate("MainWindowClass", "&Test", 0, QApplication::UnicodeUTF8));
+        menu_Ventana->setTitle(QApplication::translate("MainWindowClass", "&Ventana", 0, QApplication::UnicodeUTF8));
         toolBar->setWindowTitle(QApplication::translate("MainWindowClass", "toolBar", 0, QApplication::UnicodeUTF8));
         dockWidget->setWindowTitle(QApplication::translate("MainWindowClass", "Explorador de Objetos", 0, QApplication::UnicodeUTF8));
     } // retranslateUi

@@ -4,5 +4,7 @@ doc/**/*
 debug/*
 # Ignore release directory
 release/**/*
+# Ignore moc files
+moc*
 # Ignore project executable
 GenomAMf
