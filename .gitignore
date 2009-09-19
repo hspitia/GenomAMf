@@ -1,0 +1,8 @@
+# Ignore doc directory
+doc/**/*
+# Ignore debug directory
+debug/*
+# Ignore release directory
+release/**/*
+# Ignore project executable
+GenomAMf

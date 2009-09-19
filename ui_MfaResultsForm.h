@@ -1,0 +1,176 @@
+/********************************************************************************
+** Form generated from reading ui file 'MfaResultsForm.ui'
+**
+** Created: Thu Sep 17 17:54:48 2009
+**      by: Qt User Interface Compiler version 4.5.2
+**
+** WARNING! All changes made in this file will be lost when recompiling ui file!
+********************************************************************************/
+
+#ifndef UI_MFARESULTSFORM_H
+#define UI_MFARESULTSFORM_H
+
+#include <QtCore/QVariant>
+#include <QtGui/QAction>
+#include <QtGui/QApplication>
+#include <QtGui/QButtonGroup>
+#include <QtGui/QDialogButtonBox>
+#include <QtGui/QGridLayout>
+#include <QtGui/QGroupBox>
+#include <QtGui/QHBoxLayout>
+#include <QtGui/QHeaderView>
+#include <QtGui/QLabel>
+#include <QtGui/QLineEdit>
+#include <QtGui/QSpacerItem>
+#include <QtGui/QTabWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QWidget>
+
+QT_BEGIN_NAMESPACE
+
+class Ui_MfaResultsForm
+{
+public:
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_2;
+    QGridLayout *gridLayout;
+    QLabel *sequenceNameLabel;
+    QLineEdit *SequenceNameLineEdit;
+    QLabel *sequenceTypeLabel;
+    QLineEdit *SequenceTypeLineEdit;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QDialogButtonBox *buttonBox;
+    QWidget *widget1;
+    QVBoxLayout *verticalLayout;
+    QLabel *label;
+    QTabWidget *tabWidget;
+    QWidget *tab;
+    QWidget *tab_2;
+    QWidget *tab_3;
+    QWidget *tab_4;
+    QWidget *tab_5;
+
+    void setupUi(QWidget *MfaResultsForm)
+    {
+        if (MfaResultsForm->objectName().isEmpty())
+            MfaResultsForm->setObjectName(QString::fromUtf8("MfaResultsForm"));
+        MfaResultsForm->resize(700, 706);
+        groupBox = new QGroupBox(MfaResultsForm);
+        groupBox->setObjectName(QString::fromUtf8("groupBox"));
+        groupBox->setGeometry(QRect(10, 10, 671, 96));
+        gridLayout_2 = new QGridLayout(groupBox);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setMargin(11);
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        gridLayout = new QGridLayout();
+        gridLayout->setSpacing(6);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        sequenceNameLabel = new QLabel(groupBox);
+        sequenceNameLabel->setObjectName(QString::fromUtf8("sequenceNameLabel"));
+
+        gridLayout->addWidget(sequenceNameLabel, 0, 0, 1, 1);
+
+        SequenceNameLineEdit = new QLineEdit(groupBox);
+        SequenceNameLineEdit->setObjectName(QString::fromUtf8("SequenceNameLineEdit"));
+
+        gridLayout->addWidget(SequenceNameLineEdit, 0, 1, 1, 1);
+
+        sequenceTypeLabel = new QLabel(groupBox);
+        sequenceTypeLabel->setObjectName(QString::fromUtf8("sequenceTypeLabel"));
+
+        gridLayout->addWidget(sequenceTypeLabel, 1, 0, 1, 1);
+
+        SequenceTypeLineEdit = new QLineEdit(groupBox);
+        SequenceTypeLineEdit->setObjectName(QString::fromUtf8("SequenceTypeLineEdit"));
+
+        gridLayout->addWidget(SequenceTypeLineEdit, 1, 1, 1, 1);
+
+
+        gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
+
+        widget = new QWidget(MfaResultsForm);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(10, 660, 671, 36));
+        horizontalLayout = new QHBoxLayout(widget);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setMargin(11);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        buttonBox = new QDialogButtonBox(widget);
+        buttonBox->setObjectName(QString::fromUtf8("buttonBox"));
+        buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+        horizontalLayout->addWidget(buttonBox);
+
+        widget1 = new QWidget(MfaResultsForm);
+        widget1->setObjectName(QString::fromUtf8("widget1"));
+        widget1->setGeometry(QRect(10, 150, 671, 501));
+        verticalLayout = new QVBoxLayout(widget1);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setMargin(11);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        label = new QLabel(widget1);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        verticalLayout->addWidget(label);
+
+        tabWidget = new QTabWidget(widget1);
+        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        tabWidget->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        tabWidget->addTab(tab_2, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        tabWidget->addTab(tab_3, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        tabWidget->addTab(tab_4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        tabWidget->addTab(tab_5, QString());
+
+        verticalLayout->addWidget(tabWidget);
+
+
+        retranslateUi(MfaResultsForm);
+
+        tabWidget->setCurrentIndex(0);
+
+
+        QMetaObject::connectSlotsByName(MfaResultsForm);
+    } // setupUi
+
+    void retranslateUi(QWidget *MfaResultsForm)
+    {
+        MfaResultsForm->setWindowTitle(QApplication::translate("MfaResultsForm", "MfaResultsForm", 0, QApplication::UnicodeUTF8));
+        groupBox->setTitle(QApplication::translate("MfaResultsForm", "Informaci\303\263n de la secuencia:", 0, QApplication::UnicodeUTF8));
+        sequenceNameLabel->setText(QApplication::translate("MfaResultsForm", "Nombre:", 0, QApplication::UnicodeUTF8));
+        sequenceTypeLabel->setText(QApplication::translate("MfaResultsForm", "Tipo:", 0, QApplication::UnicodeUTF8));
+        label->setText(QApplication::translate("MfaResultsForm", "Resultados del an\303\241lisis:", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MfaResultsForm", "Juego del Caos", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MfaResultsForm", "Regresi\303\263n Lineal", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MfaResultsForm", "Espectro Dq", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MfaResultsForm", "Calor Espec\303\255fico An\303\241logo", 0, QApplication::UnicodeUTF8));
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("MfaResultsForm", "Tabla de Resultados", 0, QApplication::UnicodeUTF8));
+        Q_UNUSED(MfaResultsForm);
+    } // retranslateUi
+
+};
+
+namespace Ui {
+    class MfaResultsForm: public Ui_MfaResultsForm {};
+} // namespace Ui
+
+QT_END_NAMESPACE
+
+#endif // UI_MFARESULTSFORM_H
