@@ -116,12 +116,24 @@ QDockWidget::title {
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="loadSequencesAction"/>
+   <addaction name="makeCgrAction"/>
+   <addaction name="makeMultifractalAnalisysAction"/>
+   <addaction name="actionCorrelaci_n"/>
+   <addaction name="exitAction"/>
+   <addaction name="testAction"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="features">
@@ -163,11 +175,19 @@ QDockWidget::title {
    </widget>
   </widget>
   <action name="loadSequencesAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/seq_add.png</normaloff>:/icons/icons/seq_add.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Adicionar Secuencias</string>
    </property>
   </action>
   <action name="exitAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/exit.png</normaloff>:/icons/icons/exit.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Salir</string>
    </property>
@@ -176,26 +196,44 @@ QDockWidget::title {
    </property>
   </action>
   <action name="makeCgrAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/cgr_start.png</normaloff>:/icons/icons/cgr_start.png</iconset>
+   </property>
    <property name="text">
     <string>Realizar &amp;Representación ...</string>
    </property>
   </action>
   <action name="makeMultifractalAnalisysAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/mfa_start.png</normaloff>:/icons/icons/mfa_start.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Multifractal ...</string>
    </property>
   </action>
   <action name="actionCorrelaci_n">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/correl_start.png</normaloff>:/icons/icons/correl_start.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Correlación ...</string>
    </property>
   </action>
   <action name="testAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/icons/tool.png</normaloff>:/icons/icons/tool.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Test Action</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

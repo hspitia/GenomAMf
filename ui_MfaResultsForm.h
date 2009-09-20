@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MfaResultsForm.ui'
 **
-** Created: Fri Sep 18 22:34:57 2009
+** Created: Sat Sep 19 22:32:15 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -59,6 +59,9 @@ public:
             MfaResultsForm->setObjectName(QString::fromUtf8("MfaResultsForm"));
         MfaResultsForm->resize(680, 590);
         MfaResultsForm->setMinimumSize(QSize(680, 590));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/mfa.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MfaResultsForm->setWindowIcon(icon);
         gridLayout_3 = new QGridLayout(MfaResultsForm);
         gridLayout_3->setSpacing(6);
         gridLayout_3->setMargin(11);
@@ -108,24 +111,38 @@ public:
 
         tabWidget = new QTabWidget(MfaResultsForm);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        QFont font;
+        font.setPointSize(8);
+        tabWidget->setFont(font);
+        tabWidget->setTabShape(QTabWidget::Rounded);
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         graphicsView = new QGraphicsView(tab);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
         graphicsView->setGeometry(QRect(10, 10, 350, 350));
-        tabWidget->addTab(tab, QString());
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/icons/icons/cgr.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab, icon1, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
-        tabWidget->addTab(tab_2, QString());
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/icons/icons/graph_linear_regression.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_2, icon2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
-        tabWidget->addTab(tab_3, QString());
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/icons/icons/graph_Dq.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_3, icon3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
-        tabWidget->addTab(tab_4, QString());
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/icons/icons/graph_Cq.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_4, icon4, QString());
         tab_5 = new QWidget();
         tab_5->setObjectName(QString::fromUtf8("tab_5"));
-        tabWidget->addTab(tab_5, QString());
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/icons/icons/table.png"), QSize(), QIcon::Normal, QIcon::Off);
+        tabWidget->addTab(tab_5, icon5, QString());
 
         verticalLayout->addWidget(tabWidget);
 

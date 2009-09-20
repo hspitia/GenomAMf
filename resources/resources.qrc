@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/icons" >
+        <file>icons/cgr_start.png</file>
+        <file>icons/cgr.png</file>
+        <file>icons/correl_start.png</file>
+        <file>icons/correl.png</file>
+        <file>icons/exit.png</file>
+        <file>icons/graph_Cq.png</file>
+        <file>icons/graph_Dq.png</file>
+        <file>icons/graph_linear_regression.png</file>
+        <file>icons/graph_measures.png</file>
+        <file>icons/graph_save.png</file>
+        <file>icons/mfa_start.png</file>
+        <file>icons/mfa.png</file>
+        <file>icons/phylogenetic_tree.png</file>
+        <file>icons/seq_add.png</file>
+        <file>icons/seq_del.png</file>
+        <file>icons/seq.png</file>
+        <file>icons/table_save.png</file>
+        <file>icons/table.png</file>
+        <file>icons/taverna_routine_add.png</file>
+        <file>icons/taverna_routine.png</file>
+        <file>icons/tool.png</file>
+    </qresource>
+</RCC>

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'CgrParametersForm.ui'
 **
-** Created: Thu Sep 17 17:03:52 2009
+** Created: Sat Sep 19 22:13:59 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!

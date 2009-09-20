@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.ui'
 **
-** Created: Fri Sep 18 22:18:53 2009
+** Created: Sat Sep 19 22:40:04 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -83,16 +83,34 @@ public:
 " }"));
         loadSequencesAction = new QAction(MainWindowClass);
         loadSequencesAction->setObjectName(QString::fromUtf8("loadSequencesAction"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/icons/seq_add.png"), QSize(), QIcon::Normal, QIcon::Off);
+        loadSequencesAction->setIcon(icon);
         exitAction = new QAction(MainWindowClass);
         exitAction->setObjectName(QString::fromUtf8("exitAction"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/icons/icons/exit.png"), QSize(), QIcon::Normal, QIcon::Off);
+        exitAction->setIcon(icon1);
         makeCgrAction = new QAction(MainWindowClass);
         makeCgrAction->setObjectName(QString::fromUtf8("makeCgrAction"));
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/icons/icons/cgr_start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        makeCgrAction->setIcon(icon2);
         makeMultifractalAnalisysAction = new QAction(MainWindowClass);
         makeMultifractalAnalisysAction->setObjectName(QString::fromUtf8("makeMultifractalAnalisysAction"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/icons/icons/mfa_start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        makeMultifractalAnalisysAction->setIcon(icon3);
         actionCorrelaci_n = new QAction(MainWindowClass);
         actionCorrelaci_n->setObjectName(QString::fromUtf8("actionCorrelaci_n"));
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/icons/icons/correl_start.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionCorrelaci_n->setIcon(icon4);
         testAction = new QAction(MainWindowClass);
         testAction->setObjectName(QString::fromUtf8("testAction"));
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/icons/icons/tool.png"), QSize(), QIcon::Normal, QIcon::Off);
+        testAction->setIcon(icon5);
         centralwidget = new QWidget(MainWindowClass);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
@@ -127,6 +145,7 @@ public:
         MainWindowClass->setStatusBar(statusbar);
         toolBar = new QToolBar(MainWindowClass);
         toolBar->setObjectName(QString::fromUtf8("toolBar"));
+        toolBar->setIconSize(QSize(16, 16));
         MainWindowClass->addToolBar(Qt::TopToolBarArea, toolBar);
         dockWidget = new QDockWidget(MainWindowClass);
         dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
@@ -168,6 +187,12 @@ public:
         menuA_n_lisis->addAction(actionCorrelaci_n);
         menuJuego_del_Caos->addAction(makeCgrAction);
         menuTest->addAction(testAction);
+        toolBar->addAction(loadSequencesAction);
+        toolBar->addAction(makeCgrAction);
+        toolBar->addAction(makeMultifractalAnalisysAction);
+        toolBar->addAction(actionCorrelaci_n);
+        toolBar->addAction(exitAction);
+        toolBar->addAction(testAction);
 
         retranslateUi(MainWindowClass);
 

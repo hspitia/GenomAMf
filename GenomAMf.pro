@@ -43,3 +43,4 @@ INCLUDEPATH += /usr/include
 LIBS += -L/usr/lib \
     -lbpp-utils \
     -lbpp-seq
+RESOURCES += resources/resources.qrc
