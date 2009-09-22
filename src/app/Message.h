@@ -23,12 +23,7 @@
 #include <QList>
 #include <QVariant>
 
-typedef enum
-{
-  INFORMATION,
-  WARNING,
-  ERROR
-} messageType;
+#include <utils/TypesDefinitions.h>
 
 /**
  * 
@@ -38,8 +33,9 @@ class Message
   public:
     
     Message();
+    Message(const QString & name, const QString & contentText);
     virtual ~Message();
-
+    
     /**
      * Retorna 
      * @return 
@@ -98,12 +94,12 @@ class Message
      * Retorna 
      * @return 
      */
-    messageType getType();
+    GenomAMf::MessageType getType();
 
     /**
      * Asigna 
      */
-    void setType(messageType type);
+    void setType(GenomAMf::MessageType type);
 
   private:
     QString name; /**< Nombre del mensaje */
@@ -111,7 +107,7 @@ class Message
     QString informationText; /**< Texto de información del diálogo del mensaje */
     QString contentText; /**< Texto del mensaje */
     QList <QVariant> parameters; /**< Parámetros a ser desplegados en el mensaje */
-    messageType type; /**< Tipo del mensaje */
+    GenomAMf::MessageType type; /**< Tipo del mensaje */
     
 };
 

@@ -65,7 +65,7 @@ QDockWidget::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Archivo">
@@ -136,6 +136,14 @@ QDockWidget::title {
    <addaction name="testAction"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+     <kerning>true</kerning>
+    </font>
+   </property>
    <property name="features">
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
@@ -156,7 +164,13 @@ QDockWidget::title {
         <number>6</number>
        </property>
        <item>
-        <widget class="QTreeView" name="treeView"/>
+        <widget class="QTreeView" name="treeView">
+         <property name="font">
+          <font>
+           <pointsize>8</pointsize>
+          </font>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

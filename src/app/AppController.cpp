@@ -19,8 +19,8 @@
 
 #include "AppController.h"
 
-AppController::AppController(int & argc, char ** argv)
-  : QApplication(argc, argv)
+AppController::AppController(int & argc, char ** argv) :
+  QApplication(argc, argv)
 {
   seqLoader = new SeqLoader();
   sequences = NULL;
@@ -30,16 +30,16 @@ AppController::AppController(int & argc, char ** argv)
 
 AppController::~AppController()
 {
-  if(sequences != 0){
+  if (sequences != 0) {
     delete sequences;
     sequences = 0;
   }
-  if(DNASequences != 0){
+  if (DNASequences != 0) {
     delete DNASequences;
     DNASequences = 0;
     
   }
-  if(proteinSequences != 0){
+  if (proteinSequences != 0) {
     delete proteinSequences;
     proteinSequences = 0;
   }
@@ -51,10 +51,15 @@ int AppController::loadSequences(const string & fileName)
   
   VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
   
-  cout << "AlphabetType from file: " << utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())<<endl;
-  cout << "AlphabetType: " << AlphabetTools::PROTEIN_ALPHABET.getAlphabetType() << endl;
+  cout << "AlphabetType from file: "
+      << utils::Utils::getAlphabetType(
+                                       tmpSeqs->getAlphabet()->getAlphabetType())
+      << endl;
+  cout << "AlphabetType: " << AlphabetTools::PROTEIN_ALPHABET.getAlphabetType()
+      << endl;
   
-  if (utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType()) == utils::DNA_Alphabet){
+  if (utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
+      == GenomAMf::DNA_Alphabet) {
     if (DNASequences == NULL) {
       DNASequences = new VectorSequenceContainer(tmpSeqs->getAlphabet());
     }
@@ -62,20 +67,23 @@ int AppController::loadSequences(const string & fileName)
       try {
         DNASequences->addSequence((*(tmpSeqs->getSequence(i))), true);
         loadedSequences++;
-      } 
+      }
       catch (Exception e) {
         // La secuencia ya se encuentra cargada. Continúa cargando el
         // resto de secuencias.
       }
     }
   }
-  else if (utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType()) == utils::Proteic_Alphabet){
-    if (proteinSequences == 0) proteinSequences = new VectorSequenceContainer(tmpSeqs->getAlphabet());
+  else if (utils::Utils::getAlphabetType(
+                                         tmpSeqs->getAlphabet()->getAlphabetType())
+      == GenomAMf::Proteic_Alphabet) {
+    if (proteinSequences == 0) proteinSequences
+        = new VectorSequenceContainer(tmpSeqs->getAlphabet());
     for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i) {
       try {
         proteinSequences->addSequence((*(tmpSeqs->getSequence(i))), true);
         loadedSequences++;
-      } 
+      }
       catch (Exception e) {
         // La secuencia ya se encuentra cargada. Continúa cargando el
         // resto de secuencias.
@@ -83,11 +91,10 @@ int AppController::loadSequences(const string & fileName)
     }
   }
   
-  
   return loadedSequences;
 }
 
-SeqLoader * AppController::getSeqLoader() const 
+SeqLoader * AppController::getSeqLoader() const
 {
   return seqLoader;
 }
@@ -97,12 +104,13 @@ void AppController::setSeqLoader(SeqLoader * seqLoader)
   this->seqLoader = seqLoader;
 }
 
-VectorSequenceContainer * AppController::getSequences()
+QHash <GenomAMf::AlphabetType, VectorSequenceContainer> * AppController::getSequences()
 {
   return sequences;
 }
 
-void AppController::setSequences(VectorSequenceContainer * sequences)
+void AppController::setSequences(QHash <GenomAMf::AlphabetType,
+    VectorSequenceContainer> * sequences)
 {
   this->sequences = sequences;
 }
@@ -122,7 +130,8 @@ VectorSequenceContainer * AppController::getProteinSequences()
   return proteinSequences;
 }
 
-void AppController::setProteinSequences(VectorSequenceContainer * proteinSequences)
+void AppController::setProteinSequences(
+                                        VectorSequenceContainer * proteinSequences)
 {
   this->proteinSequences = proteinSequences;
 }

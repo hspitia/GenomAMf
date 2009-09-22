@@ -24,6 +24,7 @@
 // Qt libraries
 #include <QtGui>
 #include <QApplication>
+#include <QHash>
 
 // Bio++ libraries
 #include <Seq/Alphabet.h>
@@ -35,7 +36,7 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/SeqLoader.h>
-#include <utils/utils.h>
+#include <utils/Utils.h>
 
 
 // LOCAL INCLUDES
@@ -94,12 +95,13 @@ class AppController : public QApplication
      * Retorna 
      * @return 
      */
-    VectorSequenceContainer * getSequences();
-    
+    QHash <GenomAMf::AlphabetType, VectorSequenceContainer> * getSequences();
+
     /**
      * Asigna 
      */
-    void setSequences(VectorSequenceContainer *sequences);
+    void setSequences(
+        QHash <GenomAMf::AlphabetType, VectorSequenceContainer> * sequences);
     
     /**
      * Retorna 
@@ -126,10 +128,9 @@ class AppController : public QApplication
   private:
 //    MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
     SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
-    VectorSequenceContainer * sequences; /**< Contenedor de las secuencias cargadas en la aplicacio-.n. */
     VectorSequenceContainer * DNASequences; /**< Contenedor de las secuencias de AND cargadas en la aplicaci&oacute;n */
     VectorSequenceContainer * proteinSequences; /**< Contenedor de las secuencias de proteínas cargada en la aplicaci&oacute;n */  
-    
+    QHash<GenomAMf::AlphabetType, VectorSequenceContainer> *sequences; /**< Contenedor de primer nivel para las secuencias de nucléotidos y aminoácidos.  Contiene un objeto <code> VectorSequenceContainer </code>  para cada tipo de secuencias. */
 };
 
 #endif /* APPCONTROLLER_H_ */

@@ -25,9 +25,9 @@
 #include <string>
 
 // PROJECT INCLUDES
-#include "src/app/AppController.h"
-
+#include <app/AppController.h>
 // LOCAL INCLUDES
+#include <utils/TypesDefinitions.h>
 
 
 class AppController;
@@ -35,26 +35,19 @@ class AppController;
 namespace utils 
 {
   
-  typedef enum {
-      DNA_Alphabet,
-      Proteic_Alphabet,
-      Undefined_Alphabet
-  } AlphabetType;
-
-
   class Utils 
   {
   
     public:
-      static AlphabetType getAlphabetType(const string & alphabetTypeString)
+      static GenomAMf::AlphabetType getAlphabetType(const string & alphabetTypeString)
       {
         if(alphabetTypeString.compare("DNA alphabet") == 0) {
-          return DNA_Alphabet;
+          return GenomAMf::DNA_Alphabet;
         }
         else if(alphabetTypeString.compare("Proteic alphabet") == 0){
-          return Proteic_Alphabet;
+          return GenomAMf::Proteic_Alphabet;
         }
-        return Undefined_Alphabet;
+        return GenomAMf::Undefined_Alphabet;
       }
   };
 

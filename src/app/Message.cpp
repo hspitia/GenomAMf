@@ -19,10 +19,27 @@
 
 #include "Message.h"
 
-Message::Message()
-{
-  // TODO Auto-generated constructor stub
+Message::Message() :
+  parameters(QList <QVariant>())
 
+{
+  this->name = "";
+  this->title = "";
+  this->informationText = "";
+  this->contentText = "";
+  //  this->parameters = QList<QVariant>();
+  this->type = GenomAMf::Undefined;
+}
+
+Message::Message(const QString & name, const QString & contentText) :
+  parameters(QList <QVariant>())
+{
+  this->name = name;
+  this->title = "";
+  this->informationText = contentText;
+  this->contentText = "";
+  //  this->parameters = "";
+  this->type = GenomAMf::Undefined;
 }
 
 Message::~Message()
@@ -80,12 +97,12 @@ void Message::setParameters(QList <QVariant> parameters)
   this->parameters = parameters;
 }
 
-messageType Message::getType()
+GenomAMf::MessageType Message::getType()
 {
   return type;
 }
 
-void Message::setType(messageType type)
+void Message::setType(GenomAMf::MessageType type)
 {
   this->type = type;
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.doccomment" deleted="false" description="code html documentation tag" enabled="true" name="&lt;co">&lt;code&gt; ${code} &lt;/code&gt; ${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.comment" deleted="false" description="author name" enabled="true" id="org.eclipse.cdt.ui.text.templates.comment.author" name="author">author ${user}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="catch block" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.catch" name="catch">catch (${Exception} e) {
+	${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="documentation comment" enabled="true" name="cd">/**</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="class declaration" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.class" name="class">class ${name} 
+{
+public:
+	${cursor}
+
+private:
+};</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="default multiline comment" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.comment" name="comment">
+/*
+ * author ${user}
+ *
+ * To change this generated comment edit the template variable "comment":
+ * Window &gt; Preferences &gt; C/C++ &gt; Editor &gt; Templates.
+ */
+</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Slot and Signal connection" enabled="true" name="conn">connect(${sender}, SIGNAL(${signal}), ${receiver}, SLOT(${method}));${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Línea de texto a la salida estándar." enabled="true" name="cout">cout &lt;&lt; ${cursor} &lt;&lt; endl;</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Const reference" enabled="true" name="cref">const ${type} &amp; ${varible}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="do while statement" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.do" name="do">do {
+	${line_selection}${cursor}
+} while (${condition});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="else block" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.else" name="else">else {
+	${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="else if block" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.elseif" name="elseif">else if (${condition}) {
+	${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.for" name="for">for (${type} ${var} = 0; ${var} &lt; ${max}; ++${var}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop with temporary variable" enabled="true" name="fori">for (int ${var} = 0; ${var} &lt; ${max}; ++${var}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop with unsigned int variable." enabled="true" name="forui">for (unsigned int ${var} = 0; ${var} &lt; ${max}; ++${var}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Getter and Setter" enabled="true" name="getset">/**
+ * Retorna 
+ * @return 
+ */
+${type} get${name}();
+
+/**
+ * Asigna 
+ */
+void set${name}(${type} ${value});
+
+${type} &lt;className&gt;::get${name}(){
+  return ${value};
+}
+
+void &lt;className&gt;::set${name}(${type} ${value}){
+  this-&gt;${value} = ${value};
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="if statement" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.if" name="if">if (${condition}) {
+	${line_selection}${cursor}
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="if else statement" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.ifelse" name="ifelse">if (${condition}) {
+	${cursor}
+} else {
+	
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Include line" enabled="true" name="inc">#include ${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="main method" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.main" name="main">int main(int argc, char **argv) {
+	${cursor}
+}
+</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New class member" enabled="true" name="member">${type} ${name}; /**&lt; ${comment} */</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New method" enabled="true" name="method">/**
+ * 
+ */
+${type} ${name}(${params});
+${type} ${name}(${params}){
+  
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Construct new member with getter" enabled="true" name="mg">${type} ${memberName}; /**&lt; ${comment} */
+
+/**
+ * Retorna 
+ * @return 
+ */
+${type} get${methodName}();
+
+${type} &lt;className&gt;::get${methodName}(){
+  return ${memberName};
+}
+</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Constuct new member with getter and setter" enabled="true" name="mgs">${type} ${memberName}; /**&lt; ${comment} */
+
+/**
+ * Retorna 
+ * @return 
+ */
+${type} get${methodName}();
+
+/**
+ * Asigna 
+ */
+void set${methodName}(${type} ${memberName});
+
+${type} className::get${methodName}(){
+  return ${memberName};
+}
+
+void className::set${methodName}(${type} ${memberName}){
+  this-&gt;${memberName} = ${memberName};
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Construct new member with setter" enabled="true" name="ms">${type} ${memberName}; /**&lt; ${comment} */
+
+/**
+ * Asigna 
+ */
+void set${methodName}(${type} ${memberName});
+
+void &lt;className&gt;::set${methodName}(${type} ${memberName}){
+  this-&gt;${memberName} = ${memberName};
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="namespace declaration" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.namespace" name="namespace">namespace ${name} {
+
+${cursor}
+
+}  // namespace ${name}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="create new object" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.new" name="new">${type} ${name} = new ${type}(${arguments});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="print to standard error" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.fprintf" name="stderr">fprintf(stderr, ${cursor});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="print to standard output" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.printf" name="stdout">printf(${cursor});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="switch case statement" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.switch" name="switch">switch (${key}) {
+	case ${value}:
+		${cursor}
+		break;
+	default:
+		break;
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="try catch block" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.try" name="try">try {
+	${line_selection}${cursor}
+} 
+catch (${Exception} e) {
+  
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="using a namespace" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.using" name="using">using namespace ${name};
+</template></templates>

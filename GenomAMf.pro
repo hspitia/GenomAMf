@@ -7,14 +7,15 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/app/Message.h \
+HEADERS += src/utils/TypesDefinitions.h \
+    src/app/Message.h \
     src/app/AppController.h \
     src/cgr/SeqLoader.h \
     src/gui/CgrParametersForm.h \
     src/gui/MainWindow.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
-    src/utils/utils.h
+    src/utils/Utils.h
 SOURCES += src/app/Message.cpp \
     src/app/AppController.cpp \
     src/app/main.cpp \

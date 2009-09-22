@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.ui'
 **
-** Created: Sat Sep 19 22:40:04 2009
+** Created: Mon Sep 21 19:37:35 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -126,7 +126,7 @@ public:
         MainWindowClass->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindowClass);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 24));
+        menubar->setGeometry(QRect(0, 0, 800, 25));
         menu_Archivo = new QMenu(menubar);
         menu_Archivo->setObjectName(QString::fromUtf8("menu_Archivo"));
         menuA_n_lisis = new QMenu(menubar);
@@ -149,6 +149,12 @@ public:
         MainWindowClass->addToolBar(Qt::TopToolBarArea, toolBar);
         dockWidget = new QDockWidget(MainWindowClass);
         dockWidget->setObjectName(QString::fromUtf8("dockWidget"));
+        QFont font;
+        font.setPointSize(9);
+        font.setBold(false);
+        font.setWeight(50);
+        font.setKerning(true);
+        dockWidget->setFont(font);
         dockWidget->setFeatures(QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable);
         dockWidgetContents = new QWidget();
         dockWidgetContents->setObjectName(QString::fromUtf8("dockWidgetContents"));
@@ -166,6 +172,9 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         treeView = new QTreeView(dockWidgetContents);
         treeView->setObjectName(QString::fromUtf8("treeView"));
+        QFont font1;
+        font1.setPointSize(8);
+        treeView->setFont(font1);
 
         verticalLayout->addWidget(treeView);
 
