@@ -19,16 +19,14 @@
 //#include <QtGui>
 //#include <QApplication>
 
-//#include "src/app/AppController.h"
-//#include "src/gui/MainWindow.h"
-#include <AppController.h>
-#include <MainWindow.h>
+#include <app/AppController.h>
+#include <gui/MainWindow.h>
 
 int main(int argc, char *argv[])
 {
     AppController * app = new AppController(argc, argv);
-    MainWindow * mainWindow = new MainWindow(app);
-    mainWindow->show();
+//    MainWindow * mainWindow = new MainWindow(app);
+    app->getMainWindow()->show();
     
     return app->exec();
 }

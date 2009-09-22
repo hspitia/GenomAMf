@@ -43,13 +43,14 @@ using namespace bpp;
 
 using namespace std;
 
+class AppController;
 /**
  * Ventana principal de la aplicacio-.n. Define toda la funcionalidad
  * relacionada con la ventana principal de la aplicacio-.n.
  */
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+  Q_OBJECT
 
   public:
     MainWindow(AppController *parentApp = 0, QWidget *parent = 0);
@@ -59,30 +60,29 @@ class MainWindow : public QMainWindow
     // Atributos
     Ui::MainWindowClass *ui;
     AppController * parentApp;
-    
-    
+
     // Metodos
     /**
      * Conecta signals y slots de la aplicacio-.n.
      */
     void connectSignalsSlots();
-      
+
   private slots:
     /**
      * 
      */
     void loadSequences();
-    
+
     /**
      * 
      */
     void makeCgr();
-    
+
     /**
      * 
      */
     void makeMultifractalAnalisys();
-    
+
     /**
      * 
      */
