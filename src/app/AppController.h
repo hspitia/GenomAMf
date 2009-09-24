@@ -2,7 +2,8 @@
  * @file AppController.h
  * @date Sep 5, 2009
  * @author H&eacute;ctor Fabio Espitia Navarro <br>
- * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n.<br>
+ * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
+ * Computaci&oacute;n.<br>
  * Santiago de Cali - Colombia
  * @brief Archivo de definiciones para la clase AppController.
  */
@@ -10,7 +11,8 @@
 /* 
  *   Created on:  Sep 5, 2009
  *       Author:  HECTOR FABIO ESPITIA NAVARRO
- *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
+ *  Institution:  UNIVERSIDAD DEL VALLE
+ *                ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
  *      Project:  GenomAMf
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de definiciones para la clase AppController.
@@ -70,12 +72,13 @@ class AppController : public QApplication
 
     // Operations
     /**
-     * Carga secuencias en la aplicacio-.n desde el archivo <code> fileName </code>
-     * en formato FASTA.
+     * Carga secuencias en la aplicacio-.n desde el archivo <code> fileName
+     * </code> en formato FASTA.
      * @param fileName nombre de archivo de las secuencias.
      * @return número de nuevas cadenas cargadas.
      */
-    int loadSequences(const string & fileName, GenomAMf::AlphabetType & seqLoadedType);
+    int loadSequences(const string & fileName,
+                      GenomAMf::AlphabetType & seqLoadedType);
 
     // Access
     
@@ -112,9 +115,8 @@ class AppController : public QApplication
     /**
      * Asigna 
      */
-    void
-            setSequences(
-                         QHash <GenomAMf::AlphabetType, VectorSequenceContainer *> * sequences);
+    void setSequences(QHash <GenomAMf::AlphabetType,
+                      VectorSequenceContainer *> * sequences);
 
     /**
      * Retorna 
@@ -141,20 +143,25 @@ class AppController : public QApplication
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
     SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
-    VectorSequenceContainer * DNASequences; /**< Contenedor de las secuencias de AND cargadas en la aplicaci&oacute;n */
-    VectorSequenceContainer * proteinSequences; /**< Contenedor de las secuencias de proteínas cargada en la aplicaci&oacute;n */
-    QHash <GenomAMf::AlphabetType, VectorSequenceContainer *> * sequences; /**< Contenedor de primer nivel para las secuencias de nucléotidos y aminoácidos.  Contiene un objeto <code> VectorSequenceContainer </code>  para cada tipo de secuencias. */
+    VectorSequenceContainer * DNASequences; /**< Contenedor de las secuencias de 
+        AND cargadas en la aplicaci&oacute;n */
+    VectorSequenceContainer * proteinSequences; /**< Contenedor de las 
+        secuencias de proteínas cargada en la aplicaci&oacute;n */
+    QHash <GenomAMf::AlphabetType, VectorSequenceContainer *> * sequences; /**< 
+        Contenedor de primer nivel para las secuencias de nucléotidos y 
+        aminoácidos.  Contiene un objeto <code> VectorSequenceContainer </code> 
+        para cada tipo de secuencias. */
     
     /**
-     * Adiciona una secuencia de nucleótidos al contenedor de secuencias de ADN de 
-     * la aplicación.
+     * Adiciona una secuencia de nucleótidos al contenedor de secuencias de 
+     * ADN de la aplicación.
      * @param sequence La secuencia a ser adicionada  
      */
     void addDnaSequence(const Sequence & sequence) throw (bpp::Exception);
-    
+
     /**
-     * Adiciona una secuencia de aminoácidos al contenedor de secuencias de proteínas
-     * de la aplicación.
+     * Adiciona una secuencia de aminoácidos al contenedor de secuencias de 
+     * proteínas de la aplicación.
      * @param sequence La secuencia a ser adicionada
      */
     void addProteinSequence(const Sequence & sequence) throw (bpp::Exception);

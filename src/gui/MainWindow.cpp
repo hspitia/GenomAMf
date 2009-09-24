@@ -2,7 +2,8 @@
  * @file MainWindow.cpp
  * @date 6/09/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
- * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n.<br>
+ * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
+ * Computaci&oacute;n.<br>
  * Santiago de Cali - Colombia
  * @brief Archivo de definiciones para la clase SeqLoader
  */
@@ -11,7 +12,8 @@
  *         File:  MainWindow.cpp
  *   Created on:  6/09/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
- *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
+ *  Institution:  UNIVERSIDAD DEL VALLE
+ *                ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
  *      Project:  GenomAMf
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de implementacio-.n para la clase MainWindow
@@ -34,7 +36,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::connectSignalsSlots()
 {
-  connect(ui->loadSequencesAction, SIGNAL(triggered()), this, SLOT(loadSequences()));
+  connect(ui->loadSequencesAction, SIGNAL(triggered()), this,
+          SLOT(loadSequences()));
   connect(ui->makeCgrAction, SIGNAL(triggered()), this, SLOT(makeCgr()));
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
           SLOT(makeMultifractalAnalisys()));
@@ -45,29 +48,35 @@ void MainWindow::loadSequences()
 {
   int loadedSequences = 0;
   GenomAMf::AlphabetType seqLoadedType = GenomAMf::Undefined_Alphabet;
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Carga de secuencias"),
-          ".", tr("Archivos de secuencias (*.fasta *.fas)"));
+  QString fileName = QFileDialog::getOpenFileName(this, tr(
+          "Carga de secuencias"), ".", tr(
+          "Archivos de secuencias (*.fasta *.fas)"));
   
-  if (!fileName.isEmpty()) {
-    loadedSequences
-            = parentApp->loadSequences(fileName.toStdString(), seqLoadedType);
+  if (!fileName.isEmpty())
+  {
+    loadedSequences = parentApp->loadSequences(fileName.toStdString(),
+            seqLoadedType);
     
     QString infoString;
     QString alphabetType = "No definido";
     
-    if (seqLoadedType == GenomAMf::DNA_Alphabet) {
+    if (seqLoadedType == GenomAMf::DNA_Alphabet)
+    {
       alphabetType = "ADN";
       for (unsigned int i = 0; i
-              < parentApp->getDNASequences()->getNumberOfSequences(); ++i) {
+              < parentApp->getDNASequences()->getNumberOfSequences(); ++i)
+      {
         infoString += QString::fromStdString(
                 parentApp->getDNASequences()->getSequence(i)->getName());
         infoString += "\n";
       }
     }
-    else if (seqLoadedType == GenomAMf::Proteic_Alphabet) {
+    else if (seqLoadedType == GenomAMf::Proteic_Alphabet)
+    {
       alphabetType = "Proteína";
       for (unsigned int i = 0; i
-              < parentApp->getProteinSequences()->getNumberOfSequences(); ++i) {
+              < parentApp->getProteinSequences()->getNumberOfSequences(); ++i)
+      {
         infoString += QString::fromStdString(
                 parentApp->getProteinSequences()->getSequence(i)->getName());
         infoString += "\n";

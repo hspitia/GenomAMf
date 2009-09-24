@@ -24,9 +24,9 @@
 
 int main(int argc, char *argv[])
 {
-    AppController * app = new AppController(argc, argv);
-//    MainWindow * mainWindow = new MainWindow(app);
-    app->getMainWindow()->show();
-    
-    return app->exec();
+  AppController * app = new AppController(argc, argv);
+  //    MainWindow * mainWindow = new MainWindow(app);
+  app->getMainWindow()->show();
+  
+  return app->exec();
 }
