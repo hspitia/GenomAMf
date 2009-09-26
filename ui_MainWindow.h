@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.ui'
 **
-** Created: Mon Sep 21 19:37:35 2009
+** Created: Sat Sep 26 00:19:52 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -56,7 +56,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout_3;
     QVBoxLayout *verticalLayout;
-    QTreeView *treeView;
+    QTreeView *explorerTreeView;
 
     void setupUi(QMainWindow *MainWindowClass)
     {
@@ -170,13 +170,14 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
-        treeView = new QTreeView(dockWidgetContents);
-        treeView->setObjectName(QString::fromUtf8("treeView"));
+        explorerTreeView = new QTreeView(dockWidgetContents);
+        explorerTreeView->setObjectName(QString::fromUtf8("explorerTreeView"));
         QFont font1;
         font1.setPointSize(8);
-        treeView->setFont(font1);
+        explorerTreeView->setFont(font1);
+        explorerTreeView->setEditTriggers(QAbstractItemView::EditKeyPressed);
 
-        verticalLayout->addWidget(treeView);
+        verticalLayout->addWidget(explorerTreeView);
 
 
         verticalLayout_3->addLayout(verticalLayout);
@@ -227,7 +228,7 @@ public:
         menuTest->setTitle(QApplication::translate("MainWindowClass", "&Test", 0, QApplication::UnicodeUTF8));
         menu_Ventana->setTitle(QApplication::translate("MainWindowClass", "&Ventana", 0, QApplication::UnicodeUTF8));
         toolBar->setWindowTitle(QApplication::translate("MainWindowClass", "toolBar", 0, QApplication::UnicodeUTF8));
-        dockWidget->setWindowTitle(QApplication::translate("MainWindowClass", "Explorador de Objetos", 0, QApplication::UnicodeUTF8));
+        dockWidget->setWindowTitle(QApplication::translate("MainWindowClass", "Explorador de Elementos", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

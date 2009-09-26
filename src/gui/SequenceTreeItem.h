@@ -17,8 +17,7 @@ using namespace bpp;
 class SequenceTreeItem : public TreeItem
 {
   public:
-    SequenceTreeItem(const QString & name, 
-                     const QVector<QVariant> &data, TreeItem *parent);
+    SequenceTreeItem(const QVector<QVariant> &data, TreeItem *parent = 0);
     virtual ~SequenceTreeItem();
     
   private:

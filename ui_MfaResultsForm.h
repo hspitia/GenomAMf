@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MfaResultsForm.ui'
 **
-** Created: Sat Sep 19 22:32:15 2009
+** Created: Sat Sep 26 00:37:43 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -168,7 +168,6 @@ public:
 
 
         retranslateUi(MfaResultsForm);
-        QObject::connect(buttonBox, SIGNAL(clicked(QAbstractButton*)), MfaResultsForm, SLOT(hide()));
 
         tabWidget->setCurrentIndex(0);
 

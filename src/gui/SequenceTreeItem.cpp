@@ -7,10 +7,8 @@
 
 #include "SequenceTreeItem.h"
 
-SequenceTreeItem::SequenceTreeItem(const QString & name,
-                                   const QVector<QVariant> &data,
-                                   TreeItem *parent) :
-  TreeItem(name, data, parent)
+SequenceTreeItem::SequenceTreeItem(const QVector<QVariant> &data, TreeItem *parent) :
+  TreeItem(data, parent)
 {
   sequence = 0;
 }

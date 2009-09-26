@@ -5,22 +5,27 @@
 #include <QtGui/QMdiSubWindow>
 #include "ui_MfaResultsForm.h"
 
-namespace Ui {
-    class MfaResultsForm;
+namespace Ui
+{
+  class MfaResultsForm;
 }
 
-class MfaResultsForm : 
-//  public QMdiSubWindow
-  public QWidget
+class MfaResultsForm : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
+  public:
     MfaResultsForm(QWidget *parent = 0);
     ~MfaResultsForm();
 
-private:
+  private:
     Ui::MfaResultsForm *ui;
+    
+    /**
+     * Realiza conexiones entre signals y slots.
+     */
+    void connectSignalsSlots();
+    
 };
 
 #endif // MFARESULTSFORM_H

@@ -27,6 +27,7 @@ MainWindow::MainWindow(AppController *parentApp, QWidget *parent) :
   this->parentApp = parentApp;
   ui->setupUi(this);
   connectSignalsSlots();
+  setUpExplorerTreeView();
 }
 
 MainWindow::~MainWindow()
@@ -41,7 +42,28 @@ void MainWindow::connectSignalsSlots()
   connect(ui->makeCgrAction, SIGNAL(triggered()), this, SLOT(makeCgr()));
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
           SLOT(makeMultifractalAnalisys()));
-  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(displayMfaResults()));
+//  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(displayMfaResults()));
+  connect(ui->explorerTreeView, 
+          SIGNAL(doubleClicked(QModelIndex)), this, 
+          SLOT(displayMfaResults()));
+  
+  
+}
+
+void MainWindow::setUpExplorerTreeView()
+{
+  QStringList headers;
+  headers << tr("Secuencias");
+  
+  QFile file("data/default.txt");
+  file.open(QIODevice::ReadOnly);
+  TreeModel *model = new TreeModel(headers, file.readAll());
+  file.close();
+  
+  ui->explorerTreeView->setModel(model);
+  for (int column = 0; column < model->columnCount(); ++column)
+    ui->explorerTreeView->resizeColumnToContents(column);
+ 
 }
 
 void MainWindow::loadSequences()
@@ -112,4 +134,11 @@ void MainWindow::displayMfaResults()
   MfaResultsForm *mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
+  
+  
+}
+
+void MainWindow::closeSubWindow()
+{
+  ui->mdiArea->closeActiveSubWindow();
 }

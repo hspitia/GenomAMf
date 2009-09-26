@@ -148,7 +148,7 @@ QDockWidget::title {
     <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
    </property>
    <property name="windowTitle">
-    <string>Explorador de Objetos</string>
+    <string>Explorador de Elementos</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>1</number>
@@ -164,11 +164,14 @@ QDockWidget::title {
         <number>6</number>
        </property>
        <item>
-        <widget class="QTreeView" name="treeView">
+        <widget class="QTreeView" name="explorerTreeView">
          <property name="font">
           <font>
            <pointsize>8</pointsize>
           </font>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::EditKeyPressed</set>
          </property>
         </widget>
        </item>

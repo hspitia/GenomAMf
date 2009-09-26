@@ -21,9 +21,11 @@
 #define MAINWINDOW_H
 
 // Qt Libraries
-#include <QtGui/QMainWindow>
-#include <QtGui/QMessageBox>
+#include <QMainWindow>
+#include <QMessageBox>
 #include <QFileDialog>
+#include <QStringList>
+
 
 // Seqlib library 
 #include <Seq/VectorSequenceContainer.h>
@@ -37,6 +39,8 @@ using namespace bpp;
 #include <gui/CgrParametersForm.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
+#include <gui/TreeModel.h>
+
 
 // STD libraries
 #include <iostream>
@@ -66,6 +70,11 @@ class MainWindow : public QMainWindow
      * Conecta signals y slots de la aplicacio-.n.
      */
     void connectSignalsSlots();
+    
+    /**
+     * Inicializa el explorador de elementos.
+     */
+    void setUpExplorerTreeView();
 
   private slots:
     /**
@@ -87,6 +96,13 @@ class MainWindow : public QMainWindow
      * 
      */
     void displayMfaResults();
+    
+    /**
+     * 
+     */
+    void closeSubWindow();
+    
+    
 };
 
 #endif // MAINWINDOW_H
