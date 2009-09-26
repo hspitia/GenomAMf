@@ -2,7 +2,8 @@
  * @file MainWindow.h
  * @date 6/09/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
- * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n.<br>
+ * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
+ * Computaci&oacute;n.<br>
  * Santiago de Cali - Colombia
  * @brief Archivo de definiciones para la clase SeqLoader
  */

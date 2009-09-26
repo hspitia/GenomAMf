@@ -5,7 +5,7 @@
  * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
  * Computaci&oacute;n.<br>
  * Santiago de Cali - Colombia
- * @brief Archivo de definiciones para la clase SeqLoader
+ * @brief Archivo de definiciones para la clase MainWindow
  */
 
 /* 
@@ -42,11 +42,9 @@ void MainWindow::connectSignalsSlots()
   connect(ui->makeCgrAction, SIGNAL(triggered()), this, SLOT(makeCgr()));
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
           SLOT(makeMultifractalAnalisys()));
-//  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(displayMfaResults()));
-  connect(ui->explorerTreeView, 
-          SIGNAL(doubleClicked(QModelIndex)), this, 
+  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(displayMfaResults()));
+  connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex)), this,
           SLOT(displayMfaResults()));
-  
   
 }
 
@@ -63,21 +61,23 @@ void MainWindow::setUpExplorerTreeView()
   ui->explorerTreeView->setModel(model);
   for (int column = 0; column < model->columnCount(); ++column)
     ui->explorerTreeView->resizeColumnToContents(column);
- 
+  
 }
 
 void MainWindow::loadSequences()
 {
   int loadedSequences = 0;
   GenomAMf::AlphabetType seqLoadedType = GenomAMf::Undefined_Alphabet;
-  QString fileName = QFileDialog::getOpenFileName(this, tr(
-          "Carga de secuencias"), ".", tr(
-          "Archivos de secuencias (*.fasta *.fas)"));
+  QString fileName = QFileDialog::getOpenFileName(this, 
+                                                  tr("Carga de secuencias"),
+                                                  ".",
+                                                  tr("Archivos de secuencias "
+                                                          "(*.fasta *.fas)"));
   
   if (!fileName.isEmpty())
   {
     loadedSequences = parentApp->loadSequences(fileName.toStdString(),
-            seqLoadedType);
+                                               seqLoadedType);
     
     QString infoString;
     QString alphabetType = "No definido";
@@ -85,31 +85,34 @@ void MainWindow::loadSequences()
     if (seqLoadedType == GenomAMf::DNA_Alphabet)
     {
       alphabetType = "ADN";
-      for (unsigned int i = 0; i
-              < parentApp->getDNASequences()->getNumberOfSequences(); ++i)
+      for (unsigned int i = 0; i < parentApp->getSequences()->
+        getDnaSequences()->getNumberOfSequences(); ++i)
       {
-        infoString += QString::fromStdString(
-                parentApp->getDNASequences()->getSequence(i)->getName());
+        infoString += QString::fromStdString(parentApp->getSequences()->
+                                             getDnaSequences()->
+                                             getSequence(i)->getName());
         infoString += "\n";
       }
     }
     else if (seqLoadedType == GenomAMf::Proteic_Alphabet)
     {
       alphabetType = "Proteína";
-      for (unsigned int i = 0; i
-              < parentApp->getProteinSequences()->getNumberOfSequences(); ++i)
+      for (unsigned int i = 0; 
+              i < parentApp->
+              getSequences()->getProteinSequences()->getNumberOfSequences();
+              ++i)
       {
-        infoString += QString::fromStdString(
-                parentApp->getProteinSequences()->getSequence(i)->getName());
+        infoString += QString::fromStdString(parentApp->getSequences()->
+                                             getProteinSequences()->
+                                             getSequence(i)->getName());
         infoString += "\n";
       }
     }
 
     QMessageBox msgBox;
     msgBox.setText("Información de secuencias cargadas:");
-    msgBox.setInformativeText(
-            QString("Tipo: %1\nNúmero de nuevas secuencias: %2\n\n%3").arg(
-                    alphabetType).arg(loadedSequences).arg(infoString));
+    msgBox.setInformativeText(QString("Tipo: %1\nNúmero de nuevas secuencias: "
+      "%2\n\n%3").arg(alphabetType).arg(loadedSequences).arg(infoString));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.exec();
@@ -119,22 +122,21 @@ void MainWindow::loadSequences()
 
 void MainWindow::makeCgr()
 {
-  CgrParametersForm *cgrParametersForm = new CgrParametersForm(this);
+  CgrParametersForm * cgrParametersForm = new CgrParametersForm(this);
   cgrParametersForm->exec();
 }
 
 void MainWindow::makeMultifractalAnalisys()
 {
-  MfaParametersForm *mfaParametersForm = new MfaParametersForm(this);
+  MfaParametersForm * mfaParametersForm = new MfaParametersForm(this);
   mfaParametersForm->exec();
 }
 
 void MainWindow::displayMfaResults()
 {
-  MfaResultsForm *mfaResultsForm = new MfaResultsForm(this);
+  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
-  
   
 }
 

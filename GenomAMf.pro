@@ -7,11 +7,12 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/gui/SequenceTreeItem.h \
+HEADERS += src/utils/Message.h \
+    src/utils/CustomSequencesContainer.h \
+    src/gui/SequenceTreeItem.h \
     src/gui/TreeModel.h \
     src/gui/TreeItem.h \
     src/utils/TypesDefinitions.h \
-    src/app/Message.h \
     src/app/AppController.h \
     src/cgr/SeqLoader.h \
     src/gui/CgrParametersForm.h \
@@ -19,10 +20,11 @@ HEADERS += src/gui/SequenceTreeItem.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/gui/SequenceTreeItem.cpp \
+SOURCES += src/utils/Message.cpp \
+    src/utils/CustomSequencesContainer.cpp \
+    src/gui/SequenceTreeItem.cpp \
     src/gui/TreeModel.cpp \
     src/gui/TreeItem.cpp \
-    src/app/Message.cpp \
     src/app/AppController.cpp \
     src/app/main.cpp \
     src/cgr/SeqLoader.cpp \
