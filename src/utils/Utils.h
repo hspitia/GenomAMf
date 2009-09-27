@@ -25,31 +25,26 @@
 #include <string>
 
 // PROJECT INCLUDES
-#include <app/AppController.h>
+
 // LOCAL INCLUDES
-#include <utils/TypesDefinitions.h>
+#include <utils/Definitions.h>
 
 
-class AppController;
+//class AppController;
 
 namespace utils 
 {
   
-  class Utils 
+  inline int getAlphabetType(const string & alphabetTypeString)
   {
+    if(alphabetTypeString.compare("DNA alphabet") == 0) {
+      return GenomAMf::DNA_Alphabet;
+    }
+    else if(alphabetTypeString.compare("Proteic alphabet") == 0){
+      return GenomAMf::Proteic_Alphabet;
+    }
+    return GenomAMf::Undefined_Alphabet;
+  }
   
-    public:
-      static GenomAMf::AlphabetType getAlphabetType(const string & alphabetTypeString)
-      {
-        if(alphabetTypeString.compare("DNA alphabet") == 0) {
-          return GenomAMf::DNA_Alphabet;
-        }
-        else if(alphabetTypeString.compare("Proteic alphabet") == 0){
-          return GenomAMf::Proteic_Alphabet;
-        }
-        return GenomAMf::Undefined_Alphabet;
-      }
-  };
-
 }
 #endif /* UTILS_H_ */

@@ -35,14 +35,13 @@ AppController::~AppController()
   }
 }
 
-int AppController::loadSequences(const string & fileName,
-                                 GenomAMf::AlphabetType & seqLoadedType)
+int AppController::loadSequences(const string & fileName, int & seqLoadedType)
 {
   int loadedSequences = 0;
   
   VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
   
-  if (utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
+  if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
           == GenomAMf::DNA_Alphabet)
   {
     seqLoadedType = GenomAMf::DNA_Alphabet;
@@ -52,6 +51,7 @@ int AppController::loadSequences(const string & fileName,
       try
       {
         sequences->addDnaSequence(*(tmpSeqs->getSequence(i)));
+//        mainWindow->insertSequenceToTreeView();
         cout << "Adicionada secuencia DNA - OK" << endl;
         loadedSequences++;
       }
@@ -63,7 +63,7 @@ int AppController::loadSequences(const string & fileName,
       }
     }
   }
-  else if (utils::Utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
+  else if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
           == GenomAMf::Proteic_Alphabet)
   {
     seqLoadedType = GenomAMf::Proteic_Alphabet;

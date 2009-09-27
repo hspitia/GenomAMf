@@ -41,6 +41,7 @@ using namespace bpp;
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
 #include <gui/TreeModel.h>
+#include <gui/TreeItem.h>
 
 
 // STD libraries
@@ -58,13 +59,26 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
   public:
+      
     MainWindow(AppController *parentApp = 0, QWidget *parent = 0);
     ~MainWindow();
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    TreeModel * getTreeModel();
+
+    /**
+     * Asigna 
+     */
+    void setTreeModel(TreeModel * treeModel);
 
   private:
     // Atributos
     Ui::MainWindowClass *ui;
     AppController * parentApp;
+    TreeModel * treeModel; /**< Modelo para el explorador de elementos */
 
     // Metodos
     /**
@@ -76,6 +90,17 @@ class MainWindow : public QMainWindow
      * Inicializa el explorador de elementos.
      */
     void setUpExplorerTreeView();
+    
+    /**
+     * 
+     */
+    void insertSequenceToTreeView(const Sequence * sequence);
+    
+    /*
+    void insertCgrToTreeView();
+    void insertMfaTotreeView();
+    void insertCorrelationToTreeView();
+    */
 
   private slots:
     /**
@@ -103,7 +128,8 @@ class MainWindow : public QMainWindow
      */
     void closeSubWindow();
     
-    
+    void testSlot();
+        
 };
 
 #endif // MAINWINDOW_H

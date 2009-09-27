@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'MainWindow.ui'
 **
-** Created: Sat Sep 26 14:25:55 2009
+** Created: Sat Sep 26 22:42:13 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -115,7 +115,7 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        gridLayout->setContentsMargins(4, 0, 0, 0);
+        gridLayout->setContentsMargins(2, 0, 0, 0);
         mdiArea = new QMdiArea(centralwidget);
         mdiArea->setObjectName(QString::fromUtf8("mdiArea"));
         mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -165,8 +165,8 @@ public:
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
         verticalLayout_3 = new QVBoxLayout(dockWidgetContents);
-        verticalLayout_3->setMargin(4);
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(4, 4, 2, 4);
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
@@ -176,6 +176,9 @@ public:
         font1.setPointSize(8);
         explorerTreeView->setFont(font1);
         explorerTreeView->setEditTriggers(QAbstractItemView::EditKeyPressed);
+        explorerTreeView->setTabKeyNavigation(true);
+        explorerTreeView->setSortingEnabled(true);
+        explorerTreeView->setAnimated(true);
 
         verticalLayout->addWidget(explorerTreeView);
 

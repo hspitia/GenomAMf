@@ -43,6 +43,10 @@
 
 #include "TreeItem.h"
 #include "TreeModel.h"
+#include <iostream>
+
+using namespace std;
+
 
 //! [0]
 TreeModel::TreeModel(const QStringList &headers, const QString &data,
@@ -235,6 +239,22 @@ bool TreeModel::setHeaderData(int section, Qt::Orientation orientation,
 
     return result;
 }
+
+//void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
+//{
+//  int number = 0;
+//  
+//  while (number < lines.count()) {
+//    if (!lines.at(number).isEmpty()) {
+//      QVector<QVariant> data;
+//      data << lines.at(number);
+////      parent->appendChild(new TreeItem(data, parent));
+//      cout << qPrintable(lines.at(number))<<endl;
+//      parent->insertChild(rowCount(), new TreeItem(data, parent));
+//    }
+//    number++;
+//  }
+//}
 
 void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 {

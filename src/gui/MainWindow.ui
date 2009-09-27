@@ -36,7 +36,7 @@ QDockWidget::title {
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <property name="leftMargin">
-     <number>4</number>
+     <number>2</number>
     </property>
     <property name="topMargin">
      <number>0</number>
@@ -155,7 +155,16 @@ QDockWidget::title {
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QVBoxLayout" name="verticalLayout_3">
-     <property name="margin">
+     <property name="leftMargin">
+      <number>4</number>
+     </property>
+     <property name="topMargin">
+      <number>4</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
       <number>4</number>
      </property>
      <item>
@@ -172,6 +181,15 @@ QDockWidget::title {
          </property>
          <property name="editTriggers">
           <set>QAbstractItemView::EditKeyPressed</set>
+         </property>
+         <property name="tabKeyNavigation">
+          <bool>true</bool>
+         </property>
+         <property name="sortingEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="animated">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

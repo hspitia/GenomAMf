@@ -7,12 +7,12 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/utils/Message.h \
+HEADERS += src/utils/Definitions.h \
+    src/utils/Message.h \
     src/utils/CustomSequencesContainer.h \
     src/gui/SequenceTreeItem.h \
     src/gui/TreeModel.h \
     src/gui/TreeItem.h \
-    src/utils/TypesDefinitions.h \
     src/app/AppController.h \
     src/cgr/SeqLoader.h \
     src/gui/CgrParametersForm.h \

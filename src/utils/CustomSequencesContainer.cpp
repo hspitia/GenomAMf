@@ -124,6 +124,8 @@ void CustomSequencesContainer::addDnaSequence(const Sequence & sequence)
   try
   {
     dnaSequences->addSequence(sequence, true);
+    const Sequence * seq = &sequence;
+    sequencesList << seq;
   }
   catch (Exception e)
   {
@@ -137,9 +139,26 @@ void CustomSequencesContainer::addProteinSequence(const Sequence & sequence)
   try
   {
     proteinSequences->addSequence(sequence, true);
+    const Sequence * seq = &sequence;
+    sequencesList << seq;
   }
   catch (Exception e)
   {
     throw e;
   }
+}
+
+QList<const Sequence *> CustomSequencesContainer::getSequencesList()
+{
+  return sequencesList;
+}
+
+const Sequence * CustomSequencesContainer::getSequence(const int & index)
+{
+  return sequencesList.at(index);
+}
+
+int CustomSequencesContainer::getNumberOfSequences()
+{
+  return sequencesList.count();
 }

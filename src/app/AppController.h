@@ -41,13 +41,13 @@ using namespace bpp;
 #include <utils/Utils.h>
 #include <utils/CustomSequencesContainer.h>
 
-
 // LOCAL INCLUDES
 // --
 
 // Cyclic reference 
-class Utils;
 class MainWindow;
+
+
 /**
  * 
  * @brief Clase controladora de la aplicaciÃ³n. 
@@ -79,9 +79,11 @@ class AppController : public QApplication
      * @param fileName nombre de archivo de las secuencias.
      * @return número de nuevas cadenas cargadas.
      */
-    int loadSequences(const string & fileName,
-                      GenomAMf::AlphabetType & seqLoadedType);
-
+//    int loadSequences(const string & fileName,
+//                      GenomAMf::AlphabetType & seqLoadedType);
+    int loadSequences(const string & fileName, 
+                      int & seqLoadedType);
+    
     // Access
     
 
@@ -122,28 +124,8 @@ class AppController : public QApplication
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
     SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
-    
-//    QHash <GenomAMf::AlphabetType, VectorSequenceContainer *> * sequences; /**< 
-//        Contenedor de primer nivel para las secuencias de nucléotidos y 
-//        aminoácidos.  Contiene un objeto <code> VectorSequenceContainer </code> 
-//        para cada tipo de secuencias. */
-
-    CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y proteínas de la aplicación. */
-    
-//    /**
-//     * Adiciona una secuencia de nucleótidos al contenedor de secuencias de 
-//     * ADN de la aplicación.
-//     * @param sequence La secuencia a ser adicionada  
-//     */
-//    void addDnaSequence(const Sequence & sequence) throw (bpp::Exception);
-//
-//    /**
-//     * Adiciona una secuencia de aminoácidos al contenedor de secuencias de 
-//     * proteínas de la aplicación.
-//     * @param sequence La secuencia a ser adicionada
-//     */
-//    void addProteinSequence(const Sequence & sequence) throw (bpp::Exception);
-    
+    CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
+      proteínas de la aplicación. */
 };
 
 #endif /* APPCONTROLLER_H_ */

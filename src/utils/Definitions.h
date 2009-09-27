@@ -1,5 +1,5 @@
 /**
- * @file TypesDefinitions.h
+ * @file Definitions.h
  * @date 21/09/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
  * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n.<br>
@@ -8,7 +8,7 @@
  */
 
 /* 
- *         File:  TypesDefinitions.h
+ *         File:  Definitions.h
  *   Created on:  21/09/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
  *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
@@ -17,16 +17,16 @@
  *  Description:  
  */
 
-#ifndef TYPESDEFINITIONS_H_
-#define TYPESDEFINITIONS_H_
+#ifndef DEFINITIONS_H_
+#define DEFINITIONS_H_
 
 namespace GenomAMf
 {
   
-  typedef enum
+  enum AlphabetType
   {
-    DNA_Alphabet, Proteic_Alphabet, Undefined_Alphabet
-  } AlphabetType;
+      DNA_Alphabet, Proteic_Alphabet, Undefined_Alphabet
+  };  
   
   typedef enum
   {
@@ -34,4 +34,4 @@ namespace GenomAMf
   } MessageType;
 }
 
-#endif /* TYPESDEFINITIONS_H_ */
+#endif /* DEFINITIONS_H_ */

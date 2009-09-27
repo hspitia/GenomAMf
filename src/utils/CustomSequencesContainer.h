@@ -20,6 +20,9 @@
 #ifndef CUSTOMSEQUENCESCONTAINER_H_
 #define CUSTOMSEQUENCESCONTAINER_H_
 
+#include <QList>
+
+
 #include <Seq/Alphabet.h>
 #include <Seq/AlphabetTools.h>
 #include <Seq/DNA.h>
@@ -99,10 +102,33 @@ class CustomSequencesContainer
      */
     void addProteinSequence(const Sequence & sequence) throw (Exception);
     
+    /**
+     * Retorna 
+     * @return 
+     */
+    QList <const Sequence *> getSequencesList();
+
+    /**
+     * Retorna 
+     * @return 
+     */
+    const Sequence * getSequence(const int & index);
+    
+    /**
+     * Asigna 
+     */
+    void setSequence(const Sequence * sequence);
+    
+    /**
+     * 
+     */
+    int getNumberOfSequences();
     
   private:
     VectorSequenceContainer * dnaSequences; /**< Contenedor de secuencias de nucleótidos (AND) */
     VectorSequenceContainer * proteinSequences; /**< comment */
+    QList<const Sequence *> sequencesList; /**< Lista de apuntadores a las secuencias de ADN y proteínas. */
+    
     
     
     

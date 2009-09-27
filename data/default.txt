@@ -1,39 +1,7 @@
-Getting Started
-    Launching Designer
-    The User Interface
+Getting Started	0	0
 
-Designing a Component
-    Creating a Dialog
-    Composing the Dialog
-    Creating a Layout
-    Signal and Slot Connections
-
-Using a Component in Your Application
-    The Single Inheritance Approach
-    The Multiple Inheritance Approach
-    Automatic Connections
-        A Dialog Without Auto-Connect
-        A Dialog With Auto-Connect
-
-Form Editing Mode
-    Managing Forms
-    Editing a Form
-    The Property Editor
-    The Object Inspector
-    Layouts
-        Applying and Breaking Layouts
-        Horizontal and Vertical Layouts
-        The Grid Layout
-    Previewing Forms
-
-Using Containers
-    General Features
-    Frames
-    Group Boxes
-    Stacked Widgets
-    Tab Widgets
-    Toolbox Widgets
-
-Connection Editing Mode
-    Connecting Objects
-    Editing Connections
+Designing a Component	1	0
+Using a Component in Your Application	0	1
+Form Editing Mode	1	1
+Using Containers	1	2
+Connection Editing Mode	0	2
