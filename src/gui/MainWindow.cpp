@@ -66,20 +66,22 @@ void MainWindow::setUpExplorerTreeView()
 //  QFile file("data/default.txt.bak");
   file.open(QIODevice::ReadOnly);
   QStringList headers;
-  headers << "Secuencias" << "type" << "index";
-  treeModel = new TreeModel(headers, file.readAll());
+  headers << "Secuencias" << "index";
+//  treeModel = new TreeModel(headers, file.readAll());
+  treeModel = new TreeModel(headers, QString(""));
   file.close();
   
   ui->explorerTreeView->setModel(treeModel);
   for (int column = 0; column < treeModel->columnCount(); ++column)
     ui->explorerTreeView->resizeColumnToContents(column);
   
-  ui->explorerTreeView->setColumnHidden(1,true);
-  ui->explorerTreeView->setColumnHidden(2,true);
+  bool isHidden = false;
+  ui->explorerTreeView->setColumnHidden(1,isHidden);
+//  ui->explorerTreeView->setColumnHidden(2,isHidden);
   
 }
 
-void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
+void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
 {
   int count = treeModel->rowCount();
   cout << "Rowcount: " << count <<endl;
@@ -88,26 +90,59 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
   
   
   TreeItem * parentItem = treeModel->getItem(index.parent());
-  cout << "Data parentItem :"<< qPrintable(parentItem->data(0).toString()) << endl;
-  QVariant data = QString::fromStdString(sequence->getName());
+  cout << "Data parentItem :"<< qPrintable(parentItem->data(0).toString()) 
+      << endl;
   
   if (!treeModel->insertRow(index.row()+1, index.parent()))
     return;
   
-  for (int column = 0; column < treeModel->columnCount(index.parent()); ++column) {
-    QModelIndex child = treeModel->index(index.row()+1, column, index.parent());
-    treeModel->setData(child, data, Qt::EditRole);
+  for (int column = 0; column < treeModel->columnCount(index.parent()); 
+          ++column)
+  {
+    QModelIndex child = treeModel->index(index.row() + 1, column,
+                                         index.parent());
+//    treeModel->setData(child, data, Qt::EditRole);
+    treeModel->setData(child, data.at(column), Qt::EditRole);
   }
   
-  cout<< "Data: " << qPrintable(treeModel->index(index.row()+1, 0, index.parent()).data().toString())  << endl;
+  cout << "Data: "
+          << qPrintable(treeModel->index(index.row()+1, 0, 
+                                         index.parent()).data().toString())
+          << endl;
+  
+//  TreeItem *parent = parents.last();
+//  parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
+//  for (int column = 0; column < columnData.size(); ++column)
+//    parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
   
 }
-/*    
-    void insertCgrToTreeView(const CGR * cgr)
-    {
-      
-    }
-    
+  
+void MainWindow::insertCgrToTreeView(const QVector<QVariant> & data)
+{
+  QModelIndex index = ui->explorerTreeView->selectionModel()->currentIndex();
+  QAbstractItemModel *model = treeModel;
+  
+  if (model->columnCount(index) == 0) {
+    if (!model->insertColumn(0, index))
+      return;
+  }
+  
+  if (!model->insertRow(0, index))
+    return;
+  
+  for (int column = 0; column < model->columnCount(index); ++column) {
+    QModelIndex child = model->index(0, column, index);
+    model->setData(child, data.at(column), Qt::EditRole);
+    if (!model->headerData(column, Qt::Horizontal).isValid())
+      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+                           Qt::EditRole);
+  }
+  
+  ui->explorerTreeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
+                                          QItemSelectionModel::ClearAndSelect);
+//  updateActions();
+}
+/*      
     void insertMfaTotreeView(const MultyfractalAnalisys * mfa)
     {
       
@@ -212,6 +247,7 @@ void MainWindow::closeSubWindow()
 
 
 void MainWindow::testSlot(){
-  const Sequence * seq = parentApp->getSequences()->getDnaSequence(0);
-  insertSequenceToTreeView(seq);
+  QVector<QVariant> data;
+  data << "Secuencia nueva" << 1 << 0;
+  insertCgrToTreeView(data);
 }

@@ -73,7 +73,20 @@ class MainWindow : public QMainWindow
      * Asigna 
      */
     void setTreeModel(TreeModel * treeModel);
+    
+    /**
+     * 
+     */
+    void insertSequenceToTreeView(const QVector<QVariant> & data);
 
+    
+    void insertCgrToTreeView(const QVector<QVariant> & data);
+    
+    /* 
+     void insertMfaTotreeView();
+     void insertCorrelationToTreeView();
+     */
+    
   private:
     // Atributos
     Ui::MainWindowClass *ui;
@@ -91,17 +104,6 @@ class MainWindow : public QMainWindow
      */
     void setUpExplorerTreeView();
     
-    /**
-     * 
-     */
-    void insertSequenceToTreeView(const Sequence * sequence);
-    
-    /*
-    void insertCgrToTreeView();
-    void insertMfaTotreeView();
-    void insertCorrelationToTreeView();
-    */
-
   private slots:
     /**
      * 

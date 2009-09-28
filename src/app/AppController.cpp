@@ -45,62 +45,95 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
           == GenomAMf::DNA_Alphabet)
   {
     seqLoadedType = GenomAMf::DNA_Alphabet;
-    
-    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
-    {
-      try
-      {
-        sequences->addDnaSequence(*(tmpSeqs->getSequence(i)));
-//        mainWindow->insertSequenceToTreeView();
-        cout << "Adicionada secuencia DNA - OK" << endl;
-        loadedSequences++;
-      }
-      catch (Exception e)
-      {
-        cout << "\tYa está!!" << endl;
-        // La secuencia ya se encuentra cargada. Continúa cargando el
-        // resto de secuencias.
-      }
-    }
   }
   else if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
           == GenomAMf::Proteic_Alphabet)
   {
     seqLoadedType = GenomAMf::Proteic_Alphabet;
-    
-    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
+  }
+  
+  for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
+  {
+    try
     {
-      try
-      {
-        sequences->addProteinSequence((*(tmpSeqs->getSequence(i))));
-        cout << "Adicionada secuencia proteína - OK" << endl;
-        loadedSequences++;
-      }
-      catch (Exception e)
-      {
-        cout << "\tYa está!!" << endl;
-        // La secuencia ya se encuentra cargada. Continúa cargando el
-        // resto de secuencias.
-      }
+      sequences->addSequence((*(tmpSeqs->getSequence(i))));
+      QVector<QVariant> data;
+      data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
+      data << sequences->getNumberOfSequences() - 1;
+      mainWindow->insertSequenceToTreeView(data);
+      cout << "Adicionada secuencia - OK" << endl;
+      loadedSequences++;
     }
-  }
-  
-  cout << "** Secuencias DNA **"<< endl;
-  for (unsigned int i = 0; 
-          i < sequences->getDnaSequences()->getNumberOfSequences(); ++i)
-  {
-    cout << sequences->getDnaSequence(i)->getName() << endl;
-  }
-  
-  cout << endl << "** Secuencias Protein **"<< endl;
-  for (unsigned int i = 0; 
-          i < sequences->getProteinSequences()->getNumberOfSequences(); ++i)
-  {
-    cout << sequences->getProteinSequence(i)->getName() << endl;
+    catch (Exception e)
+    {
+      cout << e.what() << endl;
+      // La secuencia ya se encuentra cargada. Continua cargando el
+      // resto de secuencias.
+    }
   }
   
   return loadedSequences;
 }
+
+//int AppController::loadSequences(const string & fileName, int & seqLoadedType)
+//{
+//  int loadedSequences = 0;
+//  
+//  VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
+//  
+//  if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
+//          == GenomAMf::DNA_Alphabet)
+//  {
+//    seqLoadedType = GenomAMf::DNA_Alphabet;
+//    
+//    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
+//    {
+//      try
+//      {
+//        sequences->addDnaSequence(*(tmpSeqs->getSequence(i)));
+//        QVector<QVariant> data;
+//        data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
+//        data << sequences->getNumberOfSequences() - 1;
+//        mainWindow->insertSequenceToTreeView(data);
+//        cout << "Adicionada secuencia DNA - OK" << endl;
+//        loadedSequences++;
+//      }
+//      catch (Exception e)
+//      {
+//        cout << "\tYa está!!" << endl;
+//        // La secuencia ya se encuentra cargada. Continúa cargando el
+//        // resto de secuencias.
+//      }
+//    }
+//  }
+//  else if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
+//          == GenomAMf::Proteic_Alphabet)
+//  {
+//    seqLoadedType = GenomAMf::Proteic_Alphabet;
+//    
+//    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
+//    {
+//      try
+//      {
+//        sequences->addProteinSequence((*(tmpSeqs->getSequence(i))));
+//        QVector<QVariant> data;
+//        data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
+//        data << sequences->getNumberOfSequences() - 1;
+//        mainWindow->insertSequenceToTreeView(data);
+//        cout << "Adicionada secuencia proteína - OK" << endl;
+//        loadedSequences++;
+//      }
+//      catch (Exception e)
+//      {
+//        cout << "\tYa está!!" << endl;
+//        // La secuencia ya se encuentra cargada. Continúa cargando el
+//        // resto de secuencias.
+//      }
+//    }
+//  }
+//  
+//  return loadedSequences;
+//}
 
 MainWindow * AppController::getMainWindow()
 {

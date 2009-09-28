@@ -18,6 +18,8 @@
  */
 
 #include "SeqLoader.h"
+//#include <Utils/Exceptions.h>
+
 
 SeqLoader::SeqLoader() {
   this->sequences = 0;
@@ -35,9 +37,11 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath){
   Alphabet * alphabet = new DNA();
   
   try {
+    
     sequences = seqReader->read(filePath, alphabet);
   }
   catch (Exception e) {
+    cout<< e.what() <<endl;
     alphabet = new ProteicAlphabet();
     sequences = seqReader->read(filePath, alphabet);
   }

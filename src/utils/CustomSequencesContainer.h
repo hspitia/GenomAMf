@@ -28,6 +28,8 @@
 #include <Seq/DNA.h>
 #include <Seq/VectorSequenceContainer.h>
 #include <Utils/Exceptions.h>
+#include <utils/Utils.h>
+
 
 
 using namespace bpp;
@@ -123,6 +125,11 @@ class CustomSequencesContainer
      * 
      */
     int getNumberOfSequences();
+    
+    /**
+     * 
+     */
+    void addSequence(const Sequence & sequence) throw (Exception);
     
   private:
     VectorSequenceContainer * dnaSequences; /**< Contenedor de secuencias de nucleótidos (AND) */

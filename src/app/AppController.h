@@ -32,6 +32,8 @@
 #include <Seq/AlphabetTools.h>
 #include <Seq/DNA.h>
 #include <Seq/VectorSequenceContainer.h>
+#include <Utils/Exceptions.h>
+
 
 using namespace bpp;
 

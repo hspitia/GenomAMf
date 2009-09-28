@@ -162,3 +162,45 @@ int CustomSequencesContainer::getNumberOfSequences()
 {
   return sequencesList.count();
 }
+
+void CustomSequencesContainer::addSequence(const Sequence & sequence) 
+  throw (Exception)
+{
+  
+  if(utils::getAlphabetType(sequence.getAlphabet()->getAlphabetType()) == 
+          GenomAMf::DNA_Alphabet)
+  {
+    try
+    {
+      dnaSequences->addSequence(sequence, true);
+      const Sequence * seq = &sequence;
+      sequencesList << seq;
+    }
+    catch (Exception e)
+    {
+      throw e;
+    }
+  }
+  else if(utils::getAlphabetType(sequence.getAlphabet()-> getAlphabetType()) == 
+          GenomAMf::Proteic_Alphabet)
+  {
+    try
+    {
+      proteinSequences->addSequence(sequence, true);
+      const Sequence * seq = &sequence;
+      sequencesList << seq;
+    }
+    catch (Exception e)
+    {
+      throw e;
+    }
+  }
+  else {
+    throw Exception("CustomSequencesContainer::addSequence : "
+                    "Alphabets don't match: " + 
+                    dnaSequences->getAlphabet()->getAlphabetType() + 
+                    "or " + proteinSequences->getAlphabet()->getAlphabetType()
+                    + ", with " + sequence.getAlphabet()->getAlphabetType());
+  }
+  
+}
