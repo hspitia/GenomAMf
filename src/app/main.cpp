@@ -7,10 +7,10 @@
  * @brief Archivo main de la apliacacio-.n.
  */
 
-/* 
+/*
  *   Created on:  Sep 5, 2009
  *       Author:  HECTOR FABIO ESPITIA NAVARRO
- *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION 
+ *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
  *      Project:  GenomAMf
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo main de la apliacacio-.n.
@@ -36,11 +36,11 @@
 void pruebaSequences(){
   const Alphabet * alphabet = new DNA();
   Sequence seq("My first sequence", "ATGCGTGTAAC", alphabet);
-  cout << seq.toString() << endl; 
+  cout << seq.toString() << endl;
 //  seq.append("--GGGCCTTTA");
 //  cout << seq.toString() << endl;
 //  // Resizing on the right:
-//  cout << "Before: " << seq.size() << "\t"; 
+//  cout << "Before: " << seq.size() << "\t";
 //  seq.setToSizeR(10);
 //  cout << "After: " << seq.size() << "\t";
 //  cout << seq.toString() << endl;
@@ -55,17 +55,22 @@ void pruebaSequences(){
 //  cout << "And again: " << seq.size () << "\t";
 //  cout << seq.toString() << endl;
 //  cout << endl;
-  
+
   vector<int> content(seq.getContent());
-  
+
   VectorTools::print(content);
+  int i = 1;
+  int * p = &i;
+  const int * cp = &i;
   
-//  for (int i = 0; i < (int) content.size(); ++i)
-//  {
-//    cout << content[i] << "";
-//  }
-//  cout << endl;
-  
+  cout << "i: " << i << endl;
+  cout << "*p : " << *p << "  dir: " << p << endl;
+  cout << "*cp: " << *cp << "  dir: " << cp << endl;
+
+  p = 0;
+  cout << "*p : " << p << "  dir: " << p << endl;
+  cp = 0;
+  cout << "*cp: " << *cp << "  dir: " << cp << endl;
 }
 
 int main(int argc, char *argv[])

@@ -7,7 +7,7 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/cgr/ChosGameRepresentation.h \
+HEADERS += src/cgr/ChaosGameRepresentation.h \
     src/utils/Definitions.h \
     src/utils/Message.h \
     src/utils/CustomSequencesContainer.h \
@@ -21,7 +21,7 @@ HEADERS += src/cgr/ChosGameRepresentation.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/cgr/ChosGameRepresentation.cpp \
+SOURCES += src/cgr/ChaosGameRepresentation.cpp \
     src/utils/Message.cpp \
     src/utils/CustomSequencesContainer.cpp \
     src/gui/SequenceTreeItem.cpp \
