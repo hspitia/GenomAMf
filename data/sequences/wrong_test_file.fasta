@@ -1,5 +1,10 @@
-LHKAJSDKJHIUXIHSKJDFHKSJDHFKJSD
-LHKAJSDKJHIUXIHSKJDFHKSJDHFKJSD
-LHKAJSDKJHIUXIHSKJDFHKSJDHFKJSD
-LHKAJSDKJHIUXIHSKJDFHKSJDHFKJSD
-LHKAJSDKJHIUXIHSKJDFHKSJDHFKJSD
+A dialog window is a top-level window mostly used for short-term tasks and brief communications with the user. QDialogs may be modal or modeless. QDialogs can provide a return value, and they can have default buttons. QDialogs can also have a QSizeGrip in their lower-right corner, using setSizeGripEnabled().
+
+Note that QDialog (an any other widget that has type Qt::Dialog) uses the parent widget slightly differently from other classes in Qt. A dialog is always a top-level widget, but if it has a parent, its default location is centered on top of the parent's top-level widget (if it is not top-level itself). It will also share the parent's taskbar entry.
+
+Use the overload of the QWidget::setParent() function to change the ownership of a QDialog widget. This function allows you to explicitly set the window flags of the reparented widget; using the overloaded function will clear the window flags specifying the window-system properties for the widget (in particular it will reset the Qt::Dialog flag).
+Modal Dialogs
+
+A modal dialog is a dialog that blocks input to other visible windows in the same application. Dialogs that are used to request a file name from the user or that are used to set application preferences are usually modal. Dialogs can be application modal (the default) or window modal.
+
+When an application modal dialog is opened, the user must finish interacting with the dialog and close it before they can access any other window in the application. Window modal dialogs only block access to the window associated with the dialog, allowing the user to continue to use other windows in an application.

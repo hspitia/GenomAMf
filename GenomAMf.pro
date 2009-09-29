@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/utils/Definitions.h \
+HEADERS += src/cgr/ChosGameRepresentation.h \
+    src/utils/Definitions.h \
     src/utils/Message.h \
     src/utils/CustomSequencesContainer.h \
     src/gui/SequenceTreeItem.h \
@@ -20,7 +21,8 @@ HEADERS += src/utils/Definitions.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/utils/Message.cpp \
+SOURCES += src/cgr/ChosGameRepresentation.cpp \
+    src/utils/Message.cpp \
     src/utils/CustomSequencesContainer.cpp \
     src/gui/SequenceTreeItem.cpp \
     src/gui/TreeModel.cpp \

@@ -21,32 +21,81 @@
 //#include <Utils/Exceptions.h>
 
 
-SeqLoader::SeqLoader() {
+SeqLoader::SeqLoader()
+{
   this->sequences = 0;
 }
 
-SeqLoader::~SeqLoader() {
-  if(sequences != 0){
+SeqLoader::~SeqLoader()
+{
+  if (sequences != 0)
+  {
     delete sequences;
     sequences = 0;
   }
 }
 
-VectorSequenceContainer * SeqLoader::load(const string & filePath){
+VectorSequenceContainer * SeqLoader::load(const string & filePath)
+{
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
   
-  try {
-    
+  try
+  {
     sequences = seqReader->read(filePath, alphabet);
   }
-  catch (Exception e) {
-    cout<< e.what() <<endl;
+  catch (Exception e)
+  {
+    cout << e.what() << endl;
     alphabet = new ProteicAlphabet();
-    sequences = seqReader->read(filePath, alphabet);
+    try
+    {
+      sequences = seqReader->read(filePath, alphabet);
+    }
+    catch (Exception e)
+    { 
+      cout << e.what() << endl;
+      cout << "** Ultima excepcion **" << endl;
+    }
   }
   delete seqReader;
-//  cout << "Secuencias: " << sequences->getNumberOfSequences() << endl;
-//  cout << "Alphabet type: " << alphabet->getAlphabetType() << endl;
+  //  cout << "Secuencias: " << sequences->getNumberOfSequences() << endl;
+  //  cout << "Alphabet type: " << alphabet->getAlphabetType() << endl;
+  return sequences;
+}
+
+VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
+{
+  Fasta * seqReader = new Fasta();
+  Alphabet * alphabet = new DNA();
+  
+  try
+  {
+    sequences = seqReader->read(filePath, alphabet);
+  }
+  catch (Exception e)
+  {
+    cout << e.what() << endl;
+  }
+  delete seqReader;
+  
+  return sequences;
+}
+
+VectorSequenceContainer * SeqLoader::loadProteinSequences(const string & filePath)
+{
+  Fasta * seqReader = new Fasta();
+  Alphabet * alphabet = new ProteicAlphabet();
+  
+  try
+  {
+    sequences = seqReader->read(filePath, alphabet);
+  }
+  catch (Exception e)
+  {
+    cout << e.what() << endl;
+  }
+  delete seqReader;
+  
   return sequences;
 }

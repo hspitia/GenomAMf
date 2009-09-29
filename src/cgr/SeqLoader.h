@@ -61,6 +61,15 @@ class SeqLoader {
      */
     VectorSequenceContainer * load(const string & filePath);
     
+    /**
+     * 
+     */
+    VectorSequenceContainer * loadDnaSequences(const string & filePath);
+    
+    /**
+     * 
+     */
+    VectorSequenceContainer * loadProteinSequences(const string & filePath);
     
   private:
     // Atributos

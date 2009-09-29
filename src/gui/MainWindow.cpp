@@ -77,21 +77,18 @@ void MainWindow::setUpExplorerTreeView()
   
   bool isHidden = false;
   ui->explorerTreeView->setColumnHidden(1,isHidden);
-//  ui->explorerTreeView->setColumnHidden(2,isHidden);
   
 }
 
 void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
 {
   int count = treeModel->rowCount();
-  cout << "Rowcount: " << count <<endl;
   
   QModelIndex index = ui->explorerTreeView->model()->index(count-1, 0);
   
   
   TreeItem * parentItem = treeModel->getItem(index.parent());
-  cout << "Data parentItem :"<< qPrintable(parentItem->data(0).toString()) 
-      << endl;
+  Q_UNUSED(parentItem);
   
   if (!treeModel->insertRow(index.row()+1, index.parent()))
     return;
@@ -101,19 +98,8 @@ void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
   {
     QModelIndex child = treeModel->index(index.row() + 1, column,
                                          index.parent());
-//    treeModel->setData(child, data, Qt::EditRole);
     treeModel->setData(child, data.at(column), Qt::EditRole);
   }
-  
-  cout << "Data: "
-          << qPrintable(treeModel->index(index.row()+1, 0, 
-                                         index.parent()).data().toString())
-          << endl;
-  
-//  TreeItem *parent = parents.last();
-//  parent->insertChildren(parent->childCount(), 1, rootItem->columnCount());
-//  for (int column = 0; column < columnData.size(); ++column)
-//    parent->child(parent->childCount() - 1)->setData(column, columnData[column]);
   
 }
   
@@ -140,7 +126,6 @@ void MainWindow::insertCgrToTreeView(const QVector<QVariant> & data)
   
   ui->explorerTreeView->selectionModel()->setCurrentIndex(model->index(0, 0, index),
                                           QItemSelectionModel::ClearAndSelect);
-//  updateActions();
 }
 /*      
     void insertMfaTotreeView(const MultyfractalAnalisys * mfa)
@@ -169,52 +154,39 @@ void MainWindow::loadSequences()
     loadedSequences = parentApp->loadSequences(fileName.toStdString(),
                                                loadedSequencesType);
     
-    QString infoString;
     QString alphabetType = "No definido";
-    
-//    if (seqLoadedType == GenomAMf::DNA_Alphabet)
-    if (loadedSequencesType == GenomAMf::DNA_Alphabet)
+    QString infoText;
+    QString text;
+    QMessageBox::Icon icon = QMessageBox::NoIcon;
+     
+    if (loadedSequences <= 0) 
     {
-      alphabetType = "ADN";
-      for (unsigned int i = 0; i < parentApp->getSequences()->
-        getDnaSequences()->getNumberOfSequences(); ++i)
-      {
-        infoString += QString::fromStdString(parentApp->getSequences()->
-                                             getDnaSequences()->
-                                             getSequence(i)->getName());
-        infoString += "\n";
-      }
+      text = "No se cargaron nuevas secuencias.";
+      infoText = "Esto se debe a una de las siguientes razones:\n - "
+              "Las secuencias contenidas en el archivo ya fueron cargadas,"
+              " o bien,\n - El formato de archivo es incorrecto";
+      icon = QMessageBox::Warning;
     }
-//    else if (seqLoadedType == GenomAMf::Proteic_Alphabet)
-    else if (loadedSequencesType == GenomAMf::Proteic_Alphabet)
-    {
-      alphabetType = "Proteína";
-      for (unsigned int i = 0; 
-              i < parentApp->
-              getSequences()->getProteinSequences()->getNumberOfSequences();
-              ++i)
-      {
-        infoString += QString::fromStdString(parentApp->getSequences()->
-                                             getProteinSequences()->
-                                             getSequence(i)->getName());
-        infoString += "\n";
-      }
-    }
-    
-    cout << "Todas las Secuencias: "<< endl;
-    for (int i = 0; i < parentApp->getSequences()->getNumberOfSequences(); ++i)
-    {
-      cout << qPrintable(QString::fromStdString(parentApp->getSequences()->
-                                                getSequence(i)->
-                                                getName()))<<endl;
+    else {
+      if (loadedSequencesType == GenomAMf::DNA_Alphabet) 
+        alphabetType = "ADN";
+      else if (loadedSequencesType == GenomAMf::Proteic_Alphabet) 
+        alphabetType = "Proteína";
+      
+      text = "Secuencias cargadas correctamente.";
+      infoText = QString("Tipo: %1\nNuevas secuencias: %2")
+              .arg(alphabetType)
+              .arg(loadedSequences);
+      icon = QMessageBox::Information;
     }
     
     QMessageBox msgBox;
-    msgBox.setText("Información de secuencias cargadas:");
-    msgBox.setInformativeText(QString("Tipo: %1\nNúmero de nuevas secuencias: "
-      "%2\n\n%3").arg(alphabetType).arg(loadedSequences).arg(infoString));
+    msgBox.setText(text);
+    msgBox.setInformativeText(infoText);
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(icon);
+    msgBox.setTextFormat(Qt::RichText);
     msgBox.exec();
   }
   

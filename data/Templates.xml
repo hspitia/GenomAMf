@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.doccomment" deleted="false" description="code html documentation tag" enabled="true" name="&lt;c">&lt;code&gt; ${code} &lt;/code&gt; ${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.comment" deleted="false" description="author name" enabled="true" id="org.eclipse.cdt.ui.text.templates.comment.author" name="author">author ${user}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="catch block" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.catch" name="catch">catch (${Exception} e) {
 	${cursor}
-}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="documentation comment" enabled="true" name="cd">/**</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="class declaration" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.class" name="class">class ${name} 
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="documentation comment" enabled="true" name="cd">/**</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Debug variable" enabled="true" name="cdvar">cout &lt;&lt; "${varible}: " &lt;&lt; variable &lt;&lt; endl;</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="class declaration" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.class" name="class">class ${name} 
 {
 public:
 	${cursor}
@@ -15,11 +15,11 @@ private:
  */
 </template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Slot and Signal connection" enabled="true" name="conn">connect(${sender}, SIGNAL(${signal}), ${receiver}, SLOT(${method}));${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Línea de texto a la salida estándar." enabled="true" name="cout">cout &lt;&lt; ${cursor} &lt;&lt; endl;</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Const reference" enabled="true" name="cref">const ${type} &amp; ${varible}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="do while statement" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.do" name="do">do {
 	${line_selection}${cursor}
-} while (${condition});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="else block" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.else" name="else">else {
+} while (${condition});</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Debug variable" enabled="true" name="dvar">"${varible}: " &lt;&lt; variable </template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="else block" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.else" name="else">else {
 	${cursor}
 }</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="else if block" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.elseif" name="elseif">else if (${condition}) {
 	${cursor}
-}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.for" name="for">for (${type} ${var} = 0; ${var} &lt; ${max}; ++${var}) {
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="End line" enabled="true" name="end">&lt;&lt; endl;</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.for" name="for">for (${type} ${var} = 0; ${var} &lt; ${max}; ++${var}) {
 	${line_selection}${cursor}
 }</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="for loop with temporary variable" enabled="true" name="fori">for (int ${var} = 0; ${var} &lt; ${max}; ++${var}) {
 	${line_selection}${cursor}
@@ -51,7 +51,7 @@ void &lt;className&gt;::set${name}(${type} ${value}){
 }</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="Include line" enabled="true" name="inc">#include ${cursor}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="main method" enabled="true" id="org.eclipse.cdt.ui.text.templates.c.main" name="main">int main(int argc, char **argv) {
 	${cursor}
 }
-</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New class member" enabled="true" name="member">${type} ${name}; /**&lt; ${comment} */</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New method" enabled="true" name="method">/**
+</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New class member" enabled="true" name="member">${type} ${name}; /**&lt; ${comment} */</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New method" enabled="true" name="met">/**
  * 
  */
 ${type} ${name}(${params});
@@ -106,6 +106,12 @@ ${cursor}
 		break;
 	default:
 		break;
+}</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="New method" enabled="true" name="thod">/**
+ * 
+ */
+${type} ${name}(${params});
+${type} ${name}(${params}){
+  
 }</template><template autoinsert="true" context="org.eclipse.cdt.ui.text.templates.c" deleted="false" description="try catch block" enabled="true" id="org.eclipse.cdt.ui.text.templates.cpp.try" name="try">try {
 	${line_selection}${cursor}
 } 

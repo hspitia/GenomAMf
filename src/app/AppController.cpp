@@ -41,16 +41,8 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
   
   VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
   
-  if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
-          == GenomAMf::DNA_Alphabet)
-  {
-    seqLoadedType = GenomAMf::DNA_Alphabet;
-  }
-  else if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
-          == GenomAMf::Proteic_Alphabet)
-  {
-    seqLoadedType = GenomAMf::Proteic_Alphabet;
-  }
+  seqLoadedType = utils::getAlphabetType(tmpSeqs->getAlphabet()->
+                                         getAlphabetType());
   
   for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
   {
@@ -61,7 +53,6 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
       data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
       data << sequences->getNumberOfSequences() - 1;
       mainWindow->insertSequenceToTreeView(data);
-      cout << "Adicionada secuencia - OK" << endl;
       loadedSequences++;
     }
     catch (Exception e)
