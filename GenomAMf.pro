@@ -53,5 +53,7 @@ INCLUDEPATH += . \
 INCLUDEPATH += /usr/include
 LIBS += -L/usr/lib \
     -lbpp-utils \
-    -lbpp-seq
+    -lbpp-seq \
+    -lmgl \
+    -lmgl-qt
 RESOURCES += resources/resources.qrc
