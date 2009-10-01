@@ -21,11 +21,13 @@
 
 #include <app/AppController.h>
 #include <gui/MainWindow.h>
+#include <cgr/ChaosGameRepresentation.h>
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
 #include <Seq/DNA.h>
 #include <Seq/Sequence.h>
+
 
 #include <NumCalc/VectorTools.h>
 #include <NumCalc/Matrix.h>
@@ -39,6 +41,7 @@
 #include <mgl/mgl_zb.h>
 #include <mgl/mgl_font.h>
 
+using namespace utils;
 
 void pruebaSequences(){
   const Alphabet * alphabet = new DNA();
@@ -81,8 +84,14 @@ void pruebaSequences(){
   unsigned int a = 2;
   MatrixTools::pow(m,a,n);
   MatrixTools::print(n);
+  cout << endl;
+  vector<double> nuevo = m.row(0);
+  VectorTools::print(nuevo);
+  mglData test(3);
+  test.Set(nuevo);
+  
+  test.Modify("sin(pi*(2*x-1))");
 }
-
 
 int sample1(mglGraph *gr, const void *)
 {
@@ -131,6 +140,7 @@ int sample3(mglGraph *gr, void *)
   gr->Rotate(70,40);
   gr->Plot(y0);
   gr->Box();
+
   return 0;
 }
 //  ./configure --enable-jpeg --enable-gif --enable-qt --with-qt
@@ -151,7 +161,6 @@ int runSample(){
   gr2.WritePNG("data/sample2.png");    // Don't forget to save the result!
   gr2.WriteJPEG("data/sample2.jpg");    // Don't forget to save the result!
   
-  
   mglGraphZB gr3;
   gr3.Alpha(false);
   gr3.Light(true);             
@@ -159,18 +168,32 @@ int runSample(){
   sample3(&gr3,NULL);           // The same drawing function.
 //  gr3.WritePNG("data/sample3.png");    // Don't forget to save the result!
   gr3.WriteJPEG("data/sample3.jpg");    // Don't forget to save the result!
+  
+    
   return 0;
+}
+
+void performCgr(){
+  SeqLoader * sl = new SeqLoader(); 
+  VectorSequenceContainer *vec =  sl->load("data/sequences/nucleotide4.fas");
+  Sequence * seq = const_cast<Sequence* >(vec->getSequence(0));
+//  cout << "Secuencia: " << endl << seq->toString() << endl;
+  ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
+  cgr->performRepresentation();
+  
 }
 
 int main(int argc, char *argv[])
 {
   Q_UNUSED(argc);
   Q_UNUSED(argv);
+  
 //  AppController * app = new AppController(argc, argv);
 //  app->getMainWindow()->show();
 
 //  pruebaSequences();
-  runSample();
+//  runSample();
+  performCgr();
   return 0;
 //  return app->exec();
 }

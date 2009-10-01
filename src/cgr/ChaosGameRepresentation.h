@@ -21,7 +21,10 @@
 #define CHAOSGAMEREPRESENTATION_H_
 
 // SYSTEM INCLUDES
-// Std libraries
+//Qt Libraries
+#include <QtGui/QImage>
+
+// STL libraries
 #include <string>
 #include <vector>
 
@@ -54,7 +57,27 @@ class ChaosGameRepresentation
 {
   public:
     ChaosGameRepresentation();
+    
+    ChaosGameRepresentation(const Sequence * sequence);
+    
     virtual ~ChaosGameRepresentation();
+    
+    /**
+     * 
+     */
+    bool performRepresentation(int cgrSize = 512, bool generateImage = true);
+    
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    const Sequence * getSequence();
+
+    /**
+     * Asigna 
+     */
+    void setSequence(const Sequence * sequence);
 
     /**
      * Retorna
@@ -79,12 +102,35 @@ class ChaosGameRepresentation
      */
     void setImageFilePath(string imagefilePath);
     
-  private:
+    /**
+     * Retorna 
+     * @return 
+     */
+    vector <int> getTranslatedSequence();
 
-    RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los puntos 
-      de la CGR */
-    string imagefilePath; /**< Ruta del archivo de imagen generado para la 
-      CGR */
+    /**
+     * Asigna 
+     */
+    void setTranslatedSequence(vector <int> translatedSequence);
+    
+    
+    
+  private:
+    const Sequence * sequence; /**< Apuntador a la secuencia de la cual se obtendrá la GRC */
+    
+    RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los 
+      puntos de la CGR */
+    string imagefilePath; /**< Ruta del archivo de imagen generado de la CGR */
+
+    vector<int> translatedSequence; /**< Secuencia traducida al alfabeto {0,1,
+      2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
+      para secuencias de proteínas. */
+    
+    
+    /**
+     * 
+     */
+    void translateSequence();
 };
 
 #endif /* CHAOSGAMEREPRESENTATION_H_ */

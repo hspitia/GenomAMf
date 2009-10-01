@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/cgr/ChaosGameRepresentation.h \
+HEADERS += src/utils/Matrix.h \
+    src/cgr/ChaosGameRepresentation.h \
     src/utils/Definitions.h \
     src/utils/Message.h \
     src/utils/CustomSequencesContainer.h \

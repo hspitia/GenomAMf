@@ -23,17 +23,20 @@
 
 // SYSTEM INCLUDES
 #include <string>
+#include <cmath>
 
 // PROJECT INCLUDES
 
 // LOCAL INCLUDES
 #include <utils/Definitions.h>
+#include <utils/Matrix.h>
 
 
 //class AppController;
 
 namespace utils 
 {
+  
   
   inline int getAlphabetType(const string & alphabetTypeString)
   {
@@ -44,6 +47,14 @@ namespace utils
       return GenomAMf::Proteic_Alphabet;
     }
     return GenomAMf::Undefined_Alphabet;
+  }
+  
+  inline double round(double number) {
+    return floor(number + 0.5);
+  }
+   
+  inline float round(float number) {
+    return floor(number + 0.5);
   }
   
 }
