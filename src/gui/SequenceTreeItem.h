@@ -8,8 +8,10 @@
 #ifndef SEQUENCETREEITEM_H_
 #define SEQUENCETREEITEM_H_
 
-#include "TreeItem.h"
+#include <gui/TreeItem.h>
 #include <Seq/Sequence.h>
+
+//class TreeItem;
 
 using namespace bpp;
 
@@ -20,21 +22,22 @@ class SequenceTreeItem : public TreeItem
     SequenceTreeItem(const QVector<QVariant> &data, TreeItem *parent = 0);
     virtual ~SequenceTreeItem();
     
-  private:
-    Sequence * sequence; /**< Apuntador aun objeto <code> Sequence </code> 
-        contenido el miembro <code> sequences </code> de la clase <code> 
-        AppController </code>. */
-    
     /**
      * Retorna 
      * @return 
      */
-    Sequence * getSequence();
+    const Sequence * getSequence();
     
     /**
      * Asigna 
      */
-    void setSequence(Sequence * sequence);
+    void setSequence(const Sequence * sequence);
+    
+  private:
+    const Sequence * sequence; /**< Apuntador aun objeto <code> Sequence </code> 
+        contenido el miembro <code> sequences </code> de la clase <code> 
+        AppController </code>. */
+    
 };
 
 #endif /* SEQUENCETREEITEM_H_ */

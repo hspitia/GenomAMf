@@ -22,12 +22,12 @@ SequenceTreeItem::~SequenceTreeItem()
   }
 }
 
-Sequence * SequenceTreeItem::getSequence()
+const Sequence * SequenceTreeItem::getSequence()
 {
   return sequence;
 }
 
-void SequenceTreeItem::setSequence(Sequence * sequence)
+void SequenceTreeItem::setSequence(const Sequence * sequence)
 {
   this->sequence = sequence;
 }

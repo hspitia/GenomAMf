@@ -38,10 +38,14 @@ using namespace bpp;
 #include <app/AppController.h>
 #include <cgr/SeqLoader.h>
 #include <gui/CgrParametersForm.h>
+#include <gui/CgrResultsForm.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
 #include <gui/TreeModel.h>
 #include <gui/TreeItem.h>
+#include <gui/SequenceTreeItem.h>
+#include <gui/SequenceListModel.h>
+
 
 
 // STD libraries
@@ -59,7 +63,12 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
   public:
-      
+  
+    enum ExplorerElementType
+    {
+      SequenceElement, CgrElement, MfaResultElement, CorrelationResultElement
+    };
+    
     MainWindow(AppController *parentApp = 0, QWidget *parent = 0);
     ~MainWindow();
     
@@ -75,10 +84,24 @@ class MainWindow : public QMainWindow
     void setTreeModel(TreeModel * treeModel);
     
     /**
+     * Retorna 
+     * @return 
+     */
+    SequenceListModel *  getSequenceListModel();
+    
+    /**
+     * Asigna 
+     */
+    void setSequenceListModel(SequenceListModel *  sequenceListModel);
+    
+    /**
      * 
      */
-    void insertSequenceToTreeView(const QVector<QVariant> & data);
-
+//    void insertSequenceToTreeView(const QVector<QVariant> & data);
+    void insertSequenceToTreeView(const Sequence * sequence);
+    
+//    void insertSequenceToSequenceListModel(const QStringList & data);
+    void insertSequenceToSequenceListModel(const Sequence * sequence);
     
     void insertCgrToTreeView(const QVector<QVariant> & data);
     
@@ -92,7 +115,9 @@ class MainWindow : public QMainWindow
     Ui::MainWindowClass *ui;
     AppController * parentApp;
     TreeModel * treeModel; /**< Modelo para el explorador de elementos */
-
+    
+    SequenceListModel *  sequenceListModel; /**< Modelo para el formulario de parámetros de CGR */
+    
     // Metodos
     /**
      * Conecta signals y slots de la aplicacio-.n.
@@ -103,6 +128,16 @@ class MainWindow : public QMainWindow
      * Inicializa el explorador de elementos.
      */
     void setUpExplorerTreeView();
+    
+//    /**
+//     * 
+//     */
+//    void setUpSequenceListModel(params);
+//    void setUpSequenceListModel(params)
+//    {
+//      
+//    }
+    
     
   private slots:
     /**

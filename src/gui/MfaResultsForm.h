@@ -46,6 +46,9 @@ class MfaResultsForm : public QWidget
      */
     void connectSignalsSlots();
     
+  private slots:
+    void exportImage();
+    
 };
 
 #endif // MFARESULTSFORM_H

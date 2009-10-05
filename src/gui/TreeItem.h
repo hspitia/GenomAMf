@@ -45,6 +45,10 @@
 #include <QList>
 #include <QVariant>
 #include <QVector>
+#include <Seq/Sequence.h>
+#include <cgr/ChaosGameRepresentation.h>
+
+using namespace bpp;
 
 //class TreeModel;
 //! [0]
@@ -66,11 +70,43 @@ public:
     bool removeColumns(int position, int columns);
     int childNumber() const;
     bool setData(int column, const QVariant &value);
+    
+//    bool insertChildrenSequences(int position, int count, int columns);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    const Sequence * getPtrSequence();
 
+    /**
+     * Asigna 
+     */
+    void setPtrSequence(const Sequence * ptrSequence);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    const ChaosGameRepresentation * getPtrCgr();
+
+    /**
+     * Asigna 
+     */
+    void setPtrCgr(const ChaosGameRepresentation * ptrCgr);
+    
 private:
     QList<TreeItem*> childItems;
     QVector<QVariant> itemData;
-    TreeItem *parentItem;
+    TreeItem * parentItem;
+     
+    const Sequence * ptrSequence; /**< Apuntador a una secuencia del contenedor 
+      principal de la aplicación */
+    
+    const ChaosGameRepresentation * ptrCgr; /**< Apuntador a un objeto ChosGameRepresentation de la aplicación */
+   
+//    MultifractalAnalisys * ptrMfa;
+    
 };
 //! [0]
 

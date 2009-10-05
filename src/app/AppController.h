@@ -40,6 +40,7 @@ using namespace bpp;
 // PROJECT INCLUDES
 #include <gui/MainWindow.h>
 #include <cgr/SeqLoader.h>
+#include <cgr/ChaosGameRepresentation.h>
 #include <utils/Utils.h>
 #include <utils/CustomSequencesContainer.h>
 
@@ -83,9 +84,12 @@ class AppController : public QApplication
      */
 //    int loadSequences(const string & fileName,
 //                      GenomAMf::AlphabetType & seqLoadedType);
-    int loadSequences(const string & fileName, 
-                      int & seqLoadedType);
+    int loadSequences(const string & fileName, int & seqLoadedType);
     
+    /**
+     * 
+     */
+    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence);
     // Access
     
 
@@ -122,12 +126,24 @@ class AppController : public QApplication
      * Asigna 
      */
     void setSequences(CustomSequencesContainer * sequences);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    QList<ChaosGameRepresentation *> * getCgrList();
 
+    /**
+     * Asigna 
+     */
+    void setCgrList(QList<ChaosGameRepresentation *> * cgrList);
+    
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
     SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
     CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
       proteínas de la aplicación. */
+    QList<ChaosGameRepresentation *> * cgrList; /**< Lista de apuntadores a los objetos CGR creados en la aplicación */
 };
 
 #endif /* APPCONTROLLER_H_ */

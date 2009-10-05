@@ -26,6 +26,7 @@ MainWindow::MainWindow(AppController *parentApp, QWidget *parent) :
 {
   this->parentApp = parentApp;
   this->treeModel = 0;
+  this->sequenceListModel = new SequenceListModel(QStringList());
   ui->setupUi(this);
   connectSignalsSlots();
   setUpExplorerTreeView();
@@ -46,6 +47,16 @@ void MainWindow::setTreeModel(TreeModel * treeModel)
   this->treeModel = treeModel;
 }
 
+SequenceListModel *  MainWindow::getSequenceListModel()
+{
+  return sequenceListModel;
+}
+
+void MainWindow::setSequenceListModel(SequenceListModel *  sequenceListModel)
+{
+  this->sequenceListModel = sequenceListModel;
+}
+
 void MainWindow::connectSignalsSlots()
 {
   connect(ui->loadSequencesAction, SIGNAL(triggered()), this,
@@ -62,14 +73,14 @@ void MainWindow::connectSignalsSlots()
 
 void MainWindow::setUpExplorerTreeView()
 {
-  QFile file("data/default.txt");
+//  QFile file("data/default.txt");
 //  QFile file("data/default.txt.bak");
-  file.open(QIODevice::ReadOnly);
+//  file.open(QIODevice::ReadOnly);
   QStringList headers;
-  headers << "Secuencias" << "index";
+  headers << "Secuencias" << "Element Type";
 //  treeModel = new TreeModel(headers, file.readAll());
   treeModel = new TreeModel(headers, QString(""));
-  file.close();
+//  file.close();
   
   ui->explorerTreeView->setModel(treeModel);
   for (int column = 0; column < treeModel->columnCount(); ++column)
@@ -77,19 +88,25 @@ void MainWindow::setUpExplorerTreeView()
   
   bool isHidden = false;
   ui->explorerTreeView->setColumnHidden(1,isHidden);
+  ui->explorerTreeView->setColumnHidden(2,isHidden);
   
 }
 
-void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
+//void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
+void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
 {
   int count = treeModel->rowCount();
   
   QModelIndex index = ui->explorerTreeView->model()->index(count-1, 0);
   
+  QVector<QVariant> data;
+  data << QString::fromStdString(sequence->getName());
+  data << MainWindow::SequenceElement;
   
-  TreeItem * parentItem = treeModel->getItem(index.parent());
-  Q_UNUSED(parentItem);
+//  TreeItem * parentItem = treeModel->getItem(index.parent());
+//  Q_UNUSED(parentItem);
   
+//  if (!treeModel->insertSequence(index.row()+1, index.parent()))
   if (!treeModel->insertRow(index.row()+1, index.parent()))
     return;
   
@@ -100,6 +117,43 @@ void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
                                          index.parent());
     treeModel->setData(child, data.at(column), Qt::EditRole);
   }
+  
+  QModelIndex itemIndex = treeModel->index(index.row() + 1, 0, index.parent());
+  TreeItem * treeItem = treeModel->getItem(itemIndex);
+  treeItem->setPtrSequence(sequence);
+  
+  cout<< "Adicionada: " << treeItem->getPtrSequence()->getName() << endl;
+  
+}
+
+//void MainWindow::insertSequenceToSequenceListModel(const QStringList & data)
+void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
+{
+  int position = sequenceListModel->rowCount();
+  sequenceListModel->insertRows(position,1);
+  QModelIndex index = sequenceListModel->index(position,0, QModelIndex()); 
+ 
+  QString alphabetType;
+  
+  if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
+          == GenomAMf::DNA_Alphabet)
+  {
+    alphabetType = tr("ADN");
+  }
+  else if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
+          == GenomAMf::Proteic_Alphabet)
+  {
+    alphabetType = tr("Proteína");
+  }
+  
+  QString data = QString::fromStdString(sequence->getName());
+//  data << alphabetType;
+  
+  sequenceListModel->setData(index, data);
+  
+  cout << "Datos " << endl;
+  cout << "\t" << qPrintable(sequenceListModel->data(index, 
+          Qt::DisplayRole).toString()) << endl;
   
 }
   
@@ -147,7 +201,7 @@ void MainWindow::loadSequences()
                                                   tr("Carga de secuencias"),
                                                   ".",
                                                   tr("Archivos de secuencias "
-                                                          "(*.fasta *.fas)"));
+                                                          "(*.fna *.fasta *.fas)"));
   
   if (!fileName.isEmpty())
   {
@@ -194,8 +248,18 @@ void MainWindow::loadSequences()
 
 void MainWindow::makeCgr()
 {
-  CgrParametersForm * cgrParametersForm = new CgrParametersForm(this);
-  cgrParametersForm->exec();
+  CgrParametersForm * cgrParametersForm = 
+          new CgrParametersForm(sequenceListModel, this);
+  
+  if(cgrParametersForm->exec()){
+    QMessageBox msgBox;
+    msgBox.setText("Recibido del dialogo");
+    msgBox.setInformativeText(cgrParametersForm->getUi()->sequenceLabel->text());
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setTextFormat(Qt::RichText);
+    msgBox.exec();
+  }
 }
 
 void MainWindow::makeMultifractalAnalisys()
@@ -219,7 +283,17 @@ void MainWindow::closeSubWindow()
 
 
 void MainWindow::testSlot(){
-  QVector<QVariant> data;
-  data << "Secuencia nueva" << 1 << 0;
-  insertCgrToTreeView(data);
+//  QVector<QVariant> data;
+//  data << "Secuencia nueva" << 1 << 0;
+//  insertCgrToTreeView(data);
+
+  cout << "DEBUG" << endl;
+//  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
+//  ui->mdiArea->addSubWindow(mfaResultsForm);
+//  mfaResultsForm->show();
+  Sequence * seq = new Sequence("Nueva secuencia","AACCTTGG",new DNA());
+  ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
+  CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+  ui->mdiArea->addSubWindow(cgrResultsForm);
+  cgrResultsForm->show();
 }

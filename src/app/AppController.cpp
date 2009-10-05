@@ -49,10 +49,10 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
     try
     {
       sequences->addSequence((*(tmpSeqs->getSequence(i))));
-      QVector<QVariant> data;
-      data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
-      data << sequences->getNumberOfSequences() - 1;
-      mainWindow->insertSequenceToTreeView(data);
+      mainWindow->insertSequenceToTreeView(sequences->getSequence(sequences->
+              getNumberOfSequences() - 1));
+      mainWindow->insertSequenceToSequenceListModel(sequences->
+              getSequence(sequences->getNumberOfSequences() - 1));
       loadedSequences++;
     }
     catch (Exception e)
@@ -64,6 +64,14 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
   }
   
   return loadedSequences;
+}
+
+const ChaosGameRepresentation * AppController::makeCgr(const Sequence * sequence)
+{
+  ChaosGameRepresentation * cgrObject = new ChaosGameRepresentation(sequence);
+  cgrObject->performRepresentation();
+  cgrList->append(cgrObject);
+  return cgrObject;
 }
 
 //int AppController::loadSequences(const string & fileName, int & seqLoadedType)
@@ -154,4 +162,14 @@ CustomSequencesContainer * AppController::getSequences()
 void AppController::setSequences(CustomSequencesContainer * sequences)
 {
   this->sequences = sequences;
+}
+
+QList<ChaosGameRepresentation *> * AppController::getCgrList()
+{
+  return cgrList;
+}
+
+void AppController::setCgrList(QList<ChaosGameRepresentation *> * cgrList)
+{
+  this->cgrList = cgrList;
 }

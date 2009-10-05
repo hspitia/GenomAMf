@@ -35,6 +35,13 @@ MfaResultsForm::~MfaResultsForm()
 
 void MfaResultsForm::connectSignalsSlots()
 {
-  connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton *)), this->parent(),
+  connect(ui->buttonBox, SIGNAL(rejected()), this->parent(),
           SLOT(closeSubWindow()));
+  connect(ui->buttonBox, SIGNAL(rejected()), this,
+            SLOT(exportImage()));
+}
+
+void MfaResultsForm::exportImage()
+{
+  
 }

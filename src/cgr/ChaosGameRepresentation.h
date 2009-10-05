@@ -23,6 +23,8 @@
 // SYSTEM INCLUDES
 //Qt Libraries
 #include <QtGui/QImage>
+#include <QtGui/QPainter>
+#include <QtGui/QPen>
 
 // STL libraries
 #include <string>
@@ -35,6 +37,7 @@
 #include <Seq/AlphabetTools.h>
 #include <Seq/DNA.h>
 #include <Seq/ProteicAlphabet.h>
+#include <Seq/SequenceTools.h>
 #include <Seq/VectorSequenceContainer.h>
 #include <Utils/Exceptions.h>
 
@@ -65,14 +68,16 @@ class ChaosGameRepresentation
     /**
      * 
      */
-    bool performRepresentation(int cgrSize = 512, bool generateImage = true);
+    void performRepresentation(int cgrSize = 512, bool generateImage = true);
+    
+    void performRepresentation1(int cgrSize = 512, bool generateImage = true);
     
     
     /**
      * Retorna 
      * @return 
      */
-    const Sequence * getSequence();
+    const Sequence * getSequence() const;
 
     /**
      * Asigna 
@@ -113,8 +118,6 @@ class ChaosGameRepresentation
      */
     void setTranslatedSequence(vector <int> translatedSequence);
     
-    
-    
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se obtendrá la GRC */
     
@@ -131,6 +134,14 @@ class ChaosGameRepresentation
      * 
      */
     void translateSequence();
+    
+    /**
+     * 
+     */
+//    void drawBoxAndLabels(QImage * image, const int & cgrSize,
+//                         const int & margin);
+    void drawBoxAndLabels(QPainter * painter, const int & cgrSize,
+                         int alphabetType);
 };
 
 #endif /* CHAOSGAMEREPRESENTATION_H_ */

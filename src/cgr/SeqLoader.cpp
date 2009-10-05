@@ -46,7 +46,7 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath)
   }
   catch (Exception e)
   {
-    cout << e.what() << endl;
+//    cout << e.what() << endl << "Excepción en lectura." << endl;
     alphabet = new ProteicAlphabet();
     try
     {
@@ -54,13 +54,12 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath)
     }
     catch (Exception e)
     { 
-      cout << e.what() << endl;
-      cout << "** Ultima excepcion **" << endl;
+//      cout << e.what() << endl;
+//      cout << "** Ultima excepcion **" << endl;
     }
   }
   delete seqReader;
-  //  cout << "Secuencias: " << sequences->getNumberOfSequences() << endl;
-  //  cout << "Alphabet type: " << alphabet->getAlphabetType() << endl;
+  
   return sequences;
 }
 

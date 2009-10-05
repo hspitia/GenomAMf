@@ -18,15 +18,24 @@
 
 //#include <QtGui>
 //#include <QApplication>
+#include <QPainter>
+#include <QImage>
+#include <QRgb>
+
+
+
 
 #include <app/AppController.h>
 #include <gui/MainWindow.h>
 #include <cgr/ChaosGameRepresentation.h>
+#include <utils/Utils.h>
+
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
 #include <Seq/DNA.h>
 #include <Seq/Sequence.h>
+#include <Seq/VectorSequenceContainer.h>
 
 
 #include <NumCalc/VectorTools.h>
@@ -175,26 +184,68 @@ int runSample(){
 
 void performCgr(){
   SeqLoader * sl = new SeqLoader(); 
-  VectorSequenceContainer *vec =  sl->load("data/sequences/nucleotide4.fas");
+//  VectorSequenceContainer *vec =  sl->load("data/sequences/nucleotide4.fas");
+//  VectorSequenceContainer *vec =  sl->load("data/sequences/homo_sapiens/hbb.fasta");
+//  VectorSequenceContainer *vec =  sl->load("data/sequences/homo_sapiens/hbb_protein_frame_1.fasta");
+//  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/Buchnera_protein.fasta");
+//  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_genome_all_000124.fasta");
+  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_protein_frame_1.fasta");
   Sequence * seq = const_cast<Sequence* >(vec->getSequence(0));
 //  cout << "Secuencia: " << endl << seq->toString() << endl;
   ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
-  cgr->performRepresentation();
+  cgr->performRepresentation(512);
+//  cgr->performRepresentation(256,false);
+//  MatrixTools::print(cgr->getMatrixOfPoints());
+  delete cgr;
+   
+}
+
+void testPaint(){
+  QImage * img = new QImage(200,200, QImage::Format_RGB32);
+  QRgb backgroudColor = qRgb(230,230,230);
+  img->fill(backgroudColor);
+  QPainter * p = new QPainter(img);
+//  p->setBackgroundMode(Qt::OpaqueMode);
+//  p->setPen(QColor(255,0,0));
+//  p->setBrush(QBrush(QColor(255,0,0)));
+  p->translate(100,100);
+  p->drawPoint(10,20);
+  img->save("tmp/test.png" , "PNG");
+}
+
+void linkProteinSequence(){
+  SeqLoader * sl = new SeqLoader(); 
+  VectorSequenceContainer *vec =  sl->load("/home/hector/Escritorio/buchnera.fasta");
+  
+  Sequence * newSeq = new Sequence("Buchnera sp APS","", new ProteicAlphabet());
+  for (unsigned int i = 0; i < vec->getNumberOfSequences(); ++i)
+  {
+    newSeq->append(vec->getContent(1));
+  }
+  cout << newSeq->toString() << endl;
+  VectorSequenceContainer * newVec = new VectorSequenceContainer(new ProteicAlphabet());
+  newVec->addSequence(*newSeq, true);
+  Fasta * f = new Fasta();
+  string name = "data/sequences/bacteria/Buchnera_protein.fasta"; 
+  f->write(name, *newVec);
   
 }
 
 int main(int argc, char *argv[])
 {
-  Q_UNUSED(argc);
-  Q_UNUSED(argv);
-  
-//  AppController * app = new AppController(argc, argv);
-//  app->getMainWindow()->show();
+  AppController * app = new AppController(argc, argv);
+  app->getMainWindow()->showMaximized();
+  return app->exec();
 
+//  Q_UNUSED(argc);
+//  Q_UNUSED(argv);
+
+//  QApplication app(argc, argv);
 //  pruebaSequences();
 //  runSample();
-  performCgr();
-  return 0;
-//  return app->exec();
+//  performCgr();
+//  linkProteinSequence();
+//  testPaint();
+//  return 0;
 }
 

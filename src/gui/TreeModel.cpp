@@ -1,43 +1,3 @@
-/****************************************************************************
-**
-** Copyright (C) 2009 Nokia Corporation and/or its subsidiary(-ies).
-** Contact: Nokia Corporation (qt-info@nokia.com)
-**
-** This file is part of the examples of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:LGPL$
-** Commercial Usage
-** Licensees holding valid Qt Commercial licenses may use this file in
-** accordance with the Qt Commercial License Agreement provided with the
-** Software or, alternatively, in accordance with the terms contained in
-** a written agreement between you and Nokia.
-**
-** GNU Lesser General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
-**
-** In addition, as a special exception, Nokia gives you certain
-** additional rights. These rights are described in the Nokia Qt LGPL
-** Exception version 1.0, included in the file LGPL_EXCEPTION.txt in this
-** package.
-**
-** GNU General Public License Usage
-** Alternatively, this file may be used under the terms of the GNU
-** General Public License version 3.0 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU General Public License version 3.0 requirements will be
-** met: http://www.gnu.org/copyleft/gpl.html.
-**
-** If you are unsure which license is appropriate for your use, please
-** contact the sales department at http://www.qtsoftware.com/contact.
-** $QT_END_LICENSE$
-**
-****************************************************************************/
 
 #include <QtGui>
 
@@ -48,7 +8,6 @@
 using namespace std;
 
 
-//! [0]
 TreeModel::TreeModel(const QStringList &headers, const QString &data,
                      QObject *parent)
     : QAbstractItemModel(parent)
@@ -60,21 +19,16 @@ TreeModel::TreeModel(const QStringList &headers, const QString &data,
     rootItem = new TreeItem(rootData);
     setupModelData(data.split(QString("\n")), rootItem);
 }
-//! [0]
 
-//! [1]
 TreeModel::~TreeModel()
 {
     delete rootItem;
 }
-//! [1]
 
-//! [2]
 int TreeModel::columnCount(const QModelIndex & /* parent */) const
 {
     return rootItem->columnCount();
 }
-//! [2]
 
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
@@ -89,7 +43,6 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     return item->data(index.column());
 }
 
-//! [3]
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -97,10 +50,8 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 
     return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
-//! [3]
 
-//! [4]
-TreeItem *TreeModel::getItem(const QModelIndex &index) const
+TreeItem * TreeModel::getItem(const QModelIndex &index) const
 {
     if (index.isValid()) {
         TreeItem *item = static_cast<TreeItem*>(index.internalPointer());
@@ -108,7 +59,15 @@ TreeItem *TreeModel::getItem(const QModelIndex &index) const
     }
     return rootItem;
 }
-//! [4]
+
+//SequenceTreeItem * TreeModel::getSequenceTreeItem(const QModelIndex &index) const
+//{
+//    if (index.isValid()) {
+//        SequenceTreeItem *item = static_cast<SequenceTreeItem*>(index.internalPointer());
+//        if (item) return item;
+//    }
+//    return NULL;
+//}
 
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
                                int role) const
@@ -119,14 +78,11 @@ QVariant TreeModel::headerData(int section, Qt::Orientation orientation,
     return QVariant();
 }
 
-//! [5]
 QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (parent.isValid() && parent.column() != 0)
         return QModelIndex();
-//! [5]
 
-//! [6]
     TreeItem *parentItem = getItem(parent);
 
     TreeItem *childItem = parentItem->child(row);
@@ -135,7 +91,6 @@ QModelIndex TreeModel::index(int row, int column, const QModelIndex &parent) con
     else
         return QModelIndex();
 }
-//! [6]
 
 bool TreeModel::insertColumns(int position, int columns, const QModelIndex &parent)
 {
@@ -160,7 +115,25 @@ bool TreeModel::insertRows(int position, int rows, const QModelIndex &parent)
     return success;
 }
 
-//! [7]
+//bool TreeModel::insertSequences(int position, int rows, const QModelIndex &parent)
+//{
+//  TreeItem *parentItem = getItem(parent);
+//  bool success;
+//  
+//  beginInsertRows(parent, position, position + rows - 1);
+//  success = parentItem->insertChildren(position, rows, rootItem->columnCount());
+//  endInsertRows();
+//  
+//  return success;
+//}
+
+
+//bool TreeModel::insertSequence(int arow, const QModelIndex &aparent)
+//{ 
+//  return insertRows(arow, 1, aparent); 
+//}
+
+
 QModelIndex TreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -174,7 +147,6 @@ QModelIndex TreeModel::parent(const QModelIndex &index) const
 
     return createIndex(parentItem->childNumber(), 0, parentItem);
 }
-//! [7]
 
 bool TreeModel::removeColumns(int position, int columns, const QModelIndex &parent)
 {
@@ -202,14 +174,12 @@ bool TreeModel::removeRows(int position, int rows, const QModelIndex &parent)
     return success;
 }
 
-//! [8]
 int TreeModel::rowCount(const QModelIndex &parent) const
 {
     TreeItem *parentItem = getItem(parent);
 
     return parentItem->childCount();
 }
-//! [8]
 
 bool TreeModel::setData(const QModelIndex &index, const QVariant &value,
                         int role)

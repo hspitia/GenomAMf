@@ -7,7 +7,10 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/utils/Matrix.h \
+HEADERS += src/gui/CgrResultsForm.h \
+    src/gui/ImageViewer.h \
+    src/gui/SequenceListModel.h \
+    src/utils/Matrix.h \
     src/cgr/ChaosGameRepresentation.h \
     src/utils/Definitions.h \
     src/utils/Message.h \
@@ -22,7 +25,10 @@ HEADERS += src/utils/Matrix.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/cgr/ChaosGameRepresentation.cpp \
+SOURCES += src/gui/CgrResultsForm.cpp \
+    src/gui/ImageViewer.cpp \
+    src/gui/SequenceListModel.cpp \
+    src/cgr/ChaosGameRepresentation.cpp \
     src/utils/Message.cpp \
     src/utils/CustomSequencesContainer.cpp \
     src/gui/SequenceTreeItem.cpp \
@@ -35,7 +41,9 @@ SOURCES += src/cgr/ChaosGameRepresentation.cpp \
     src/gui/MainWindow.cpp \
     src/gui/MfaParametersForm.cpp \
     src/gui/MfaResultsForm.cpp
-FORMS += src/gui/CgrParametersForm.ui \
+FORMS += src/gui/CgrResultsForm.ui \
+    src/gui/ImageViewer.ui \
+    src/gui/CgrParametersForm.ui \
     src/gui/MainWindow.ui \
     src/gui/MfaParametersForm.ui \
     src/gui/MfaResultsForm.ui

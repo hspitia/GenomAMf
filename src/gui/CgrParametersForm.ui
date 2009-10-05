@@ -56,7 +56,14 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <widget class="QListView" name="sequenceListView"/>
+        <widget class="QListView" name="sequenceListView">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionRectVisible">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
