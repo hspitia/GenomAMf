@@ -24,6 +24,8 @@ AppController::AppController(int & argc, char ** argv) :
 {
   seqLoader = new SeqLoader();
   sequences = new CustomSequencesContainer();
+  cgrObjectsCounter = 0;
+  mfaObjectsCounter = 0;
 }
 
 AppController::~AppController()
@@ -32,6 +34,19 @@ AppController::~AppController()
   {
     delete sequences;
     sequences = 0;
+  }
+  
+  if (seqLoader != 0)
+  {
+    delete seqLoader;
+    seqLoader = 0;
+  }
+  
+  if (cgrHash != 0)
+  {
+    cgrHash->clear();
+    delete seqLoader;
+    seqLoader = 0;
   }
 }
 
@@ -66,11 +81,12 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
   return loadedSequences;
 }
 
-const ChaosGameRepresentation * AppController::makeCgr(const Sequence * sequence)
+const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
+                                                       sequence) const
 {
   ChaosGameRepresentation * cgrObject = new ChaosGameRepresentation(sequence);
   cgrObject->performRepresentation();
-  cgrList->append(cgrObject);
+  cgrHash->insert(cgrObjectsCounter, cgrObject);
   return cgrObject;
 }
 
@@ -164,12 +180,3 @@ void AppController::setSequences(CustomSequencesContainer * sequences)
   this->sequences = sequences;
 }
 
-QList<ChaosGameRepresentation *> * AppController::getCgrList()
-{
-  return cgrList;
-}
-
-void AppController::setCgrList(QList<ChaosGameRepresentation *> * cgrList)
-{
-  this->cgrList = cgrList;
-}

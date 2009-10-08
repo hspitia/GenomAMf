@@ -10,6 +10,7 @@ using namespace std;
 #include <QtGui/QImage>
 #include <QtGui/QPushButton>
 #include <QtGui/QWidget>
+#include <QtGui/QIcon>
 
 #include <Seq/Sequence.h>
 
@@ -17,6 +18,7 @@ using namespace bpp;
 
 #include <cgr/ChaosGameRepresentation.h>
 #include <gui/ImageViewer.h>
+#include <utils/Utils.h>
 #include "ui_CgrResultsForm.h"
 
 namespace Ui
@@ -40,6 +42,8 @@ class CgrResultsForm : public QWidget
 
     void setupComponents();
     void connectSignalsSlots();
+    
+    QIcon getIcon(const int & type)const;
     
   private slots:
     void exportImage();

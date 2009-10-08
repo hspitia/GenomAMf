@@ -25,6 +25,9 @@
 #include <QModelIndex>
 #include <QStringList>
 #include <QVariant>
+#include <QIcon>
+
+#include <utils/Utils.h>
 
 
 /**
@@ -35,9 +38,10 @@ class SequenceListModel : public QAbstractListModel
      Q_OBJECT
 
  public:
-//     SequenceListModel(const QList<QStringList> & data, QObject *parent = 0)
-     SequenceListModel(const QStringList &data, QObject *parent = 0)
-         : QAbstractListModel(parent), dataList(data) {}
+//     SequenceListModel(const QStringList &data, QObject *parent = 0)
+     SequenceListModel(const QList<QList<QVariant> > & data, 
+                       QObject *parent = 0) 
+     : QAbstractListModel(parent), dataList(data) {}
 
      int rowCount(const QModelIndex &parent = QModelIndex()) const;
      QVariant data(const QModelIndex &index, int role) const;
@@ -55,8 +59,10 @@ class SequenceListModel : public QAbstractListModel
      
  private:
 //     QStringList stringList;
-//     QList<QStringList> dataList;
-     QStringList dataList;
+     QList<QList<QVariant> > dataList;
+//     QStringList dataList;
+     
+     QIcon getIcon(const int & type) const;
  }; 
     
 #endif /* SEQUENCELISTMODEL_H_ */

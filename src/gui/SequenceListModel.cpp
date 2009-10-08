@@ -34,7 +34,11 @@ QVariant SequenceListModel::data(const QModelIndex &index, int role) const
     return QVariant();
   
   if (role == Qt::DisplayRole)
-    return dataList.at(index.row());
+    return dataList.at(index.row()).at(0); // Nombre de secuencia
+  
+  if (role == Qt::DecorationRole){
+    return getIcon(dataList.at(index.row()).at(1).toInt());
+  }
   else
     return QVariant();
 
@@ -46,9 +50,9 @@ QVariant SequenceListModel::headerData(int section, Qt::Orientation orientation,
     return QVariant();
   
   if (orientation == Qt::Horizontal)
-    return QString("Column %1").arg(section);
+    return QString("Secuencias");
   else
-    return QString("Row %1").arg(section);
+    return QString("Secuencias");
 
 }
 
@@ -66,7 +70,7 @@ bool SequenceListModel::setData(const QModelIndex &index,
   if (index.isValid() && role == Qt::EditRole) {
 //    QStringList strings = value.toStringList();
 //    dataList.replace(index.row(), value.toStringList());
-    dataList.replace(index.row(), value.toString());
+    dataList.replace(index.row(), value.toList());
     emit dataChanged(index, index);
     return true;
   }
@@ -79,7 +83,7 @@ bool SequenceListModel::insertRows(int position, int rows,
   beginInsertRows(QModelIndex(), position, position+rows-1);
   
   for (int row = 0; row < rows; ++row) {
-    dataList.insert(position, QString());
+    dataList.insert(position, QList<QVariant>());
   }
   
   endInsertRows();
@@ -97,4 +101,16 @@ bool SequenceListModel::removeRows(int position, int rows,
   
   endRemoveRows();
   return true;
+}
+
+QIcon SequenceListModel::getIcon(const int & type) const
+{
+  QIcon icon;
+  if(type == GenomAMf::DNA_Alphabet){
+    icon = QIcon(":/icons/icons/seq_dna.png");
+  }
+  else if(type == GenomAMf::Proteic_Alphabet){
+    icon = QIcon(":/icons/icons/seq_protein.png");
+  }
+  return icon;
 }

@@ -20,8 +20,7 @@
 #ifndef CUSTOMSEQUENCESCONTAINER_H_
 #define CUSTOMSEQUENCESCONTAINER_H_
 
-#include <QList>
-
+#include <QtCore/QHash>
 
 #include <Seq/Alphabet.h>
 #include <Seq/AlphabetTools.h>
@@ -48,35 +47,25 @@ class CustomSequencesContainer
     * Retorna 
     * @return 
     */
-    VectorSequenceContainer * getDnaSequences();
-    
-    /**
-    * Asigna 
-    */
-    void setDnaSequences(VectorSequenceContainer * DnaSequences);
+    const VectorSequenceContainer * getDnaSequences() const;
     
     /**
      * Retorna 
      * @return 
      */
-    VectorSequenceContainer *  getProteinSequences();
+    const VectorSequenceContainer *  getProteinSequences() const;
     
-    /**
-     * Asigna 
-     */
-    void setProteinSequences(VectorSequenceContainer *  proteinSequences);
-    
-    /**
-     * 
-     */
-    const Sequence * getDnaSequence(const unsigned int & index) 
-      throw (IndexOutOfBoundsException);
-    
-    /**
-     * 
-     */
-    const Sequence * getProteinSequence(const unsigned int & index) 
-      throw (IndexOutOfBoundsException);
+//    /**
+//     * 
+//     */
+//    const Sequence * getDnaSequence(const unsigned int & index) 
+//      throw (IndexOutOfBoundsException);
+//    
+//    /**
+//     * 
+//     */
+//    const Sequence * getProteinSequence(const unsigned int & index) 
+//      throw (IndexOutOfBoundsException);
     
     /**
      * 
@@ -108,13 +97,13 @@ class CustomSequencesContainer
      * Retorna 
      * @return 
      */
-    QList <const Sequence *> getSequencesList();
+    QHash<int, const Sequence *> getSequences();
 
     /**
      * Retorna 
      * @return 
      */
-    const Sequence * getSequence(const int & index);
+    const Sequence * getSequence(const int & key);
     
     /**
      * Asigna 
@@ -131,19 +120,23 @@ class CustomSequencesContainer
      */
     void addSequence(const Sequence & sequence) throw (Exception);
     
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getCounter();
+    
   private:
-    VectorSequenceContainer * dnaSequences; /**< Contenedor de secuencias de nucleótidos (AND) */
-    VectorSequenceContainer * proteinSequences; /**< comment */
-    QList<const Sequence *> sequencesList; /**< Lista de apuntadores a las secuencias de ADN y proteínas. */
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    VectorSequenceContainer * dnaSequences; /**< Contenedor de secuencias de 
+      nucleótidos (ADN) */
+    VectorSequenceContainer * proteinSequences; /**< Contenedor de secuencias 
+      aminoácidos (proteínas) */
+//    QList<const Sequence *> sequencesList; /**< Lista de apuntadores a las 
+//      secuencias de ADN y proteínas. */
+    QHash<int, const Sequence *> sequences; /**< Hash de apuntadores a las 
+      secuencias de ADN y proteínas. La clave funciona como un identificador 
+      único de cada secuencia*/
+    int counter; /**< Conteo de secuencias adicionadas al contenedor */
 };
 
 #endif /* CUSTOMSEQUENCESCONTAINER_H_ */

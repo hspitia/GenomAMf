@@ -9,6 +9,7 @@ CgrResultsForm::CgrResultsForm(const ChaosGameRepresentation * cgrObject,
   this->fileDialog = new QFileDialog(this);
   setupComponents();
   connectSignalsSlots();
+  
 }
 
 CgrResultsForm::~CgrResultsForm()
@@ -71,6 +72,7 @@ void CgrResultsForm::setupComponents(){
   ui->setupUi(this);
   
   QPushButton * exportButton = new QPushButton(tr("&Exportar"));
+  exportButton->setIcon(getIcon(GenomAMf::DNA_Alphabet));
   ui->buttonBox->addButton(exportButton, QDialogButtonBox::AcceptRole);
   ui->buttonBox->addButton(QDialogButtonBox::Close);
   QString file = "tmp/cgr.png";
@@ -89,4 +91,16 @@ void CgrResultsForm::connectSignalsSlots()
   connect(ui->buttonBox, SIGNAL(accepted()), this, SLOT(exportImage()));
   connect(ui->buttonBox, SIGNAL(rejected()), this->parent(),
             SLOT(closeSubWindow()));
+}
+
+QIcon CgrResultsForm::getIcon(const int & type) const
+{
+  QIcon icon;
+  if(type == GenomAMf::DNA_Alphabet){
+    icon.addFile(QString::fromUtf8(":/icons/icons/seq_dna.png"));
+  }
+  else if(type == GenomAMf::Proteic_Alphabet){
+    icon.addFile(QString::fromUtf8(":/icons/icons/seq_protein.png"));
+  }
+  return icon;
 }

@@ -28,6 +28,17 @@ ChaosGameRepresentation::ChaosGameRepresentation()
   this->translatedSequence = vector<int> ();
 }
 
+ChaosGameRepresentation::ChaosGameRepresentation(const 
+                                                 ChaosGameRepresentation & 
+                                                 cgrObject) 
+{
+//  sequence = new Sequence(*cgrObject.getSequence());
+  sequence = cgrObject.getSequence();
+  matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
+  imagefilePath = cgrObject.imagefilePath;
+  translatedSequence = vector<int>(cgrObject.translatedSequence);
+}
+
 ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
 {
   this->sequence = sequence;
@@ -47,6 +58,16 @@ ChaosGameRepresentation::~ChaosGameRepresentation()
   translatedSequence.clear();
   matrixOfPoints.clear();
   
+}
+
+ChaosGameRepresentation & ChaosGameRepresentation::
+operator=(const ChaosGameRepresentation & cgrObject)
+{
+//  sequence = new Sequence(*cgrObject.getSequence());
+  sequence = cgrObject.getSequence();
+  matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
+  imagefilePath = cgrObject.imagefilePath;
+  translatedSequence = vector<int>(cgrObject.translatedSequence);
 }
 
 void ChaosGameRepresentation::translateSequence()

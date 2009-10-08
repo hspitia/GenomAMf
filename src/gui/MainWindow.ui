@@ -75,17 +75,12 @@ QDockWidget::title {
     <addaction name="loadSequencesAction"/>
     <addaction name="exitAction"/>
    </widget>
-   <widget class="QMenu" name="menuA_n_lisis">
-    <property name="title">
-     <string>A&amp;nálisis</string>
-    </property>
-    <addaction name="makeMultifractalAnalisysAction"/>
-    <addaction name="actionCorrelaci_n"/>
-   </widget>
    <widget class="QMenu" name="menu_Herramientas">
     <property name="title">
      <string>&amp;Herramientas</string>
     </property>
+    <addaction name="makeMultifractalAnalisysAction"/>
+    <addaction name="actionCorrelaci_n"/>
    </widget>
    <widget class="QMenu" name="menuJuego_del_Caos">
     <property name="title">
@@ -106,7 +101,6 @@ QDockWidget::title {
    </widget>
    <addaction name="menu_Archivo"/>
    <addaction name="menuJuego_del_Caos"/>
-   <addaction name="menuA_n_lisis"/>
    <addaction name="menu_Herramientas"/>
    <addaction name="menu_Ventana"/>
    <addaction name="menuTest"/>
@@ -197,9 +191,6 @@ QDockWidget::title {
          <attribute name="headerShowSortIndicator" stdset="0">
           <bool>true</bool>
          </attribute>
-         <attribute name="headerShowSortIndicator" stdset="0">
-          <bool>true</bool>
-         </attribute>
         </widget>
        </item>
       </layout>
@@ -254,7 +245,7 @@ QDockWidget::title {
      <normaloff>:/icons/icons/mfa_start.png</normaloff>:/icons/icons/mfa_start.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Multifractal ...</string>
+    <string>Análisis &amp;Multifractal ...</string>
    </property>
   </action>
   <action name="actionCorrelaci_n">
@@ -263,7 +254,7 @@ QDockWidget::title {
      <normaloff>:/icons/icons/correl_start.png</normaloff>:/icons/icons/correl_start.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Correlación ...</string>
+    <string>Análisis de &amp;Correlación ...</string>
    </property>
   </action>
   <action name="testAction">

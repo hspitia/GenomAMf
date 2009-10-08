@@ -2,11 +2,14 @@
 #define MFAPARAMETERSFORM_H
 
 #include <QtGui/QDialog>
+#include <QtGui/QIcon>
+#include <QtGui/QPushButton>
+
 #include "ui_MfaParametersForm.h"
 
-namespace Ui {
-    class MfaParametersForm;
-}
+//namespace Ui {
+//    class MfaParametersForm;
+//}
 
 class MfaParametersForm : public QDialog
 {

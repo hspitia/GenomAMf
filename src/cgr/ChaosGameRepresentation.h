@@ -60,11 +60,12 @@ class ChaosGameRepresentation
 {
   public:
     ChaosGameRepresentation();
-    
     ChaosGameRepresentation(const Sequence * sequence);
-    
+    ChaosGameRepresentation(const ChaosGameRepresentation & cgrObject);
     virtual ~ChaosGameRepresentation();
     
+    ChaosGameRepresentation & operator=(const ChaosGameRepresentation 
+                                        & cgrObject);
     /**
      * 
      */
@@ -128,6 +129,7 @@ class ChaosGameRepresentation
     vector<int> translatedSequence; /**< Secuencia traducida al alfabeto {0,1,
       2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
       para secuencias de proteínas. */
+    
     
     
     /**

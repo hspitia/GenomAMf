@@ -26,7 +26,7 @@ MainWindow::MainWindow(AppController *parentApp, QWidget *parent) :
 {
   this->parentApp = parentApp;
   this->treeModel = 0;
-  this->sequenceListModel = new SequenceListModel(QStringList());
+  this->sequenceListModel = new SequenceListModel(QList<QList<QVariant> >());
   ui->setupUi(this);
   connectSignalsSlots();
   setUpExplorerTreeView();
@@ -133,21 +133,10 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
   sequenceListModel->insertRows(position,1);
   QModelIndex index = sequenceListModel->index(position,0, QModelIndex()); 
  
-  QString alphabetType;
-  
-  if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
-          == GenomAMf::DNA_Alphabet)
-  {
-    alphabetType = tr("ADN");
-  }
-  else if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
-          == GenomAMf::Proteic_Alphabet)
-  {
-    alphabetType = tr("Proteína");
-  }
-  
-  QString data = QString::fromStdString(sequence->getName());
-//  data << alphabetType;
+  QList<QVariant> data;
+  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+  data << QString::fromStdString(sequence->getName());
+  data << type;
   
   sequenceListModel->setData(index, data);
   

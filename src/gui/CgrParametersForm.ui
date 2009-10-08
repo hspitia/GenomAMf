@@ -57,8 +57,20 @@ p, li { white-space: pre-wrap; }
        </item>
        <item>
         <widget class="QListView" name="sequenceListView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="viewMode">
+          <enum>QListView::ListMode</enum>
          </property>
          <property name="selectionRectVisible">
           <bool>true</bool>

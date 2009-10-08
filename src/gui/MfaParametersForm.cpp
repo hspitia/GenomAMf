@@ -1,4 +1,5 @@
 #include "MfaParametersForm.h"
+#include <utils/Utils.h>
 
 MfaParametersForm::MfaParametersForm(QWidget *parent)
   : QDialog(parent),
@@ -11,3 +12,4 @@ MfaParametersForm::~MfaParametersForm()
 {
   delete ui;
 }
+

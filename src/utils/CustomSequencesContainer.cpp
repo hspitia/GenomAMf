@@ -23,10 +23,13 @@ CustomSequencesContainer::CustomSequencesContainer()
 {
   this->dnaSequences = new VectorSequenceContainer(new DNA());
   this->proteinSequences = new VectorSequenceContainer(new ProteicAlphabet());
+  this->counter = 0;
 }
 
 CustomSequencesContainer::~CustomSequencesContainer()
 {
+  sequences.clear();
+  
   if (dnaSequences != 0)
   {
     delete dnaSequences;
@@ -38,58 +41,49 @@ CustomSequencesContainer::~CustomSequencesContainer()
     delete proteinSequences;
     proteinSequences = 0;
   }
+  
 }
 
-VectorSequenceContainer * CustomSequencesContainer::getDnaSequences()
+const VectorSequenceContainer * CustomSequencesContainer::getDnaSequences() 
+  const
 {
   return dnaSequences;
 }
 
-void CustomSequencesContainer::setDnaSequences(VectorSequenceContainer * 
-                                               dnaSequences)
-{
-  this->dnaSequences = dnaSequences;
-}
-
-VectorSequenceContainer * CustomSequencesContainer::getProteinSequences()
+const VectorSequenceContainer *  CustomSequencesContainer::getProteinSequences() 
+  const
 {
   return proteinSequences;
 }
 
-void CustomSequencesContainer::setProteinSequences(VectorSequenceContainer * 
-                                                   proteinSequences)
-{
-  this->proteinSequences = proteinSequences;
-}
-
-const Sequence * CustomSequencesContainer::getDnaSequence(const 
-                                                          unsigned int & index)
-  throw (IndexOutOfBoundsException)
-{
-  try
-  {
-    return dnaSequences->getSequence(index);
-  }
-  catch (IndexOutOfBoundsException e)
-  { 
-    throw e;
-  }
-}
-
-const Sequence * CustomSequencesContainer::getProteinSequence(const 
-                                                              unsigned int &
-                                                              index) 
-  throw (IndexOutOfBoundsException)
-{
-  try
-  {
-    return proteinSequences->getSequence(index);
-  }
-  catch (IndexOutOfBoundsException e)
-  { 
-    throw e;
-  }
-}
+//const Sequence * CustomSequencesContainer::getDnaSequence(const 
+//                                                          unsigned int & index)
+//  throw (IndexOutOfBoundsException)
+//{
+//  try
+//  {
+//    return dnaSequences->getSequence(index);
+//  }
+//  catch (IndexOutOfBoundsException e)
+//  { 
+//    throw e;
+//  }
+//}
+//
+//const Sequence * CustomSequencesContainer::getProteinSequence(const 
+//                                                              unsigned int &
+//                                                              index) 
+//  throw (IndexOutOfBoundsException)
+//{
+//  try
+//  {
+//    return proteinSequences->getSequence(index);
+//  }
+//  catch (IndexOutOfBoundsException e)
+//  { 
+//    throw e;
+//  }
+//}
 
 const Sequence * CustomSequencesContainer::getDnaSequence(const string & name) 
   throw (SequenceNotFoundException)
@@ -104,7 +98,8 @@ const Sequence * CustomSequencesContainer::getDnaSequence(const string & name)
   }
 }
 
-const Sequence * CustomSequencesContainer::getProteinSequence(const string & name) 
+const Sequence * CustomSequencesContainer::getProteinSequence(const string & 
+                                                              name) 
   throw (SequenceNotFoundException)
 {
   try
@@ -124,8 +119,9 @@ void CustomSequencesContainer::addDnaSequence(const Sequence & sequence)
   try
   {
     dnaSequences->addSequence(sequence, true);
-    const Sequence * seq = &sequence;
-    sequencesList << seq;
+//    const Sequence * seq = &sequence;
+    sequences.insert(counter, &sequence);
+    ++counter;
   }
   catch (Exception e)
   {
@@ -139,8 +135,9 @@ void CustomSequencesContainer::addProteinSequence(const Sequence & sequence)
   try
   {
     proteinSequences->addSequence(sequence, true);
-    const Sequence * seq = &sequence;
-    sequencesList << seq;
+//    const Sequence * seq = &sequence;
+    sequences.insert(counter, &sequence);
+    ++counter;
   }
   catch (Exception e)
   {
@@ -148,19 +145,18 @@ void CustomSequencesContainer::addProteinSequence(const Sequence & sequence)
   }
 }
 
-QList<const Sequence *> CustomSequencesContainer::getSequencesList()
-{
-  return sequencesList;
+QHash<int, const Sequence *> CustomSequencesContainer::getSequences(){
+  return sequences;
 }
 
-const Sequence * CustomSequencesContainer::getSequence(const int & index)
+const Sequence * CustomSequencesContainer::getSequence(const int & key)
 {
-  return sequencesList.at(index);
+  return sequences.value(key);
 }
 
 int CustomSequencesContainer::getNumberOfSequences()
 {
-  return sequencesList.count();
+  return sequences.count();
 }
 
 void CustomSequencesContainer::addSequence(const Sequence & sequence) 
@@ -173,8 +169,9 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
     try
     {
       dnaSequences->addSequence(sequence, true);
-      const Sequence * seq = &sequence;
-      sequencesList << seq;
+//      const Sequence * seq = &sequence;
+      sequences.insert(counter, &sequence);
+      ++counter;
     }
     catch (Exception e)
     {
@@ -187,8 +184,9 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
     try
     {
       proteinSequences->addSequence(sequence, true);
-      const Sequence * seq = &sequence;
-      sequencesList << seq;
+//      const Sequence * seq = &sequence;
+      sequences.insert(counter, &sequence);
+      ++counter;
     }
     catch (Exception e)
     {
@@ -203,4 +201,8 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
                     + ", with " + sequence.getAlphabet()->getAlphabetType());
   }
   
+}
+
+int CustomSequencesContainer::getCounter(){
+  return counter;
 }
