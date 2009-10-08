@@ -73,14 +73,9 @@ void MainWindow::connectSignalsSlots()
 
 void MainWindow::setUpExplorerTreeView()
 {
-//  QFile file("data/default.txt");
-//  QFile file("data/default.txt.bak");
-//  file.open(QIODevice::ReadOnly);
   QStringList headers;
-  headers << "Secuencias" << "Element Type";
-//  treeModel = new TreeModel(headers, file.readAll());
+  headers << "Elementos" << "ItemType" <<"Key";
   treeModel = new TreeModel(headers, QString(""));
-//  file.close();
   
   ui->explorerTreeView->setModel(treeModel);
   for (int column = 0; column < treeModel->columnCount(); ++column)
@@ -100,13 +95,20 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
   QModelIndex index = ui->explorerTreeView->model()->index(count-1, 0);
   
   QVector<QVariant> data;
-  data << QString::fromStdString(sequence->getName());
-  data << MainWindow::SequenceElement;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
   
-//  TreeItem * parentItem = treeModel->getItem(index.parent());
-//  Q_UNUSED(parentItem);
+  // Tipo secuencia
+  if(utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()) == 
+          GenomAMf::DNA_Alphabet)
+    data << TreeItem::DnaSequenceItem; 
+  else if(utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()) == 
+          GenomAMf::Proteic_Alphabet)
+    data << TreeItem::ProteinSequenceItem;
   
-//  if (!treeModel->insertSequence(index.row()+1, index.parent()))
+  cout << "data en tipo: "<< data.at(1).toInt() << endl;
+  // Key de Hash contenedor
+  data << parentApp->getCgrObjectsCounter();
+  
   if (!treeModel->insertRow(index.row()+1, index.parent()))
     return;
   
@@ -121,12 +123,8 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
   QModelIndex itemIndex = treeModel->index(index.row() + 1, 0, index.parent());
   TreeItem * treeItem = treeModel->getItem(itemIndex);
   treeItem->setPtrSequence(sequence);
-  
-  cout<< "Adicionada: " << treeItem->getPtrSequence()->getName() << endl;
-  
 }
 
-//void MainWindow::insertSequenceToSequenceListModel(const QStringList & data)
 void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
 {
   int position = sequenceListModel->rowCount();
@@ -139,11 +137,6 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
   data << type;
   
   sequenceListModel->setData(index, data);
-  
-  cout << "Datos " << endl;
-  cout << "\t" << qPrintable(sequenceListModel->data(index, 
-          Qt::DisplayRole).toString()) << endl;
-  
 }
   
 void MainWindow::insertCgrToTreeView(const QVector<QVariant> & data)

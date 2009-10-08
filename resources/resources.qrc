@@ -29,5 +29,8 @@
         <file>icons/graph_save_2.png</file>
         <file>icons/seq_dna.png</file>
         <file>icons/seq_protein.png</file>
+        <file>icons/cgr_result.png</file>
+        <file>icons/correl_result.png</file>
+        <file>icons/mfa_result.png</file>
     </qresource>
 </RCC>

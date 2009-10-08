@@ -82,11 +82,12 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
 }
 
 const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
-                                                       sequence) const
+                                                       sequence) /*const*/
 {
   ChaosGameRepresentation * cgrObject = new ChaosGameRepresentation(sequence);
   cgrObject->performRepresentation();
   cgrHash->insert(cgrObjectsCounter, cgrObject);
+  ++cgrObjectsCounter;
   return cgrObject;
 }
 
@@ -180,3 +181,11 @@ void AppController::setSequences(CustomSequencesContainer * sequences)
   this->sequences = sequences;
 }
 
+int AppController::getCgrObjectsCounter()
+{
+  return cgrObjectsCounter;
+}
+int AppController::getMfaObjectsCounter()
+{
+  return mfaObjectsCounter;
+}

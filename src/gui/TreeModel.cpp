@@ -37,10 +37,38 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
     if (role != Qt::DisplayRole && role != Qt::EditRole)
         return QVariant();
-
+    
     TreeItem *item = getItem(index);
-
-    return item->data(index.column());
+    if(!item)
+      return QVariant();
+    
+    if (role == Qt::DisplayRole){
+      cout <<"Decoration Role"<<endl;
+      if(index.column() == 0){
+        switch (item->data(1).toInt()){
+          case TreeItem::DnaSequenceItem: 
+          case TreeItem::ProteinSequenceItem:
+            return item->data(index.column());
+          case TreeItem::CgrItem:
+            return tr("Rep. Juego del Caos");
+          case TreeItem::MfaItem:
+            return tr("Análisis Multifractal");
+          case TreeItem::CorrelItem:
+            return tr("Análisis de Correlación");
+          default:
+            return tr("Desconocido");
+        }
+      }
+    }
+    
+    if(role == Qt::DecorationRole){
+      if(index.column() == 0){
+//        cout <<"Decoration Role"<<endl;
+        return getIcon(item->data(1).toInt());
+      }
+    }
+    
+    return QVariant();
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
@@ -260,4 +288,24 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 
         number++;
     }
+}
+
+
+QIcon TreeModel::getIcon(const int & type) const
+{
+  switch (type){
+    case TreeItem::DnaSequenceItem:
+      return QIcon(":/icons/seq_dna.png");
+    case TreeItem::ProteinSequenceItem:
+          return QIcon(":/icons/seq_protein.png");
+    case TreeItem::CgrItem:
+      return QIcon(":/icons/cgr_result.png");
+    case TreeItem::MfaItem:
+      return QIcon(":/icons/mfa_result.png");
+    case TreeItem::CorrelItem:
+      return QIcon(":/icons/correl_result.png");
+    default:
+      return QIcon();
+  }
+  return QIcon();
 }

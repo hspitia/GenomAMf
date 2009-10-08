@@ -56,9 +56,9 @@ QVariant SequenceListModel::headerData(int section, Qt::Orientation orientation,
     return QVariant();
   
   if (orientation == Qt::Horizontal)
-    return QString("Secuencias");
-//  if (orientation == Qt::Vertical)
-    return section+1;
+    return QString("Nombre");
+
+  return section+1;
  }
 
 Qt::ItemFlags SequenceListModel::flags(const QModelIndex &index) const
@@ -73,8 +73,6 @@ bool SequenceListModel::setData(const QModelIndex &index,
                                 const QVariant &value, int role)
 {
   if (index.isValid() && role == Qt::EditRole) {
-//    QStringList strings = value.toStringList();
-//    dataList.replace(index.row(), value.toStringList());
     dataList.replace(index.row(), value.toList());
     emit dataChanged(index, index);
     return true;
@@ -85,6 +83,7 @@ bool SequenceListModel::setData(const QModelIndex &index,
 bool SequenceListModel::insertRows(int position, int rows, 
                                    const QModelIndex &parent)
 {
+  Q_UNUSED(parent);
   beginInsertRows(QModelIndex(), position, position+rows-1);
   
   for (int row = 0; row < rows; ++row) {
@@ -98,6 +97,7 @@ bool SequenceListModel::insertRows(int position, int rows,
 bool SequenceListModel::removeRows(int position, int rows, 
                                    const QModelIndex &parent)
 {
+  Q_UNUSED(parent);
   beginRemoveRows(QModelIndex(), position, position+rows-1);
   
   for (int row = 0; row < rows; ++row) {
@@ -117,22 +117,3 @@ QIcon SequenceListModel::getIcon(const int & type) const
     icon = QIcon(":/icons/seq_protein.png");
   return icon;
 }
-
-//QModelIndex SequenceListModel::index(int row, int column, 
-//                       const QModelIndex & parent = QModelIndex()) const
-//{
-//  if (!parent.isValid() || row < 0 || column < 0)
-//    return QModelIndex();
-////  Node *parentNode = nodeFromIndex(parent);
-////  Node *childNode = parentNode->children.value(row);
-////  if (!childNode)
-////    return QModelIndex();
-//  QList child = dataList.at(row)
-//  return createIndex(row, column, parent);
-//
-//}
-//
-//QModelIndex SequenceListModel::parent(const QModelIndex & index) const
-//{
-//  return QModelIndex();
-//}

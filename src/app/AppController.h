@@ -89,7 +89,7 @@ class AppController : public QApplication
     /**
      * 
      */
-    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence) const;
+    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence) /*const*/;
     // Access
     
 
@@ -127,7 +127,18 @@ class AppController : public QApplication
      */
     void setSequences(CustomSequencesContainer * sequences);
     
-       
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getCgrObjectsCounter();
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getMfaObjectsCounter();
+    
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
     SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
@@ -136,9 +147,12 @@ class AppController : public QApplication
     int cgrObjectsCounter; /**< Contador de objetos de representación del juego 
       del caos creados en la aplicación para asignar valor clave al hash 
       contenedor */
+    
+    
     int mfaObjectsCounter;/**< Contador de objetos de análisis multifractal 
       creados en la aplicación para asignar valor clave al hash 
       contenedor */
+    
     QHash<int, ChaosGameRepresentation *> * cgrHash; /**< Hash de 
       apuntadores a los objetos CGR creados en la aplicación. La clave 
       funciona como un identificador único del objeto */
