@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/icons" >
+    <qresource prefix="/" >
         <file>icons/cgr_start.png</file>
         <file>icons/cgr.png</file>
         <file>icons/correl_start.png</file>
@@ -21,5 +21,13 @@
         <file>icons/taverna_routine_add.png</file>
         <file>icons/taverna_routine.png</file>
         <file>icons/tool.png</file>
+        <file>icons/cgr_save.png</file>
+        <file>icons/graph_Cq_save.png</file>
+        <file>icons/graph_Dq_save.png</file>
+        <file>icons/graph_linear_regression_save.png</file>
+        <file>icons/graph_measures_save.png</file>
+        <file>icons/graph_save_2.png</file>
+        <file>icons/seq_dna.png</file>
+        <file>icons/seq_protein.png</file>
     </qresource>
 </RCC>

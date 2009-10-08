@@ -5,7 +5,7 @@ CgrParametersForm::CgrParametersForm(SequenceListModel * model,
   QDialog(parent), m_ui(new Ui::CgrParametersForm())
 {
   m_ui->setupUi(this);
-  m_ui->sequenceListView->setModel(model);
+  m_ui->sequenceTableView->setModel(model);
 //  m_ui->sequenceListView->
 }
 

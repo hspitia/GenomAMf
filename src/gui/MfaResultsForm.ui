@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
-    <normaloff>:/icons/icons/mfa.png</normaloff>:/icons/icons/mfa.png</iconset>
+    <normaloff>:/icons/mfa.png</normaloff>:/icons/mfa.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
@@ -82,7 +82,7 @@
        <widget class="QWidget" name="tab">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/icons/cgr.png</normaloff>:/icons/icons/cgr.png</iconset>
+          <normaloff>:/icons/cgr.png</normaloff>:/icons/cgr.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Juego del Caos</string>
@@ -101,7 +101,7 @@
        <widget class="QWidget" name="tab_2">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/icons/graph_linear_regression.png</normaloff>:/icons/icons/graph_linear_regression.png</iconset>
+          <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Regresión Lineal</string>
@@ -110,7 +110,7 @@
        <widget class="QWidget" name="tab_3">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/icons/graph_Dq.png</normaloff>:/icons/icons/graph_Dq.png</iconset>
+          <normaloff>:/icons/graph_Dq.png</normaloff>:/icons/graph_Dq.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Espectro Dq</string>
@@ -119,7 +119,7 @@
        <widget class="QWidget" name="tab_4">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/icons/graph_Cq.png</normaloff>:/icons/icons/graph_Cq.png</iconset>
+          <normaloff>:/icons/graph_Cq.png</normaloff>:/icons/graph_Cq.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Calor Específico Análogo</string>
@@ -128,7 +128,7 @@
        <widget class="QWidget" name="tab_5">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/icons/table.png</normaloff>:/icons/icons/table.png</iconset>
+          <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
         </attribute>
         <attribute name="title">
          <string>Tabla de Resultados</string>

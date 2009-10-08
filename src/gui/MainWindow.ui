@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>GenomAMf</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/icons/mfa.png</normaloff>:/icons/mfa.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">/* QGroupBox {
     border: 1px solid gray;
@@ -32,6 +36,12 @@ QDockWidget::title {
     padding-left: 6px;
     padding-top: 4px;
  }</string>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>16</width>
+    <height>16</height>
+   </size>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -212,7 +222,7 @@ QDockWidget::title {
   <action name="loadSequencesAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/seq_add.png</normaloff>:/icons/icons/seq_add.png</iconset>
+     <normaloff>:/icons/seq_add.png</normaloff>:/icons/seq_add.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Adicionar Secuencias</string>
@@ -221,7 +231,7 @@ QDockWidget::title {
   <action name="exitAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/exit.png</normaloff>:/icons/icons/exit.png</iconset>
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Salir</string>
@@ -233,7 +243,7 @@ QDockWidget::title {
   <action name="makeCgrAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/cgr_start.png</normaloff>:/icons/icons/cgr_start.png</iconset>
+     <normaloff>:/icons/cgr_start.png</normaloff>:/icons/cgr_start.png</iconset>
    </property>
    <property name="text">
     <string>Realizar &amp;Representación ...</string>
@@ -242,7 +252,7 @@ QDockWidget::title {
   <action name="makeMultifractalAnalisysAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/mfa_start.png</normaloff>:/icons/icons/mfa_start.png</iconset>
+     <normaloff>:/icons/mfa_start.png</normaloff>:/icons/mfa_start.png</iconset>
    </property>
    <property name="text">
     <string>Análisis &amp;Multifractal ...</string>
@@ -251,7 +261,7 @@ QDockWidget::title {
   <action name="actionCorrelaci_n">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/correl_start.png</normaloff>:/icons/icons/correl_start.png</iconset>
+     <normaloff>:/icons/correl_start.png</normaloff>:/icons/correl_start.png</iconset>
    </property>
    <property name="text">
     <string>Análisis de &amp;Correlación ...</string>
@@ -260,7 +270,7 @@ QDockWidget::title {
   <action name="testAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/icons/tool.png</normaloff>:/icons/icons/tool.png</iconset>
+     <normaloff>:/icons/tool.png</normaloff>:/icons/tool.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Test Action</string>

@@ -25,6 +25,12 @@ int SequenceListModel::rowCount(const QModelIndex &parent) const
   return dataList.count();
 }
 
+int SequenceListModel::columnCount(const QModelIndex &parent) const
+{
+  Q_UNUSED(parent);
+  return 1;
+}
+
 QVariant SequenceListModel::data(const QModelIndex &index, int role) const
 {
   if (!index.isValid())
@@ -51,10 +57,9 @@ QVariant SequenceListModel::headerData(int section, Qt::Orientation orientation,
   
   if (orientation == Qt::Horizontal)
     return QString("Secuencias");
-  else
-    return QString("Secuencias");
-
-}
+//  if (orientation == Qt::Vertical)
+    return section+1;
+ }
 
 Qt::ItemFlags SequenceListModel::flags(const QModelIndex &index) const
 {
@@ -106,11 +111,28 @@ bool SequenceListModel::removeRows(int position, int rows,
 QIcon SequenceListModel::getIcon(const int & type) const
 {
   QIcon icon;
-  if(type == GenomAMf::DNA_Alphabet){
-    icon = QIcon(":/icons/icons/seq_dna.png");
-  }
-  else if(type == GenomAMf::Proteic_Alphabet){
-    icon = QIcon(":/icons/icons/seq_protein.png");
-  }
+  if(type == GenomAMf::DNA_Alphabet)
+    icon = QIcon(":/icons/seq_dna.png");
+  else if(type == GenomAMf::Proteic_Alphabet)
+    icon = QIcon(":/icons/seq_protein.png");
   return icon;
 }
+
+//QModelIndex SequenceListModel::index(int row, int column, 
+//                       const QModelIndex & parent = QModelIndex()) const
+//{
+//  if (!parent.isValid() || row < 0 || column < 0)
+//    return QModelIndex();
+////  Node *parentNode = nodeFromIndex(parent);
+////  Node *childNode = parentNode->children.value(row);
+////  if (!childNode)
+////    return QModelIndex();
+//  QList child = dataList.at(row)
+//  return createIndex(row, column, parent);
+//
+//}
+//
+//QModelIndex SequenceListModel::parent(const QModelIndex & index) const
+//{
+//  return QModelIndex();
+//}

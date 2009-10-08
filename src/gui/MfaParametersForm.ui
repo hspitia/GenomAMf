@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Análisis Multifractal</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/icons/mfa.png</normaloff>:/icons/mfa.png</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="margin">
     <number>0</number>
@@ -180,7 +184,9 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

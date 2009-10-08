@@ -21,6 +21,7 @@
 #define SEQUENCELISTMODEL_H_
 
 #include <QAbstractListModel>
+#include <QAbstractItemModel>
 #include <QList>
 #include <QModelIndex>
 #include <QStringList>
@@ -33,7 +34,9 @@
 /**
  * 
  */
-class SequenceListModel : public QAbstractListModel
+//class SequenceListModel : public QAbstractListModel
+//class SequenceListModel : public QAbstractItemModel
+class SequenceListModel : public QAbstractTableModel
  {
      Q_OBJECT
 
@@ -41,9 +44,12 @@ class SequenceListModel : public QAbstractListModel
 //     SequenceListModel(const QStringList &data, QObject *parent = 0)
      SequenceListModel(const QList<QList<QVariant> > & data, 
                        QObject *parent = 0) 
-     : QAbstractListModel(parent), dataList(data) {}
+     : QAbstractTableModel(parent), dataList(data) {}
+//     : QAbstractItemModel(parent), dataList(data) {}
+//     : QAbstractListModel(parent), dataList(data) {}
 
      int rowCount(const QModelIndex &parent = QModelIndex()) const;
+     int columnCount(const QModelIndex &parent) const;
      QVariant data(const QModelIndex &index, int role) const;
      QVariant headerData(int section, Qt::Orientation orientation,
                          int role = Qt::DisplayRole) const;
@@ -56,6 +62,9 @@ class SequenceListModel : public QAbstractListModel
                      const QModelIndex &index = QModelIndex());
      bool removeRows(int position, int rows, 
                      const QModelIndex &index = QModelIndex());
+     
+//     QModelIndex index(int row, int column, 
+//                       const QModelIndex & parent = QModelIndex()) const;
      
  private:
 //     QStringList stringList;
