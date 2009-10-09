@@ -2,24 +2,47 @@
 
 CgrParametersForm::CgrParametersForm(SequenceListModel * model, 
                                      QWidget *parent) :
-  QDialog(parent), m_ui(new Ui::CgrParametersForm())
+  QDialog(parent), ui(new Ui::CgrParametersForm())
 {
-  m_ui->setupUi(this);
-  m_ui->sequenceTableView->setModel(model);
-//  m_ui->sequenceListView->
+  sequenceSelectedKey = 0;
+  ui->setupUi(this);
+  ui->sequenceTableView->setModel(model);
+  ui->sequenceTableView->selectRow(0);
 }
 
 CgrParametersForm::~CgrParametersForm()
 {
-  delete m_ui;
+  delete ui;
 }
 
 Ui::CgrParametersForm * CgrParametersForm::getUi()
 {
-  return m_ui;
+  return ui;
 }
 
-void CgrParametersForm::setUi(Ui::CgrParametersForm * m_ui)
+void CgrParametersForm::setUi(Ui::CgrParametersForm * ui)
 {
-  this->m_ui = m_ui;
+  this->ui = ui;
 }
+
+int CgrParametersForm::getSequenceSelectedKey(){
+  return sequenceSelectedKey;
+}
+
+void CgrParametersForm::done(int result)
+{
+  // TODO Verificar validación de existencia de modelo o index
+  
+  if (result == QDialog::Accepted) {
+    QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
+    QAbstractItemModel *model = ui->sequenceTableView->model();}
+//
+//    sequenceSelectedKey = model->data(index,Qt::UserRole).toInt();
+////    
+////    QListWidgetItem *item = listWidget->currentItem();
+////    if (item)
+////      id = item->data(Qt::UserRole).toInt();
+//  }
+  QDialog::done(result);
+}
+

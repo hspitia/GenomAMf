@@ -29,10 +29,9 @@
 #include <Utils/Exceptions.h>
 #include <utils/Utils.h>
 
-
-
 using namespace bpp;
 
+#include <string>
 
 /**
  * 
@@ -42,100 +41,109 @@ class CustomSequencesContainer
   public:
     CustomSequencesContainer();
     virtual ~CustomSequencesContainer();
-    
+
     /**
-    * Retorna 
-    * @return 
-    */
-    const VectorSequenceContainer * getDnaSequences() const;
+     * Retorna 
+     * @return 
+     */
+    DNA * getDnaAlphabet();
+
+    /**
+     * Retorna 
+     * @return 
+     */
+    ProteicAlphabet * getProteicAlphabet();
     
     /**
      * Retorna 
      * @return 
      */
-    const VectorSequenceContainer *  getProteinSequences() const;
-    
-//    /**
-//     * 
-//     */
-//    const Sequence * getDnaSequence(const unsigned int & index) 
-//      throw (IndexOutOfBoundsException);
-//    
-//    /**
-//     * 
-//     */
-//    const Sequence * getProteinSequence(const unsigned int & index) 
-//      throw (IndexOutOfBoundsException);
-    
+    const VectorSequenceContainer * getDnaSequences() const;
+
     /**
-     * 
+     * Retorna 
+     * @return 
      */
-    const Sequence * getDnaSequence(const string & name) throw 
-      (SequenceNotFoundException);
+    const VectorSequenceContainer * getProteinSequences() const;
 
     /**
      * 
      */
-    const Sequence * getProteinSequence(const string & name) throw 
-      (SequenceNotFoundException);
-    
+    const Sequence
+            * getDnaSequence(const string & name)
+                                                  throw (SequenceNotFoundException);
+
+    /**
+     * 
+     */
+    const Sequence
+            * getProteinSequence(const string & name)
+                                                      throw (SequenceNotFoundException);
+
     /**
      * Adiciona una secuencia de nucleótidos al contenedor de secuencias de 
      * ADN de la aplicación.
      * @param sequence La secuencia a ser adicionada  
      */
     void addDnaSequence(const Sequence & sequence) throw (Exception);
-    
+
     /**
      * Adiciona una secuencia de aminoácidos al contenedor de secuencias de 
      * proteínas de la aplicación.
      * @param sequence La secuencia a ser adicionada
      */
     void addProteinSequence(const Sequence & sequence) throw (Exception);
-    
+
     /**
      * Retorna 
      * @return 
      */
-    QHash<int, const Sequence *> getSequences();
+    const QHash<int, const Sequence *> getSequencesHash() const;
 
     /**
      * Retorna 
      * @return 
      */
     const Sequence * getSequence(const int & key);
-    
+
     /**
      * Asigna 
      */
     void setSequence(const Sequence * sequence);
-    
+
     /**
      * 
      */
-    int getNumberOfSequences();
-    
+    int getNumberOfSequences() const;
+
     /**
      * 
      */
     void addSequence(const Sequence & sequence) throw (Exception);
-    
+
     /**
      * Retorna 
      * @return 
      */
     int getCounter();
-    
+
   private:
+    DNA * dnaAlphabet; /**< Alfabeto DNA para el contenedor de 
+      secuencias ADN */
+
+    ProteicAlphabet * proteicAlphabet; /**< Alfabeto Proteic para el contenedor de 
+      secuencias de proteínas */
+
     VectorSequenceContainer * dnaSequences; /**< Contenedor de secuencias de 
-      nucleótidos (ADN) */
+     nucleótidos (ADN) */
     VectorSequenceContainer * proteinSequences; /**< Contenedor de secuencias 
-      aminoácidos (proteínas) */
-//    QList<const Sequence *> sequencesList; /**< Lista de apuntadores a las 
-//      secuencias de ADN y proteínas. */
-    QHash<int, const Sequence *> sequences; /**< Hash de apuntadores a las 
-      secuencias de ADN y proteínas. La clave funciona como un identificador 
-      único de cada secuencia*/
+     aminoácidos (proteínas) */
+    //    QList<const Sequence *> sequencesList; /**< Lista de apuntadores a las 
+    //      secuencias de ADN y proteínas. */
+
+    QHash<int, const Sequence *> sequencesHash; /**< Hash de apuntadores a las 
+     secuencias de ADN y proteínas. La clave funciona como un identificador 
+     único de cada secuencia*/
     int counter; /**< Conteo de secuencias adicionadas al contenedor */
 };
 

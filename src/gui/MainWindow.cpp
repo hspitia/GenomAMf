@@ -87,6 +87,12 @@ void MainWindow::setUpExplorerTreeView()
   
 }
 
+void MainWindow::addSequenceToModels(const Sequence * sequence) 
+{
+  insertSequenceToTreeView(sequence);
+  insertSequenceToSequenceListModel(sequence);
+}
+
 //void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
 void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
 {
@@ -97,7 +103,7 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
   QVector<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
   
-  // Tipo secuencia
+  // Tipo de item según el tipo de secuencia
   if(utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()) == 
           GenomAMf::DNA_Alphabet)
     data << TreeItem::DnaSequenceItem; 
@@ -105,9 +111,8 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
           GenomAMf::Proteic_Alphabet)
     data << TreeItem::ProteinSequenceItem;
   
-  cout << "data en tipo: "<< data.at(1).toInt() << endl;
   // Key de Hash contenedor
-  data << parentApp->getCgrObjectsCounter();
+  data << parentApp->getSequences()->getSequencesHash().key(sequence);
   
   if (!treeModel->insertRow(index.row()+1, index.parent()))
     return;
@@ -119,10 +124,6 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
                                          index.parent());
     treeModel->setData(child, data.at(column), Qt::EditRole);
   }
-  
-  QModelIndex itemIndex = treeModel->index(index.row() + 1, 0, index.parent());
-  TreeItem * treeItem = treeModel->getItem(itemIndex);
-  treeItem->setPtrSequence(sequence);
 }
 
 void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
@@ -133,8 +134,9 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence)
  
   QList<QVariant> data;
   int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
-  data << QString::fromStdString(sequence->getName());
-  data << type;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
+  data << type; // tipo secuencia (ADN - Proteína)
+  data << parentApp->getSequences()->getSequencesHash().key(sequence); // Key en hash
   
   sequenceListModel->setData(index, data);
 }
@@ -181,7 +183,7 @@ void MainWindow::loadSequences()
   int loadedSequencesType = GenomAMf::Undefined_Alphabet;
   QString fileName = QFileDialog::getOpenFileName(this, 
                                                   tr("Carga de secuencias"),
-                                                  ".",
+                                                  "./data/sequences",
                                                   tr("Archivos de secuencias "
                                                           "(*.fna *.fasta *.fas)"));
   
@@ -224,6 +226,19 @@ void MainWindow::loadSequences()
     msgBox.setIcon(icon);
     msgBox.setTextFormat(Qt::RichText);
     msgBox.exec();
+    
+//    QHashIterator<int, const Sequence *> i(parentApp->getSequences()->getSequences());
+//    cout <<"MainWindow::232: Contenido CustomSecuenceContainer: " << endl;;
+//    while (i.hasNext()) {
+//        i.next();
+//        cout << i.key() << " : "
+//              << qPrintable(QString::fromStdString(i.value()->getName()))
+//              << " key: "
+//              << parentApp->getSequences()->getSequences().key(i.value())
+//              << endl;
+//    }
+   
+    
   }
   
 }
@@ -236,7 +251,9 @@ void MainWindow::makeCgr()
   if(cgrParametersForm->exec()){
     QMessageBox msgBox;
     msgBox.setText("Recibido del dialogo");
-    msgBox.setInformativeText(cgrParametersForm->getUi()->sequenceLabel->text());
+//    msgBox.setInformativeText(cgrParametersForm->getUi()->sequenceLabel->text());
+    msgBox.setInformativeText(QString("Key sequence: ")
+            .arg(cgrParametersForm->getSequenceSelectedKey()));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setTextFormat(Qt::RichText);

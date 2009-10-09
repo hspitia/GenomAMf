@@ -33,6 +33,7 @@
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
+#include <Seq/AlphabetTools.h>
 #include <Seq/DNA.h>
 #include <Seq/Sequence.h>
 #include <Seq/VectorSequenceContainer.h>
@@ -189,7 +190,9 @@ void performCgr(){
 //  VectorSequenceContainer *vec =  sl->load("data/sequences/homo_sapiens/hbb_protein_frame_1.fasta");
 //  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/Buchnera_protein.fasta");
 //  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_genome_all_000124.fasta");
-  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_protein_frame_1.fasta");
+  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_protein_frame_1.fasta",
+          new DNA(),
+          new ProteicAlphabet());
   Sequence * seq = const_cast<Sequence* >(vec->getSequence(0));
 //  cout << "Secuencia: " << endl << seq->toString() << endl;
   ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
@@ -215,7 +218,9 @@ void testPaint(){
 
 void linkProteinSequence(){
   SeqLoader * sl = new SeqLoader(); 
-  VectorSequenceContainer *vec =  sl->load("/home/hector/Escritorio/buchnera.fasta");
+  VectorSequenceContainer *vec =  sl->load("/home/hector/Escritorio/buchnera.fasta",
+          new DNA(),
+          new ProteicAlphabet());
   
   Sequence * newSeq = new Sequence("Buchnera sp APS","", new ProteicAlphabet());
   for (unsigned int i = 0; i < vec->getNumberOfSequences(); ++i)
@@ -234,7 +239,8 @@ void linkProteinSequence(){
 int main(int argc, char *argv[])
 {
   AppController * app = new AppController(argc, argv);
-  app->getMainWindow()->showMaximized();
+//  app->getMainWindow()->showMaximized();
+  app->getMainWindow()->show();
   return app->exec();
 
 //  Q_UNUSED(argc);

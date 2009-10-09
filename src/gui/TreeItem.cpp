@@ -11,26 +11,16 @@
 
 class SequenceTreeItem;
 
-//TreeItem::TreeItem(ItemType type, const QVector<QVariant> &data,
 TreeItem::TreeItem(const QVector<QVariant> &data,
                    TreeItem *parent)
 {
-//  itemType = type;
   parentItem = parent;
   itemData = data;
-  ptrCgr = 0;
-  ptrSequence = 0;
 }
 
 TreeItem::~TreeItem()
 {
   qDeleteAll(childItems);
-  
-  if (ptrCgr != 0) ptrCgr = 0;
-  delete ptrCgr;
-  
-  if (ptrSequence != 0) ptrSequence = 0;
-  delete ptrSequence;
 }
 
 TreeItem *TreeItem::child(int number)
@@ -145,29 +135,4 @@ bool TreeItem::setData(int column, const QVariant &value)
 
   itemData[column] = value;
   return true;
-}
-
-const Sequence * TreeItem::getPtrSequence()
-{
-  return ptrSequence;
-}
-
-void TreeItem::setPtrSequence(const Sequence * ptrSequence)
-{
-  this->ptrSequence = ptrSequence;
-}
-
-const ChaosGameRepresentation * TreeItem::getPtrCgr()
-{
-  return ptrCgr;
-}
-
-void TreeItem::setPtrCgr(const ChaosGameRepresentation * ptrCgr)
-{
-  this->ptrCgr = ptrCgr;
-}
-
-int TreeItem::getItemType()
-{
-  return itemType;
 }

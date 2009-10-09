@@ -35,7 +35,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole && role != Qt::EditRole)
+    if (role != Qt::DisplayRole && 
+            role != Qt::EditRole && 
+            role != Qt::DecorationRole)
         return QVariant();
     
     TreeItem *item = getItem(index);
@@ -43,7 +45,6 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
       return QVariant();
     
     if (role == Qt::DisplayRole){
-      cout <<"Decoration Role"<<endl;
       if(index.column() == 0){
         switch (item->data(1).toInt()){
           case TreeItem::DnaSequenceItem: 
@@ -59,11 +60,13 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
             return tr("Desconocido");
         }
       }
+      else{
+        return item->data(index.column()).toInt();
+      }
     }
     
     if(role == Qt::DecorationRole){
       if(index.column() == 0){
-//        cout <<"Decoration Role"<<endl;
         return getIcon(item->data(1).toInt());
       }
     }
@@ -216,6 +219,7 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value,
         return false;
 
     TreeItem *item = getItem(index);
+    cout << "index.column(): " << index.column() << "value: " << qPrintable(value.toString()) << endl; 
     bool result = item->setData(index.column(), value);
 
     if (result)
@@ -289,7 +293,6 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
         number++;
     }
 }
-
 
 QIcon TreeModel::getIcon(const int & type) const
 {

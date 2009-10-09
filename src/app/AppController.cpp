@@ -22,7 +22,7 @@
 AppController::AppController(int & argc, char ** argv) :
   QApplication(argc, argv), mainWindow(new MainWindow(this))
 {
-  seqLoader = new SeqLoader();
+//  seqLoader = new SeqLoader();
   sequences = new CustomSequencesContainer();
   cgrObjectsCounter = 0;
   mfaObjectsCounter = 0;
@@ -36,25 +36,22 @@ AppController::~AppController()
     sequences = 0;
   }
   
-  if (seqLoader != 0)
-  {
-    delete seqLoader;
-    seqLoader = 0;
-  }
-  
   if (cgrHash != 0)
   {
     cgrHash->clear();
-    delete seqLoader;
-    seqLoader = 0;
+    delete cgrHash;
+    cgrHash = 0;
   }
 }
 
 int AppController::loadSequences(const string & fileName, int & seqLoadedType)
 {
   int loadedSequences = 0;
+  SeqLoader * seqLoader = new SeqLoader();
   
-  VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
+  VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName,
+          sequences->getDnaAlphabet(),
+          sequences->getProteicAlphabet());
   
   seqLoadedType = utils::getAlphabetType(tmpSeqs->getAlphabet()->
                                          getAlphabetType());
@@ -63,12 +60,10 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
   {
     try
     {
-      sequences->addSequence((*(tmpSeqs->getSequence(i))));
-      mainWindow->insertSequenceToTreeView(sequences->getSequence(sequences->
-              getNumberOfSequences() - 1));
-      mainWindow->insertSequenceToSequenceListModel(sequences->
-              getSequence(sequences->getNumberOfSequences() - 1));
-      loadedSequences++;
+      sequences->addSequence(*(tmpSeqs->getSequence(i)));
+      int key = sequences->getNumberOfSequences() - 1;
+      mainWindow->addSequenceToModels(sequences->getSequence(key));
+      ++loadedSequences;
     }
     catch (Exception e)
     {
@@ -91,65 +86,6 @@ const ChaosGameRepresentation * AppController::makeCgr(const Sequence *
   return cgrObject;
 }
 
-//int AppController::loadSequences(const string & fileName, int & seqLoadedType)
-//{
-//  int loadedSequences = 0;
-//  
-//  VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName);
-//  
-//  if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
-//          == GenomAMf::DNA_Alphabet)
-//  {
-//    seqLoadedType = GenomAMf::DNA_Alphabet;
-//    
-//    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
-//    {
-//      try
-//      {
-//        sequences->addDnaSequence(*(tmpSeqs->getSequence(i)));
-//        QVector<QVariant> data;
-//        data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
-//        data << sequences->getNumberOfSequences() - 1;
-//        mainWindow->insertSequenceToTreeView(data);
-//        cout << "Adicionada secuencia DNA - OK" << endl;
-//        loadedSequences++;
-//      }
-//      catch (Exception e)
-//      {
-//        cout << "\tYa está!!" << endl;
-//        // La secuencia ya se encuentra cargada. Continúa cargando el
-//        // resto de secuencias.
-//      }
-//    }
-//  }
-//  else if (utils::getAlphabetType(tmpSeqs->getAlphabet()->getAlphabetType())
-//          == GenomAMf::Proteic_Alphabet)
-//  {
-//    seqLoadedType = GenomAMf::Proteic_Alphabet;
-//    
-//    for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
-//    {
-//      try
-//      {
-//        sequences->addProteinSequence((*(tmpSeqs->getSequence(i))));
-//        QVector<QVariant> data;
-//        data << QString::fromStdString(tmpSeqs->getSequence(i)->getName());
-//        data << sequences->getNumberOfSequences() - 1;
-//        mainWindow->insertSequenceToTreeView(data);
-//        cout << "Adicionada secuencia proteína - OK" << endl;
-//        loadedSequences++;
-//      }
-//      catch (Exception e)
-//      {
-//        cout << "\tYa está!!" << endl;
-//        // La secuencia ya se encuentra cargada. Continúa cargando el
-//        // resto de secuencias.
-//      }
-//    }
-//  }
-//  
-//  return loadedSequences;
-//}
 
 MainWindow * AppController::getMainWindow()
 {
@@ -161,17 +97,7 @@ void AppController::setMainWindow(MainWindow *mainWindow)
   this->mainWindow = mainWindow;
 }
 
-SeqLoader * AppController::getSeqLoader() const
-{
-  return seqLoader;
-}
-
-void AppController::setSeqLoader(SeqLoader * seqLoader)
-{
-  this->seqLoader = seqLoader;
-}
-
-CustomSequencesContainer * AppController::getSequences()
+const CustomSequencesContainer * AppController::getSequences() const
 {
   return sequences;
 }

@@ -105,22 +105,10 @@ class AppController : public QApplication
     void setMainWindow(MainWindow * mainWindow);
 
     /**
-     * 
-     * @return
-     */
-    SeqLoader * getSeqLoader() const;
-
-    /**
-     *
-     * @param seqLoader
-     */
-    void setSeqLoader(SeqLoader * seqLoader);
-
-    /**
      * Retorna 
      * @return 
      */
-    CustomSequencesContainer * getSequences();
+    const CustomSequencesContainer * getSequences() const;
 
     /**
      * Asigna 
@@ -141,7 +129,7 @@ class AppController : public QApplication
     
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
-    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
+//    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
     CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
       proteínas de la aplicación. */
     int cgrObjectsCounter; /**< Contador de objetos de representación del juego 

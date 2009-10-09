@@ -27,10 +27,23 @@ public:
     /**
      * Asigna 
      */
-    void setUi(Ui::CgrParametersForm * m_ui);
+    void setUi(Ui::CgrParametersForm * ui);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getSequenceSelectedKey();
+    
+    void done(int result);
     
 private:
-    Ui::CgrParametersForm *m_ui;
+    Ui::CgrParametersForm *ui;
+    int sequenceSelectedKey; /**< Clave de la secuencia seleccionada por el 
+      usuario */
+    
+    
+    
 };
 
 #endif // CGRPARAMETERSFORM_H

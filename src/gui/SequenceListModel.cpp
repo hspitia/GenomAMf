@@ -42,9 +42,12 @@ QVariant SequenceListModel::data(const QModelIndex &index, int role) const
   if (role == Qt::DisplayRole)
     return dataList.at(index.row()).at(0); // Nombre de secuencia
   
-  if (role == Qt::DecorationRole){
-    return getIcon(dataList.at(index.row()).at(1).toInt());
-  }
+  if (role == Qt::DecorationRole)
+    return getIcon(dataList.at(index.row()).at(1).toInt()); // Icono según tipo
+  
+  if (role == Qt::UserRole)
+    return dataList.at(index.row()).at(2); // Valor Key
+  
   else
     return QVariant();
 

@@ -23,26 +23,30 @@
 
 SeqLoader::SeqLoader()
 {
-  this->sequences = 0;
+//  this->sequences = 0;
 }
 
 SeqLoader::~SeqLoader()
 {
-  if (sequences != 0)
-  {
-    delete sequences;
-    sequences = 0;
-  }
+//  if (sequences != 0)
+//  {
+//    delete sequences;
+//    sequences = 0;
+//  }
 }
 
-VectorSequenceContainer * SeqLoader::load(const string & filePath)
+VectorSequenceContainer * SeqLoader::load(const string & filePath,
+                                          const DNA * dnaAlphabet,
+                                          const ProteicAlphabet * 
+                                          proteicAlphabet)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
-  
+  VectorSequenceContainer * sequences;
+   
   try
   {
-    sequences = seqReader->read(filePath, alphabet);
+    sequences = seqReader->read(filePath, dnaAlphabet);
   }
   catch (Exception e)
   {
@@ -50,7 +54,7 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath)
     alphabet = new ProteicAlphabet();
     try
     {
-      sequences = seqReader->read(filePath, alphabet);
+      sequences = seqReader->read(filePath, proteicAlphabet);
     }
     catch (Exception e)
     { 
@@ -62,11 +66,12 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath)
   
   return sequences;
 }
-
+// TODO cambiar implementación incluyendo alfabetos tal como en el método load
 VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
+  VectorSequenceContainer * sequences;
   
   try
   {
@@ -81,10 +86,12 @@ VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
   return sequences;
 }
 
+// TODO cambiar implementación incluyendo alfabetos tal como en el método load
 VectorSequenceContainer * SeqLoader::loadProteinSequences(const string & filePath)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new ProteicAlphabet();
+  VectorSequenceContainer * sequences;
   
   try
   {

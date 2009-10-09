@@ -59,22 +59,26 @@ class SeqLoader {
     /**
      * 
      */
-    VectorSequenceContainer * load(const string & filePath);
+    VectorSequenceContainer * load(const string & filePath,
+                                   const DNA * dnaAlphabet,
+                                   const ProteicAlphabet * proteicAlphabet);
     
     /**
      * 
      */
+    // TODO cambiar prototipo incluyendo alfabetos tal como en el método load
     VectorSequenceContainer * loadDnaSequences(const string & filePath);
     
     /**
      * 
      */
+    // TODO cambiar prototipo incluyendo alfabetos tal como en el método load
     VectorSequenceContainer * loadProteinSequences(const string & filePath);
     
   private:
     // Atributos
 //    Alphabet * alphabet; /**< Alfabeto de las secuencias de entrada. */
-    VectorSequenceContainer * sequences; /**< Contenedor de las secuencias cargadas. */
+//    VectorSequenceContainer * sequences; /**< Contenedor de las secuencias cargadas. */
     
     
     // Metodos

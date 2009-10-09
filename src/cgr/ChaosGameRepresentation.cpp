@@ -68,6 +68,7 @@ operator=(const ChaosGameRepresentation & cgrObject)
   matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
   imagefilePath = cgrObject.imagefilePath;
   translatedSequence = vector<int>(cgrObject.translatedSequence);
+  return *this;
 }
 
 void ChaosGameRepresentation::translateSequence()

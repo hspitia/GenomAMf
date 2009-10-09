@@ -94,15 +94,9 @@ class MainWindow : public QMainWindow
      */
     void setSequenceListModel(SequenceListModel *  sequenceListModel);
     
-    /**
-     * 
-     */
-//    void insertSequenceToTreeView(const QVector<QVariant> & data);
-    void insertSequenceToTreeView(const Sequence * sequence);
     
-//    void insertSequenceToSequenceListModel(const QStringList & data);
-    void insertSequenceToSequenceListModel(const Sequence * sequence);
-    
+    void addSequenceToModels(const Sequence * sequence);
+
     void insertCgrToTreeView(const QVector<QVariant> & data);
     
     /* 
@@ -128,6 +122,13 @@ class MainWindow : public QMainWindow
      * Inicializa el explorador de elementos.
      */
     void setUpExplorerTreeView();
+    
+    /**
+     * 
+     */
+    void insertSequenceToTreeView(const Sequence * sequence/*, const int & key*/);
+    
+    void insertSequenceToSequenceListModel(const Sequence * sequence);
     
 //    /**
 //     * 

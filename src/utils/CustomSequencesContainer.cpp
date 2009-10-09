@@ -21,14 +21,16 @@
 
 CustomSequencesContainer::CustomSequencesContainer()
 {
-  this->dnaSequences = new VectorSequenceContainer(new DNA());
-  this->proteinSequences = new VectorSequenceContainer(new ProteicAlphabet());
+  this->dnaAlphabet = new DNA();
+  this->proteicAlphabet = new ProteicAlphabet();
+  this->dnaSequences = new VectorSequenceContainer(dnaAlphabet);
+  this->proteinSequences = new VectorSequenceContainer(proteicAlphabet);
   this->counter = 0;
 }
 
 CustomSequencesContainer::~CustomSequencesContainer()
 {
-  sequences.clear();
+  sequencesHash.clear();
   
   if (dnaSequences != 0)
   {
@@ -43,6 +45,17 @@ CustomSequencesContainer::~CustomSequencesContainer()
   }
   
 }
+
+DNA * CustomSequencesContainer::getDnaAlphabet()
+{
+  return dnaAlphabet;
+}
+
+ProteicAlphabet * CustomSequencesContainer::getProteicAlphabet()
+{
+  return proteicAlphabet;
+}
+
 
 const VectorSequenceContainer * CustomSequencesContainer::getDnaSequences() 
   const
@@ -120,7 +133,7 @@ void CustomSequencesContainer::addDnaSequence(const Sequence & sequence)
   {
     dnaSequences->addSequence(sequence, true);
 //    const Sequence * seq = &sequence;
-    sequences.insert(counter, &sequence);
+    sequencesHash.insert(counter, &sequence);
     ++counter;
   }
   catch (Exception e)
@@ -136,7 +149,7 @@ void CustomSequencesContainer::addProteinSequence(const Sequence & sequence)
   {
     proteinSequences->addSequence(sequence, true);
 //    const Sequence * seq = &sequence;
-    sequences.insert(counter, &sequence);
+    sequencesHash.insert(counter, &sequence);
     ++counter;
   }
   catch (Exception e)
@@ -145,18 +158,20 @@ void CustomSequencesContainer::addProteinSequence(const Sequence & sequence)
   }
 }
 
-QHash<int, const Sequence *> CustomSequencesContainer::getSequences(){
-  return sequences;
+const QHash<int, const Sequence *> CustomSequencesContainer::getSequencesHash() 
+  const
+{
+  return sequencesHash;
 }
 
 const Sequence * CustomSequencesContainer::getSequence(const int & key)
 {
-  return sequences.value(key);
+  return sequencesHash.value(key);
 }
 
-int CustomSequencesContainer::getNumberOfSequences()
+int CustomSequencesContainer::getNumberOfSequences() const
 {
-  return sequences.count();
+  return sequencesHash.count();
 }
 
 void CustomSequencesContainer::addSequence(const Sequence & sequence) 
@@ -168,10 +183,14 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
   {
     try
     {
+      
+      
       dnaSequences->addSequence(sequence, true);
-//      const Sequence * seq = &sequence;
-      sequences.insert(counter, &sequence);
+      const Sequence * seq = dnaSequences->
+              getSequence(dnaSequences->getNumberOfSequences()-1);
+      sequencesHash.insert(counter, seq);
       ++counter;
+      
     }
     catch (Exception e)
     {
@@ -184,8 +203,9 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
     try
     {
       proteinSequences->addSequence(sequence, true);
-//      const Sequence * seq = &sequence;
-      sequences.insert(counter, &sequence);
+      const Sequence * seq = proteinSequences->
+                    getSequence(proteinSequences->getNumberOfSequences()-1);
+      sequencesHash.insert(counter, seq);
       ++counter;
     }
     catch (Exception e)

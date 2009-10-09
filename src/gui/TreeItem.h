@@ -41,48 +41,11 @@ public:
     
 //    bool insertChildrenSequences(int position, int count, int columns);
     
-    /**
-     * Retorna 
-     * @return 
-     */
-    const Sequence * getPtrSequence();
-
-    /**
-     * Asigna 
-     */
-    void setPtrSequence(const Sequence * ptrSequence);
-    
-    /**
-     * Retorna 
-     * @return 
-     */
-    const ChaosGameRepresentation * getPtrCgr();
-
-    /**
-     * Asigna 
-     */
-    void setPtrCgr(const ChaosGameRepresentation * ptrCgr);
-    
-    /**
-     * Retorna 
-     * @return 
-     */
-    int getItemType();
-    
 private:
-    ItemType itemType; /**< Tipo de item de acuerdo a <code> enum ItemType </code>  */
     QList<TreeItem*> childItems;
     QVector<QVariant> itemData;
     TreeItem * parentItem;
      
-    const Sequence * ptrSequence; /**< Apuntador a una secuencia del contenedor 
-      principal de la aplicación */
-    
-    const ChaosGameRepresentation * ptrCgr; /**< Apuntador a un objeto ChosGameRepresentation de la aplicación */
-   
-//    MultifractalAnalisys * ptrMfa;
-    
-    
 };
 
 #endif
