@@ -163,8 +163,10 @@ void ChaosGameRepresentation::performRepresentation(int cgrSize,
         matrixOfPoints(x2,y2)++;
       }
     }
-    
-    imagefilePath = "tmp/cgr_" + sequence->getName() + ".png";
+    string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
+                                                       getAlphabetType());
+    imagefilePath = "tmp/cgr_" + 
+            sequenceType + "_" + sequence->getName() + ".png";
 //    imagefilePath = "tmp/cgr_" + sequence->getName() + ".dat";
     cgrImage->save(QString::fromStdString(imagefilePath) , "PNG");
     
@@ -293,8 +295,13 @@ void ChaosGameRepresentation::performRepresentation1(int cgrSize,
       cgrImage->setPixel(x2 + margin - 1 , y2 + margin - 1, pixelColor);
       matrixOfPoints(x2,y2)++;
     }
+    QString sequenceType;
+    sequenceType = QString::fromStdString(utils::
+           getAlphabetTypeString((sequence->getAlphabet()->getAlphabetType())));
     
     QString fileName = "tmp/cgr_";
+    fileName += sequenceType;
+    fileName += "_";
     fileName += QString::fromStdString(sequence->getName());
     fileName += ".png";
     cgrImage->save(fileName , "PNG");
@@ -323,7 +330,7 @@ void ChaosGameRepresentation::setMatrixOfPoints(RowMatrix<int> matrixOfPoints)
   this->matrixOfPoints = matrixOfPoints;
 }
 
-string ChaosGameRepresentation::getImageFilePath()
+string ChaosGameRepresentation::getImageFilePath() const
 {
   return imagefilePath;
 }

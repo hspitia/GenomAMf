@@ -93,7 +93,6 @@ void MainWindow::addSequenceToModels(const Sequence * sequence)
   insertSequenceToSequenceListModel(sequence);
 }
 
-//void MainWindow::insertSequenceToTreeView(const QVector<QVariant> & data)
 void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
 {
   int count = treeModel->rowCount();
@@ -245,19 +244,45 @@ void MainWindow::loadSequences()
 
 void MainWindow::makeCgr()
 {
-  CgrParametersForm * cgrParametersForm = 
-          new CgrParametersForm(sequenceListModel, this);
-  
-  if(cgrParametersForm->exec()){
-    QMessageBox msgBox;
-    msgBox.setText("Recibido del dialogo");
-//    msgBox.setInformativeText(cgrParametersForm->getUi()->sequenceLabel->text());
-    msgBox.setInformativeText(QString("Key sequence: ")
-            .arg(cgrParametersForm->getSequenceSelectedKey()));
+  if(sequenceListModel->rowCount() == 0)
+  {
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("GenomAMf - Representación del Juego del Caos");
+    msgBox.setWindowIcon(QIcon(":/icons/cgr.png"));
+    msgBox.setText("No hay secuencias cargadas en la aplicación.");
+    msgBox.setInformativeText("Debe adicionar secuencias a la aplicación para "
+            "realizar la Representación del Juego del Caos");
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setTextFormat(Qt::RichText);
+    msgBox.setIcon(QMessageBox::Warning);
     msgBox.exec();
+  }
+  else if(sequenceListModel->rowCount() > 0)
+  {
+    CgrParametersForm * cgrParametersForm = 
+            new CgrParametersForm(sequenceListModel, this);
+    
+    if(cgrParametersForm->exec() == QDialog::Accepted){
+      int key = cgrParametersForm->getSequenceSelectedKey();
+      if(key != -1)
+      {
+        const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
+
+        CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+        ui->mdiArea->addSubWindow(cgrResultsForm);
+        cgrResultsForm->show();
+//        QMessageBox msgBox;
+//        msgBox.setText("Representación del Juego del Caos");
+//        msgBox.setInformativeText(QString("Key sequence: %1").arg(key));
+//        msgBox.setStandardButtons(QMessageBox::Ok);
+//        msgBox.setDefaultButton(QMessageBox::Ok);
+//        msgBox.setTextFormat(Qt::RichText);
+//        msgBox.exec();
+        
+        
+      }
+    }
   }
 }
 
@@ -286,7 +311,7 @@ void MainWindow::testSlot(){
 //  data << "Secuencia nueva" << 1 << 0;
 //  insertCgrToTreeView(data);
 
-  cout << "DEBUG" << endl;
+//  cout << "DEBUG" << endl;
 //  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
 //  ui->mdiArea->addSubWindow(mfaResultsForm);
 //  mfaResultsForm->show();

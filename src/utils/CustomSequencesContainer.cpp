@@ -164,7 +164,7 @@ const QHash<int, const Sequence *> CustomSequencesContainer::getSequencesHash()
   return sequencesHash;
 }
 
-const Sequence * CustomSequencesContainer::getSequence(const int & key)
+const Sequence * CustomSequencesContainer::getSequence(const int & key) const
 {
   return sequencesHash.value(key);
 }

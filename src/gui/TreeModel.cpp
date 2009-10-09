@@ -219,7 +219,7 @@ bool TreeModel::setData(const QModelIndex &index, const QVariant &value,
         return false;
 
     TreeItem *item = getItem(index);
-    cout << "index.column(): " << index.column() << "value: " << qPrintable(value.toString()) << endl; 
+//    cout << "index.column(): " << index.column() << "value: " << qPrintable(value.toString()) << endl; 
     bool result = item->setData(index.column(), value);
 
     if (result)

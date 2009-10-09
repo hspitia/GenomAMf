@@ -49,6 +49,17 @@ namespace utils
     return GenomAMf::Undefined_Alphabet;
   }
   
+  inline string getAlphabetTypeString(const string & alphabetTypeString)
+  {
+    if(alphabetTypeString.compare("DNA alphabet") == 0) {
+      return string("DNA");
+    }
+    else if(alphabetTypeString.compare("Proteic alphabet") == 0){
+      return string("Protein");
+    }
+    return string("Undefined");
+  }
+  
   inline double round(double number) {
     return floor(number + 0.5);
   }

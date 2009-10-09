@@ -75,7 +75,7 @@ void CgrResultsForm::setupComponents(){
   exportButton->setIcon(getIcon(GenomAMf::DNA_Alphabet));
   ui->buttonBox->addButton(exportButton, QDialogButtonBox::AcceptRole);
   ui->buttonBox->addButton(QDialogButtonBox::Close);
-  QString file = "tmp/cgr.png";
+  QString file = QString::fromStdString(ptrCgr->getImageFilePath());
   QImage * image = new QImage(file);
   cout<< image->width() << endl;
   imageViewer = new ImageViewer(image, this);

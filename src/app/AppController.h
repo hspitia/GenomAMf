@@ -89,7 +89,8 @@ class AppController : public QApplication
     /**
      * 
      */
-    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence) /*const*/;
+//    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence) /*const*/;
+    const ChaosGameRepresentation *  makeCgr(const int & sequenceKey) /*const*/;
     // Access
     
 

@@ -101,7 +101,7 @@ class ChaosGameRepresentation
      * Retorna 
      * @return 
      */
-    string getImageFilePath();
+    string getImageFilePath() const;
     
     /**
      * Asigna 

@@ -104,7 +104,7 @@ class CustomSequencesContainer
      * Retorna 
      * @return 
      */
-    const Sequence * getSequence(const int & key);
+    const Sequence * getSequence(const int & key) const; 
 
     /**
      * Asigna 

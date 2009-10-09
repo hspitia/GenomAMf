@@ -24,6 +24,7 @@ AppController::AppController(int & argc, char ** argv) :
 {
 //  seqLoader = new SeqLoader();
   sequences = new CustomSequencesContainer();
+  cgrHash = new QHash<int, ChaosGameRepresentation *>();
   cgrObjectsCounter = 0;
   mfaObjectsCounter = 0;
 }
@@ -72,17 +73,25 @@ int AppController::loadSequences(const string & fileName, int & seqLoadedType)
       // resto de secuencias.
     }
   }
-  
+  delete tmpSeqs;
   return loadedSequences;
 }
 
-const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
-                                                       sequence) /*const*/
+//const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
+//                                                       sequence) /*const*/
+const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) /*const*/
 {
-  ChaosGameRepresentation * cgrObject = new ChaosGameRepresentation(sequence);
-  cgrObject->performRepresentation();
-  cgrHash->insert(cgrObjectsCounter, cgrObject);
-  ++cgrObjectsCounter;
+  const Sequence * sequence = sequences->getSequence(sequenceKey);
+  ChaosGameRepresentation * cgrObject = 0;
+  if(sequence){
+    cout<< qPrintable(QString::fromStdString(sequence->getName())) << endl;
+    cgrObject = new ChaosGameRepresentation(sequence);
+    cgrObject->performRepresentation();
+    cout << "CGR - DEBUG" << endl;
+    cgrHash->insert(cgrObjectsCounter, cgrObject);
+    ++cgrObjectsCounter;
+  }
+  
   return cgrObject;
 }
 

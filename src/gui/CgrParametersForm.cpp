@@ -4,7 +4,7 @@ CgrParametersForm::CgrParametersForm(SequenceListModel * model,
                                      QWidget *parent) :
   QDialog(parent), ui(new Ui::CgrParametersForm())
 {
-  sequenceSelectedKey = 0;
+  sequenceSelectedKey = -1;
   ui->setupUi(this);
   ui->sequenceTableView->setModel(model);
   ui->sequenceTableView->selectRow(0);
@@ -35,14 +35,14 @@ void CgrParametersForm::done(int result)
   
   if (result == QDialog::Accepted) {
     QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
-    QAbstractItemModel *model = ui->sequenceTableView->model();}
-//
-//    sequenceSelectedKey = model->data(index,Qt::UserRole).toInt();
-////    
-////    QListWidgetItem *item = listWidget->currentItem();
-////    if (item)
-////      id = item->data(Qt::UserRole).toInt();
-//  }
+    QAbstractItemModel *model = ui->sequenceTableView->model();
+
+    if(model->rowCount() > 0)
+      sequenceSelectedKey = model->data(index,Qt::UserRole).toInt();
+//    QListWidgetItem *item = listWidget->currentItem();
+//    if (item)
+//      id = item->data(Qt::UserRole).toInt();
+  }
   QDialog::done(result);
 }
 
