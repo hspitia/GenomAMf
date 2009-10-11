@@ -81,20 +81,6 @@ class CustomSequencesContainer
                                                       throw (SequenceNotFoundException);
 
     /**
-     * Adiciona una secuencia de nucleótidos al contenedor de secuencias de 
-     * ADN de la aplicación.
-     * @param sequence La secuencia a ser adicionada  
-     */
-    void addDnaSequence(const Sequence & sequence) throw (Exception);
-
-    /**
-     * Adiciona una secuencia de aminoácidos al contenedor de secuencias de 
-     * proteínas de la aplicación.
-     * @param sequence La secuencia a ser adicionada
-     */
-    void addProteinSequence(const Sequence & sequence) throw (Exception);
-
-    /**
      * Retorna 
      * @return 
      */
@@ -126,6 +112,10 @@ class CustomSequencesContainer
      * @return 
      */
     int getCounter();
+    
+    int getNumberOfDnaSequences();
+    int getNumberOfProteinSequences();
+    
 
   private:
     DNA * dnaAlphabet; /**< Alfabeto DNA para el contenedor de 

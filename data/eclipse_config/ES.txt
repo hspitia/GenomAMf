@@ -247084,3 +247084,4 @@ ahorros
 espitia
 aminoácidos
 multifractal
+pixeles

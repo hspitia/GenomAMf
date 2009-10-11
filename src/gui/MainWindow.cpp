@@ -110,6 +110,13 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence)
           GenomAMf::Proteic_Alphabet)
     data << TreeItem::ProteinSequenceItem;
   
+  // TODO Corregir carga de secuencias
+  cout << "MainWindow::105 - " 
+  << qPrintable(QString::fromStdString(sequence->getName())) 
+  << "  tipo: " << sequence->getAlphabet()->getAlphabetType()
+  << "  tipo calculado: " << qPrintable(data.at(1).toString())
+  << endl;
+  
   // Key de Hash contenedor
   data << parentApp->getSequences()->getSequencesHash().key(sequence);
   
@@ -178,68 +185,68 @@ void MainWindow::insertCgrToTreeView(const QVector<QVariant> & data)
 
 void MainWindow::loadSequences()
 {
-  int loadedSequences = 0;
-  int loadedSequencesType = GenomAMf::Undefined_Alphabet;
-  QString fileName = QFileDialog::getOpenFileName(this, 
-                                                  tr("Carga de secuencias"),
-                                                  "./data/sequences",
-                                                  tr("Archivos de secuencias "
-                                                          "(*.fna *.fasta *.fas)"));
+  QVector<int> loadedSequences;
+  QFileDialog * fileDialog = new QFileDialog(this);
+  QStringList filters;
+  filters << tr("Archivos en formato FASTA (*.fna *.fas *.fasta)");
   
-  if (!fileName.isEmpty())
-  {
-    loadedSequences = parentApp->loadSequences(fileName.toStdString(),
-                                               loadedSequencesType);
-    
-    QString alphabetType = "No definido";
-    QString infoText;
-    QString text;
-    QMessageBox::Icon icon = QMessageBox::NoIcon;
-     
-    if (loadedSequences <= 0) 
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
+  fileDialog->setFileMode(QFileDialog::ExistingFiles);
+  fileDialog->setDirectory(".");
+  
+  if(fileDialog->exec()){
+    QStringList filesList = fileDialog->selectedFiles();
+    if(!filesList.isEmpty())
     {
-      text = "No se cargaron nuevas secuencias.";
-      infoText = "Esto se debe a una de las siguientes razones:\n - "
-              "Las secuencias contenidas en el archivo ya fueron cargadas,"
-              " o bien,\n - El formato de archivo es incorrecto";
-      icon = QMessageBox::Warning;
-    }
-    else {
-      if (loadedSequencesType == GenomAMf::DNA_Alphabet) 
-        alphabetType = "ADN";
-      else if (loadedSequencesType == GenomAMf::Proteic_Alphabet) 
-        alphabetType = "Proteína";
+      loadedSequences = parentApp->loadSequences(filesList);
+      int totalSequences = loadedSequences.at(0) + loadedSequences.at(1); 
       
-      text = "Secuencias cargadas correctamente.";
-      infoText = QString("Tipo: %1\nNuevas secuencias: %2")
-              .arg(alphabetType)
-              .arg(loadedSequences);
-      icon = QMessageBox::Information;
+      QString infoText;
+      QString text;
+      QMessageBox::Icon icon = QMessageBox::NoIcon;
+      
+      if (totalSequences <= 0) 
+      {
+        text = "No se cargaron nuevas secuencias.";
+        infoText = "Esto se debe a una de las siguientes razones:\n - "
+                "Las secuencias contenidas en los archivos ya fueron cargadas,"
+                " o bien,\n - El formato de los archivos es incorrecto";
+        icon = QMessageBox::Warning;
+      }
+      else 
+      {
+        text = QString("Secuencias cargadas correctamente.");
+        infoText = QString("Nuevas secuencias de ADN: %1\n"
+                "Nuevas secuencias de proteínas: %2")
+                .arg(loadedSequences.at(0))
+                .arg(loadedSequences.at(1));
+        icon = QMessageBox::Information;
+      }
+      
+      QMessageBox msgBox;
+      msgBox.setText(text);
+      msgBox.setInformativeText(infoText);
+      msgBox.setStandardButtons(QMessageBox::Ok);
+      msgBox.setDefaultButton(QMessageBox::Ok);
+      msgBox.setIcon(icon);
+      msgBox.setTextFormat(Qt::RichText);
+      msgBox.exec();
+      
+      //    QHashIterator<int, const Sequence *> i(parentApp->getSequences()->getSequences());
+      //    cout <<"MainWindow::232: Contenido CustomSecuenceContainer: " << endl;;
+      //    while (i.hasNext()) {
+      //        i.next();
+      //        cout << i.key() << " : "
+      //              << qPrintable(QString::fromStdString(i.value()->getName()))
+      //              << " key: "
+      //              << parentApp->getSequences()->getSequences().key(i.value())
+      //              << endl;
+      //    }
+      
+      
     }
-    
-    QMessageBox msgBox;
-    msgBox.setText(text);
-    msgBox.setInformativeText(infoText);
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.setIcon(icon);
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.exec();
-    
-//    QHashIterator<int, const Sequence *> i(parentApp->getSequences()->getSequences());
-//    cout <<"MainWindow::232: Contenido CustomSecuenceContainer: " << endl;;
-//    while (i.hasNext()) {
-//        i.next();
-//        cout << i.key() << " : "
-//              << qPrintable(QString::fromStdString(i.value()->getName()))
-//              << " key: "
-//              << parentApp->getSequences()->getSequences().key(i.value())
-//              << endl;
-//    }
-   
-    
   }
-  
 }
 
 void MainWindow::makeCgr()
@@ -267,8 +274,9 @@ void MainWindow::makeCgr()
       int key = cgrParametersForm->getSequenceSelectedKey();
       if(key != -1)
       {
+        cout << "DEBUG - MainWindow::270 - " << "key: " << key << endl;
         const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
-
+        cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
         CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
         ui->mdiArea->addSubWindow(cgrResultsForm);
         cgrResultsForm->show();

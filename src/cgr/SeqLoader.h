@@ -21,14 +21,15 @@
 #define SEQLOADER_H_
 
 // Qt Libraries
-#include <QString>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
 
 // SeqLib library
 #include <Seq/Alphabet.h>
 #include <Seq/AlphabetTools.h>
 #include <Seq/ProteicAlphabet.h>
 #include <Seq/DNA.h>
-#include <Seq/SequenceContainer.h>
+#include <Seq/VectorSequenceContainer.h>
 #include <Seq/Fasta.h>
 
 // UtilsLib library
@@ -41,6 +42,8 @@ using namespace bpp;
 #include <string>
 
 using namespace std;
+
+#include <utils/CustomSequencesContainer.h>
 
 /**
  * Clase para carga de secuencias de ADN y protei-.nas.
@@ -63,6 +66,9 @@ class SeqLoader {
                                    const DNA * dnaAlphabet,
                                    const ProteicAlphabet * proteicAlphabet);
     
+    
+    void load(const QStringList & filePath, 
+                         CustomSequencesContainer * container);
     /**
      * 
      */

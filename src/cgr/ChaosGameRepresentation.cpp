@@ -12,7 +12,8 @@
  *         File:  ChaosGameRepresentation.cpp
  *   Created on:  28/09/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
- *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
+ *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y 
+ *                COMPUTACION
  *      Project:  GenomAMf
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:
@@ -80,8 +81,9 @@ void ChaosGameRepresentation::translateSequence()
   for (unsigned int i = 0; i < size; ++i) {
     string elementChar = sequence->getChar(i);
     int element = sequence->getValue(i);
-    
-    if (element > -1){ // No es un gap
+    newElement = -1;
+    // Los gaps y aminoácidos no resueltos son ignorados 
+    if (element > -1 && element < 20){ 
       if (element == 3 || element == 6) { // Negativo polar
         newElement = 1;
       }
@@ -90,26 +92,32 @@ void ChaosGameRepresentation::translateSequence()
       }
       else if (element == 2 || element == 4 || element == 5 || element == 7 ||
               element == 15 || element == 16 || element == 18) { // Polar no
-        // cargado
+                                                                 // cargado
         newElement = 2;
       }
       else{  // No polar
         newElement = 0;
       }
+      
+      translatedSequence[i] = newElement;
     }
-    translatedSequence[i] = newElement;
   }
 }
 
-void ChaosGameRepresentation::performRepresentation(int cgrSize, 
-                                                    bool generateImage)
+void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
+                                                    const int & matrixSize,
+                                                    const bool & generateImage)
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-  matrixOfPoints = RowMatrix<int>(cgrSize,cgrSize);
+  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
   
-  int xPoints[4] = { 0, 0, cgrSize, cgrSize };
-  int yPoints[4] = { cgrSize, 0, 0, cgrSize };
+  int xImagePoints[4]  = { 0, 0, cgrSize,    cgrSize };
+  int yImagePoints[4]  = { cgrSize,    0, 0, cgrSize };
+  int xMatrixPoints[4] = { 0, 0, matrixSize, matrixSize };
+  int yMatrixPoints[4] = { matrixSize, 0, 0, matrixSize };
+//  int xPoints[4] = { 0, 0, 1, 1 };
+//  int yPoints[4] = { 1, 0, 0, 1 };
   
   const vector<int> * ptrSequence;
   
@@ -124,9 +132,11 @@ void ChaosGameRepresentation::performRepresentation(int cgrSize,
   { 
     ptrSequence = &sequence->getContent();
   }
+  int xImage = utils::round((double)cgrSize/2);
+  int yImage = xImage;
   
-  int x =  utils::round((double)cgrSize/2);
-  int y = x;
+  int xMatrix =  utils::round((double)matrixSize/2);
+  int yMatrix = xMatrix;
   
   if(generateImage){
     QImage * cgrImage = new QImage(cgrSize + (margin * 2), 
@@ -141,26 +151,37 @@ void ChaosGameRepresentation::performRepresentation(int cgrSize,
             utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()));
                     
     painter->translate(1,1);
-    
-//    painter->setRenderHint(QPainter::Antialiasing);
-//    QPen * pen = new QPen();
-//    pen->setWidth(1);
-//    pen->setBrush(Qt::black);
-//    painter->setPen(*pen);
-    
-
+   
+//    cout << "DEBUG CGR::153 - sequenceSize: " << sequenceSize << endl;
     for (unsigned int i = 0; i < sequenceSize; ++i)
     {
       int element = ptrSequence->at(i);
-      if(element > -1){ // Los gaps son ignorados
-        x = (xPoints[element] + x) / 2;
-        y = (yPoints[element] + y) / 2;
+      // Los gaps y bases/aminoácidos no resueltos son ignorados
+      if(element > -1 && element < 4 ) 
+      { 
+//        xImage = floor(((xPoints[element] * cgrSize) + xImage) / 2);
+//        yImage = floor(((yPoints[element] * cgrSize) + yImage) / 2);
+//        
+//        xMatrix = floor(((xPoints[element] * matrixSize) + xMatrix) / 2);
+//        yMatrix = floor(((yPoints[element] * matrixSize) + yMatrix) / 2);
+        xImage = (xImagePoints[element] + xImage) / 2;
+        yImage = (yImagePoints[element] + yImage) / 2;
         
-        int x2 = floor(x);
-        int y2 = floor(y);
+        xMatrix = (xMatrixPoints[element] + xMatrix) / 2;
+        yMatrix = (yMatrixPoints[element] + yMatrix) / 2;
         
-        painter->drawPoint(QPointF(x2,y2));
-        matrixOfPoints(x2,y2)++;
+        int x = floor(xImage);
+        int y = floor(yImage);
+        
+        painter->drawPoint(QPointF(x,y));
+        
+        x = floor(xMatrix);
+        y = floor(yMatrix);
+        
+//        cout << "   DEBUG CGR::170 -  i: " << i << "  element: " << element
+//        << "  x: " << x 
+//        << "  y: " << y << endl;
+        matrixOfPoints(x,y)++;
       }
     }
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
@@ -179,9 +200,12 @@ void ChaosGameRepresentation::performRepresentation(int cgrSize,
     {
       int element = ptrSequence->at(i);
       if(element > -1){
-        x = (xPoints[element] + x) / 2;
-        y = (yPoints[element] + y) / 2;
-        matrixOfPoints(floor(x), floor(y))++;
+//        x = (xPoints[element] + x) / 2;
+//        y = (yPoints[element] + y) / 2;
+//        matrixOfPoints(floor(x), floor(y))++;
+        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
+        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
+        matrixOfPoints(xMatrix,yMatrix)++;
       }
     }
   }

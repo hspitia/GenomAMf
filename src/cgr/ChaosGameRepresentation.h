@@ -2,7 +2,8 @@
  * @file ChaosGameRepresentation.h
  * @date 28/09/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
- * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y Computaci&oacute;n.<br>
+ * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
+ * Computaci&oacute;n.<br>
  * Santiago de Cali - Colombia
  * @brief
  */
@@ -11,7 +12,8 @@
  *         File:  ChaosGameRepresentation.h
  *   Created on:  28/09/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
- *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y COMPUTACION
+ *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y 
+ *                COMPUTACION
  *      Project:  GenomAMf
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:
@@ -69,10 +71,11 @@ class ChaosGameRepresentation
     /**
      * 
      */
-    void performRepresentation(int cgrSize = 512, bool generateImage = true);
+    void performRepresentation(const int & cgrSize = 512,
+                               const int & matrixSize = 1024,
+                               const bool & generateImage = true);
     
     void performRepresentation1(int cgrSize = 512, bool generateImage = true);
-    
     
     /**
      * Retorna 

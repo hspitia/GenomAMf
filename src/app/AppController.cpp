@@ -45,34 +45,46 @@ AppController::~AppController()
   }
 }
 
-int AppController::loadSequences(const string & fileName, int & seqLoadedType)
+QVector<int> AppController::loadSequences(const QStringList & fileName)
 {
-  int loadedSequences = 0;
   SeqLoader * seqLoader = new SeqLoader();
   
-  VectorSequenceContainer * tmpSeqs = seqLoader->load(fileName,
-          sequences->getDnaAlphabet(),
-          sequences->getProteicAlphabet());
+  CustomSequencesContainer * tmpSeqs = new CustomSequencesContainer(); 
+  seqLoader->load(fileName, tmpSeqs);
+  int proteinSeqsAlreadyLoaded = 0;
+  int dnaSeqsAlreadyLoaded = 0;
+  bool isDna = true;
   
-  seqLoadedType = utils::getAlphabetType(tmpSeqs->getAlphabet()->
-                                         getAlphabetType());
-  
-  for (unsigned int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
+  for (int i = 0; i < tmpSeqs->getNumberOfSequences(); ++i)
   {
     try
     {
+      if(utils::getAlphabetType(tmpSeqs->getSequence(i)->getAlphabet()->
+              getAlphabetType()) != GenomAMf::DNA_Alphabet) 
+        isDna = false;
+      
       sequences->addSequence(*(tmpSeqs->getSequence(i)));
       int key = sequences->getNumberOfSequences() - 1;
       mainWindow->addSequenceToModels(sequences->getSequence(key));
-      ++loadedSequences;
     }
     catch (Exception e)
     {
+      if(isDna) dnaSeqsAlreadyLoaded++;
+      else {
+        proteinSeqsAlreadyLoaded++;
+        isDna = true;
+      }
       cout << e.what() << endl;
       // La secuencia ya se encuentra cargada. Continua cargando el
       // resto de secuencias.
     }
   }
+  
+  QVector<int> loadedSequences;
+  loadedSequences << tmpSeqs->getNumberOfDnaSequences() - dnaSeqsAlreadyLoaded;
+  loadedSequences << tmpSeqs->getNumberOfProteinSequences() - 
+      proteinSeqsAlreadyLoaded;
+  
   delete tmpSeqs;
   return loadedSequences;
 }
@@ -84,10 +96,9 @@ const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) 
   const Sequence * sequence = sequences->getSequence(sequenceKey);
   ChaosGameRepresentation * cgrObject = 0;
   if(sequence){
-    cout<< qPrintable(QString::fromStdString(sequence->getName())) << endl;
+    cout<< "AppController::99 - "<<qPrintable(QString::fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
     cgrObject->performRepresentation();
-    cout << "CGR - DEBUG" << endl;
     cgrHash->insert(cgrObjectsCounter, cgrObject);
     ++cgrObjectsCounter;
   }

@@ -37,7 +37,7 @@ SeqLoader::~SeqLoader()
 
 VectorSequenceContainer * SeqLoader::load(const string & filePath,
                                           const DNA * dnaAlphabet,
-                                          const ProteicAlphabet * 
+                                          const ProteicAlphabet *
                                           proteicAlphabet)
 {
   Fasta * seqReader = new Fasta();
@@ -50,22 +50,65 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
   }
   catch (Exception e)
   {
-//    cout << e.what() << endl << "Excepción en lectura." << endl;
+// cout << e.what() << endl << "Excepción en lectura." << endl;
     alphabet = new ProteicAlphabet();
     try
     {
       sequences = seqReader->read(filePath, proteicAlphabet);
     }
     catch (Exception e)
-    { 
-//      cout << e.what() << endl;
-//      cout << "** Ultima excepcion **" << endl;
+    {
+// cout << e.what() << endl;
+// cout << "** Ultima excepcion **" << endl;
     }
   }
   delete seqReader;
   
   return sequences;
 }
+
+void SeqLoader::load(const QStringList & filePath, 
+                     CustomSequencesContainer * container)
+{
+  Fasta * seqReader = new Fasta();
+  Alphabet * alphabet = new DNA();
+  VectorSequenceContainer * sequences = 0;
+  
+  for (int i = 0; i < filePath.count(); ++i)
+  {
+    try
+    {
+      sequences = seqReader->read(filePath.at(i).toStdString(), alphabet);
+    }
+    catch (Exception e)
+    {
+      alphabet = new ProteicAlphabet();
+      try
+      {
+        sequences = seqReader->read(filePath.at(i).toStdString(), alphabet);
+      }
+      catch (Exception e)
+      { 
+  //      cout << e.what() << endl;
+  //      cout << "** Ultima excepcion **" << endl;
+      }
+    }
+    
+    if(sequences != 0){
+      for (unsigned int i = 0; i < sequences->getNumberOfSequences(); ++i)
+      {
+        container->addSequence(*(sequences->getSequence(i)));
+      }
+      sequences->clear();
+      sequences = 0;
+    }
+  }
+  
+  delete seqReader;
+  
+//  return allSequences;
+}
+
 // TODO cambiar implementación incluyendo alfabetos tal como en el método load
 VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
 {

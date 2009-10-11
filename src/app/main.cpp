@@ -200,7 +200,6 @@ void performCgr(){
 //  cgr->performRepresentation(256,false);
 //  MatrixTools::print(cgr->getMatrixOfPoints());
   delete cgr;
-   
 }
 
 void testPaint(){

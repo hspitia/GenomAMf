@@ -23,7 +23,7 @@
 
 // SYSTEM INCLUDES
 // Qt libraries
-#include <QtGui>
+//#include <QtGui>
 #include <QApplication>
 #include <QHash>
 
@@ -84,8 +84,8 @@ class AppController : public QApplication
      */
 //    int loadSequences(const string & fileName,
 //                      GenomAMf::AlphabetType & seqLoadedType);
-    int loadSequences(const string & fileName, int & seqLoadedType);
-    
+//    int loadSequences(const string & fileName, int & seqLoadedType);
+    QVector<int> loadSequences(const QStringList & fileName);
     /**
      * 
      */

@@ -43,8 +43,6 @@ class CgrResultsForm : public QWidget
     void setupComponents();
     void connectSignalsSlots();
     
-    QIcon getIcon(const int & type)const;
-    
   private slots:
     void exportImage();
 };
