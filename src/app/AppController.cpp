@@ -65,7 +65,7 @@ QVector<int> AppController::loadSequences(const QStringList & fileName)
       
       sequences->addSequence(*(tmpSeqs->getSequence(i)));
       int key = sequences->getNumberOfSequences() - 1;
-      mainWindow->addSequenceToModels(sequences->getSequence(key));
+      mainWindow->addSequenceToModels(sequences->getSequence(key), key);
     }
     catch (Exception e)
     {
@@ -96,10 +96,14 @@ const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) 
   const Sequence * sequence = sequences->getSequence(sequenceKey);
   ChaosGameRepresentation * cgrObject = 0;
   if(sequence){
-    cout<< "AppController::99 - "<<qPrintable(QString::fromStdString(sequence->getName())) << endl;
+    cout << "AppController::99 - " << qPrintable(QString::
+            fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
     cgrObject->performRepresentation();
     cgrHash->insert(cgrObjectsCounter, cgrObject);
+    
+    mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
+    
     ++cgrObjectsCounter;
   }
   
@@ -125,6 +129,12 @@ const CustomSequencesContainer * AppController::getSequences() const
 void AppController::setSequences(CustomSequencesContainer * sequences)
 {
   this->sequences = sequences;
+}
+
+const QHash<int, ChaosGameRepresentation*> * AppController::getCgrHash() 
+  const
+{
+  return cgrHash;
 }
 
 int AppController::getCgrObjectsCounter()

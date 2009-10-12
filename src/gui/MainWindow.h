@@ -37,6 +37,7 @@ using namespace bpp;
 #include "ui_MainWindow.h"
 #include <app/AppController.h>
 #include <cgr/SeqLoader.h>
+#include <cgr/ChaosGameRepresentation.h>
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
 #include <gui/MfaParametersForm.h>
@@ -94,10 +95,10 @@ class MainWindow : public QMainWindow
      */
     void setSequenceListModel(SequenceListModel *  sequenceListModel);
     
+    void addSequenceToModels(const Sequence * sequence, const int & key);
     
-    void addSequenceToModels(const Sequence * sequence);
-
-    void insertCgrToTreeView(const QVector<QVariant> & data);
+    void addCgrToModels(const int & key, const int & sequenceKey);
+    
     
     /* 
      void insertMfaTotreeView();
@@ -110,7 +111,10 @@ class MainWindow : public QMainWindow
     AppController * parentApp;
     TreeModel * treeModel; /**< Modelo para el explorador de elementos */
     
-    SequenceListModel *  sequenceListModel; /**< Modelo para el formulario de parámetros de CGR */
+    SequenceListModel *  sequenceListModel; /**< Modelo para el formulario de 
+      parámetros de CGR */
+    SequenceListModel *  cgrListModel; /**< Modelo para el formulario de 
+      parámetros de Análisis Multifractal */
     
     // Metodos
     /**
@@ -126,10 +130,14 @@ class MainWindow : public QMainWindow
     /**
      * 
      */
-    void insertSequenceToTreeView(const Sequence * sequence/*, const int & key*/);
+    void insertSequenceToTreeView(const Sequence * sequence, const int & key);
     
-    void insertSequenceToSequenceListModel(const Sequence * sequence);
+    void insertSequenceToSequenceListModel(const Sequence * sequence, 
+                                           const int & key);
     
+    void insertCgrToTreeView(const int & cgrKey, const int & sequenceKey);
+    
+    void insertCgrToCgrListModel(const int & cgrKey);
 //    /**
 //     * 
 //     */

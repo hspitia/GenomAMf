@@ -7,6 +7,9 @@
 
 #include "ui_MfaParametersForm.h"
 
+#include <gui/SequenceListModel.h>
+
+
 //namespace Ui {
 //    class MfaParametersForm;
 //}
@@ -16,11 +19,33 @@ class MfaParametersForm : public QDialog
     Q_OBJECT
 
 public:
-    MfaParametersForm(QWidget *parent = 0);
+    MfaParametersForm(SequenceListModel * model, QWidget *parent = 0);
     ~MfaParametersForm();
+    
+    int getCgrSelectedKey();
+    void done(int result);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getMinQValue();
 
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getMaxQValue();
+    
 private:
     Ui::MfaParametersForm *ui;
+    int cgrSelectedKey;
+    
+    int minQValue; /**< Valor q mínimo seleccionado en la interfaz como 
+      parámetro para el análisis multifractal */
+    int maxQValue; /**< Valor q máximo seleccionado en la interfaz como 
+      parámetro para el análisis multifractal */
+    
 };
 
 #endif // MFAPARAMETERSFORM_H

@@ -120,6 +120,14 @@ class AppController : public QApplication
      * Retorna 
      * @return 
      */
+    const QHash<int, ChaosGameRepresentation*> * getCgrHash() const;
+    
+    
+    
+    /**
+     * Retorna 
+     * @return 
+     */
     int getCgrObjectsCounter();
     
     /**

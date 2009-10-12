@@ -28,6 +28,7 @@
 #include <QVariant>
 #include <QIcon>
 
+#include <gui/TreeItem.h>
 #include <utils/Utils.h>
 
 

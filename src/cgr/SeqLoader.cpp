@@ -50,7 +50,7 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
   }
   catch (Exception e)
   {
-// cout << e.what() << endl << "Excepción en lectura." << endl;
+ cout << e.what() << endl << "Excepción en lectura." << endl;
     alphabet = new ProteicAlphabet();
     try
     {
@@ -58,8 +58,8 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
     }
     catch (Exception e)
     {
-// cout << e.what() << endl;
-// cout << "** Ultima excepcion **" << endl;
+//      cout << e.what() << endl;
+//      cout << "** Ultima excepcion **" << endl;
     }
   }
   delete seqReader;
@@ -70,12 +70,14 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
 void SeqLoader::load(const QStringList & filePath, 
                      CustomSequencesContainer * container)
 {
-  Fasta * seqReader = new Fasta();
-  Alphabet * alphabet = new DNA();
-  VectorSequenceContainer * sequences = 0;
+  Fasta * seqReader = 0;
   
   for (int i = 0; i < filePath.count(); ++i)
   {
+    seqReader = new Fasta();
+    Alphabet * alphabet = new DNA();
+    VectorSequenceContainer * sequences = 0;
+    
     try
     {
       sequences = seqReader->read(filePath.at(i).toStdString(), alphabet);
@@ -89,15 +91,22 @@ void SeqLoader::load(const QStringList & filePath,
       }
       catch (Exception e)
       { 
-  //      cout << e.what() << endl;
-  //      cout << "** Ultima excepcion **" << endl;
+//        cout << e.what() << endl;
+//        cout << "** Ultima excepcion **" << endl;
       }
     }
     
     if(sequences != 0){
       for (unsigned int i = 0; i < sequences->getNumberOfSequences(); ++i)
       {
-        container->addSequence(*(sequences->getSequence(i)));
+        try
+        {
+          container->addSequence(*(sequences->getSequence(i)));
+        }
+        catch (Exception e)
+        { 
+//          cout << e.what() << endl;
+        } 
       }
       sequences->clear();
       sequences = 0;
@@ -105,8 +114,6 @@ void SeqLoader::load(const QStringList & filePath,
   }
   
   delete seqReader;
-  
-//  return allSequences;
 }
 
 // TODO cambiar implementación incluyendo alfabetos tal como en el método load

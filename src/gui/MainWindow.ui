@@ -65,6 +65,15 @@ QDockWidget::title {
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
+      <property name="background">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>172</red>
+         <green>172</green>
+         <blue>172</blue>
+        </color>
+       </brush>
+      </property>
      </widget>
     </item>
    </layout>
@@ -75,7 +84,7 @@ QDockWidget::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Archivo">
