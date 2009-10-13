@@ -23,13 +23,10 @@
 #include <QRgb>
 
 
-
-
 #include <app/AppController.h>
 #include <gui/MainWindow.h>
 #include <cgr/ChaosGameRepresentation.h>
 #include <utils/Utils.h>
-
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
@@ -78,7 +75,6 @@ void pruebaSequences(){
 
   vector<int> content(seq.getContent());
 
-//  VectorTools::print(content);
   
   RowMatrix<double> m (3,3);
   RowMatrix<double> n (3,3);
@@ -137,7 +133,8 @@ int sample2(mglGraph *gr, void *)
   gr->SubPlot(2,2,3); 
   gr->Rotate(60,40);
   a.Diff2("y");       
-  gr->Surf(a);      gr->Box();
+  gr->Surf(a);      
+  gr->Box();
   gr->Puts(mglPoint(0.7,1,1.2),"\\int {d^2}a/dxdy dx");
   return 0;
 }
@@ -153,52 +150,76 @@ int sample3(mglGraph *gr, void *)
 
   return 0;
 }
-//  ./configure --enable-jpeg --enable-gif --enable-qt --with-qt
+
+int plot(mglGraph *gr, void *)
+{
+//  mglData data(41);
+  vector<double> x(41);
+  for (unsigned int i = 0; i < x.size(); ++i)
+  {
+    vec.at(i) = i;
+  }
+  gr->SetRanges(-20,20,0,41,0,0);
+  mglData * data = new mglData();
+  data->Set(x);
+//  data->Modify("x");
+  for (unsigned int i = 0; i < x.size(); ++i)
+  {
+    cout<< (data->a[i]) << " " << endl;
+  }
+  
+//  gr->Axis(mglPoint(0,0,0),mglPoint(1,1,1));
+  gr->Plot(*data);
+//  gr->Box();
+  gr->Axis(mglPoint(-20,20),mglPoint(0,41));
+  gr->Axis();
+  gr->AddLegend("x","b");
+  gr->Legend();
+//  gr->Grid();
+  return 0;
+}
+
 int runSample(){
-  mglGraphZB gr;
+  /*mglGraphZB gr;
   gr.Alpha(false);
   gr.Light(true);             
   gr.Light(0,mglPoint(1,0,-1));
   sample1(&gr,NULL);           // The same drawing function.
-//  gr.WritePNG("data/sample1.png");    // Don't forget to save the result!
-  gr.WriteJPEG("data/sample1.jpg");    // Don't forget to save the result!
+  gr.WritePNG("tmp/sample1.png");    // Don't forget to save the result!
+  gr.WriteJPEG("tmp/sample1.jpg");    // Don't forget to save the result!
   
   mglGraphZB gr2;
   gr2.Alpha(false);
   gr2.Light(true);             
   gr2.Light(0,mglPoint(1,0,-1));
   sample2(&gr2,NULL);           // The same drawing function.
-  gr2.WritePNG("data/sample2.png");    // Don't forget to save the result!
-  gr2.WriteJPEG("data/sample2.jpg");    // Don't forget to save the result!
+  gr2.WritePNG("tmp/sample2.png");    // Don't forget to save the result!
+  gr2.WriteJPEG("tmp/sample2.jpg");    // Don't forget to save the result!
   
   mglGraphZB gr3;
   gr3.Alpha(false);
   gr3.Light(true);             
   gr3.Light(0,mglPoint(1,0,-1));
   sample3(&gr3,NULL);           // The same drawing function.
-//  gr3.WritePNG("data/sample3.png");    // Don't forget to save the result!
-  gr3.WriteJPEG("data/sample3.jpg");    // Don't forget to save the result!
-  
-    
+  gr3.WritePNG("tmp/sample3.png");    // Don't forget to save the result!
+  gr3.WriteJPEG("tmp/sample3.jpg");    // Don't forget to save the result!
+  */
+  mglGraphZB grPlot;
+  plot(&grPlot, NULL);
+  grPlot.WritePNG("tmp/plot.png");
+//  grPlot.WriteJPEG("tmp/plot.jpg");
   return 0;
 }
 
 void performCgr(){
   SeqLoader * sl = new SeqLoader(); 
-//  VectorSequenceContainer *vec =  sl->load("data/sequences/nucleotide4.fas");
-//  VectorSequenceContainer *vec =  sl->load("data/sequences/homo_sapiens/hbb.fasta");
-//  VectorSequenceContainer *vec =  sl->load("data/sequences/homo_sapiens/hbb_protein_frame_1.fasta");
-//  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/Buchnera_protein.fasta");
-//  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_genome_all_000124.fasta");
-  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/buchnera_protein_frame_1.fasta",
+  VectorSequenceContainer *vec =  sl->load("data/sequences/bacteria/"
+          "buchnera_protein_frame_1.fasta",
           new DNA(),
           new ProteicAlphabet());
   Sequence * seq = const_cast<Sequence* >(vec->getSequence(0));
-//  cout << "Secuencia: " << endl << seq->toString() << endl;
   ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
   cgr->performRepresentation(512);
-//  cgr->performRepresentation(256,false);
-//  MatrixTools::print(cgr->getMatrixOfPoints());
   delete cgr;
 }
 
@@ -207,9 +228,6 @@ void testPaint(){
   QRgb backgroudColor = qRgb(230,230,230);
   img->fill(backgroudColor);
   QPainter * p = new QPainter(img);
-//  p->setBackgroundMode(Qt::OpaqueMode);
-//  p->setPen(QColor(255,0,0));
-//  p->setBrush(QBrush(QColor(255,0,0)));
   p->translate(100,100);
   p->drawPoint(10,20);
   img->save("tmp/test.png" , "PNG");
@@ -217,7 +235,8 @@ void testPaint(){
 
 void linkProteinSequence(){
   SeqLoader * sl = new SeqLoader(); 
-  VectorSequenceContainer *vec =  sl->load("/home/hector/Escritorio/buchnera.fasta",
+  VectorSequenceContainer *vec =  sl->load("/home/hector/Escritorio/"
+          "buchnera.fasta",
           new DNA(),
           new ProteicAlphabet());
   
@@ -227,7 +246,8 @@ void linkProteinSequence(){
     newSeq->append(vec->getContent(1));
   }
   cout << newSeq->toString() << endl;
-  VectorSequenceContainer * newVec = new VectorSequenceContainer(new ProteicAlphabet());
+  VectorSequenceContainer * newVec = 
+          new VectorSequenceContainer(new ProteicAlphabet());
   newVec->addSequence(*newSeq, true);
   Fasta * f = new Fasta();
   string name = "data/sequences/bacteria/Buchnera_protein.fasta"; 
@@ -237,20 +257,23 @@ void linkProteinSequence(){
 
 int main(int argc, char *argv[])
 {
+  
+  // NORMAL
   AppController * app = new AppController(argc, argv);
 //  app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
   return app->exec();
-
+/*  
 //  Q_UNUSED(argc);
 //  Q_UNUSED(argv);
 
-//  QApplication app(argc, argv);
+  QApplication app(argc, argv);
 //  pruebaSequences();
-//  runSample();
+  runSample(); // MathGl samples
 //  performCgr();
 //  linkProteinSequence();
 //  testPaint();
-//  return 0;
+  return 0;
+  */
 }
 
