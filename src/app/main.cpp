@@ -155,10 +155,16 @@ int plot(mglGraph *gr, void *)
 {
 //  mglData data(41);
   vector<double> x(41);
+  vector<double> y(41);
   for (unsigned int i = 0; i < x.size(); ++i)
   {
     x.at(i) = i;
   }
+  for (unsigned int i = 0; i < y.size(); ++i)
+  {
+    y.at(i) = i;
+  }
+  
   gr->SetRanges(-20,20,0,41,0,0);
   mglData * data = new mglData();
   data->Set(x);
@@ -168,7 +174,8 @@ int plot(mglGraph *gr, void *)
   {
     cout<< (data->a[i]) << " " << endl;
   }
-  
+  mglFont * font = new mglFont("Bonum");
+  gr->SetFont(font);
 //  gr->Axis(mglPoint(0,0,0),mglPoint(1,1,1));
   gr->Plot(*data);
 //  gr->Box();
@@ -206,6 +213,7 @@ int runSample(){
   gr3.WriteJPEG("tmp/sample3.jpg");    // Don't forget to save the result!
   */
   mglGraphZB grPlot;
+  
   plot(&grPlot, NULL);
   grPlot.WritePNG("tmp/plot.png");
 //  grPlot.WriteJPEG("tmp/plot.jpg");
@@ -258,13 +266,13 @@ void linkProteinSequence(){
 
 int main(int argc, char *argv[])
 {
-  
+ /* 
   // NORMAL
   AppController * app = new AppController(argc, argv);
 //  app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
-  return app->exec();
-/*  
+  return app->exec();*/
+  
 //  Q_UNUSED(argc);
 //  Q_UNUSED(argv);
 
@@ -275,6 +283,6 @@ int main(int argc, char *argv[])
 //  linkProteinSequence();
 //  testPaint();
   return 0;
-  */
+  
 }
 

@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/mfa/MultifractalAnalisys.h \
+HEADERS += src/utils/SeqLoader.h \
+    src/mfa/MultifractalAnalisys.h \
     src/gui/CgrResultsForm.h \
     src/gui/ImageViewer.h \
     src/gui/SequenceListModel.h \
@@ -20,13 +21,13 @@ HEADERS += src/mfa/MultifractalAnalisys.h \
     src/gui/TreeModel.h \
     src/gui/TreeItem.h \
     src/app/AppController.h \
-    src/cgr/SeqLoader.h \
     src/gui/CgrParametersForm.h \
     src/gui/MainWindow.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/MultifractalAnalisys.cpp \
+SOURCES += src/utils/SeqLoader.cpp \
+    src/mfa/MultifractalAnalisys.cpp \
     src/gui/CgrResultsForm.cpp \
     src/gui/ImageViewer.cpp \
     src/gui/SequenceListModel.cpp \
@@ -38,7 +39,6 @@ SOURCES += src/mfa/MultifractalAnalisys.cpp \
     src/gui/TreeItem.cpp \
     src/app/AppController.cpp \
     src/app/main.cpp \
-    src/cgr/SeqLoader.cpp \
     src/gui/CgrParametersForm.cpp \
     src/gui/MainWindow.cpp \
     src/gui/MfaParametersForm.cpp \

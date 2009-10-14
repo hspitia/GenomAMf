@@ -38,11 +38,12 @@
 using namespace bpp;
 
 // PROJECT INCLUDES
-#include <gui/MainWindow.h>
-#include <cgr/SeqLoader.h>
 #include <cgr/ChaosGameRepresentation.h>
-#include <utils/Utils.h>
+#include <gui/MainWindow.h>
 #include <utils/CustomSequencesContainer.h>
+#include <utils/SeqLoader.h>
+#include <utils/Utils.h>
+
 
 // LOCAL INCLUDES
 // --

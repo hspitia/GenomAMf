@@ -36,7 +36,6 @@ using namespace bpp;
 // Project files includes
 #include "ui_MainWindow.h"
 #include <app/AppController.h>
-#include <cgr/SeqLoader.h>
 #include <cgr/ChaosGameRepresentation.h>
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
@@ -46,6 +45,7 @@ using namespace bpp;
 #include <gui/TreeItem.h>
 #include <gui/SequenceTreeItem.h>
 #include <gui/SequenceListModel.h>
+#include <utils/SeqLoader.h>
 
 
 
