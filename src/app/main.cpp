@@ -157,12 +157,13 @@ int plot(mglGraph *gr, void *)
   vector<double> x(41);
   for (unsigned int i = 0; i < x.size(); ++i)
   {
-    vec.at(i) = i;
+    x.at(i) = i;
   }
   gr->SetRanges(-20,20,0,41,0,0);
   mglData * data = new mglData();
   data->Set(x);
 //  data->Modify("x");
+  
   for (unsigned int i = 0; i < x.size(); ++i)
   {
     cout<< (data->a[i]) << " " << endl;

@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/gui/CgrResultsForm.h \
+HEADERS += src/mfa/MultifractalAnalisys.h \
+    src/gui/CgrResultsForm.h \
     src/gui/ImageViewer.h \
     src/gui/SequenceListModel.h \
     src/utils/Matrix.h \
@@ -25,7 +26,8 @@ HEADERS += src/gui/CgrResultsForm.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/gui/CgrResultsForm.cpp \
+SOURCES += src/mfa/MultifractalAnalisys.cpp \
+    src/gui/CgrResultsForm.cpp \
     src/gui/ImageViewer.cpp \
     src/gui/SequenceListModel.cpp \
     src/cgr/ChaosGameRepresentation.cpp \
