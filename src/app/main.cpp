@@ -164,24 +164,25 @@ int plot(mglGraph *gr, void *)
   {
     y.at(i) = i;
   }
+//  gr->SetFont(new mglFont("Cursor", "/usr/local/share/mathgl/fonts"));
   
   gr->SetRanges(-20,20,0,41,0,0);
   mglData * data = new mglData();
   data->Set(x);
 //  data->Modify("x");
   
-  for (unsigned int i = 0; i < x.size(); ++i)
+ /* for (unsigned int i = 0; i < x.size(); ++i)
   {
     cout<< (data->a[i]) << " " << endl;
-  }
-  mglFont * font = new mglFont("Bonum");
-  gr->SetFont(font);
+  }*/
+//  mglFont * font = new mglFont("Termes", "/usr/local/share/mathgl/fonts");
+  
 //  gr->Axis(mglPoint(0,0,0),mglPoint(1,1,1));
   gr->Plot(*data);
 //  gr->Box();
   gr->Axis(mglPoint(-20,20),mglPoint(0,41));
   gr->Axis();
-  gr->AddLegend("x","b");
+  gr->AddLegend("lectura para x","b");
   gr->Legend();
 //  gr->Grid();
   return 0;
@@ -213,7 +214,14 @@ int runSample(){
   gr3.WriteJPEG("tmp/sample3.jpg");    // Don't forget to save the result!
   */
   mglGraphZB grPlot;
+  mglFont * f = new mglFont("termes","/home/user/hfabioen/projects/fonts");
   
+  if(f != NULL)
+    cout<<boolalpha<<"fuente lista? "<<f->Ready()<< "  " << f->GetNumGlyph()<<endl;
+  else cout << "NULL" << endl;
+  
+  grPlot.SetFont(f);
+//  cout<<boolalpha<<"fuente lista? "<<grPlot.GetFont()->GetNumGlyph()<<endl;
   plot(&grPlot, NULL);
   grPlot.WritePNG("tmp/plot.png");
 //  grPlot.WriteJPEG("tmp/plot.jpg");
@@ -266,16 +274,14 @@ void linkProteinSequence(){
 
 int main(int argc, char *argv[])
 {
- /* 
+  
   // NORMAL
   AppController * app = new AppController(argc, argv);
 //  app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
-  return app->exec();*/
+  return app->exec();
   
-//  Q_UNUSED(argc);
-//  Q_UNUSED(argv);
-
+/*
   QApplication app(argc, argv);
 //  pruebaSequences();
   runSample(); // MathGl samples
@@ -283,6 +289,6 @@ int main(int argc, char *argv[])
 //  linkProteinSequence();
 //  testPaint();
   return 0;
-  
+  */
 }
 

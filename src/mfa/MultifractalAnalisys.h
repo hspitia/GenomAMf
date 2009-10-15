@@ -44,8 +44,6 @@ using namespace std;
 // LOCAL INCLUDES
 // --
 
-// Cyclic reference 
-class MainWindow;
 
 /**
  * 
