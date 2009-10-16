@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/mfa/SandBoxMethod.h \
+HEADERS += src/utils/Linear.h \
+    src/mfa/SandBoxMethod.h \
     src/utils/SeqLoader.h \
     src/mfa/MultifractalAnalisys.h \
     src/gui/CgrResultsForm.h \
@@ -16,7 +17,6 @@ HEADERS += src/mfa/SandBoxMethod.h \
     src/utils/Matrix.h \
     src/cgr/ChaosGameRepresentation.h \
     src/utils/Definitions.h \
-    src/utils/Message.h \
     src/utils/CustomSequencesContainer.h \
     src/gui/SequenceTreeItem.h \
     src/gui/TreeModel.h \
@@ -34,7 +34,6 @@ SOURCES += src/mfa/SandBoxMethod.cpp \
     src/gui/ImageViewer.cpp \
     src/gui/SequenceListModel.cpp \
     src/cgr/ChaosGameRepresentation.cpp \
-    src/utils/Message.cpp \
     src/utils/CustomSequencesContainer.cpp \
     src/gui/SequenceTreeItem.cpp \
     src/gui/TreeModel.cpp \

@@ -24,6 +24,7 @@
 
 // SYSTEM INCLUDES
 // Std - STL 
+#include <cmath>
 #include <iostream>
 #include <vector>
 
@@ -35,11 +36,14 @@ using namespace std;
 
 // Bio++ libraries
 #include <NumCalc/Matrix.h>
+#include <NumCalc/RandomTools.h>
 
-//using namespace bpp;
+using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
+#include <utils/Linear.h>
+
 
 // LOCAL INCLUDES
 // --
@@ -52,12 +56,22 @@ class SandBoxMethod
   public:
     SandBoxMethod();
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
-    SandBoxMethod(const Matrix<int> * cgrMatrix,
+    SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const int & qMin = -100,
                   const int & qMax =  100);
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     virtual ~SandBoxMethod();
     
+    /**
+     * 
+     */
+    void performAnalisys();
+
+    /**
+     * 
+     */
+    double calculateDqValue(const int & q);
+
     /**
      * 
      */
@@ -67,7 +81,7 @@ class SandBoxMethod
     /**
      * 
      */
-    int countSandBoxPoints(const int & x, const int & y, const int & radius);
+    double countSandBoxPoints(const int & x, const int & y, const int & radius);
     
     /**
      * Retorna 
@@ -145,6 +159,17 @@ class SandBoxMethod
      * Asigna 
      */
     void setDqValues(QList<vector<double> > * dqValues);
+
+    /**
+     * Retorna 
+     * @return 
+     */
+    int getFractalSize();
+    
+    /**
+     * Asigna 
+     */
+    void setFractalSize(int fractalSize);
     
   private:
     int qMin; /**< Valor para el parámetro q mínimo */
@@ -163,6 +188,8 @@ class SandBoxMethod
 
     QList<vector<double> > * dqValues; /**< Contenedor para los valores 
       Dq vs q */
+    
+    int fractalSize; /**< Longitud lineal del fractal */
 };
 
 #endif /* SANDBOXMETHOD_H_ */

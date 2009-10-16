@@ -40,6 +40,7 @@ using namespace std;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
+#include <mfa/SandBoxMethod.h>
 
 // LOCAL INCLUDES
 // --

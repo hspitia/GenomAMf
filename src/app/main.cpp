@@ -26,6 +26,8 @@
 #include <app/AppController.h>
 #include <gui/MainWindow.h>
 #include <cgr/ChaosGameRepresentation.h>
+#include <mfa/SandBoxMethod.h>
+
 #include <utils/Utils.h>
 
 // The SeqLib library:
@@ -272,23 +274,39 @@ void linkProteinSequence(){
   
 }
 
+void testRandomGenerarion()
+{
+  SandBoxMethod * sb = new SandBoxMethod();
+  vector<int> x(300);
+  vector<int> y(300);
+  
+  sb->generateRandomCenters(&x, &y);
+ /* cout<<"Vector x: "<< endl;
+  VectorTools::print(x);
+  cout<<"Vector y: "<< endl;
+  VectorTools::print(y);*/
+  
+}
+
 int main(int argc, char *argv[])
 {
-  
+ /* 
   // NORMAL
   AppController * app = new AppController(argc, argv);
 //  app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
   return app->exec();
-  
-/*
+  */
   QApplication app(argc, argv);
 //  pruebaSequences();
-  runSample(); // MathGl samples
+//  runSample(); // MathGl samples
 //  performCgr();
 //  linkProteinSequence();
 //  testPaint();
+  testRandomGenerarion();
+  // TODO Probar regresión lineal
+  // TODO Implementar conteo en cada sand box
   return 0;
-  */
+  
 }
 
