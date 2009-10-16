@@ -93,12 +93,12 @@ class ChaosGameRepresentation
      * @return
      */
 
-    RowMatrix <int> getMatrixOfPoints();
+    const RowMatrix<int> * getMatrixOfPoints() const;
 
     /**
      * Asigna
      */
-    void setMatrixOfPoints(RowMatrix <int> matrixOfPoints);
+    void setMatrixOfPoints(RowMatrix<int> matrixOfPoints);
     
     /**
      * Retorna 
@@ -120,7 +120,7 @@ class ChaosGameRepresentation
     /**
      * Asigna 
      */
-    void setTranslatedSequence(vector <int> translatedSequence);
+    void setTranslatedSequence(vector<int> translatedSequence);
     
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se obtendrá la GRC */

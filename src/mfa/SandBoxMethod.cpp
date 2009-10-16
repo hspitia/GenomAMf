@@ -23,47 +23,53 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->qMin = -100;
-  this->qMax =  100;
-  this->rMin =   10;
-  this->rMax =  200;
+  this->minQ = -100;
+  this->maxQ =  100;
+  this->minR =    1;
+  this->maxR =    1;
   this->cgrMatrix = 0;
   this->numberOfCenters = 300;
   this->dqValues = new QList<vector<double> >();
+  this->fractalSize = 1;
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 {
-  this->qMin = sandBoxObject.qMin;
-  this->qMax = sandBoxObject.qMax;
-  this->rMin = sandBoxObject.rMin;
-  this->rMax = sandBoxObject.rMax;
+  this->minQ = sandBoxObject.minQ;
+  this->maxQ = sandBoxObject.maxQ;
+  this->minR = sandBoxObject.minR;
+  this->maxR = sandBoxObject.maxR;
   this->cgrMatrix = sandBoxObject.cgrMatrix;
   this->numberOfCenters = sandBoxObject.numberOfCenters;
   this->dqValues = sandBoxObject.dqValues;
+  this->fractalSize = sandBoxObject.fractalSize;
 }
 
-SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix, 
-                             const int & qMin, const int & qMax)
+SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                             const int & fractalSize,
+                             const int & minQ,
+                             const int & maxQ)
 {
-  this->qMin = qMin;
-  this->qMax = qMax;
-  this->rMin =   10;
-  this->rMax =  200;
+  this->minQ = minQ;
+  this->maxQ = maxQ;
+  this->minR = 1;
+  this->maxR = cgrMatrix->nRows();
   this->cgrMatrix = cgrMatrix;
   this->numberOfCenters = 300;
   this->dqValues = new QList<vector<double> >();
+  this->fractalSize = fractalSize;
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
 {
-  this->qMin = sandBoxObject.qMin;
-  this->qMax = sandBoxObject.qMax;
-  this->rMin = sandBoxObject.rMin;
-  this->rMax = sandBoxObject.rMax;
+  this->minQ = sandBoxObject.minQ;
+  this->maxQ = sandBoxObject.maxQ;
+  this->minR = sandBoxObject.minR;
+  this->maxR = sandBoxObject.maxR;
   this->cgrMatrix = sandBoxObject.cgrMatrix;
   this->numberOfCenters = sandBoxObject.numberOfCenters;
   this->dqValues = sandBoxObject.dqValues;
+  this->fractalSize = sandBoxObject.fractalSize;
   return *this;
 }
 
@@ -76,11 +82,11 @@ SandBoxMethod::~SandBoxMethod()
 
 void SandBoxMethod::performAnalisys()
 {
-  int nMomentums = qMax - qMin + 1;
+  int nMomentums = maxQ - minQ + 1;
   vector<double> qData(nMomentums);
   vector<double> dqData(nMomentums);
   
-  for (int q = qMin, index = 0; q <= qMax; ++q, ++index)
+  for (int q = minQ, index = 0; q <= maxQ; ++q, ++index)
   {
     qData.at(index) = q;
     dqData.at(index) = calculateDqValue(q);
@@ -91,14 +97,14 @@ void SandBoxMethod::performAnalisys()
 
 double SandBoxMethod::calculateDqValue(const int & q)
 {
-  int dataLenght = rMax - rMin + 1;
+  int dataLenght = maxR - minR + 1;
   
   vector<double> xData(dataLenght);
   vector<double> yData(dataLenght);
   
   double massAverage;
   
-  for (int radius = rMin, index = 0; radius <= rMax; ++radius, ++index)
+  for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index)
   {
     // Sand box centers coordinates
     vector<int> xCoordinates(numberOfCenters);
@@ -145,52 +151,78 @@ double SandBoxMethod::countSandBoxPoints(const int & x,
                                          const int & y, 
                                          const int & radius)
 {
-  Q_UNUSED(x);
-  Q_UNUSED(y);
-  Q_UNUSED(radius);
-  // TODO Cambiar el valor de retorno del método
-  return 0;
+  double sum = 0.0;
+  
+  if (radius > 1) 
+  {
+    int minValue = 0;
+    int maxValue = cgrMatrix->nRows() - 1;
+    int half = floor(radius / 2);
+    int initRow = y - half;
+    int initCol = x - half;
+    int endRow = initRow + radius - 1;
+    int endCol = initCol + radius - 1;
+    
+    if (initRow < minValue) initRow = 0;
+    if (initCol < minValue) initCol = 0;
+    
+    if (endCol > maxValue) endCol = maxValue;
+    if (endRow > maxValue) endRow = maxValue;
+    
+    for (int row = initRow; row <= endRow; ++row)
+    {
+      for (int col = initCol; col <= endCol; ++col)
+      {
+        sum = sum + (*cgrMatrix)(row, col);
+      }
+    }
+  }
+  else{
+    sum += (*cgrMatrix)(y, x);
+  }
+  
+  return sum;
 }
 
 
-int SandBoxMethod::getQMin()
+int SandBoxMethod::getMinQ()
 {
-  return qMin;
+  return minQ;
 }
 
-void SandBoxMethod::setQMin(int qMin)
+void SandBoxMethod::setMinQ(int minQ)
 {
-  this->qMin = qMin;
+  this->minQ = minQ;
 }
 
-int SandBoxMethod::getQMax()
+int SandBoxMethod::getMaxQ()
 {
-  return qMax;
+  return maxQ;
 }
 
-void SandBoxMethod::setQMax(int qMax)
+void SandBoxMethod::setMaxQ(int maxQ)
 {
-  this->qMax = qMax;
+  this->maxQ = maxQ;
 }
 
-int SandBoxMethod::getRMin()
+int SandBoxMethod::getMinR()
 {
-  return rMin;
+  return minR;
 }
 
-void SandBoxMethod::setRMin(int rMin)
+void SandBoxMethod::setMinR(int minR)
 {
-  this->rMin = rMin;
+  this->minR = minR;
 }
 
-int SandBoxMethod::getRMax()
+int SandBoxMethod::getMaxR()
 {
-  return rMax;
+  return maxR;
 }
 
-void SandBoxMethod::setRMax(int rMax)
+void SandBoxMethod::setMaxR(int maxR)
 {
-  this->rMax = rMax;
+  this->maxR = maxR;
 }
 
 const RowMatrix<int> * SandBoxMethod::getCgrMatrix() const
@@ -232,4 +264,15 @@ int SandBoxMethod::getFractalSize()
 void SandBoxMethod::setFractalSize(int fractalSize)
 {
   this->fractalSize = fractalSize;
+}
+
+QList<vector<double> > * SandBoxMethod::getLinearRegressionValues()
+{
+  return linearRegressionValues;
+}
+
+void SandBoxMethod::setLinearRegressionValues(QList<vector<double> > * 
+                                              linearRegressionValues)
+{
+  this->linearRegressionValues = linearRegressionValues;
 }

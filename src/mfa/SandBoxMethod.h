@@ -57,8 +57,9 @@ class SandBoxMethod
     SandBoxMethod();
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                  const int & qMin = -100,
-                  const int & qMax =  100);
+                  const int & fractalSize,
+                  const int & minQ = -100,
+                  const int & maxQ =  100);
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     virtual ~SandBoxMethod();
     
@@ -87,45 +88,45 @@ class SandBoxMethod
      * Retorna 
      * @return 
      */
-    int getQMin();
+    int getMinQ();
     
     /**
      * Asigna 
      */
-    void setQMin(int qMin);
+    void setMinQ(int minQ);
 
     /**
      * Retorna 
      * @return 
      */
-    int getQMax();
+    int getMaxQ();
     
     /**
      * Asigna 
      */
-    void setQMax(int qMax);
+    void setMaxQ(int maxQ);
 
     /**
      * Retorna 
      * @return 
      */
-    int getRMin();
+    int getMinR();
     
     /**
      * Asigna 
      */
-    void setRMin(int rMin);
+    void setMinR(int rMin);
 
     /**
      * Retorna 
      * @return 
      */
-    int getRMax();
+    int getMaxR();
     
     /**
      * Asigna 
      */
-    void setRMax(int rMax);
+    void setMaxR(int maxR);
 
     /**
      * Retorna 
@@ -171,14 +172,26 @@ class SandBoxMethod
      */
     void setFractalSize(int fractalSize);
     
+    /**
+     * Retorna 
+     * @return 
+     */
+    QList<vector<double> > * getLinearRegressionValues();
+    
+    /**
+     * Asigna 
+     */
+    void setLinearRegressionValues(QList<vector<double> > * 
+                                   linearRegressionValues);
+    
   private:
-    int qMin; /**< Valor para el parámetro q mínimo */
+    int minQ; /**< Valor para el parámetro q mínimo */
 
-    int qMax; /**< Valor para el parámetro q máximo */
+    int maxQ; /**< Valor para el parámetro q máximo */
     
-    int rMin; /**< Valor del radio mínimo de las cajas de arena */
+    int minR; /**< Valor del radio mínimo de las cajas de arena */
     
-    int rMax; /**< Valor del radio máximo de las cajas de arena */
+    int maxR; /**< Valor del radio máximo de las cajas de arena */
     
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
@@ -189,6 +202,9 @@ class SandBoxMethod
     QList<vector<double> > * dqValues; /**< Contenedor para los valores 
       Dq vs q */
     
+    QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
+      valores de la regresión lineal */
+   
     int fractalSize; /**< Longitud lineal del fractal */
 };
 

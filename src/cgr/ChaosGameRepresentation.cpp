@@ -344,9 +344,9 @@ void ChaosGameRepresentation::setSequence(const Sequence * sequence)
   this->sequence = sequence;
 }
 
-RowMatrix<int> ChaosGameRepresentation::getMatrixOfPoints()
+const RowMatrix<int> * ChaosGameRepresentation::getMatrixOfPoints() const
 {
-  return matrixOfPoints;
+  return &matrixOfPoints;
 }
 
 void ChaosGameRepresentation::setMatrixOfPoints(RowMatrix<int> matrixOfPoints)
