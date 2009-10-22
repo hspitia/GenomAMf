@@ -124,12 +124,12 @@ MultifractalAnalisys::~MultifractalAnalisys()
 
 void MultifractalAnalisys::performAnalisys()
 {
-  int fractalSize = static_cast<int> (cgrObject->getSequence()->size());
+//  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
   SandBoxMethod * sandBoxObject = new 
           SandBoxMethod(cgrObject->getMatrixOfPoints(), 
                         minQ - 1, // Dato adicional necesario para calcular Cq
-                        maxQ + 1, // Dato adicional necesario para calcular Cq
-                        fractalSize);
+                        maxQ + 1); // Dato adicional necesario para calcular Cq
+//                        fractalSize);
   
   sandBoxObject->performAnalisys();
   
@@ -160,7 +160,7 @@ void MultifractalAnalisys::calculateCqValues()
 
 void MultifractalAnalisys::calculateTqValues()
 {
-  int dataLenght = maxQ - minQ + 1 + 2;  //Dos datos adicionales para calculo de Cq
+  int dataLenght = maxQ - minQ + 1 + 2;  //Dos datos adicionales para cálculo de Cq
   vector<double> qData(dataLenght);
   vector<double> tqData(dataLenght);
   for (int q = minQ - 1, i = 0; q <= maxQ + 1; ++q, ++i)

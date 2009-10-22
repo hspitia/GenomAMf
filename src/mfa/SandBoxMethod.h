@@ -57,7 +57,7 @@ class SandBoxMethod
     SandBoxMethod();
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                  const int & fractalSize,
+//                  const int & fractalSize,
                   const int & minQ = -100,
                   const int & maxQ =  100);
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
@@ -71,7 +71,8 @@ class SandBoxMethod
     /**
      * 
      */
-    double calculateDqValue(const int & q);
+    double calculateDqValue(const int & q, vector<double> & xData,
+                            vector<double> & yData);
 
     /**
      * 
@@ -161,16 +162,16 @@ class SandBoxMethod
      */
     void setDqValues(QList<vector<double> > * dqValues);
 
-    /**
-     * Retorna 
-     * @return 
-     */
-    int getFractalSize();
-    
-    /**
-     * Asigna 
-     */
-    void setFractalSize(int fractalSize);
+//    /**
+//     * Retorna 
+//     * @return 
+//     */
+//    int getFractalSize();
+//    
+//    /**
+//     * Asigna 
+//     */
+//    void setFractalSize(int fractalSize);
     
     /**
      * Retorna 
@@ -205,7 +206,7 @@ class SandBoxMethod
     QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
    
-    int fractalSize; /**< Longitud lineal del fractal */
+//    int fractalSize; /**< Longitud lineal del fractal */
 };
 
 #endif /* SANDBOXMETHOD_H_ */

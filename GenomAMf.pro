@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/utils/Linear.h \
+HEADERS += src/mfa/Plotter.h \
+    src/utils/Linear.h \
     src/mfa/SandBoxMethod.h \
     src/utils/SeqLoader.h \
     src/mfa/MultifractalAnalisys.h \
@@ -27,7 +28,8 @@ HEADERS += src/utils/Linear.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/SandBoxMethod.cpp \
+SOURCES += src/mfa/Plotter.cpp \
+    src/mfa/SandBoxMethod.cpp \
     src/utils/SeqLoader.cpp \
     src/mfa/MultifractalAnalisys.cpp \
     src/gui/CgrResultsForm.cpp \

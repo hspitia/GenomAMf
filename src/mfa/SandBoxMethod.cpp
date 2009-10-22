@@ -23,14 +23,15 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ = -100;
-  this->maxQ =  100;
-  this->minR =    1;
-  this->maxR =    1;
+  this->minQ = -70;
+  this->maxQ =  70;
+  this->minR = 1;
+  this->maxR = 1;
   this->cgrMatrix = 0;
   this->numberOfCenters = 300;
   this->dqValues = new QList<vector<double> >();
-  this->fractalSize = 1;
+  this->linearRegressionValues = new QList<vector<double> >();
+//  this->fractalSize = 1;
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
@@ -42,11 +43,12 @@ SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
   this->cgrMatrix = sandBoxObject.cgrMatrix;
   this->numberOfCenters = sandBoxObject.numberOfCenters;
   this->dqValues = sandBoxObject.dqValues;
-  this->fractalSize = sandBoxObject.fractalSize;
+  this->linearRegressionValues = sandBoxObject.linearRegressionValues;
+//  this->fractalSize = sandBoxObject.fractalSize;
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                             const int & fractalSize,
+//                             const int & fractalSize,
                              const int & minQ,
                              const int & maxQ)
 {
@@ -57,7 +59,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->cgrMatrix = cgrMatrix;
   this->numberOfCenters = 300;
   this->dqValues = new QList<vector<double> >();
-  this->fractalSize = fractalSize;
+  this->linearRegressionValues = new QList<vector<double> >();
+//  this->fractalSize = fractalSize;
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
@@ -69,7 +72,8 @@ SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
   this->cgrMatrix = sandBoxObject.cgrMatrix;
   this->numberOfCenters = sandBoxObject.numberOfCenters;
   this->dqValues = sandBoxObject.dqValues;
-  this->fractalSize = sandBoxObject.fractalSize;
+  this->linearRegressionValues = sandBoxObject.linearRegressionValues;
+//  this->fractalSize = sandBoxObject.fractalSize;
   return *this;
 }
 
@@ -78,31 +82,42 @@ SandBoxMethod::~SandBoxMethod()
   if(cgrMatrix != 0) cgrMatrix = 0;
   delete cgrMatrix;
   dqValues->clear();
+  linearRegressionValues->clear();
 }
 
 void SandBoxMethod::performAnalisys()
 {
   int nMomentums = maxQ - minQ + 1;
+  int dataLenght = maxR - minR + 1;
+  
   vector<double> qData(nMomentums);
   vector<double> dqData(nMomentums);
   
   for (int q = minQ, index = 0; q <= maxQ; ++q, ++index)
   {
+    vector<double> xData(dataLenght);
+    vector<double> yData(dataLenght);
+    
     qData.at(index) = q;
-    dqData.at(index) = calculateDqValue(q);
+    dqData.at(index) = calculateDqValue(q, xData, yData);
+    
+    linearRegressionValues->append(xData);
+    linearRegressionValues->append(yData);
   }
   dqValues->append(qData);
   dqValues->append(dqData);
 }
 
-double SandBoxMethod::calculateDqValue(const int & q)
+double SandBoxMethod::calculateDqValue(const int & q, vector<double> & xData,
+                                       vector<double> & yData)
 {
   int dataLenght = maxR - minR + 1;
   
-  vector<double> xData(dataLenght);
-  vector<double> yData(dataLenght);
+//  vector<double> xData(dataLenght);
+//  vector<double> yData(dataLenght);
   
   double massAverage;
+  int fractalSize = cgrMatrix->nRows(); 
   
   for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index)
   {
@@ -121,8 +136,7 @@ double SandBoxMethod::calculateDqValue(const int & q)
     }
     
     massAverage = VectorTools::mean<double,double>(masses);
-    
-    xData.at(index) = (q - 1) * log(radius/fractalSize);
+    xData.at(index) = (q - 1) * log(radius / fractalSize);
     yData.at(index) = log(massAverage);
   }
   
@@ -147,8 +161,8 @@ void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
   }
 } 
 
-double SandBoxMethod::countSandBoxPoints(const int & x, 
-                                         const int & y, 
+double SandBoxMethod::countSandBoxPoints(const int & x, // col
+                                         const int & y, // row
                                          const int & radius)
 {
   double sum = 0.0;
@@ -256,15 +270,15 @@ void SandBoxMethod::setDqValues(QList<vector<double> > * dqValues)
 }
 
 
-int SandBoxMethod::getFractalSize()
-{
-  return fractalSize;
-}
+//int SandBoxMethod::getFractalSize()
+//{
+//  return fractalSize;
+//}
 
-void SandBoxMethod::setFractalSize(int fractalSize)
-{
-  this->fractalSize = fractalSize;
-}
+//void SandBoxMethod::setFractalSize(int fractalSize)
+//{
+//  this->fractalSize = fractalSize;
+//}
 
 QList<vector<double> > * SandBoxMethod::getLinearRegressionValues()
 {
