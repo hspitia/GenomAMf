@@ -365,7 +365,7 @@ Plotter * sinSample()
   data->append(y2);
   data->append(y3);
   
-  Plotter * plotter = new Plotter(data, Plotter::Dq_plot);
+  Plotter * plotter = new Plotter(data, Plotter::Dq_Plot);
   return plotter;
 }
 
@@ -405,7 +405,7 @@ Plotter * rectSample()
   data->append(y2);
   data->append(y3);
   
-  Plotter * plotter = new Plotter(data, Plotter::Dq_plot);
+  Plotter * plotter = new Plotter(data, Plotter::Dq_Plot);
   plotter->setTitle("Rectas");
   plotter->setXLabel("Eje x");
   plotter->setYLabel("Eje y");

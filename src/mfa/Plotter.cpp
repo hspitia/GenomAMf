@@ -21,21 +21,39 @@
 
 #include "Plotter.h"
 
-Plotter::Plotter(const QList<vector<double> > * dataList,
+Plotter::Plotter(const QList<vector<double> > * dataListNormal,
                            plotType type)
 : mglDraw()
 {
-  this->dataList = dataList;
+  this->dataListNormal = dataListNormal;
+  this->dataListLinearReg = dataListLinearReg;
   this->type = type;
-  this->title = 0;
-  this->xLabel = 0;
-  this->yLabel = 0;
-  this->zLabel = 0;
+  this->title = "";
+  this->xLabel = "";
+  this->yLabel = "";
+  this->zLabel = "";
+}
+
+Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
+                           plotType type)
+: mglDraw()
+{
+  this->dataListNormal = 0;
+  this->dataListLinearReg = dataListLinearReg;
+  this->type = type;
+  this->title = "";
+  this->xLabel = "";
+  this->yLabel = "";
+  this->zLabel = "";
 }
 
 Plotter::~Plotter()
 {
+  if(dataListNormal != 0) dataListNormal = 0;
+  delete dataListNormal;
   
+  if(dataListLinearReg != 0) dataListLinearReg = 0;
+  delete dataListLinearReg;
 }
 
 void Plotter::configure(mglGraph * gr)
@@ -46,12 +64,12 @@ void Plotter::configure(mglGraph * gr)
   
   if(type != Linear_Plot){
     // Set title
-    if(title != 0) gr->Title(title);
+    if(title != 0) gr->Title(title.toLatin1().data());
   }
   
-  if(xLabel != 0) gr->Label('x', xLabel, 0);
-  if(yLabel != 0) gr->Label('y', yLabel, 0);
-  if(zLabel != 0) gr->Label('z', zLabel, 0);
+  if(!xLabel.isEmpty()) gr->Label('x', xLabel.toLatin1().data(), 0, -1.2, 1);
+  if(!yLabel.isEmpty()) gr->Label('y', yLabel.toLatin1().data(), 0, -1.2, 1);
+  if(!zLabel.isEmpty()) gr->Label('z', zLabel.toLatin1().data(), 0, -1.2, 1);
   
 //  gr->Grid("xy","W;");
 }
@@ -64,8 +82,8 @@ int Plotter::Draw(mglGraph *gr)
     case Linear_Plot:
       plotLinearRegression(gr);
       return 0;
-    case Dq_plot:
-    case Cq_plot:
+    case Dq_Plot:
+    case Cq_Plot:
       plotNormalData(gr);
       return 0;
     default:
@@ -80,13 +98,13 @@ int Plotter::Draw(mglGraph *gr)
 
 void Plotter::plotLinearRegression(mglGraph * gr)
 {
-  
+  Q_UNUSED(gr);
 }
 
 void Plotter::plotNormalData(mglGraph *gr)
 {
-  int nData = static_cast<int>(dataList->at(0).size());
-  int nSlices = dataList->count() - 1;
+  int nData = static_cast<int>(dataListNormal->at(0).size());
+  int nSlices = dataListNormal->count() - 1;
   
   double minValue =  800000;
   double maxValue = -800000;
@@ -98,22 +116,28 @@ void Plotter::plotNormalData(mglGraph *gr)
     for (int j = 0; j < nSlices; ++j)
     {
       index = i + (nData * j);
-      y.a[index] = dataList->at(j+1).at(i); 
+      y.a[index] = dataListNormal->at(j+1).at(i); 
       if(y.a[index] < minValue) minValue = y.a[index];
       if(y.a[index] > maxValue) maxValue = y.a[index];
       
     }
   }
-  int minX = dataList->at(0).at(0);
-  int maxX = dataList->at(0).at(nData-1);
+  int minX = dataListNormal->at(0).at(0);
+  int maxX = dataListNormal->at(0).at(nData-1);
   cout << maxX;
-  gr->SetRanges(minX, minValue, maxX,maxValue);
-  gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX, maxValue, maxValue));
-//  gr->SetTicks('x',5,4);
+  gr->SetRanges(minX, minValue, maxX*1.2,maxValue*1.2);
+  gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX*1.2, maxValue*1.2, maxValue*1.2));
   gr->Grid("xy","W");
+//  gr->Grid("xy","N");
   gr->Axis();
   gr->Box();
   gr->Plot(y, "2");
+  gr->AddLegend("Leyenda 1","-");
+  gr->AddLegend("Leyenda 2","-");
+  gr->AddLegend("Leyenda 3","-");
+  
+  gr->Puts(mglPoint(maxX*1.28,10,10),"texto");
+  gr->Legend();
 }
 
 void Plotter::plot0(mglGraph *gr)
@@ -121,19 +145,19 @@ void Plotter::plot0(mglGraph *gr)
   mglData x(100);
   mglData y(100);
   
-  int xSize = static_cast<int>(dataList->at(0).size());
-  int ySize = static_cast<int>(dataList->at(1).size());
+  int xSize = static_cast<int>(dataListNormal->at(0).size());
+  int ySize = static_cast<int>(dataListNormal->at(1).size());
   //  int nTicks = 
   
   mglData data(xSize,ySize);
   
-  x.Set(dataList->at(0));
-  y.Set(dataList->at(1));
+  x.Set(dataListNormal->at(0));
+  y.Set(dataListNormal->at(1));
   
-  double minX = dataList->at(0).at(0);
-  double maxX = dataList->at(0).at(xSize - 1); 
-  double minY = dataList->at(1).at(0);
-  double maxY = dataList->at(1).at(ySize - 1);
+  double minX = dataListNormal->at(0).at(0);
+  double maxX = dataListNormal->at(0).at(xSize - 1); 
+  double minY = dataListNormal->at(1).at(0);
+  double maxY = dataListNormal->at(1).at(ySize - 1);
   
   gr->SetRanges(minX,maxX,minY,maxY);
   gr->SetFontSizePT(9);
@@ -146,22 +170,32 @@ void Plotter::plot0(mglGraph *gr)
   
 }
 
-void Plotter::setTitle(char * title)
+void Plotter::setTitle(QString title)
 {
   this->title = title;
 }
 
-void Plotter::setXLabel(char * xLabel)
+void Plotter::setXLabel(QString xLabel)
 {
   this->xLabel = xLabel;
 }
 
-void Plotter::setYLabel(char * yLabel)
+void Plotter::setYLabel(QString yLabel)
 {
   this->yLabel = yLabel;
 }
 
-void Plotter::setZLabel(char * zLabel)
+void Plotter::setZLabel(QString zLabel)
 {
   this->zLabel = zLabel;
+}
+
+QStringList Plotter::getLegends()
+{
+  return legends;
+}
+
+void Plotter::setLegends(QStringList legends)
+{
+  this->legends = legends;
 }

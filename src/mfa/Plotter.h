@@ -47,6 +47,7 @@
 //#include <NumCalc/MatrixTools.h>
 
 #include <QtCore/QList>
+#include <QtCore/QString>
 
 //STL library
 #include <vector>
@@ -67,9 +68,11 @@ using namespace std;
 class Plotter : public mglDraw
 {
   public:
-    enum plotType {Linear_Plot, Dq_plot, Cq_plot};
+    enum plotType {Linear_Plot, Dq_Plot, Cq_Plot};
     
     Plotter(const QList<vector<double> > * dataList, plotType type);
+    Plotter(const QList<QList<vector<double> > > * dataList, 
+            plotType type = Linear_Plot);
     virtual ~Plotter();
     
     int Draw(mglGraph * gr);
@@ -79,31 +82,45 @@ class Plotter : public mglDraw
     /**
      * Asigna 
      */
-    void setTitle(char * title);
+    void setTitle(QString title);
 
     /**
      * Asigna 
      */
-    void setXLabel(char * xLabel);
+    void setXLabel(QString xLabel);
 
     /**
      * Asigna 
      */
-    void setYLabel(char * yLabel);
+    void setYLabel(QString yLabel);
     
     /**
      * Asigna 
      */
-    void setZLabel(char * zLabel);
+    void setZLabel(QString zLabel);
+
+    /**
+     * Retorna 
+     * @return 
+     */
+    QStringList getLegends();
     
+    /**
+     * Asigna 
+     */
+    void setLegends(QStringList legends);
     
   private:
-    const QList<vector<double> > * dataList;
+    const QList<vector<double> > * dataListNormal;
+    const QList<QList<vector<double> > > * dataListLinearReg;
     plotType type;
-    char * title; /**< Título del gráfico */
-    char * xLabel; /**< Etiqueta para el eje x */
-    char * yLabel; /**< Etiqueta para el eje y */
-    char * zLabel; /**< Etiqueta para el eje z */
+    QString title; /**< Título del gráfico */
+    QString xLabel; /**< Etiqueta para el eje x */
+    QString yLabel; /**< Etiqueta para el eje y */
+    QString zLabel; /**< Etiqueta para el eje z */
+    
+    QStringList legends; /**< Lista de cadenas correspondientes a las leyendas 
+      de los gráficos */
     
     void configure(mglGraph * gr);
     void plotLinearRegression(mglGraph * gr);
