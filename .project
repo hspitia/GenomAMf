@@ -64,7 +64,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.environment</key>
-					<value>PATH=/opt/qtsdk-2009.03/qt/bin:${env_var:PATH}:${env_var:PATH}|LC_ALL=C|</value>
+					<value>MGL_FONT_PATH=/usr/share/mathgl/fonts|PATH=/opt/qtsdk-2009.03/qt/bin:${env_var:PATH}:${env_var:PATH}|LC_ALL=C|</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.stopOnError</key>

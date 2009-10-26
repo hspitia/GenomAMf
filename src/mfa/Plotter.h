@@ -22,45 +22,30 @@
 #ifndef PLOTTERCLASS_H_
 #define PLOTTERCLASS_H_
 
-//#include <QPainter>
-//#include <QImage>
-//#include <QRgb>
-//
-//
-//#include <app/AppController.h>
-//#include <gui/MainWindow.h>
-//#include <cgr/ChaosGameRepresentation.h>
-//#include <mfa/SandBoxMethod.h>
-//
-//#include <utils/Utils.h>
-
-// The SeqLib library:
-//#include <Seq/Alphabet.h>
-//#include <Seq/AlphabetTools.h>
-//#include <Seq/DNA.h>
-//#include <Seq/Sequence.h>
-//#include <Seq/VectorSequenceContainer.h>
-//
-//
-//#include <NumCalc/VectorTools.h>
-//#include <NumCalc/Matrix.h>
-//#include <NumCalc/MatrixTools.h>
-
+// Qt library
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-//STL library
+// STL library
 #include <vector>
 #include <iostream>
-
+#include <cmath>
 
 using namespace std;
 
-//MathGl Library
+// MathGl Library
 #include <mgl/mgl_data.h>
 #include <mgl/mgl_zb.h>
 #include <mgl/mgl_font.h>
 #include <mgl/mgl_qt.h>
+
+// NumCalc Library
+#include <NumCalc/Matrix.h>
+
+using namespace bpp;
+
+// Project library
+#include <utils/Utils.h>
 
 /**
  * 
@@ -68,11 +53,12 @@ using namespace std;
 class Plotter : public mglDraw
 {
   public:
-    enum plotType {Linear_Plot, Dq_Plot, Cq_Plot};
+    enum plotType {Linear_Plot, Dq_Plot, Cq_Plot, Measures_Plot};
     
     Plotter(const QList<vector<double> > * dataList, plotType type);
     Plotter(const QList<QList<vector<double> > > * dataList, 
             plotType type = Linear_Plot);
+    Plotter(const RowMatrix<int> * dataMatrix, plotType type = Measures_Plot);
     virtual ~Plotter();
     
     int Draw(mglGraph * gr);
@@ -113,6 +99,7 @@ class Plotter : public mglDraw
   private:
     const QList<vector<double> > * dataListNormal;
     const QList<QList<vector<double> > > * dataListLinearReg;
+    const RowMatrix<int> * dataMatrix;
     plotType type;
     QString title; /**< Título del gráfico */
     QString xLabel; /**< Etiqueta para el eje x */
@@ -122,9 +109,12 @@ class Plotter : public mglDraw
     QStringList legends; /**< Lista de cadenas correspondientes a las leyendas 
       de los gráficos */
     
-    void configure(mglGraph * gr);
     void plotLinearRegression(mglGraph * gr);
     void plotNormalData(mglGraph * gr);
+    void plotMeasures(mglGraph * gr);
+    void setLabels(mglGraph *gr);
+    void setTitle(mglGraph *gr);
+    void setTicks(mglGraph *gr);
 };
 
 #endif /* PLOTTERCLASS_H_ */

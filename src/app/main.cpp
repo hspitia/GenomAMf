@@ -37,6 +37,8 @@
 #include <Seq/DNA.h>
 #include <Seq/Sequence.h>
 #include <Seq/VectorSequenceContainer.h>
+#include <NumCalc/RandomTools.h>
+
 
 
 #include <NumCalc/VectorTools.h>
@@ -278,54 +280,6 @@ int log(mglGraph *gr, void * ){
   return 0;
 }
 
-
-int runSample(){
-  /*
- 
-  mglGraphZB gr;
-  gr.Alpha(false);
-  gr.Light(true);             
-  gr.Light(0,mglPoint(1,0,-1));
-  sample1(&gr,NULL);           // The same drawing function.
-  gr.WritePNG("tmp/sample1.png");    // Don't forget to save the result!
-  gr.WriteJPEG("tmp/sample1.jpg");    // Don't forget to save the result!
-  
-  mglGraphZB gr2;
-  gr2.Alpha(false);
-  gr2.Light(true);             
-  gr2.Light(0,mglPoint(1,0,-1));
-  sample2(&gr2,NULL);           // The same drawing function.
-  gr2.WritePNG("tmp/sample2.png");    // Don't forget to save the result!
-  gr2.WriteJPEG("tmp/sample2.jpg");    // Don't forget to save the result!
-  
-  mglGraphZB gr3;
-  gr3.Alpha(false);
-  gr3.Light(true);             
-  gr3.Light(0,mglPoint(1,0,-1));
-  sample3(&gr3,NULL);           // The same drawing function.
-  gr3.WritePNG("tmp/sample3.png");    // Don't forget to save the result!
-  gr3.WriteJPEG("tmp/sample3.jpg");    // Don't forget to save the result!
-  
-  */
-  
-  mglGraphZB grPlot;
-//  grPlot.SetFontSizePT(10);
-//  grPlot.SetFont(new mglFont("MGL_FONT_ITAL"));
-//  cout<<boolalpha<<"fuente lista? "<<grPlot.GetFont()->GetNumGlyph()<<endl;
-  plot(&grPlot, NULL);
-//  grPlot.WritePNG("tmp/plot.png");
-  grPlot.WriteJPEG("tmp/plot.jpg");
-  
-  mglData x(100), y(100);
-  x.Modify("pow(10,6*x-3)"); 
-  y.Modify("sqrt(1+v^2)",x);
-  
-  mglGraphZB gr4;
-  log(&gr4,NULL);
-  gr4.WritePNG("tmp/log.png");
-  return 0;
-}
-
 Plotter * sinSample()
 {
   QList<vector<double> > * data = new QList<vector<double> >();
@@ -369,6 +323,69 @@ Plotter * sinSample()
   return plotter;
 }
 
+int freqSample(mglGraph *gr, void *)
+{
+  int maxX = 512;
+  int maxY = 512;
+  mglData a(maxX,maxY);
+  
+  srand((unsigned)time(0));
+  
+  for (int i = 0; i < maxX; ++i)
+  {
+    for (int j = 0; j < maxY; ++j)
+    {
+      int index = i + (maxX * j);
+//      a.a[index] = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(100);
+      a.a[index] =  (rand()%100);
+    }
+  }
+  gr->SetRanges(maxX, 0, maxY, 0, 0, 100);
+  gr->SetFontSizePT(9);
+  gr->SetTicks('x', 128, 4);
+  gr->SetTicks('y', 128, 4);
+  gr->SetTicks('z', 20, 4);
+  gr->Rotate(40, 60);  
+  gr->Light(true);
+//  gr->Box();
+  gr->Axis();
+  gr->Boxs(a,"bcyr");
+//  gr->Boxs(a,"bcyr|");
+//  gr->Boxs(a,"Bbcyr|");
+//  gr->Boxs(a,"Bbcyr");
+//  gr->Boxs(a,"kw");
+//  gr->Boxs(a,"kRryw");
+//  gr->Fall(a);
+//  gr->Boxs(a);
+//  gr->Surf(a,"bcyr");
+//  gr->Mesh(a,"bcyr");
+  return 0;
+}
+
+Plotter * measuresSample()
+{
+  int maxX = 60;
+  int maxY = 60;
+  RowMatrix<int> * matrix = new RowMatrix<int>(maxX, maxY);
+  
+  srand((unsigned)time(0));
+  
+  for (int i = 0; i < maxX; ++i)
+  {
+    for (int j = 0; j < maxY; ++j)
+    {
+      (*matrix)(i,j) = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(100);
+//      (*matrix)(i,j) =  (rand()%100);
+    }
+  }
+  
+  Plotter * plotter = new Plotter(matrix, Plotter::Measures_Plot);
+  plotter->setTitle("Medidas \\mu");
+  plotter->setXLabel("Eje x");
+  plotter->setYLabel("Eje y");
+  plotter->setZLabel("Eje z");
+  return plotter;
+}
 
 Plotter * rectSample()
 {
@@ -412,66 +429,72 @@ Plotter * rectSample()
   return plotter;
 }
 
-
-int main(int argc, char *argv[])
+Plotter * multiRectSample()
 {
- /* 
-  // NORMAL
+  QList<QList<vector<double> > > * data = new QList<QList<vector<double> > >();
+  
+  for (int n = 0; n < 5; ++n)
+  {
+    QList<vector<double> > subData = QList<vector<double> >();
+    vector<double>  q(50);
+    vector<double> y1(50);
+    vector<double> y2(50);
+    vector<double> y3(50);
+    
+    int datum = -20; 
+    for (unsigned int i = 0; i < q.size(); ++i, datum++)
+    {
+      q.at(i) = datum;
+    }
+    for (unsigned int i = 0; i < y1.size(); ++i)
+    {
+      y1.at(i) = i * 0.5;
+    }
+    cout << endl;
+    for (unsigned int i = 0; i < y2.size(); ++i)
+    {
+      y2.at(i) = i * 0.8;
+    }
+    cout << endl;
+    
+    for (unsigned int i = 0; i < y3.size(); ++i)
+    {
+      y3.at(i) = i;
+    }
+    cout << endl;
+    
+    subData.append(q);
+    subData.append(y1);
+    subData.append(y2);
+    subData.append(y3);
+    data->append(subData);
+  }
+  Plotter * plotter = new Plotter(data, Plotter::Linear_Plot);
+  plotter->setTitle("Multi Rectas");
+  plotter->setXLabel("Eje x");
+  plotter->setYLabel("Eje y");
+  
+  return plotter;
+}
+
+int appNormal(int argc, char *argv[])
+{
   AppController * app = new AppController(argc, argv);
-//  app->getMainWindow()->showMaximized();
+  //  app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
   return app->exec();
-  */
-  
-//  QApplication app(argc, argv);
-//  pruebaSequences();
-  runSample(); // MathGl samples
-//  performCgr();
-//  linkProteinSequence();
-//  testPaint();
-//  testRandomGenerarion();
-  // TODO Probar regresión lineal
-  // TODO Implementar conteo en cada sand box
-//  return 0;
-  
-  /*
-  QApplication a(argc,argv);
-  QMainWindow *Wnd = new QMainWindow;
-  Wnd->resize(650,480);  // for fill up the QMGL, menu and toolbars
-  Wnd->setWindowTitle("Ventana");
-  // here I allow to scroll QMathGL -- the case 
-  // then user want to prepare huge picture
-  QScrollArea *scroll = new QScrollArea(Wnd);
-  
-  // Create and setup QMathGL
-  QMathGL *QMGL = new QMathGL(Wnd);
-//  QMGL->setPopup(popup); // if you want to setup popup menu for QMGL
-  mglGraphZB gr4;
-  QMGL->setDraw(plot, NULL);
-  // or use QMGL->setDraw(foo); for instance of class Foo:public mglDraw
-  QMGL->update();
-  
-  // continue other setup (menu, toolbar and so on)
-//  makeMenu();
-  scroll->setWidget(QMGL);
-  Wnd->setCentralWidget(scroll);
-  Wnd->show();
-  return a.exec();
-  */
+}
 
-  /*
-  mglGraphQT gr;
-  gr.Window(argc,argv,log,"2D plots");
-  return mglQtRun();*/
-  
-  
-
-//  Plotter * plotter = sinSample();
-  Plotter * plotter = rectSample();
+int appPlot(int argc, char *argv[])
+{
+  //  Plotter * plotter = sinSample();
+  //  Plotter * plotter = rectSample();
+//  Plotter * plotter = multiRectSample();
+  Plotter * plotter = measuresSample();
   
   QApplication a(argc,argv);
   QMainWindow *Wnd = new QMainWindow;
-  Wnd->resize(650,480);  // for fill up the QMGL, menu and toolbars
+  Wnd->resize(800,600);  // for fill up the QMGL, menu and toolbars
   Wnd->setWindowTitle("Ventana");
   // here I allow to scroll QMathGL -- the case 
   // then user want to prepare huge picture
@@ -480,6 +503,8 @@ int main(int argc, char *argv[])
   // Create and setup QMathGL
   QMathGL *QMGL = new QMathGL(Wnd);
   //  QMGL->setPopup(popup); // if you want to setup popup menu for QMGL
+  int nPlotRows = 1;
+//  QMGL->setSize(580, 260 * nPlotRows);
   QMGL->setDraw(plotter);
   // or use QMGL->setDraw(foo); for instance of class Foo:public mglDraw
   QMGL->update();
@@ -490,5 +515,54 @@ int main(int argc, char *argv[])
   Wnd->setCentralWidget(scroll);
   Wnd->show();
   return a.exec();
+}
+
+int animationSample(mglGraph *gr, void *)
+{
+  mglData dat(100);
+  char str[32];
+  gr->StartGIF("sample.gif");
+  for(int i=0;i<100;i++)
+  {
+    gr->NewFrame();     // start frame
+    gr->Box();          // some plotting
+    sprintf(str,"sin(pi*x+%g*pi)",0.02*i);
+    dat.Modify(str);
+    gr->Plot(dat,"b");
+    gr->EndFrame();     // end frame
+  }
+  gr->CloseGIF();
+  return 0;
+}
+
+
+int runSample(int argc, char *argv[])
+{
+  
+/*
+  mglGraphQT gr;
+  gr.Window(argc,argv,freqSample,"MathGL examples");
+//  gr.Window(argc,argv,log,"MathGL examples");
+  return mglQtRun();
+*/
+
+  Q_UNUSED(argc);
+  Q_UNUSED(argv);
+  mglGraph *gr = new mglGraphZB;
+//  log(gr, NULL);
+//  freqSample(gr, NULL);
+  animationSample(gr, NULL);
+  gr->ShowImage();    delete gr;
+  return 0;
+  
+}
+
+int main(int argc, char *argv[])
+{
+//  return appNormal(argc, argv);
+  return runSample(argc, argv); // MathGl samples
+//  return appPlot(argc, argv);
+  // TODO Probar regresión lineal
+  // TODO Implementar conteo en cada sand box
 }
 
