@@ -108,7 +108,7 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
     
     ++cgrObjectsCounter;
   }
-  
+  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
 //  return cgrObject;
   return cgrKey;
 }

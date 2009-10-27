@@ -442,9 +442,10 @@ void MainWindow::makeCgr()
         int key = cgrParametersForm->getSelectedSequencesKeys().at(i);
         if (key != -1)
         {
-          cout << "DEBUG - MainWindow::270 - " << "key: " << key << endl;
+          cout << "DEBUG - MainWindow::445 - " << "key: " << key << endl;
 //          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
           int cgrKey = parentApp->makeCgr(key);
+          cout << "MainWindow::448  --  cgrKey " << cgrKey << endl;
 //          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
           displayCgrResults(cgrKey);
           
@@ -543,6 +544,7 @@ void MainWindow::displayMfaResults()
 
 void MainWindow::displayCgrResults(const int & cgrKey)
 {
+  cout << "MainWindow::546  --  cgrKey " << cgrKey << endl; 
   const ChaosGameRepresentation * cgr = parentApp->getCgrHash()->value(cgrKey);
   //          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
   if(cgr != 0)

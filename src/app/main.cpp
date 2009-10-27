@@ -546,29 +546,27 @@ int animationSample(mglGraph *gr, void *)
 int runSample(int argc, char *argv[])
 {
   
-/*
   mglGraphQT gr;
   gr.Window(argc,argv,freqSample,"MathGL examples");
 //  gr.Window(argc,argv,log,"MathGL examples");
   return mglQtRun();
-*/
 
   Q_UNUSED(argc);
   Q_UNUSED(argv);
-  mglGraph *gr = new mglGraphZB;
+/*  mglGraph *gr = new mglGraphZB;
 //  log(gr, NULL);
-//  freqSample(gr, NULL);
-  animationSample(gr, NULL);
+  freqSample(gr, NULL);
+//  animationSample(gr, NULL);
   gr->ShowImage();    delete gr;
-  return 0;
+  return 0;*/
   
 }
 
 int main(int argc, char *argv[])
 {
   return appNormal(argc, argv);
-//  return runSample(argc, argv); // MathGl samples
 //  return appPlot(argc, argv);
+//  return runSample(argc, argv); // MathGl samples
   // TODO Probar regresión lineal
   // TODO Implementar conteo en cada sand box
 }

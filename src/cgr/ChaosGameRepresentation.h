@@ -128,7 +128,7 @@ class ChaosGameRepresentation
     RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los 
       puntos de la CGR */
     string imagefilePath; /**< Ruta del archivo de imagen generado de la CGR */
-
+    
     vector<int> translatedSequence; /**< Secuencia traducida al alfabeto {0,1,
       2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
       para secuencias de proteínas. */

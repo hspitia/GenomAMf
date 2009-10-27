@@ -252,7 +252,9 @@ void Plotter::plotMeasures(mglGraph * gr)
     gr->Light(true);
     //  gr->Box();
     gr->Axis();
-    gr->Boxs(a,"bcyr");
+//    gr->Boxs(a,"bcyr");
+//    gr->Boxs(a,"Rrcyb");
+    gr->Boxs(a,"Rrygb");
     setLabels(gr);
   }
 }

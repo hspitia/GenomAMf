@@ -114,10 +114,12 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   
   int xImagePoints[4]  = { 0, 0, cgrSize,    cgrSize };
   int yImagePoints[4]  = { cgrSize,    0, 0, cgrSize };
+  
   int xMatrixPoints[4] = { 0, 0, matrixSize, matrixSize };
   int yMatrixPoints[4] = { matrixSize, 0, 0, matrixSize };
-//  int xPoints[4] = { 0, 0, 1, 1 };
-//  int yPoints[4] = { 1, 0, 0, 1 };
+  // Para parejas de coordenadas reales (continuas)
+  int xPoints[4] = { 0, 0, 1, 1 };
+  int yPoints[4] = { 1, 0, 0, 1 };
   
   const vector<int> * ptrSequence;
   
@@ -132,11 +134,15 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   { 
     ptrSequence = &sequence->getContent();
   }
+  double x = 1 / 2;
+  double y = x;
+  
   int xImage = utils::round((double)cgrSize/2);
   int yImage = xImage;
   
   int xMatrix =  utils::round((double)matrixSize/2);
   int yMatrix = xMatrix;
+  
   
   if(generateImage){
     QImage * cgrImage = new QImage(cgrSize + (margin * 2), 

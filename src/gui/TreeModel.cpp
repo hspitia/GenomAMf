@@ -107,13 +107,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
         
         case TreeItem::DnaSequenceItem: 
         case TreeItem::ProteinSequenceItem:
-          return QBrush(QColor("#FFFFFF"));
-        /*case TreeItem::CgrItem:
-          return tr("Rep. Juego del Caos");
+        case TreeItem::CgrItem:
+          return QBrush(QColor("#EEECE1"));
         case TreeItem::MfaItem:
-          return tr("Análisis Multifractal");
+          return QBrush(QColor("#E5E0EC"));
         case TreeItem::CorrelItem:
-          return tr("Análisis de Correlación");*/
+          return QBrush(QColor("#FDEADA"));
         default:
           return QVariant();
       }
