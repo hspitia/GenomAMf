@@ -58,7 +58,8 @@ class Plotter : public mglDraw
     Plotter(const QList<vector<double> > * dataList, plotType type);
     Plotter(const QList<QList<vector<double> > > * dataList, 
             plotType type = Linear_Plot);
-    Plotter(const RowMatrix<int> * dataMatrix, plotType type = Measures_Plot);
+    Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
+            plotType type = Measures_Plot);
     virtual ~Plotter();
     
     int Draw(mglGraph * gr);
@@ -99,7 +100,7 @@ class Plotter : public mglDraw
   private:
     const QList<vector<double> > * dataListNormal;
     const QList<QList<vector<double> > > * dataListLinearReg;
-    const RowMatrix<int> * dataMatrix;
+    const QList<RowMatrix<int> * > * dataListMatrix;
     plotType type;
     QString title; /**< Título del gráfico */
     QString xLabel; /**< Etiqueta para el eje x */

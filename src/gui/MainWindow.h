@@ -130,6 +130,11 @@ class MainWindow : public QMainWindow
     /**
      * 
      */
+    void insertTreeMainElements();
+    
+    /**
+     * 
+     */
     void insertSequenceToTreeView(const Sequence * sequence, const int & key);
     
     void insertSequenceToSequenceListModel(const Sequence * sequence, 
@@ -146,7 +151,16 @@ class MainWindow : public QMainWindow
 //    {
 //      
 //    }
+    /**
+     * 
+     */
+    void displayMfaResults();
     
+    /**
+     * 
+     */
+    void displayCgrResults( const int & cgrKey );
+
     
   private slots:
     /**
@@ -163,11 +177,11 @@ class MainWindow : public QMainWindow
      * 
      */
     void makeMultifractalAnalisys();
-
+    
     /**
      * 
      */
-    void displayMfaResults();
+    void displayResultForm(QModelIndex index);
     
     /**
      * 

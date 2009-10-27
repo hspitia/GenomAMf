@@ -84,7 +84,7 @@ QDockWidget::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Archivo">
@@ -192,6 +192,9 @@ QDockWidget::title {
            <pointsize>8</pointsize>
           </font>
          </property>
+         <property name="midLineWidth">
+          <number>1</number>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
@@ -201,14 +204,26 @@ QDockWidget::title {
          <property name="showDropIndicator" stdset="0">
           <bool>false</bool>
          </property>
+         <property name="alternatingRowColors">
+          <bool>false</bool>
+         </property>
          <property name="iconSize">
           <size>
            <width>16</width>
            <height>16</height>
           </size>
          </property>
+         <property name="indentation">
+          <number>20</number>
+         </property>
+         <property name="uniformRowHeights">
+          <bool>true</bool>
+         </property>
          <property name="animated">
           <bool>true</bool>
+         </property>
+         <property name="headerHidden">
+          <bool>false</bool>
          </property>
          <attribute name="headerShowSortIndicator" stdset="0">
           <bool>true</bool>

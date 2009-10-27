@@ -5,6 +5,7 @@ CgrParametersForm::CgrParametersForm(SequenceListModel * model,
   QDialog(parent), ui(new Ui::CgrParametersForm())
 {
   sequenceSelectedKey = -1;
+  selectedSequencesKeys = QList<int>();
   ui->setupUi(this);
   ui->sequenceTableView->setModel(model);
   ui->sequenceTableView->selectRow(0);
@@ -29,19 +30,32 @@ int CgrParametersForm::getSequenceSelectedKey(){
   return sequenceSelectedKey;
 }
 
+QList<int> CgrParametersForm::getSelectedSequencesKeys()
+{
+  return selectedSequencesKeys;
+}
+
 void CgrParametersForm::done(int result)
 {
-  // TODO Verificar validación de existencia de modelo o index
-  
   if (result == QDialog::Accepted) {
-    QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
-    QAbstractItemModel *model = ui->sequenceTableView->model();
-
-    if(model->rowCount() > 0)
-      sequenceSelectedKey = model->data(index,Qt::UserRole).toInt();
-//    QListWidgetItem *item = listWidget->currentItem();
-//    if (item)
-//      id = item->data(Qt::UserRole).toInt();
+    QList<QModelIndex> selectedIndexes = ui->sequenceTableView->
+            selectionModel()->selectedRows();
+    
+    if (!selectedIndexes.isEmpty()) {
+      for (int i = 0; i < selectedIndexes.count(); ++i)
+      {
+        QModelIndex index = selectedIndexes.at(i);
+        QAbstractItemModel *model = ui->sequenceTableView->model();
+        
+//        if(model->rowCount() > 0)
+        selectedSequencesKeys << model->data(index,Qt::UserRole).toInt();
+//          sequenceSelectedKey = model->data(index,Qt::UserRole).toInt();
+        //    QListWidgetItem *item = listWidget->currentItem();
+        //    if (item)
+        //      id = item->data(Qt::UserRole).toInt();
+        
+      }
+    }
   }
   QDialog::done(result);
 }

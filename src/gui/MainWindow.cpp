@@ -66,8 +66,8 @@ void MainWindow::connectSignalsSlots()
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
           SLOT(makeMultifractalAnalisys()));
   connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
-  connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex)), this,
-          SLOT(displayMfaResults()));
+  connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex /*index*/)), 
+          this, SLOT(displayResultForm(QModelIndex /*index*/)));
   
 }
 
@@ -85,6 +85,50 @@ void MainWindow::setUpExplorerTreeView()
   ui->explorerTreeView->setColumnHidden(1, isHidden);
   ui->explorerTreeView->setColumnHidden(2, isHidden);
   
+  // Insert main elements
+  insertTreeMainElements();
+  
+  
+}
+
+void MainWindow::insertTreeMainElements()
+{
+
+  QVector<QVariant> mainSeqElementData;
+  QVector<QVariant> mainMfaElementData;
+  QVector<QVariant> mainCorrelElementData;
+  
+  mainSeqElementData << "Secuencias";
+  mainSeqElementData << TreeItem::MainSequenceItem;
+  mainSeqElementData << -1;
+  mainMfaElementData << "Análisis Multifractal";
+  mainMfaElementData << TreeItem::MainMfaItem;
+  mainMfaElementData << -1;
+  mainCorrelElementData << "Análisis de Correlación";
+  mainCorrelElementData << TreeItem::MainCorrelationItem;
+  mainCorrelElementData << -1;
+  
+  QList<QVector<QVariant> > dataList;
+  
+  dataList << mainSeqElementData;
+  dataList << mainMfaElementData;
+  dataList << mainCorrelElementData;
+  
+  QModelIndex index = ui->explorerTreeView->model()->index(0, 0);
+  
+  for (int i = 0; i < 3; ++i)
+  {
+    if (!treeModel->insertRow(index.row() + i + 1, index.parent())) return;
+    
+    for (int column = 0; column < treeModel->columnCount(index.parent()); ++column)
+    {
+      QModelIndex child = treeModel->index(index.row() + i + 1, column,
+                                           index.parent());
+      treeModel->setData(child, dataList.at(i).at(column), Qt::EditRole);
+    }
+    
+  }
+  
 }
 
 void MainWindow::addSequenceToModels(const Sequence * sequence, const int & key)
@@ -96,7 +140,7 @@ void MainWindow::addSequenceToModels(const Sequence * sequence, const int & key)
 void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
                                           const int & key)
 {
-  int count = treeModel->rowCount();
+  /*int count = treeModel->rowCount();
   
   QModelIndex index = ui->explorerTreeView->model()->index(count - 1, 0);
   int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
@@ -121,6 +165,97 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
             index.parent());
     treeModel->setData(child, data.at(column), Qt::EditRole);
   }
+  */
+  /* ------ */
+  
+  QVector<QVariant> data;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
+  
+  // Tipo de item según el tipo de secuencia
+  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+  if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
+  else if (type == GenomAMf::Proteic_Alphabet) data
+  << TreeItem::ProteinSequenceItem;
+  
+  // Key de Hash contenedor
+  //  data << parentApp->getSequences()->getSequencesHash().key(sequence);
+  data << key;
+  
+  QAbstractItemModel *model = treeModel;
+  QModelIndex mainSeqElementIndex = model->index(0, 0);
+  int count = treeModel->getItem(mainSeqElementIndex)->childCount();
+  int row = 0;
+  QModelIndex index;
+  QModelIndex parentIndex;
+  if(count == 0){
+    index = mainSeqElementIndex;
+    parentIndex = index;
+    if (!model->insertRow(0, mainSeqElementIndex)) return;
+  }
+  else{
+    row = count;
+    index = model->index(row - 1, 0, mainSeqElementIndex);
+    parentIndex = mainSeqElementIndex;
+    if (!model->insertRow(row, mainSeqElementIndex)) return;
+  }
+  
+  for (int column = 0; column < model->columnCount(index); ++column)
+  {
+    QModelIndex child = model->index(row, column, parentIndex);
+    model->setData(child, data.at(column), Qt::EditRole);
+    if (!model->headerData(column, Qt::Horizontal).isValid()) 
+      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), 
+                           Qt::EditRole);
+  }
+  
+  ui->explorerTreeView->selectionModel()->
+      setCurrentIndex(model->index(row, 0,parentIndex),
+                      QItemSelectionModel::ClearAndSelect);
+  
+/*
+  QModelIndex index = treeModel->index(0, 0, QModelIndex());
+  QAbstractItemModel *model = treeModel;
+  
+  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+  
+  if (model->columnCount(index) == 0)
+  {
+    if (!model->insertColumn(0, index)) return;
+  }
+  
+//  TreeItem * item = treeModel->getItem(index);
+//  int row = item->childCount() - 1;
+//  cout << "debug --- childCount: "<< row << endl;
+//  if (row < 0) ++row;
+//  cout << "debug --- position: "<< row << endl;
+  if (!model->insertRow(0, index)) return;
+  
+  QVector<QVariant> data;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
+  
+  // Tipo de item según el tipo de secuencia
+  if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
+  else if (type == GenomAMf::Proteic_Alphabet) data
+  << TreeItem::ProteinSequenceItem;
+  
+  // Key de Hash contenedor
+  //  data << parentApp->getSequences()->getSequencesHash().key(sequence);
+  data << key;
+  
+  for (int column = 0; column < model->columnCount(index); ++column)
+  {
+    QModelIndex child = model->index(0, column, index);
+    model->setData(child, data.at(column), Qt::EditRole);
+    if (!model->headerData(column, Qt::Horizontal).isValid()) 
+      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), 
+                            Qt::EditRole);
+  }
+  
+  ui->explorerTreeView->selectionModel()->setCurrentIndex(
+                                          model->index(0, 0,
+                                          index), 
+                                          QItemSelectionModel::ClearAndSelect);
+  */
 }
 
 void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence,
@@ -153,7 +288,8 @@ void MainWindow::addCgrToModels(const int & cgrKey, const int & sequenceKey)
 void MainWindow::insertCgrToTreeView(const int & cgrKey,
                                      const int & sequenceKey)
 {
-  QModelIndex index = treeModel->index(sequenceKey, 0, QModelIndex());
+  QModelIndex mainSeqElementIndex = treeModel->index(0, 0, QModelIndex());
+  QModelIndex index = treeModel->index(sequenceKey, 0, mainSeqElementIndex);
   QAbstractItemModel *model = treeModel;
   
   if (model->columnCount(index) == 0)
@@ -300,24 +436,22 @@ void MainWindow::makeCgr()
     
     if (cgrParametersForm->exec() == QDialog::Accepted)
     {
-      int key = cgrParametersForm->getSequenceSelectedKey();
-      if (key != -1)
+      for (int i = 0; i < cgrParametersForm->getSelectedSequencesKeys().
+          count(); ++i)
       {
-        cout << "DEBUG - MainWindow::270 - " << "key: " << key << endl;
-        const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
-        cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
-        CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
-        ui->mdiArea->addSubWindow(cgrResultsForm);
-        cgrResultsForm->show();
-        //        QMessageBox msgBox;
-        //        msgBox.setText("Representación del Juego del Caos");
-        //        msgBox.setInformativeText(QString("Key sequence: %1").arg(key));
-        //        msgBox.setStandardButtons(QMessageBox::Ok);
-        //        msgBox.setDefaultButton(QMessageBox::Ok);
-        //        msgBox.setTextFormat(Qt::RichText);
-        //        msgBox.exec();
-        
-
+        int key = cgrParametersForm->getSelectedSequencesKeys().at(i);
+        if (key != -1)
+        {
+          cout << "DEBUG - MainWindow::270 - " << "key: " << key << endl;
+//          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
+          int cgrKey = parentApp->makeCgr(key);
+//          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
+          displayCgrResults(cgrKey);
+          
+//          CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+//          ui->mdiArea->addSubWindow(cgrResultsForm);
+//          cgrResultsForm->show();
+        }
       }
     }
   }
@@ -373,11 +507,50 @@ void MainWindow::makeMultifractalAnalisys()
   
 }
 
+void MainWindow::displayResultForm(QModelIndex index)
+{
+  QModelIndex typeIndex = treeModel->index(index.row(), 1, index.parent());
+  QModelIndex keyIndex = treeModel->index(index.row(), 2, index.parent());
+  int elementType = treeModel->data(typeIndex, Qt::DisplayRole).toInt();
+  int key = treeModel->data(keyIndex, Qt::DisplayRole).toInt();
+  cout << "Type: "<< elementType << "  Key: "<< key << endl;
+  
+  switch (elementType)
+  {
+    case TreeItem::CgrItem:
+      displayCgrResults(key);
+      return;
+      
+    case TreeItem::MfaItem:
+      
+      return;
+      
+    case TreeItem::CorrelItem:
+      
+      return;
+      
+  }
+  
+}
+
 void MainWindow::displayMfaResults()
 {
   MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
+}
+
+
+void MainWindow::displayCgrResults(const int & cgrKey)
+{
+  const ChaosGameRepresentation * cgr = parentApp->getCgrHash()->value(cgrKey);
+  //          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
+  if(cgr != 0)
+  {
+    CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+    ui->mdiArea->addSubWindow(cgrResultsForm);
+    cgrResultsForm->show();
+  }
 }
 
 void MainWindow::closeSubWindow()

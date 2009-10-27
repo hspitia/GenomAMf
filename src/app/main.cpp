@@ -364,22 +364,28 @@ int freqSample(mglGraph *gr, void *)
 
 Plotter * measuresSample()
 {
-  int maxX = 60;
-  int maxY = 60;
-  RowMatrix<int> * matrix = new RowMatrix<int>(maxX, maxY);
-  
-  srand((unsigned)time(0));
-  
-  for (int i = 0; i < maxX; ++i)
+  QList<RowMatrix<int> * > * dataList = new QList<RowMatrix<int> * >();
+  for (int mainIndex = 0; mainIndex < 5; ++mainIndex)
   {
-    for (int j = 0; j < maxY; ++j)
+    int maxX = 60;
+    int maxY = 60;
+    RowMatrix<int> * matrix = new RowMatrix<int>(maxX, maxY);
+    
+    srand((unsigned)time(0));
+    
+    for (int i = 0; i < maxX; ++i)
     {
-      (*matrix)(i,j) = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(100);
-//      (*matrix)(i,j) =  (rand()%100);
+      for (int j = 0; j < maxY; ++j)
+      {
+        (*matrix)(i,j) = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(101);
+        //      (*matrix)(i,j) =  (rand()%100);
+      }
     }
+    
+    dataList->append(matrix);
+    
   }
-  
-  Plotter * plotter = new Plotter(matrix, Plotter::Measures_Plot);
+  Plotter * plotter = new Plotter(dataList, Plotter::Measures_Plot);
   plotter->setTitle("Medidas \\mu");
   plotter->setXLabel("Eje x");
   plotter->setYLabel("Eje y");
@@ -503,8 +509,9 @@ int appPlot(int argc, char *argv[])
   // Create and setup QMathGL
   QMathGL *QMGL = new QMathGL(Wnd);
   //  QMGL->setPopup(popup); // if you want to setup popup menu for QMGL
-  int nPlotRows = 1;
-//  QMGL->setSize(580, 260 * nPlotRows);
+  int nPlotRows = 3;
+//  QMGL->setSize(580, 260 * nPlotRows); // Linear regression
+  QMGL->setSize(620, 280 * nPlotRows); // Measures
   QMGL->setDraw(plotter);
   // or use QMGL->setDraw(foo); for instance of class Foo:public mglDraw
   QMGL->update();
@@ -522,7 +529,7 @@ int animationSample(mglGraph *gr, void *)
   mglData dat(100);
   char str[32];
   gr->StartGIF("sample.gif");
-  for(int i=0;i<100;i++)
+  for (int i = 0; i < 100; i++)
   {
     gr->NewFrame();     // start frame
     gr->Box();          // some plotting
@@ -559,8 +566,8 @@ int runSample(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-//  return appNormal(argc, argv);
-  return runSample(argc, argv); // MathGl samples
+  return appNormal(argc, argv);
+//  return runSample(argc, argv); // MathGl samples
 //  return appPlot(argc, argv);
   // TODO Probar regresión lineal
   // TODO Implementar conteo en cada sand box

@@ -35,10 +35,10 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    if (role != Qt::DisplayRole && 
-            role != Qt::EditRole && 
-            role != Qt::DecorationRole)
-        return QVariant();
+//    if (role != Qt::DisplayRole && 
+//            role != Qt::EditRole && 
+//            role != Qt::DecorationRole)
+//        return QVariant();
     
     TreeItem *item = getItem(index);
     if(!item)
@@ -47,6 +47,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if (role == Qt::DisplayRole){
       if(index.column() == 0){
         switch (item->data(1).toInt()){
+          case TreeItem::MainSequenceItem:
+            return tr("Secuencias");
+          case TreeItem::MainMfaItem:
+            return tr("Análisis Multifractal");
+          case TreeItem::MainCorrelationItem:
+            return tr("Análisis de Correlación");
           case TreeItem::DnaSequenceItem: 
           case TreeItem::ProteinSequenceItem:
             return item->data(index.column());
@@ -68,6 +74,48 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
     if(role == Qt::DecorationRole){
       if(index.column() == 0){
         return getIcon(item->data(1).toInt());
+      }
+    }
+    
+    if(role == Qt::FontRole){
+      switch (item->data(1).toInt()){
+        case TreeItem::MainSequenceItem:
+        case TreeItem::MainMfaItem:
+        case TreeItem::MainCorrelationItem:
+          return QFont("Sans", 8, QFont::Bold);
+        
+        /*case TreeItem::DnaSequenceItem: 
+        case TreeItem::ProteinSequenceItem:
+          return item->data(index.column());
+        case TreeItem::CgrItem:
+          return tr("Rep. Juego del Caos");
+        case TreeItem::MfaItem:
+          return tr("Análisis Multifractal");
+        case TreeItem::CorrelItem:
+          return tr("Análisis de Correlación");*/
+        default:
+          return QVariant();
+      }
+    }
+    
+    if(role == Qt::BackgroundRole){
+      switch (item->data(1).toInt()){
+        case TreeItem::MainSequenceItem:
+        case TreeItem::MainMfaItem:
+        case TreeItem::MainCorrelationItem:
+          return QBrush(QColor(240,240,240));
+        
+        case TreeItem::DnaSequenceItem: 
+        case TreeItem::ProteinSequenceItem:
+          return QBrush(QColor("#FFFFFF"));
+        /*case TreeItem::CgrItem:
+          return tr("Rep. Juego del Caos");
+        case TreeItem::MfaItem:
+          return tr("Análisis Multifractal");
+        case TreeItem::CorrelItem:
+          return tr("Análisis de Correlación");*/
+        default:
+          return QVariant();
       }
     }
     
@@ -297,6 +345,12 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent)
 QIcon TreeModel::getIcon(const int & type) const
 {
   switch (type){
+    case TreeItem::MainSequenceItem:
+          return QIcon(":/icons/seq.png");
+    case TreeItem::MainMfaItem:
+      return QIcon(":/icons/mfa.png");
+    case TreeItem::MainCorrelationItem:
+      return QIcon(":/icons/correl.png");
     case TreeItem::DnaSequenceItem:
       return QIcon(":/icons/seq_dna.png");
     case TreeItem::ProteinSequenceItem:

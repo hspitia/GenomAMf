@@ -34,6 +34,12 @@ public:
      * @return 
      */
     int getSequenceSelectedKey();
+
+    /**
+     * Retorna 
+     * @return 
+     */
+    QList<int> getSelectedSequencesKeys();
     
     void done(int result);
     
@@ -41,8 +47,8 @@ private:
     Ui::CgrParametersForm *ui;
     int sequenceSelectedKey; /**< Clave de la secuencia seleccionada por el 
       usuario */
-    
-    
+    QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
+      seleccionadas por el usuario */
     
 };
 

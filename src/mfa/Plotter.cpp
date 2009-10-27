@@ -26,7 +26,7 @@ Plotter::Plotter(const QList<vector<double> > * dataListNormal, plotType type) :
 {
   this->dataListNormal = dataListNormal;
   this->dataListLinearReg = 0;
-  this->dataMatrix = 0;
+  this->dataListMatrix = 0;
   this->type = type;
   this->title = "";
   this->xLabel = "";
@@ -40,7 +40,7 @@ Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
 {
   this->dataListNormal = 0;
   this->dataListLinearReg = dataListLinearReg;
-  this->dataMatrix = 0;
+  this->dataListMatrix = 0;
   this->type = type;
   this->title = "";
   this->xLabel = "";
@@ -48,12 +48,12 @@ Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
   this->zLabel = "";
 }
 
-Plotter::Plotter(const RowMatrix<int> * dataMatrix, 
+Plotter::Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
                  plotType type) : mglDraw()
 {
   this->dataListNormal = 0;
-  this->dataListLinearReg = dataListLinearReg;
-  this->dataMatrix = dataMatrix;
+  this->dataListLinearReg = 0;
+  this->dataListMatrix = dataListMatrix;
   this->type = type;
   this->title = "";
   this->xLabel = "";
@@ -72,15 +72,23 @@ Plotter::~Plotter()
 
 void Plotter::setLabels(mglGraph *gr)
 {
-  if (!xLabel.isEmpty()) gr->Label('x', xLabel.toLatin1().data(), 0, -1.2, 1);
-  if (!yLabel.isEmpty()) gr->Label('y', yLabel.toLatin1().data(), 0, -1.2, 1);
-  if (!zLabel.isEmpty()) gr->Label('z', zLabel.toLatin1().data(), 0, -1.2, 1);
+  if(type == Measures_Plot) {
+    if (!xLabel.isEmpty()) gr->Label('x', xLabel.toLatin1().data(), 0, -1, 0.8);
+    if (!yLabel.isEmpty()) gr->Label('y', yLabel.toLatin1().data(), 0, -1, 0.8);
+    if (!zLabel.isEmpty()) gr->Label('z', zLabel.toLatin1().data(), 0, -1, 1);
+  }
+  else
+  {
+    if (!xLabel.isEmpty()) gr->Label('x', xLabel.toLatin1().data(), 0, -1.2, 1);
+    if (!yLabel.isEmpty()) gr->Label('y', yLabel.toLatin1().data(), 0, -1.2, 1);
+    if (!zLabel.isEmpty()) gr->Label('z', zLabel.toLatin1().data(), 0, -1.2, 1);
+  }
 }
 
 void Plotter::setTitle(mglGraph *gr)
 {
   if (title != 0) {
-    if(type == Linear_Plot ) {
+    if(type == Linear_Plot || type == Measures_Plot) {
       gr->SetFontSizePT(6);
       gr->Puts(mglPoint(0,1.43),title.toLatin1().data());
     }
@@ -115,8 +123,8 @@ int Plotter::Draw(mglGraph *gr)
 void Plotter::plotLinearRegression(mglGraph * gr)
 {
   int nSubPlots = dataListLinearReg->count();
-  int plotPerRow = 2;
-  int nPlotRows = utils::round(((double) nSubPlots) / plotPerRow);
+  int plotsPerRow = 2;
+  int nPlotRows = utils::round(((double) nSubPlots) / plotsPerRow);
   
   setTitle(gr);
   
@@ -146,8 +154,8 @@ void Plotter::plotLinearRegression(mglGraph * gr)
     int minX = dataListLinearReg->at(mainIndex).at(0).at(0);
     int maxX = dataListLinearReg->at(mainIndex).at(0).at(nData - 1);
     
-    gr->SetFontSizePT(9);
-    gr->SubPlot(plotPerRow, nPlotRows, mainIndex);
+    gr->SetFontSizePT(8);
+    gr->SubPlot(plotsPerRow, nPlotRows, mainIndex);
     gr->SetRanges(minX, minValue, maxX, maxValue);
     gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX, maxValue, maxValue));
     gr->SetTicks('x', 5, 4);
@@ -206,38 +214,47 @@ void Plotter::plotNormalData(mglGraph *gr)
 
 void Plotter::plotMeasures(mglGraph * gr)
 {
-  int rows = dataMatrix->nRows();
-  int cols = dataMatrix->nCols();
-  mglData a(cols, rows);
+  int nSubPlots = dataListMatrix->count();
+  int plotsPerRow = 2;
+  int nPlotRows = utils::round(((double) nSubPlots) / plotsPerRow);
   
-  int maxValue = -800000;
-  
-  for (int i = 0; i < rows; ++i)
-  {
-    for (int j = 0; j < cols; ++j)
-    {
-      int index = i + (rows * j);
-      a.a[index] = (*dataMatrix)(i,j);
-      if(maxValue < a.a[index]) maxValue = a.a[index];
-    }
-  }
   setTitle(gr);
-  gr->SetRanges(cols, 0, rows, 0, 0, maxValue);
-  gr->SetFontSizePT(9);
-//  gr->SetTicks('x', utils::round((double)cols / 8), 2);
-//  gr->SetTicks('y', utils::round((double)rows / 8), 2);
-//  gr->SetTicks('z', utils::round((double)maxValue / 8), 2);
   
-  gr->SetTicks('x', -8, 2);
-  gr->SetTicks('y', -8, 2);
-  gr->SetTicks('z', -8, 2);
-  
-  gr->Rotate(40, 60);  
-  gr->Light(true);
-  //  gr->Box();
-  gr->Axis();
-  gr->Boxs(a,"bcyr");
-  setLabels(gr);
+  for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex)
+  {
+    int rows = dataListMatrix->at(mainIndex)->nRows();
+    int cols = dataListMatrix->at(mainIndex)->nCols();
+    mglData a(cols, rows);
+    
+    int maxValue = -800000;
+    
+    for (int i = 0; i < rows; ++i)
+    {
+      for (int j = 0; j < cols; ++j)
+      {
+        int index = i + (rows * j);
+        a.a[index] = (*(dataListMatrix->at(mainIndex)))(i,j);
+        if(maxValue < a.a[index]) maxValue = a.a[index];
+      }
+    }
+    gr->SetFontSizePT(7);
+    gr->SubPlot(plotsPerRow, nPlotRows, mainIndex);
+    gr->SetRanges(cols, 0, rows, 0, 0, maxValue);
+  //  gr->SetTicks('x', utils::round((double)cols / 8), 2);
+  //  gr->SetTicks('y', utils::round((double)rows / 8), 2);
+  //  gr->SetTicks('z', utils::round((double)maxValue / 8), 2);
+    
+    gr->SetTicks('x', -8, 2);
+    gr->SetTicks('y', -8, 2);
+    gr->SetTicks('z', -4, 2);
+    
+    gr->Rotate(50, 60);  
+    gr->Light(true);
+    //  gr->Box();
+    gr->Axis();
+    gr->Boxs(a,"bcyr");
+    setLabels(gr);
+  }
 }
 
 void Plotter::plot0(mglGraph *gr)

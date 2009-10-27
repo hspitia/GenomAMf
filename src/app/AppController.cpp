@@ -91,23 +91,26 @@ QVector<int> AppController::loadSequences(const QStringList & fileName)
 
 //const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
 //                                                       sequence) /*const*/
-const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) /*const*/
+//const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) /*const*/
+int AppController::makeCgr(const int & sequenceKey) /*const*/
 {
   const Sequence * sequence = sequences->getSequence(sequenceKey);
   ChaosGameRepresentation * cgrObject = 0;
+  int cgrKey = cgrObjectsCounter;
   if(sequence){
     cout << "AppController::99 - " << qPrintable(QString::
             fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
     cgrObject->performRepresentation();
-    cgrHash->insert(cgrObjectsCounter, cgrObject);
+    cgrHash->insert(cgrKey, cgrObject);
     
     mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
     
     ++cgrObjectsCounter;
   }
   
-  return cgrObject;
+//  return cgrObject;
+  return cgrKey;
 }
 
 

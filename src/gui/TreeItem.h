@@ -14,6 +14,9 @@ class TreeItem
 {
 public:
     enum ItemType{
+      MainSequenceItem,
+      MainMfaItem,
+      MainCorrelationItem,
       DnaSequenceItem,
       ProteinSequenceItem,
       CgrItem,

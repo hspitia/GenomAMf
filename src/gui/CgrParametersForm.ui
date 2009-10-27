@@ -68,7 +68,7 @@ p, li { white-space: pre-wrap; }
           <bool>true</bool>
          </property>
          <property name="selectionMode">
-          <enum>QAbstractItemView::SingleSelection</enum>
+          <enum>QAbstractItemView::MultiSelection</enum>
          </property>
          <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
@@ -84,12 +84,6 @@ p, li { white-space: pre-wrap; }
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>24</number>
-         </attribute>
-         <attribute name="verticalHeaderDefaultSectionSize">
-          <number>24</number>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
          </attribute>
         </widget>
        </item>
