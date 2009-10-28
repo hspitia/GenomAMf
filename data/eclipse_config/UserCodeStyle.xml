@@ -64,11 +64,11 @@
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_opening_paren_in_method_invocation" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_closing_brace_in_array_initializer" value="insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_semicolon_in_for" value="do not insert"/>
-<setting id="org.eclipse.cdt.core.formatter.brace_position_for_block" value="next_line"/>
+<setting id="org.eclipse.cdt.core.formatter.brace_position_for_block" value="end_of_line"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_colon_in_conditional" value="insert"/>
 <setting id="org.eclipse.cdt.core.formatter.brace_position_for_type_declaration" value="next_line"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_assignment_operator" value="insert"/>
-<setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_arguments" value="insert"/>
+<setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_arguments" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_comma_in_expression_list" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_opening_angle_bracket_in_template_parameters" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.continuation_indentation" value="4"/>
@@ -118,7 +118,7 @@
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_paren_in_method_invocation" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_closing_paren_in_cast" value="insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_closing_paren_in_catch" value="do not insert"/>
-<setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_parameters" value="insert"/>
+<setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_parameters" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.tabulation.char" value="space"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_closing_angle_bracket_in_template_parameters" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_opening_paren_in_while" value="do not insert"/>
@@ -130,7 +130,7 @@
 <setting id="org.eclipse.cdt.core.formatter.insert_new_line_after_template_declaration" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_opening_paren_in_catch" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.keep_then_statement_on_same_line" value="true"/>
-<setting id="org.eclipse.cdt.core.formatter.brace_position_for_switch" value="next_line"/>
+<setting id="org.eclipse.cdt.core.formatter.brace_position_for_switch" value="end_of_line"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_before_opening_paren_in_if" value="insert"/>
 <setting id="org.eclipse.cdt.core.formatter.insert_space_after_opening_paren_in_switch" value="do not insert"/>
 <setting id="org.eclipse.cdt.core.formatter.keep_imple_if_on_one_line" value="false"/>

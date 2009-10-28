@@ -123,7 +123,8 @@ class ChaosGameRepresentation
     void setTranslatedSequence(vector<int> translatedSequence);
     
   private:
-    const Sequence * sequence; /**< Apuntador a la secuencia de la cual se obtendrá la GRC */
+    const Sequence * sequence; /**< Apuntador a la secuencia de la cual se 
+      obtendrá la GRC */
     
     RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los 
       puntos de la CGR */
@@ -133,7 +134,13 @@ class ChaosGameRepresentation
       2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
       para secuencias de proteínas. */
     
+    QList<QPoint> * coordinates; /**< Lista de coordenadas de los puntos de la CGR */
     
+    /**
+     * Retorna 
+     * @return 
+     */
+    const QList<QPoint> * getCoordinates() const;
     
     /**
      * 

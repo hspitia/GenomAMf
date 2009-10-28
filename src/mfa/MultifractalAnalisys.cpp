@@ -24,22 +24,22 @@
 MultifractalAnalisys::MultifractalAnalisys()
 {
   this->cgrObject = 0;
-  this->minQ= 0;
+  this->minQ = 0;
   this->maxQ = 0;
   this->linearRegressionImgePath = "";
   this->dqSpectraImagePath = "";
   this->cqImagePath = "";
-  this->linearRegressionValues = new QList<vector<double> >();
-  this->dqValues = new QList<vector<double> >();
-  this->cqValues = new QList<vector<double> >();
-  this->tqValues = new QList<vector<double> >();
+  this->linearRegressionValues = new QList <vector <double> > ();
+  this->dqValues = new QList <vector <double> > ();
+  this->cqValues = new QList <vector <double> > ();
+  this->tqValues = new QList <vector <double> > ();
   
 }
 
-MultifractalAnalisys::MultifractalAnalisys(const 
-                                           MultifractalAnalisys & mfaObject)
+MultifractalAnalisys::MultifractalAnalisys(const MultifractalAnalisys & 
+                                           mfaObject)
 {
-//  this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
+  //  this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
   this->cgrObject = mfaObject.cgrObject;
   this->minQ = mfaObject.minQ;
   this->maxQ = mfaObject.maxQ;
@@ -49,13 +49,14 @@ MultifractalAnalisys::MultifractalAnalisys(const
   this->linearRegressionValues
           = new QList <vector <double> > (*(mfaObject.linearRegressionValues));
   this->dqValues = new QList <vector <double> > (*(mfaObject.dqValues));
-  this->cqValues = new QList<vector<double> > (*(mfaObject.cqValues));;
-  this->tqValues = new QList<vector<double> > (*(mfaObject.tqValues));
+  this->cqValues = new QList <vector <double> > (*(mfaObject.cqValues));
+  ;
+  this->tqValues = new QList <vector <double> > (*(mfaObject.tqValues));
 }
 
 MultifractalAnalisys::MultifractalAnalisys(const ChaosGameRepresentation * 
-                                           cgrObject, 
-                                           const int & minQ,
+                                           cgrObject,
+                                           const int & minQ, 
                                            const int & maxQ)
 {
   this->cgrObject = cgrObject;
@@ -64,15 +65,15 @@ MultifractalAnalisys::MultifractalAnalisys(const ChaosGameRepresentation *
   this->linearRegressionImgePath = "";
   this->dqSpectraImagePath = "";
   this->cqImagePath = "";
-  this->linearRegressionValues = new QList<vector<double> >();
-  this->dqValues = new QList<vector<double> >();
-  this->cqValues = new QList<vector<double> >();
-  this->tqValues = new QList<vector<double> >();
+  this->linearRegressionValues = new QList <vector <double> > ();
+  this->dqValues = new QList <vector <double> > ();
+  this->cqValues = new QList <vector <double> > ();
+  this->tqValues = new QList <vector <double> > ();
 }
 
 MultifractalAnalisys & MultifractalAnalisys::operator=(const 
-                                                       MultifractalAnalisys 
-                                                       & mfaObject)
+                                                       MultifractalAnalisys & 
+                                                       mfaObject)
 {
   this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
   this->minQ = mfaObject.minQ;
@@ -83,39 +84,36 @@ MultifractalAnalisys & MultifractalAnalisys::operator=(const
   this->linearRegressionValues
           = new QList <vector <double> > (*(mfaObject.linearRegressionValues));
   this->dqValues = new QList <vector <double> > (*(mfaObject.dqValues));
-  this->cqValues = new QList<vector<double> > (*(mfaObject.cqValues));;
-  this->tqValues = new QList<vector<double> > (*(mfaObject.tqValues));
+  this->cqValues = new QList <vector <double> > (*(mfaObject.cqValues));
+  ;
+  this->tqValues = new QList <vector <double> > (*(mfaObject.tqValues));
   return *this;
 }
 
 MultifractalAnalisys::~MultifractalAnalisys()
 {
-  if(cgrObject != 0) cgrObject = 0;
+  if (cgrObject != 0) cgrObject = 0;
   delete cgrObject;
   
-  if (linearRegressionValues != 0)
-  {
+  if (linearRegressionValues != 0) {
     linearRegressionValues->clear();
     delete linearRegressionValues;
     linearRegressionValues = 0;
   }
-  
-  if (dqValues != 0)
-  {
+
+  if (dqValues != 0) {
     dqValues->clear();
     delete dqValues;
     dqValues = 0;
   }
 
-  if (cqValues != 0)
-  {
+  if (cqValues != 0) {
     cqValues->clear();
     delete cqValues;
     cqValues = 0;
   }
   
-  if (tqValues != 0)
-  {
+  if (tqValues != 0) {
     tqValues->clear();
     delete tqValues;
     tqValues = 0;
@@ -124,53 +122,51 @@ MultifractalAnalisys::~MultifractalAnalisys()
 
 void MultifractalAnalisys::performAnalisys()
 {
-//  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
-  SandBoxMethod * sandBoxObject = new 
-          SandBoxMethod(cgrObject->getMatrixOfPoints(), 
-                        minQ - 1, // Dato adicional necesario para calcular Cq
-                        maxQ + 1); // Dato adicional necesario para calcular Cq
-//                        fractalSize);
-  
+  //  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
+  SandBoxMethod * sandBoxObject =
+          new SandBoxMethod(cgrObject->getMatrixOfPoints(), minQ - 1, // Dato adicional necesario para calcular Cq
+                            maxQ + 1); // Dato adicional necesario para calcular Cq
+  //                        fractalSize);
+
   sandBoxObject->performAnalisys();
   
-  linearRegressionValues = new QList<vector<double> >(
-          *(sandBoxObject->getLinearRegressionValues()));
+  linearRegressionValues
+          = new QList <vector <double> > 
+          (*(sandBoxObject->getLinearRegressionValues()));
   
-  dqValues = new QList<vector<double> >(*(sandBoxObject->getDqValues()));
+  dqValues = new QList <vector <double> > (*(sandBoxObject->getDqValues()));
   
-  if(sandBoxObject != 0) delete sandBoxObject;
+  if (sandBoxObject != 0) delete sandBoxObject;
   sandBoxObject = 0;
 }
 
 void MultifractalAnalisys::calculateCqValues()
 {
   int dataLenght = maxQ - minQ;
-  vector<double> qData(dataLenght);
-  vector<double> tqData(dataLenght);
+  vector <double> qData(dataLenght);
+  vector <double> tqData(dataLenght);
   
-  for (int q = minQ, i = 1; q <= maxQ; ++q, ++i)
-  {
+  for (int q = minQ, i = 1; q <= maxQ; ++q, ++i) {
     qData.at(i) = q;
-    tqData.at(i) = (2 * tqValues->at(1).at(i   )) - 
-                        tqValues->at(1).at(i + 1) -
-                        tqValues->at(1).at(i - 1);
-  } 
+    tqData.at(i) = (2 * tqValues->at(1).at(i)) - tqValues->at(1).at(i + 1)
+            - tqValues->at(1).at(i - 1);
+  }
   
 }
 
 void MultifractalAnalisys::calculateTqValues()
 {
-  int dataLenght = maxQ - minQ + 1 + 2;  //Dos datos adicionales para cálculo de Cq
-  vector<double> qData(dataLenght);
-  vector<double> tqData(dataLenght);
-  for (int q = minQ - 1, i = 0; q <= maxQ + 1; ++q, ++i)
-  {
+  int dataLenght = maxQ - minQ + 1 + 2; //Dos datos adicionales para cálculo de Cq
+  vector <double> qData(dataLenght);
+  vector <double> tqData(dataLenght);
+  for (int q = minQ - 1, i = 0; q <= maxQ + 1; ++q, ++i) {
     qData.at(i) = q;
     tqData.at(i) = (q - 1) * dqValues->at(1).at(i);
   }
 }
 
-QString MultifractalAnalisys::plotResults(const QList<vector<double> > & values)
+QString MultifractalAnalisys::plotResults(const QList <vector <double> >& 
+                                          values)
 {
   Q_UNUSED(values);
   return QString();
@@ -227,7 +223,7 @@ QList <vector <double> > * MultifractalAnalisys::getLinearRegressionValues()
 }
 
 void MultifractalAnalisys::setLinearRegressionValues(QList <vector <double> > * 
-                                          linearRegressionValues)
+                                                     linearRegressionValues)
 {
   this->linearRegressionValues = linearRegressionValues;
 }

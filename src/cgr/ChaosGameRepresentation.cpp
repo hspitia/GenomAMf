@@ -27,6 +27,7 @@ ChaosGameRepresentation::ChaosGameRepresentation()
   this->matrixOfPoints = RowMatrix<int> ();
   this->imagefilePath = "";
   this->translatedSequence = vector<int> ();
+  this->coordinates = new QList<QPoint> ();
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const 
@@ -38,6 +39,7 @@ ChaosGameRepresentation::ChaosGameRepresentation(const
   matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
   imagefilePath = cgrObject.imagefilePath;
   translatedSequence = vector<int>(cgrObject.translatedSequence);
+  coordinates = new QList<QPoint> (*(cgrObject.coordinates));
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
@@ -46,6 +48,7 @@ ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
   this->matrixOfPoints = RowMatrix<int> ();
   this->imagefilePath = "";
   this->translatedSequence = vector<int> ();
+  this->coordinates = new QList<QPoint> ();
 }
 
 ChaosGameRepresentation::~ChaosGameRepresentation()
@@ -112,14 +115,18 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int margin = 20; // pixeles
   matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
   
-  int xImagePoints[4]  = { 0, 0, cgrSize,    cgrSize };
-  int yImagePoints[4]  = { cgrSize,    0, 0, cgrSize };
+  int xImagePoints[4]  = {0,       0, cgrSize, cgrSize};
+  int yImagePoints[4]  = {cgrSize, 0, 0,       cgrSize};
   
-  int xMatrixPoints[4] = { 0, 0, matrixSize, matrixSize };
-  int yMatrixPoints[4] = { matrixSize, 0, 0, matrixSize };
+  int xMatrixPoints[4] = {0, 0,          matrixSize, 0         }; // { 0, 0, matrixSize, matrixSize };
+  int yMatrixPoints[4] = {0, matrixSize, matrixSize, matrixSize}; // { matrixSize, 0, 0, matrixSize };
+  
   // Para parejas de coordenadas reales (continuas)
-  int xPoints[4] = { 0, 0, 1, 1 };
-  int yPoints[4] = { 1, 0, 0, 1 };
+//  int xPoints[4] = { 0, 0, 1, 1 };
+//  int yPoints[4] = { 1, 0, 0, 1 };
+  
+  int xPoints[4] = {0, 0,          matrixSize, 0         };
+  int yPoints[4] = {0, matrixSize, matrixSize, matrixSize};
   
   const vector<int> * ptrSequence;
   
@@ -134,7 +141,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   { 
     ptrSequence = &sequence->getContent();
   }
-  double x = 1 / 2;
+  double x = matrixSize / 2;
   double y = x;
   
   int xImage = utils::round((double)cgrSize/2);
@@ -176,18 +183,23 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xMatrix = (xMatrixPoints[element] + xMatrix) / 2;
         yMatrix = (yMatrixPoints[element] + yMatrix) / 2;
         
-        int x = floor(xImage);
-        int y = floor(yImage);
+        x = (xPoints[element] + x) / 2;
+        y = (yPoints[element] + y) / 2;
+        coordinates->append(QPoint(x,y));
+        cout << "(" << x << ", "<< y << ")" << endl;
+        
+        int x1 = floor(xImage);
+        int y1 = floor(yImage);
         
         painter->drawPoint(QPointF(x,y));
         
-        x = floor(xMatrix);
-        y = floor(yMatrix);
+        x1 = floor(xMatrix);
+        y1 = floor(yMatrix);
         
 //        cout << "   DEBUG CGR::170 -  i: " << i << "  element: " << element
 //        << "  x: " << x 
 //        << "  y: " << y << endl;
-        matrixOfPoints(x,y)++;
+        matrixOfPoints(x1,y1)++;
       }
     }
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
@@ -256,7 +268,7 @@ void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter,
   painter->drawText(rect, Qt::AlignHCenter | Qt::TextWordWrap, text);
   
   // Box
-  painter->setBrush(QColor(250,250,250));
+  painter->setBrush(QColor(250, 250, 250));
   painter->translate(margin - 2, margin - 2);
   QRectF box(0, 0, cgrSize + 1, cgrSize + 1);
   painter->drawRect(box);
@@ -339,7 +351,6 @@ void ChaosGameRepresentation::performRepresentation1(int cgrSize,
   
 }
 
-
 const Sequence * ChaosGameRepresentation::getSequence() const
 {
   return sequence;
@@ -379,4 +390,9 @@ void ChaosGameRepresentation::setTranslatedSequence(vector<int>
   translatedSequence)
 {
   this->translatedSequence = translatedSequence;
+}
+
+const QList<QPoint> * ChaosGameRepresentation::getCoordinates() const 
+{
+  return coordinates;
 }

@@ -101,7 +101,7 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
     cout << "AppController::99 - " << qPrintable(QString::
             fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
-    cgrObject->performRepresentation();
+    cgrObject->performRepresentation(512,512,true);
     cgrHash->insert(cgrKey, cgrObject);
     
     mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
