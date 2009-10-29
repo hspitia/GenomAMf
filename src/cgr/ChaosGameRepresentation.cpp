@@ -27,7 +27,7 @@ ChaosGameRepresentation::ChaosGameRepresentation()
   this->matrixOfPoints = RowMatrix<int> ();
   this->imagefilePath = "";
   this->translatedSequence = vector<int> ();
-  this->coordinates = new QList<QPoint> ();
+  this->coordinatesOfPoints = new QList<QPointF> ();
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const 
@@ -39,7 +39,7 @@ ChaosGameRepresentation::ChaosGameRepresentation(const
   matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
   imagefilePath = cgrObject.imagefilePath;
   translatedSequence = vector<int>(cgrObject.translatedSequence);
-  coordinates = new QList<QPoint> (*(cgrObject.coordinates));
+  coordinatesOfPoints = new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
@@ -48,17 +48,21 @@ ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
   this->matrixOfPoints = RowMatrix<int> ();
   this->imagefilePath = "";
   this->translatedSequence = vector<int> ();
-  this->coordinates = new QList<QPoint> ();
+  this->coordinatesOfPoints = new QList<QPointF> ();
 }
 
 ChaosGameRepresentation::~ChaosGameRepresentation()
 {
-  if (sequence != 0)
-  {
+  if (sequence != 0) {
     sequence = 0;
     delete sequence;
   }
-  
+
+  if (coordinatesOfPoints != 0) {
+    delete coordinatesOfPoints;
+    coordinatesOfPoints = 0;
+  }
+
   translatedSequence.clear();
   matrixOfPoints.clear();
   
@@ -86,19 +90,19 @@ void ChaosGameRepresentation::translateSequence()
     int element = sequence->getValue(i);
     newElement = -1;
     // Los gaps y aminoácidos no resueltos son ignorados 
-    if (element > -1 && element < 20){ 
+    if (element > -1 && element < 20) {
       if (element == 3 || element == 6) { // Negativo polar
         newElement = 1;
       }
-      else if(element == 1 || element == 8 || element == 11){ // Positivo polar
+      else if (element == 1 || element == 8 || element == 11) { // Positivo polar
         newElement = 3;
       }
-      else if (element == 2 || element == 4 || element == 5 || element == 7 ||
-              element == 15 || element == 16 || element == 18) { // Polar no
-                                                                 // cargado
+      else if (element == 2 || element == 4 || element == 5 || element == 7
+              || element == 15 || element == 16 || element == 18) { // Polar no
+        // cargado
         newElement = 2;
       }
-      else{  // No polar
+      else { // No polar
         newElement = 0;
       }
       
@@ -185,13 +189,13 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
-        coordinates->append(QPoint(x,y));
+        coordinatesOfPoints->append(QPointF(x,y));
         cout << "(" << x << ", "<< y << ")" << endl;
         
         int x1 = floor(xImage);
         int y1 = floor(yImage);
         
-        painter->drawPoint(QPointF(x,y));
+        painter->drawPoint(QPointF(x1,y1));
         
         x1 = floor(xMatrix);
         y1 = floor(yMatrix);
@@ -224,6 +228,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
         yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
         matrixOfPoints(xMatrix,yMatrix)++;
+        
+        x = (xPoints[element] + x) / 2;
+        y = (yPoints[element] + y) / 2;
+        coordinatesOfPoints->append(QPointF(x,y));
       }
     }
   }
@@ -392,7 +400,7 @@ void ChaosGameRepresentation::setTranslatedSequence(vector<int>
   this->translatedSequence = translatedSequence;
 }
 
-const QList<QPoint> * ChaosGameRepresentation::getCoordinates() const 
+const QList<QPointF> * ChaosGameRepresentation::getCoordinatesOfPoints() const 
 {
-  return coordinates;
+  return coordinatesOfPoints;
 }

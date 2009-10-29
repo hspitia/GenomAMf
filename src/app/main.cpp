@@ -543,11 +543,76 @@ int runSample(int argc, char *argv[])
 
 }
 
+bool xCoordinateLessThan(const QPointF & x1, const QPointF &  x2)
+{
+  return x1.x() < x2.x();
+}
+
+bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
+{
+  return y1.y() < y2.y();
+}
+
+
+void testCopyContructorList()
+{
+  QList<QPointF> * list = new QList<QPointF>();
+  list->append(QPointF(1.1, 5.0));
+  list->append(QPointF(4.1, 7.0));
+  list->append(QPointF(3.1, 2.0));
+  list->append(QPointF(21.1, 44.0));
+  list->append(QPointF(32.1, 64.0));
+  list->append(QPointF(72.1, 43.0));
+  list->append(QPointF(24.1, 94.0));
+  list->append(QPointF(12.1, 14.0));
+  
+  cout << "\nlist: "<< endl;
+  foreach(QPointF p, (*list)){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  cout << "\ncopy: "<< endl;
+  QList<QPointF> copyList = QList<QPointF>(*list);
+  foreach(QPointF p, copyList){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  cout << "\nchange element 0 in list: (2.0, 2.0)"<< endl;
+  list->append(QPointF(2.0, 2.0));
+  
+  foreach(QPointF p, (*list)){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  cout << "\ncopy: "<< endl;
+  foreach(QPointF p, copyList){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  
+  qSort(copyList.begin(), copyList.end(), xCoordinateLessThan);
+  cout << "\ncopy ordered by x: "<< endl;
+  foreach(QPointF p, copyList){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  
+  QList<QPointF> sublist = copyList.mid(3,5);
+  
+  qSort(sublist.begin(), sublist.end(), yCoordinateLessThan);
+  cout << "\nsublist ordered by y: " << endl;
+  foreach(QPointF p, sublist){
+    cout << "(" << p.x() << ", " << p.y() << ") "; 
+  }
+  
+}
+
+int otherTests(){
+  testCopyContructorList();
+  return 0;
+}
+
 int main(int argc, char *argv[])
 {
-  return appNormal(argc, argv);
-  //  return appPlot(argc, argv);
-  //  return runSample(argc, argv); // MathGl samples
+//  return appNormal(argc, argv);
+//  return appPlot(argc, argv);
+//  return runSample(argc, argv); // MathGl samples
+//  return otherTests();
   // TODO Probar regresión lineal
   // TODO Implementar conteo en cada sand box
 }

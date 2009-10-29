@@ -32,6 +32,7 @@ using namespace std;
 // Qt libraries
 #include <QtCore/QList>
 #include <QtCore/QString>
+#include <QtCore/QtAlgorithms>
 
 // Bio++ libraries
 // --

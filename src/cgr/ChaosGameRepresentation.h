@@ -27,6 +27,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QPainter>
 #include <QtGui/QPen>
+#include <QtCore/QPointF>
 
 // STL libraries
 #include <string>
@@ -121,6 +122,12 @@ class ChaosGameRepresentation
      * Asigna 
      */
     void setTranslatedSequence(vector<int> translatedSequence);
+   
+    /**
+     * Retorna 
+     * @return 
+     */
+    const QList<QPointF> * getCoordinatesOfPoints() const;
     
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se 
@@ -134,13 +141,8 @@ class ChaosGameRepresentation
       2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
       para secuencias de proteínas. */
     
-    QList<QPoint> * coordinates; /**< Lista de coordenadas de los puntos de la CGR */
-    
-    /**
-     * Retorna 
-     * @return 
-     */
-    const QList<QPoint> * getCoordinates() const;
+    QList<QPointF> * coordinatesOfPoints; /**< Lista de coordenadas de los 
+      puntos de la CGR */
     
     /**
      * 

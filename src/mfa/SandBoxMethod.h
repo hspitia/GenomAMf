@@ -32,6 +32,7 @@ using namespace std;
 
 // Qt libraries
 #include <QtCore/QList>
+#include <QtCore/QPointF>
 #include <QtCore/QString>
 
 // Bio++ libraries
@@ -60,6 +61,12 @@ class SandBoxMethod
 //                  const int & fractalSize,
                   const int & minQ = -100,
                   const int & maxQ =  100);
+    
+    SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                  const QList<QPointF> * coordinatesOfPoints,
+//                  const int & fractalSize,
+                  const int & minQ = -100,
+                  const int & maxQ =  100);
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     virtual ~SandBoxMethod();
     
@@ -79,11 +86,23 @@ class SandBoxMethod
      */
     void generateRandomCenters(vector<int> * xCoordinates,
                                vector<int> * yCoordinates);
+    /**
+     * 
+     */
+    void generateRandomCenters(vector<double> * xCoordinates,
+                               vector<double> * yCoordinates);
     
     /**
      * 
      */
     double countSandBoxPoints(const int & x, const int & y, const int & radius);
+    
+    /**
+     * 
+     */
+    double countSandBoxPoints(const double & x, 
+                              const double & y, 
+                              const double & radius);
     
     /**
      * Retorna 
@@ -180,10 +199,22 @@ class SandBoxMethod
     QList<vector<double> > * getLinearRegressionValues();
     
     /**
-     * Asigna 
+     * Asigna
      */
     void setLinearRegressionValues(QList<vector<double> > * 
                                    linearRegressionValues);
+    
+    /**
+     * Retorna 
+     * @return 
+     */
+//    const QList<QPointF> * getCoordinatesOfPoints() const;
+    const QList<QPointF> getCoordinatesOfPoints() const;
+    
+    /**
+     * Asigna 
+     */
+    void setCoordinatesOfPoints(const QList<QPointF> & coordinatesOfPoints);
     
   private:
     int minQ; /**< Valor para el parámetro q mínimo */
@@ -197,16 +228,26 @@ class SandBoxMethod
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
 
+    QList<QPointF> coordinatesOfPoints; /**< Apuntador a la lista de 
+      coordenadas de puntos obtenida de la representación de juego del caos*/
+    
     int numberOfCenters; /**< Número de centros de caja de arena por cada 
       medida de radio a ser generados aleatoriamente */
 
     QList<vector<double> > * dqValues; /**< Contenedor para los valores 
-      Dq vs q */
+      Dq vs q */ 
     
     QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
    
 //    int fractalSize; /**< Longitud lineal del fractal */
+    
+    bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2);
+    
+    bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2);
+    
+    
+    
 };
 
 #endif /* SANDBOXMETHOD_H_ */
