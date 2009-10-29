@@ -53,6 +53,8 @@ using namespace std;
 class MultifractalAnalisys
 {
   public:
+    enum AnalisysType {CONTINOUS_ANALISYS, DISCRETE_ANALISYS};
+    
     MultifractalAnalisys();
     MultifractalAnalisys(const MultifractalAnalisys & mfaObject);
     MultifractalAnalisys(const ChaosGameRepresentation * cgrObject,
@@ -66,7 +68,11 @@ class MultifractalAnalisys
     /**
      * 
      */
-    void performAnalisys();
+    void performAnalisys(AnalisysType type);
+    
+    void performContinousAnalisys();
+    
+    void performDiscreteAnalisys();
 
     /**
      * 

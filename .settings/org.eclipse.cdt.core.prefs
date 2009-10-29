@@ -1,4 +1,4 @@
-#Wed Oct 28 11:17:59 COT 2009
+#Thu Oct 29 11:09:51 COT 2009
 eclipse.preferences.version=1
 org.eclipse.cdt.core.formatter.alignment_for_arguments_in_method_invocation=18
 org.eclipse.cdt.core.formatter.alignment_for_base_clause_in_type_declaration=36
@@ -12,7 +12,7 @@ org.eclipse.cdt.core.formatter.alignment_for_parameters_in_method_declaration=18
 org.eclipse.cdt.core.formatter.alignment_for_throws_clause_in_method_declaration=18
 org.eclipse.cdt.core.formatter.brace_position_for_array_initializer=end_of_line
 org.eclipse.cdt.core.formatter.brace_position_for_block=end_of_line
-org.eclipse.cdt.core.formatter.brace_position_for_block_in_case=next_line
+org.eclipse.cdt.core.formatter.brace_position_for_block_in_case=end_of_line
 org.eclipse.cdt.core.formatter.brace_position_for_method_declaration=next_line
 org.eclipse.cdt.core.formatter.brace_position_for_namespace_declaration=next_line
 org.eclipse.cdt.core.formatter.brace_position_for_switch=end_of_line
@@ -143,7 +143,7 @@ org.eclipse.cdt.core.formatter.insert_space_between_empty_parens_in_method_invoc
 org.eclipse.cdt.core.formatter.keep_else_statement_on_same_line=false
 org.eclipse.cdt.core.formatter.keep_empty_array_initializer_on_one_line=false
 org.eclipse.cdt.core.formatter.keep_imple_if_on_one_line=false
-org.eclipse.cdt.core.formatter.keep_then_statement_on_same_line=true
+org.eclipse.cdt.core.formatter.keep_then_statement_on_same_line=false
 org.eclipse.cdt.core.formatter.lineSplit=80
 org.eclipse.cdt.core.formatter.number_of_empty_lines_to_preserve=1
 org.eclipse.cdt.core.formatter.put_empty_statement_on_new_line=true

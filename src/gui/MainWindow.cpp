@@ -358,11 +358,9 @@ void MainWindow::loadSequences()
   fileDialog->setFileMode(QFileDialog::ExistingFiles);
   fileDialog->setDirectory("./data/sequences");
   
-  if (fileDialog->exec())
-  {
+  if (fileDialog->exec()) {
     QStringList filesList = fileDialog->selectedFiles();
-    if (!filesList.isEmpty())
-    {
+    if (!filesList.isEmpty()) {
       loadedSequences = parentApp->loadSequences(filesList);
       int totalSequences = loadedSequences.at(0) + loadedSequences.at(1);
       
@@ -370,25 +368,22 @@ void MainWindow::loadSequences()
       QString text;
       QMessageBox::Icon icon = QMessageBox::NoIcon;
       
-      if (totalSequences <= 0)
-      {
+      if (totalSequences <= 0) {
         text = "No se cargaron nuevas secuencias.";
         infoText = "Esto se debe a una de las siguientes razones:\n - "
           "Las secuencias contenidas en los archivos ya fueron cargadas,"
           " o bien,\n - El formato de los archivos es incorrecto";
         icon = QMessageBox::Warning;
       }
-      else
-      {
+      else {
         text = QString("Secuencias cargadas correctamente.");
-        infoText
-                = QString("Nuevas secuencias de ADN: %1\n"
+        infoText = QString("Nuevas secuencias de ADN: %1\n"
                   "Nuevas secuencias de proteínas: %2") .arg(
                         loadedSequences.at(0)) .arg(loadedSequences.at(1));
         icon = QMessageBox::Information;
       }
 
-      QMessageBox msgBox;
+      QMessageBox msgBox(this);
       msgBox.setText(text);
       msgBox.setInformativeText(infoText);
       msgBox.setStandardButtons(QMessageBox::Ok);
@@ -415,8 +410,7 @@ void MainWindow::loadSequences()
 
 void MainWindow::makeCgr()
 {
-  if (sequenceListModel->rowCount() == 0)
-  {
+  if (sequenceListModel->rowCount() == 0) {
     QMessageBox msgBox(this);
     msgBox.setWindowTitle("GenomAMf - Representación del Juego del Caos");
     msgBox.setWindowIcon(QIcon(":/icons/cgr.png"));
@@ -429,29 +423,25 @@ void MainWindow::makeCgr()
     msgBox.setIcon(QMessageBox::Warning);
     msgBox.exec();
   }
-  else if (sequenceListModel->rowCount() > 0)
-  {
+  else if (sequenceListModel->rowCount() > 0) {
     CgrParametersForm * cgrParametersForm = new CgrParametersForm(
             sequenceListModel, this);
     
-    if (cgrParametersForm->exec() == QDialog::Accepted)
-    {
-      for (int i = 0; i < cgrParametersForm->getSelectedSequencesKeys().
-          count(); ++i)
-      {
+    if (cgrParametersForm->exec() == QDialog::Accepted) {
+      for (int i = 0; i
+              < cgrParametersForm->getSelectedSequencesKeys(). count(); ++i) {
         int key = cgrParametersForm->getSelectedSequencesKeys().at(i);
-        if (key != -1)
-        {
+        if (key != -1) {
           cout << "DEBUG - MainWindow::445 - " << "key: " << key << endl;
-//          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
+          //          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
           int cgrKey = parentApp->makeCgr(key);
           cout << "MainWindow::448  --  cgrKey " << cgrKey << endl;
-//          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
+          //          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
           displayCgrResults(cgrKey);
           
-//          CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
-//          ui->mdiArea->addSubWindow(cgrResultsForm);
-//          cgrResultsForm->show();
+          //          CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+          //          ui->mdiArea->addSubWindow(cgrResultsForm);
+          //          cgrResultsForm->show();
         }
       }
     }
@@ -482,17 +472,21 @@ void MainWindow::makeMultifractalAnalisys()
             this);
     if (mfaParametersForm->exec() == QDialog::Accepted)
     {
-      int key = mfaParametersForm->getCgrSelectedKey();
+      int key  = mfaParametersForm->getCgrSelectedKey();
+      int minQ = mfaParametersForm->getMinQValue();
+      int maxQ = mfaParametersForm->getMaxQValue();
+      
       if (key != -1)
       {
-        /*
-        const MultifractalAnalisys * mfa = parentApp->makeMultifractalfAnalisys(key);
+        int mfaKey = parentApp->makeMultifractalAnalisys(key, minQ, maxQ);
+        const MultifractalAnalisys * mfa = parentApp->getMfaHash()->value(mfaKey);
+        
         cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
-        MfaResultsForm * mfaResultsForm = new MfaResultsForm(mfa, this);
+        /*MfaResultsForm * mfaResultsForm = new MfaResultsForm(mfa, this);
         ui->mdiArea->addSubWindow(mfaResultsForm);
         mfaResultsForm->show();
          */
-        QMessageBox msgBox;
+        QMessageBox msgBox(this);
         msgBox.setText("Análisis Multifractal");
         msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
                 "\nq máximo: %3").arg(key)

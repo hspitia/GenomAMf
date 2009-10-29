@@ -39,6 +39,7 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
+#include <mfa/MultifractalAnalisys.h>
 #include <gui/MainWindow.h>
 #include <utils/CustomSequencesContainer.h>
 #include <utils/SeqLoader.h>
@@ -95,6 +96,11 @@ class AppController : public QApplication
     int  makeCgr(const int & sequenceKey) /*const*/;
     // Access
     
+    /**
+     * 
+     */
+    int makeMultifractalAnalisys(const int & cgrKey, const int & minQ,
+                                 const int & maxQ);
 
     /**
      * Retorna 
@@ -124,7 +130,17 @@ class AppController : public QApplication
      */
     const QHash<int, ChaosGameRepresentation*> * getCgrHash() const;
     
+    /**
+     * Retorna 
+     * @return 
+     */
+    const QHash<int, MultifractalAnalisys *> * getMfaHash() const;
     
+    /**
+     * Asigna 
+     */
+    void setMfaHash(QHash<int, MultifractalAnalisys *> * mfaHash);
+      
     
     /**
      * Retorna 
@@ -156,7 +172,10 @@ class AppController : public QApplication
       apuntadores a los objetos CGR creados en la aplicación. La clave 
       funciona como un identificador único del objeto */
     
-       
+    QHash<int, MultifractalAnalisys *> * mfaHash; /**< Hash de 
+      apuntadores a los objetos Mfa creados en la aplicación. La clave 
+      funciona como un identificador único del objeto*/
+    
 };
 
 #endif /* APPCONTROLLER_H_ */

@@ -101,6 +101,16 @@ void Plotter::setTitle(mglGraph *gr)
 
 int Plotter::Draw(mglGraph *gr)
 {
+//  gr->GetFont()->Load("adventor", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("bonum", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("chorus", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("cursor", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("heros", "/usr/local/share/mathgl/fonts");
+  gr->GetFont()->Load("heroscn", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("pagella", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("schola", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("termes", "/usr/local/share/mathgl/fonts");
+  
   switch (type)
   {
     case Linear_Plot:

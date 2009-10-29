@@ -43,6 +43,7 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
+#include <mfa/MultifractalAnalisys.h>
 #include <utils/Linear.h>
 
 
@@ -56,24 +57,34 @@ class SandBoxMethod
 {
   public:
     SandBoxMethod();
+    
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
-    SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-//                  const int & fractalSize,
-                  const int & minQ = -100,
-                  const int & maxQ =  100);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                  const QList<QPointF> * coordinatesOfPoints,
 //                  const int & fractalSize,
-                  const int & minQ = -100,
-                  const int & maxQ =  100);
+                  const int & minQ     = -100,
+                  const int & maxQ     =  100,
+                  const int & nCenters =   50);
+    
+    SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                  const QList<QPointF> & coordinatesOfPoints,
+//                  const int & fractalSize,
+                  const int & minQ     = -100,
+                  const int & maxQ     =  100,
+                  const int & nCenters =   50);
+    
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
+    
     virtual ~SandBoxMethod();
     
     /**
      * 
      */
-    void performAnalisys();
+    void performAnalisys(int type);
+    
+    void performContinousAnalisys();
+    
+    void performDiscreteAnalisys();
 
     /**
      * 
@@ -95,14 +106,16 @@ class SandBoxMethod
     /**
      * 
      */
-    double countSandBoxPoints(const int & x, const int & y, const int & radius);
+    double countPointsOnTheSquareSandbox(const int & x, 
+                                         const int & y, 
+                                         const int & radius);
     
     /**
      * 
      */
-    double countSandBoxPoints(const double & x, 
-                              const double & y, 
-                              const double & radius);
+    double countPointsOnTheSquareSandbox(const double & x, 
+                                         const double & y, 
+                                         const double & radius);
     
     /**
      * Retorna 
@@ -163,12 +176,12 @@ class SandBoxMethod
      * Retorna 
      * @return 
      */
-    int getNumberOfCenters();
+    int getNCenters();
     
     /**
      * Asigna 
      */
-    void setNumberOfCenters(int numberOfCenters);
+    void setNCenters(int nCenters);
 
     /**
      * Retorna 
@@ -231,7 +244,7 @@ class SandBoxMethod
     QList<QPointF> coordinatesOfPoints; /**< Apuntador a la lista de 
       coordenadas de puntos obtenida de la representación de juego del caos*/
     
-    int numberOfCenters; /**< Número de centros de caja de arena por cada 
+    int nCenters; /**< Número de centros de caja de arena por cada 
       medida de radio a ser generados aleatoriamente */
 
     QList<vector<double> > * dqValues; /**< Contenedor para los valores 
@@ -241,11 +254,11 @@ class SandBoxMethod
       valores de la regresión lineal */
    
 //    int fractalSize; /**< Longitud lineal del fractal */
-    
+   /* 
     bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2);
     
     bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2);
-    
+    */
     
     
 };

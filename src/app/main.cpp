@@ -261,6 +261,16 @@ int plot(mglGraph *gr, void *)
 
 int log(mglGraph *gr, void *)
 {
+//  gr->GetFont()->Load("adventor", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("bonum", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("chorus", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("cursor", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("heros", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("heroscn", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("pagella", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("schola", "/usr/local/share/mathgl/fonts");
+//  gr->GetFont()->Load("termes", "/usr/local/share/mathgl/fonts");
+
   mglData x(100), y(100);
   x.Modify("pow(10,6*x-3)");
   y.Modify("sqrt(1+v^2)", x);
@@ -528,8 +538,8 @@ int runSample(int argc, char *argv[])
 {
   
   mglGraphQT gr;
-  gr.Window(argc, argv, freqSample, "MathGL examples");
-  //  gr.Window(argc,argv,log,"MathGL examples");
+//  gr.Window(argc, argv, freqSample, "MathGL examples");
+    gr.Window(argc,argv,log,"MathGL examples");
   return mglQtRun();
   
   Q_UNUSED(argc);
@@ -543,12 +553,12 @@ int runSample(int argc, char *argv[])
 
 }
 
-bool xCoordinateLessThan(const QPointF & x1, const QPointF &  x2)
+bool xCoordinateLessThan_Main(const QPointF & x1, const QPointF &  x2)
 {
   return x1.x() < x2.x();
 }
 
-bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
+bool yCoordinateLessThan_Main(const QPointF & y1, const QPointF & y2)
 {
   return y1.y() < y2.y();
 }
@@ -579,14 +589,14 @@ void testCopyContructorList()
   list->append(QPointF(2.0, 2.0));
   
   foreach(QPointF p, (*list)){
-    cout << "(" << p.x() << ", " << p.y() << ") "; 
+    cout << "(" << p.x() << ", " << p.y() << ") ";
   }
   cout << "\ncopy: "<< endl;
   foreach(QPointF p, copyList){
-    cout << "(" << p.x() << ", " << p.y() << ") "; 
+    cout << "(" << p.x() << ", " << p.y() << ") ";
   }
   
-  qSort(copyList.begin(), copyList.end(), xCoordinateLessThan);
+  qSort(copyList.begin(), copyList.end(), xCoordinateLessThan_Main);
   cout << "\ncopy ordered by x: "<< endl;
   foreach(QPointF p, copyList){
     cout << "(" << p.x() << ", " << p.y() << ") "; 
@@ -594,7 +604,7 @@ void testCopyContructorList()
   
   QList<QPointF> sublist = copyList.mid(3,5);
   
-  qSort(sublist.begin(), sublist.end(), yCoordinateLessThan);
+  qSort(sublist.begin(), sublist.end(), yCoordinateLessThan_Main);
   cout << "\nsublist ordered by y: " << endl;
   foreach(QPointF p, sublist){
     cout << "(" << p.x() << ", " << p.y() << ") "; 
@@ -609,7 +619,7 @@ int otherTests(){
 
 int main(int argc, char *argv[])
 {
-//  return appNormal(argc, argv);
+  return appNormal(argc, argv);
 //  return appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();

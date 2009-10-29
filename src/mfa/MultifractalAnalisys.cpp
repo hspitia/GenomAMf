@@ -120,7 +120,64 @@ MultifractalAnalisys::~MultifractalAnalisys()
   }
 }
 
-void MultifractalAnalisys::performAnalisys()
+void MultifractalAnalisys::performAnalisys(AnalisysType type)
+{
+  switch (type){
+    case CONTINOUS_ANALISYS:
+      performContinousAnalisys();
+      break;
+    case DISCRETE_ANALISYS:
+      performDiscreteAnalisys();
+      break;
+    default:
+      return;
+  }
+}
+
+void MultifractalAnalisys::performContinousAnalisys()
+{
+  //  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
+  SandBoxMethod * sandBoxObject = 
+          new SandBoxMethod(cgrObject->getMatrixOfPoints(),
+                            *(cgrObject->getCoordinatesOfPoints()),
+                            minQ - 1, // Dato adicional necesario para calcular Cq
+                            maxQ + 1); // Dato adicional necesario para calcular Cq
+  //                        fractalSize);
+
+//  cout << "Puntos del cgr: "<< endl;
+//  for (int i = 0; i < cgrObject->getCoordinatesOfPoints()->count(); ++i)
+//  {
+//    cout << "("  << cgrObject->getCoordinatesOfPoints()->at(i).x() 
+//         << ", " << cgrObject->getCoordinatesOfPoints()->at(i).y() 
+//         << ")";
+//  }
+//  cout << endl;
+//  
+//  
+//  cout << "Puntos del cgr en sandBoxMethod: "<< endl;
+//  for (int i = 0; i < sandBoxObject->getCoordinatesOfPoints().count(); ++i)
+//  {
+//    cout << "("  << sandBoxObject->getCoordinatesOfPoints().at(i).x() 
+//         << ", " << sandBoxObject->getCoordinatesOfPoints().at(i).y() 
+//         << ")";
+//  }
+//  cout << endl;
+  
+  sandBoxObject->performAnalisys(CONTINOUS_ANALISYS);
+  
+  /*
+  linearRegressionValues
+          = new QList <vector <double> > 
+          (*(sandBoxObject->getLinearRegressionValues()));
+  
+  dqValues = new QList <vector <double> > (*(sandBoxObject->getDqValues()));
+  
+  if (sandBoxObject != 0) delete sandBoxObject;
+  sandBoxObject = 0;
+  */
+}
+
+void MultifractalAnalisys::performDiscreteAnalisys()
 {
   //  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
   SandBoxMethod * sandBoxObject =
@@ -128,7 +185,7 @@ void MultifractalAnalisys::performAnalisys()
                             maxQ + 1); // Dato adicional necesario para calcular Cq
   //                        fractalSize);
 
-  sandBoxObject->performAnalisys();
+  sandBoxObject->performAnalisys(DISCRETE_ANALISYS);
   
   linearRegressionValues
           = new QList <vector <double> > 
