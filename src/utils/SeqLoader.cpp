@@ -43,7 +43,7 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
   VectorSequenceContainer * sequences;
-   
+  
   try
   {
     sequences = seqReader->read(filePath, dnaAlphabet);
@@ -123,6 +123,8 @@ VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
   VectorSequenceContainer * sequences;
+  
+  
   
   try
   {

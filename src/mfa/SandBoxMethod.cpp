@@ -281,7 +281,8 @@ bool SandBoxMethod::yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
 }*/
 bool pointLessThan(const QPointF & x1, const QPointF & x2)
 {
-  return x1.x() < x2.x() && x1.y() < x2.y();
+  return x1.x() < x2.x();
+//  && x1.y() > x2.y();
 }
 
 bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2)
@@ -311,12 +312,14 @@ double SandBoxMethod::countPointsOnTheSquareSandbox(const double & x, // col
   foreach(QPointF p, coordinatesOfPoints)
     cout << "(" << p.x() << ", " << p.y() << ") ";
   
+  QPointF lookFor = QPointF(x,y);
+  cout << "\n\nlookFor: (" << lookFor.x() << ", " << lookFor.y() << ")" << endl;
+  
   QList<QPointF>::Iterator i = 
           qBinaryFind(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
-                      QPoint(x,y),
-                      pointLessThan);
+                      lookFor,
+                      xCoordinateLessThan);
   
-  cout << "\n\nEncontrado: ("<< x << ", " << y << ")" << endl;
 //  if(i != coordinatesOfPoints.end())
     cout << "(" << i->x() << ", " << i->y() << ") " << endl;
 //  else
