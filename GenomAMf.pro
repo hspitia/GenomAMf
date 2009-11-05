@@ -64,12 +64,15 @@ INCLUDEPATH += . \
     src/cgr \
     src/utils \
     src/gui
-INCLUDEPATH += /usr/include
-LIBS += -L/usr/lib \
+INCLUDEPATH += /usr/include \
+/usr/local/include
+#LIBS += -L/usr/lib \
+LIBS += -L/usr/local/lib \
     -lbpp-utils \
     -lbpp-seq \
     -lbpp-numcalc \
     -lbpp-phyl \
+    -L/usr/lib \
     -lmgl \
     -lmgl-qt
 

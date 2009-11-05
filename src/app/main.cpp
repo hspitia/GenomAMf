@@ -107,7 +107,8 @@ void performCgr()
   SeqLoader * sl = new SeqLoader();
   VectorSequenceContainer *vec = sl->load("data/sequences/bacteria/"
     "buchnera_protein_frame_1.fasta", new DNA(), new ProteicAlphabet());
-  Sequence * seq = const_cast<Sequence*> (vec->getSequence(0));
+//  Sequence * seq = const_cast<Sequence*> (vec->getSequence(0));
+  Sequence * seq = const_cast<Sequence*> (&vec->getSequence(0));
   ChaosGameRepresentation * cgr = new ChaosGameRepresentation(seq);
   cgr->performRepresentation(512);
   delete cgr;
@@ -603,6 +604,7 @@ void testCopyContructorList()
   }
   
   QList<QPointF> sublist = copyList.mid(3,5);
+  
   
   qSort(sublist.begin(), sublist.end(), yCoordinateLessThan_Main);
   cout << "\nsublist ordered by y: " << endl;

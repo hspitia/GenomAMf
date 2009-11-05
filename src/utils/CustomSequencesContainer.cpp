@@ -77,7 +77,8 @@ const Sequence * CustomSequencesContainer::getDnaSequence(const string & name)
 {
   try
   {
-    return dnaSequences->getSequence(name);
+//    return dnaSequences->getSequence(name);
+    return &dnaSequences->getSequence(name);
   }
   catch (SequenceNotFoundException e)
   { 
@@ -91,7 +92,8 @@ const Sequence * CustomSequencesContainer::getProteinSequence(const string &
 {
   try
   {
-    return proteinSequences->getSequence(name);
+//    return proteinSequences->getSequence(name);
+    return &proteinSequences->getSequence(name);
   }
   catch (SequenceNotFoundException e)
   { 
@@ -124,7 +126,9 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
     try
     {
       dnaSequences->addSequence(sequence, true);
-      const Sequence * seq = dnaSequences->
+//      const Sequence * seq = dnaSequences->
+//              getSequence(dnaSequences->getNumberOfSequences()-1);
+      const Sequence * seq = &dnaSequences->
               getSequence(dnaSequences->getNumberOfSequences()-1);
       sequencesHash.insert(counter, seq);
       ++counter;
@@ -141,7 +145,9 @@ void CustomSequencesContainer::addSequence(const Sequence & sequence)
     try
     {
       proteinSequences->addSequence(sequence, true);
-      const Sequence * seq = proteinSequences->
+//      const Sequence * seq = proteinSequences->
+//                    getSequence(proteinSequences->getNumberOfSequences()-1);
+      const Sequence * seq = &proteinSequences->
                     getSequence(proteinSequences->getNumberOfSequences()-1);
       sequencesHash.insert(counter, seq);
       ++counter;

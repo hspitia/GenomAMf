@@ -232,8 +232,13 @@ void Plotter::plotMeasures(mglGraph * gr)
   
   for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex)
   {
-    int rows = dataListMatrix->at(mainIndex)->nRows();
-    int cols = dataListMatrix->at(mainIndex)->nCols();
+//    int rows = dataListMatrix->at(mainIndex)->nRows();
+    int rows = dataListMatrix->at(mainIndex)->getNumberOfRows();
+//    int cols = dataListMatrix->at(mainIndex)->nCols();
+    int cols = dataListMatrix->at(mainIndex)->getNumberOfColumns();
+    
+    
+    
     mglData a(cols, rows);
     
     int maxValue = -800000;

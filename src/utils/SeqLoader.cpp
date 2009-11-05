@@ -101,7 +101,8 @@ void SeqLoader::load(const QStringList & filePath,
       {
         try
         {
-          container->addSequence(*(sequences->getSequence(i)));
+//          container->addSequence(*(sequences->getSequence(i)));
+          container->addSequence(sequences->getSequence(i));
         }
         catch (Exception e)
         { 

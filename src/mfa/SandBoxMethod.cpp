@@ -60,7 +60,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->minQ = minQ;
   this->maxQ = maxQ;
   this->minR = 0;
-  this->maxR = cgrMatrix->nRows();
+//  this->maxR = cgrMatrix->nRows();
+  this->maxR = cgrMatrix->getNumberOfRows();
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
   this->dqValues = new QList<vector<double> >();
@@ -79,7 +80,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->minQ = minQ;
   this->maxQ = maxQ;
   this->minR = 0;
-  this->maxR = cgrMatrix->nRows();
+//  this->maxR = cgrMatrix->nRows();
+  this->maxR = cgrMatrix->getNumberOfRows();
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
   this->dqValues = new QList<vector<double> >();
@@ -206,7 +208,8 @@ double SandBoxMethod::calculateDqValue(const int & q,
 //  vector<double> yData(dataLenght);
   
   double massAverage;
-  int fractalSize = cgrMatrix->nRows(); 
+//  int fractalSize = cgrMatrix->nRows(); 
+  int fractalSize = cgrMatrix->getNumberOfRows(); 
   
   for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index)
   {
@@ -238,7 +241,8 @@ double SandBoxMethod::calculateDqValue(const int & q,
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
                                           vector<int> * yCoordinates)
 {
-  int maxNumber = static_cast<int>(cgrMatrix->nRows()) + 1;
+//  int maxNumber = static_cast<int>(cgrMatrix->nRows()) + 1;
+  int maxNumber = static_cast<int>(cgrMatrix->getNumberOfRows()) + 1;
 //  int maxNumber = 1024;
   for (int i = 0; i < nCenters; ++i)
   {
@@ -331,7 +335,8 @@ double SandBoxMethod::countPointsOnTheSquareSandbox(const int & x, // col
   if (radius > 0) 
   {
     int minValue = 0;
-    int maxValue = cgrMatrix->nRows() - 1;
+//    int maxValue = cgrMatrix->nRows() - 1;
+    int maxValue = cgrMatrix->getNumberOfRows() - 1;
 //    int half = floor(radius / 2);
     int initRow = y - radius;
     int initCol = x - radius;

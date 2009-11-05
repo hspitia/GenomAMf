@@ -64,7 +64,7 @@ ChaosGameRepresentation::~ChaosGameRepresentation()
   }
 
   translatedSequence.clear();
-  matrixOfPoints.clear();
+//  matrixOfPoints.clear();
   
 }
 
