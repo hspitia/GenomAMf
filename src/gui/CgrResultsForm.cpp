@@ -77,7 +77,7 @@ void CgrResultsForm::setupComponents(){
   ui->buttonBox->addButton(QDialogButtonBox::Close);
   QString file = QString::fromStdString(ptrCgr->getImageFilePath());
   QImage * image = new QImage(file);
-  cout<< image->width() << endl;
+//  cout<< "DEBUG -- CgrResultsForm::80  -- image width: " << image->width() << endl;
   imageViewer = new ImageViewer(image, this);
   QGridLayout * layout = new QGridLayout();
   layout->addWidget(imageViewer,0,0);

@@ -44,22 +44,18 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
   Alphabet * alphabet = new DNA();
   VectorSequenceContainer * sequences;
   
-  try
-  {
+  try {
     sequences = seqReader->read(filePath, dnaAlphabet);
   }
-  catch (Exception e)
-  {
- cout << e.what() << endl << "Excepción en lectura." << endl;
+  catch (Exception e) {
+    cout << e.what() << endl << "Excepción en lectura." << endl;
     alphabet = new ProteicAlphabet();
-    try
-    {
+    try {
       sequences = seqReader->read(filePath, proteicAlphabet);
     }
-    catch (Exception e)
-    {
-//      cout << e.what() << endl;
-//      cout << "** Ultima excepcion **" << endl;
+    catch (Exception e) {
+      //      cout << e.what() << endl;
+      //      cout << "** Ultima excepcion **" << endl;
     }
   }
   delete seqReader;
@@ -72,42 +68,34 @@ void SeqLoader::load(const QStringList & filePath,
 {
   Fasta * seqReader = 0;
   
-  for (int i = 0; i < filePath.count(); ++i)
-  {
+  for (int i = 0; i < filePath.count(); ++i) {
     seqReader = new Fasta();
     Alphabet * alphabet = new DNA();
     VectorSequenceContainer * sequences = 0;
     
-    try
-    {
+    try {
       sequences = seqReader->read(filePath.at(i).toStdString(), alphabet);
     }
-    catch (Exception e)
-    {
+    catch (Exception e) {
       alphabet = new ProteicAlphabet();
-      try
-      {
+      try {
         sequences = seqReader->read(filePath.at(i).toStdString(), alphabet);
       }
-      catch (Exception e)
-      { 
-//        cout << e.what() << endl;
-//        cout << "** Ultima excepcion **" << endl;
+      catch (Exception e) {
+        //        cout << e.what() << endl;
+        //        cout << "** Ultima excepcion **" << endl;
       }
     }
     
-    if(sequences != 0){
-      for (unsigned int i = 0; i < sequences->getNumberOfSequences(); ++i)
-      {
-        try
-        {
-//          container->addSequence(*(sequences->getSequence(i)));
+    if (sequences != 0) {
+      for (unsigned int i = 0; i < sequences->getNumberOfSequences(); ++i) {
+        try {
+          //          container->addSequence(*(sequences->getSequence(i)));
           container->addSequence(sequences->getSequence(i));
         }
-        catch (Exception e)
-        { 
-//          cout << e.what() << endl;
-        } 
+        catch (Exception e) {
+          //          cout << e.what() << endl;
+        }
       }
       sequences->clear();
       sequences = 0;
@@ -124,14 +112,10 @@ VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
   Alphabet * alphabet = new DNA();
   VectorSequenceContainer * sequences;
   
-  
-  
-  try
-  {
+  try {
     sequences = seqReader->read(filePath, alphabet);
   }
-  catch (Exception e)
-  {
+  catch (Exception e) {
     cout << e.what() << endl;
   }
   delete seqReader;
@@ -140,18 +124,17 @@ VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
 }
 
 // TODO cambiar implementación incluyendo alfabetos tal como en el método load
-VectorSequenceContainer * SeqLoader::loadProteinSequences(const string & filePath)
+VectorSequenceContainer * SeqLoader::loadProteinSequences(const string & 
+                                                          filePath)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new ProteicAlphabet();
   VectorSequenceContainer * sequences;
   
-  try
-  {
+  try {
     sequences = seqReader->read(filePath, alphabet);
   }
-  catch (Exception e)
-  {
+  catch (Exception e) {
     cout << e.what() << endl;
   }
   delete seqReader;

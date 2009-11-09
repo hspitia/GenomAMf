@@ -118,30 +118,29 @@
 </storageModule>
 <storageModule moduleId="org.eclipse.cdt.core.pathentry">
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtOpenGL" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="Qt3Support" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="Phonon" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtAssistant" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtXml" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="phonon" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtWebKit" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtCore" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtScript" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="Qt3Support" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtNetwork" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtDBus" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtTest" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtUiTools" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtHelp" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="ActiveQt" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="phonon" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtSql" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtDBus" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtHelp" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtGui" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtScriptTools" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtWebKit" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtScript" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtUiTools" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="Qt" kind="inc" path="" system="true"/>
-<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtXmlPatterns" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtAssistant" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtXml" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtDesigner" kind="inc" path="" system="true"/>
 <pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtSvg" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtCore" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="ActiveQt" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtXmlPatterns" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtOpenGL" kind="inc" path="" system="true"/>
+<pathentry base-path="/opt/qtsdk-2009.03/qt/include" include="QtTest" kind="inc" path="" system="true"/>
 <pathentry include="/usr/local/include" kind="inc" path="" system="true"/>
-<pathentry include="/usr/local/include/Seq" kind="inc" path="" system="true"/>
 <pathentry include="/usr/include" kind="inc" path="" system="true"/>
 <pathentry include="/usr/include/c++/4.4" kind="inc" path="" system="true"/>
 <pathentry include="/usr/include/c++/4.4/backward" kind="inc" path="" system="true"/>

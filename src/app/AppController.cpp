@@ -102,8 +102,8 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
   ChaosGameRepresentation * cgrObject = 0;
   int cgrKey = cgrObjectsCounter;
   if(sequence){
-    cout << "AppController::99 - " << qPrintable(QString::
-            fromStdString(sequence->getName())) << endl;
+//    cout << "AppController::99 - " << qPrintable(QString::
+//            fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
     cgrObject->performRepresentation(512,512,true);
     cgrHash->insert(cgrKey, cgrObject);
@@ -112,7 +112,7 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
     
     ++cgrObjectsCounter;
   }
-  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
+//  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
 //  return cgrObject;
   return cgrKey;
 }

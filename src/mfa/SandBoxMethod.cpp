@@ -28,7 +28,7 @@ SandBoxMethod::SandBoxMethod()
   this->minR = 0;
   this->maxR = 1;
   this->cgrMatrix = 0;
-  this->nCenters = 50;
+  this->nCenters = 150;
   this->dqValues = new QList<vector<double> >();
   this->linearRegressionValues = new QList<vector<double> >();
 //  this->coordinatesOfPoints = new QList<QPointF>();
@@ -101,8 +101,7 @@ SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
   this->nCenters = sandBoxObject.nCenters;
   this->dqValues = sandBoxObject.dqValues;
   this->linearRegressionValues = sandBoxObject.linearRegressionValues;
-  this->coordinatesOfPoints = 
-          QList<QPointF>(sandBoxObject.coordinatesOfPoints);
+  this->coordinatesOfPoints = QList<QPointF>(sandBoxObject.coordinatesOfPoints);
 //          new QList<QPointF>(*(sandBoxObject.coordinatesOfPoints));
 //  this->fractalSize = sandBoxObject.fractalSize;
   return *this;
@@ -132,8 +131,6 @@ void SandBoxMethod::performAnalisys(int type)
 
 void SandBoxMethod::performContinousAnalisys()
 {
-  
-  
   int nMomentums = maxQ - minQ + 1;
   int dataLenght = maxR - minR + 1;
   
@@ -144,21 +141,45 @@ void SandBoxMethod::performContinousAnalisys()
   vector<double> xData(dataLenght);
   vector<double> yData(dataLenght);
   
-  vector<double> xCoordinates(nCenters);
-  vector<double> yCoordinates(nCenters);
-  
-  generateRandomCenters(&xCoordinates, &yCoordinates);
-  cout << "Centros: x "<< endl;
-  VectorTools::print(xCoordinates);
-  cout << "Centros: y "<< endl;
-  VectorTools::print(yCoordinates);
-  
-//  for (int i = 0; i < dataLenght; ++i)
-  for (unsigned int i = 0; i < 1; ++i)
+  for (int genIt = 0; genIt < 4; ++genIt)
   {
-    countPointsOnTheSquareSandbox(xCoordinates.at(i), yCoordinates.at(i), 3.0);
+    vector<double> xCoordinates(nCenters);
+    vector<double> yCoordinates(nCenters);
+    
+    generateRandomCenters(&xCoordinates, &yCoordinates);
+    /* 
+    cout << "Centros: x "<< endl;
+    VectorTools::print(xCoordinates);
+    cout << "Centros: y "<< endl;
+    VectorTools::print(yCoordinates);
+     */
+    
+    //  for (int i = 0; i < dataLenght; ++i)
+    double radio = 3.0;
+//    cout << "No.\tCENTROS\tPROMEDIO\tRADIO" << endl; 
+    cout << "No.;CENTROS;PROMEDIO;RADIO" << endl; 
+    for (unsigned int current = 0; current <= 10; ++current) {
+      unsigned int centers = 20 + (current * 10);
+//      cout << current + 1 << "\t" << centers;
+      cout << current + 1 << ";" << centers;
+      vector <double> * counts =  new vector<double>();
+      for (unsigned int i = 0; i < centers; ++i) {
+        counts->push_back(countPointsOnTheSquareSandbox(xCoordinates.at(i),
+                                                        yCoordinates.at(i),
+                                                        radio));
+      }
+      //    cout << "  \nConteos: ";
+      //    VectorTools::print(*counts);
+      //    cout << "Promedio: ";
+//      cout << "\t\t" << VectorTools::mean<double, double>(*counts) 
+      cout << ";" << VectorTools::mean<double, double>(*counts) 
+//      << "\t\t" << radio << endl;
+      << ";" << radio << endl;
+      //    counts->clear();
+      delete counts;
+    }
+    cout << endl;
   }
-  
   /*
   for (int q = minQ, index = 0; q <= maxQ; ++q, ++index)
   {
@@ -211,21 +232,20 @@ double SandBoxMethod::calculateDqValue(const int & q,
 //  int fractalSize = cgrMatrix->nRows(); 
   int fractalSize = cgrMatrix->getNumberOfRows(); 
   
-  for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index)
-  {
+  for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index) {
     // Sand box centers coordinates
-    vector<int> xCoordinates(nCenters);
-    vector<int> yCoordinates(nCenters);
+    vector <int> xCoordinates(nCenters);
+    vector <int> yCoordinates(nCenters);
     
     generateRandomCenters(&xCoordinates, &yCoordinates);
     
-    vector<double> masses(nCenters);
-    for (int i = 0; i < nCenters; ++i)
-    {
-      masses.at(i) = pow(countPointsOnTheSquareSandbox(xCoordinates.at(i), 
-                                                       yCoordinates.at(i), 
-                                                       radius),
-                                                       static_cast<double>(q - 1));
+    vector <double> masses(nCenters);
+    for (int i = 0; i < nCenters; ++i) {
+      masses.at(i) = 
+              pow(countPointsOnTheSquareSandbox(xCoordinates.at(i),
+                                                yCoordinates.at(i),
+                                                radius),
+                                                static_cast<double>(q - 1));
     }
     
     massAverage = VectorTools::mean<double,double>(masses);
@@ -295,8 +315,8 @@ bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
   return y1.y() < y2.y();
 }
 
-double SandBoxMethod::countPointsOnTheSquareSandbox(const double & x, // col
-                                                    const double & y, // row
+double SandBoxMethod::countPointsOnTheSquareSandbox(const double & x,
+                                                    const double & y,
                                                     const double & radius)
 {
   double sum = 0.0;
@@ -308,24 +328,112 @@ double SandBoxMethod::countPointsOnTheSquareSandbox(const double & x, // col
   
   qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
         xCoordinateLessThan);
-  
-  foreach(QPointF p, coordinatesOfPoints)
-    cout << "(" << p.x() << ", " << p.y() << ") ";
+  /*cout << "Lista de puntos ordenada (por coordenada x): " << endl;
+  int count = 0;
+  foreach(QPointF p, coordinatesOfPoints){
+    cout << count <<" (" << p.x() << ", " << p.y() << ")  ";
+    ++count;
+  }
   
   QPointF lookFor = QPointF(x,y);
-  cout << "\n\nlookFor: (" << lookFor.x() << ", " << lookFor.y() << ")" << endl;
+  cout << "\n\nlookFor:    (" << lookFor.x() << ", " << lookFor.y() << ")" << endl;
   
-  QList<QPointF>::Iterator i = 
+  QList<QPointF>::Iterator center = 
           qBinaryFind(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
                       lookFor,
                       xCoordinateLessThan);
   
-//  if(i != coordinatesOfPoints.end())
-    cout << "(" << i->x() << ", " << i->y() << ") " << endl;
-//  else
-//    cout << "No" << endl;
+  if(center != coordinatesOfPoints.end())
+    cout << "Encontrado: (" << center->x() << ", " << center->y() << ") " 
+         << endl;
+  else
+    cout << "No" << endl;
+  */
+//  cout << "center: " << "(" << x << ", " << y << ") "<< endl;
+  QPointF lowerBoundPoint = QPointF(minX, minY);
+  QPointF upperBoundPoint = QPointF(maxX, maxY);
+//  cout << "lowerBoundPoint: "; 
+//  cout << "(" << lowerBoundPoint.x() << ", " << lowerBoundPoint.y() << ") " << endl;
+//  cout << "upperBoundPoint: "; 
+//  cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ") " << endl;
+  
+  QList<QPointF>::Iterator lowerBound = 
+          qLowerBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
+                      lowerBoundPoint, xCoordinateLessThan);
+  
+  QList<QPointF>::Iterator upperBound = 
+          qUpperBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
+                      upperBoundPoint, xCoordinateLessThan);
+  
+  int beginPosition = (int)(lowerBound - coordinatesOfPoints.begin());
+  int endPosition = (int)(upperBound - coordinatesOfPoints.begin());
+  int length = endPosition - beginPosition;
+  
+//  cout << "beginPosition: " << beginPosition << endl;
+//  cout << "endPosition: " << endPosition << endl;
+  /*
+  int beg = beginPosition;
+  int en = endPosition;
+  if(beginPosition > 0) 
+    --beg;
+  
+  if(endPosition < coordinatesOfPoints.count() - 1)
+    ++en;
+  
+  for (int i = beg; i < en; ++i)
+  {
+    cout << "(" << coordinatesOfPoints.at(i).x() << ", " << coordinatesOfPoints.at(i).y() << ") " << endl;
+  }
+  */
+  QList<QPointF> subList = coordinatesOfPoints.mid(beginPosition, length);
+  
+  qSort(subList.begin(), subList.end(), yCoordinateLessThan);
+  
+  /*cout << "Sublista ordenada por y: " << endl;
+  foreach(QPointF p, subList)
+    cout << "(" << p.x() << ", " << p.y() << ") ";
+  
+  cout << endl;*/
+  
+  lowerBoundPoint = QPointF(minX, minY);
+  upperBoundPoint = QPointF(maxX, maxY);
+//  cout << "lowerBoundPoint: "; 
+//  cout << "(" << lowerBoundPoint.x() << ", " << lowerBoundPoint.y() << ") " << endl;
+//  cout << "upperBoundPoint: "; 
+//  cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ") " << endl;
+  
+  lowerBound = 
+          qLowerBound(subList.begin(), subList.end(),
+                      lowerBoundPoint, yCoordinateLessThan);
+  
+  upperBound = 
+          qUpperBound(subList.begin(), subList.end(),
+                      upperBoundPoint, yCoordinateLessThan);
+  
+  beginPosition = (int)(lowerBound - subList.begin());
+  endPosition = (int)(upperBound - subList.begin());
+  length = endPosition - beginPosition;
+  sum = static_cast<double>(endPosition - beginPosition);
+  
+//  cout << "beginPosition: " << beginPosition << endl;
+//  cout << "endPosition: " << endPosition << endl;
+  /*
+  beg = beginPosition;
+  en = endPosition;
   
   
+  for (int i = beg; i < en; ++i)
+  {
+    cout << "(" << subList.at(i).x() << ", " << subList.at(i).y() << ") " << endl;
+  }
+  cout << "DEBUG " << endl;
+  */
+//  cout << "\n\nTotal puntos: " << length << endl;
+  
+  /*subList = subList.mid(beginPosition, length);
+  foreach(QPointF p, subList)
+    cout << "(" << p.x() << ", " << p.y() << ") ";
+  */
   return sum;
 }
 

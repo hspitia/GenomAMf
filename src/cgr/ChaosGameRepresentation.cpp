@@ -139,7 +139,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   {
     translateSequence();
     ptrSequence = &translatedSequence; 
-    cout << "Secuencia de Proteína clasificada" << endl;
+//    cout << "Secuencia de Proteína clasificada" << endl;
   }
   else
   { 
@@ -190,7 +190,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x,y));
-        cout << "(" << x << ", "<< y << ")";
+//        cout << "(" << x << ", "<< y << ")";
         
         int x1 = floor(xImage);
         int y1 = floor(yImage);
@@ -206,7 +206,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         matrixOfPoints(x1,y1)++;
       }
     }
-    cout << endl;
+    
+//    cout << endl;
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
                                                        getAlphabetType());
     imagefilePath = "tmp/cgr_" + 
