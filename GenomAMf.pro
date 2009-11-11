@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/mfa/Plotter.h \
+HEADERS += src/mfa/MultifractalAnalyzer.h \
+    src/mfa/Plotter.h \
     src/utils/Linear.h \
     src/mfa/SandBoxMethod.h \
     src/utils/SeqLoader.h \
@@ -28,7 +29,8 @@ HEADERS += src/mfa/Plotter.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/Plotter.cpp \
+SOURCES += src/mfa/MultifractalAnalyzer.cpp \
+    src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
     src/utils/SeqLoader.cpp \
     src/mfa/MultifractalAnalisys.cpp \
@@ -65,14 +67,15 @@ INCLUDEPATH += . \
     src/utils \
     src/gui
 INCLUDEPATH += /usr/include \
-/usr/local/include
-#LIBS += -L/usr/lib \
+    /usr/local/include
+
+# LIBS += -L/usr/lib \
 LIBS += -L/usr/local/lib \
     -lbpp-utils \
     -lbpp-seq \
     -lbpp-numcalc \
-#    -lbpp-phyl \
-#    -lbpp-qt \
+    \ \ # -lbpp-phyl \
+# -lbpp-qt \
     -L/usr/lib \
     -lmgl \
     -lmgl-qt

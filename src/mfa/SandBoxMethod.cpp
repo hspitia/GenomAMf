@@ -198,6 +198,7 @@ void SandBoxMethod::performContinousAnalisys()
 
 void SandBoxMethod::performDiscreteAnalisys()
 {
+  /*
   int nMomentums = maxQ - minQ + 1;
   int dataLenght = maxR - minR + 1;
   
@@ -217,6 +218,9 @@ void SandBoxMethod::performDiscreteAnalisys()
   }
   dqValues->append(qData);
   dqValues->append(dqData);
+  */
+  
+  
 }
 
 double SandBoxMethod::calculateDqValue(const int & q, 
@@ -320,12 +324,12 @@ double SandBoxMethod::countPointsOnTheSquareSandbox(const double & x,
                                                     const double & radius)
 {
   double sum = 0.0;
-  
+  /*
   double minX = x - radius;
   double maxX = x + radius;
   double minY = y - radius;
   double maxY = y + radius;
-  
+  */
   qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
         xCoordinateLessThan);
   /*cout << "Lista de puntos ordenada (por coordenada x): " << endl;

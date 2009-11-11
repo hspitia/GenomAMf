@@ -84,100 +84,56 @@ class MultifractalAnalisys
      */
     void calculateTqValues();
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMinQ();
     
-    /**
-     * Asigna 
-     */
+    
     void setMinQ(int minQ);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMaxQ();
     
-    /**
-     * Asigna 
-     */
+    
     void setMaxQ(int qMax);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     const ChaosGameRepresentation * getCgrObject() const;
 
-    /**
-     * Asigna 
-     */
+    
     void setCgrObject(ChaosGameRepresentation * cgrObject);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QString getLinearRegressionImagePath();
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QString getDqSpectraImagePath();
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QString getCqImagePath();
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getLinearRegressionValues();
     
-    /**
-     * Asigna 
-     */
+    
     void setLinearRegressionValues(QList<vector<double> > * 
                                    linearRegressionValues);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getDqValues();
     
-    /**
-     * Asigna 
-     */
+    
     void setDqValues(QList<vector<double> > * dqValues);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getCqValues();
     
-    /**
-     * Asigna 
-     */
+    
     void setCqValues(QList<vector<double> > * cqValues);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getTqValues();
     
-    /**
-     * Asigna 
-     */
+    
     void setTqValues(QList<vector<double> > * tqValues);
     
   private:

@@ -77,121 +77,74 @@ class SandBoxMethod
     
     virtual ~SandBoxMethod();
     
-    /**
-     * 
-     */
+    
     void performAnalisys(int type);
     
     void performContinousAnalisys();
     
     void performDiscreteAnalisys();
 
-    /**
-     * 
-     */
+    
     double calculateDqValue(const int & q, vector<double> & xData,
                             vector<double> & yData);
 
-    /**
-     * 
-     */
+    
     void generateRandomCenters(vector<int> * xCoordinates,
                                vector<int> * yCoordinates);
-    /**
-     * 
-     */
+    
     void generateRandomCenters(vector<double> * xCoordinates,
                                vector<double> * yCoordinates);
     
-    /**
-     * 
-     */
+    
     double countPointsOnTheSquareSandbox(const int & x, 
                                          const int & y, 
                                          const int & radius);
     
-    /**
-     * 
-     */
+    
     double countPointsOnTheSquareSandbox(const double & x, 
                                          const double & y, 
                                          const double & radius);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMinQ();
     
-    /**
-     * Asigna 
-     */
+    
     void setMinQ(int minQ);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMaxQ();
     
-    /**
-     * Asigna 
-     */
+    
     void setMaxQ(int maxQ);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMinR();
     
-    /**
-     * Asigna 
-     */
+    
     void setMinR(int rMin);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMaxR();
     
-    /**
-     * Asigna 
-     */
+    
     void setMaxR(int maxR);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     const RowMatrix<int> * getCgrMatrix() const;
     
-    /**
-     * Asigna 
-     */
+    
     void setCgrMatrix(const RowMatrix<int> * cgrMatrix);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getNCenters();
     
-    /**
-     * Asigna 
-     */
+    
     void setNCenters(int nCenters);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getDqValues();
     
-    /**
-     * Asigna 
-     */
+    
     void setDqValues(QList<vector<double> > * dqValues);
 
 //    /**
@@ -205,10 +158,7 @@ class SandBoxMethod
 //     */
 //    void setFractalSize(int fractalSize);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     QList<vector<double> > * getLinearRegressionValues();
     
     /**
@@ -217,16 +167,11 @@ class SandBoxMethod
     void setLinearRegressionValues(QList<vector<double> > * 
                                    linearRegressionValues);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
 //    const QList<QPointF> * getCoordinatesOfPoints() const;
     const QList<QPointF> getCoordinatesOfPoints() const;
     
-    /**
-     * Asigna 
-     */
+    
     void setCoordinatesOfPoints(const QList<QPointF> & coordinatesOfPoints);
     
   private:
