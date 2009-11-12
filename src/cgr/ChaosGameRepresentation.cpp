@@ -121,140 +121,129 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int margin = 20; // pixeles
   matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
   
-  int xImagePoints[4]  = {0,       0, cgrSize, cgrSize};
-  int yImagePoints[4]  = {cgrSize, 0, 0,       cgrSize};
-  
-  int xMatrixPoints[4] = /*{0, 0,          matrixSize, 0         };*/ { 0, 0, matrixSize, matrixSize };
-  int yMatrixPoints[4] = /*{0, matrixSize, matrixSize, matrixSize};*/ { matrixSize, 0, 0, matrixSize };
+  int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
+  int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
   
   // Para parejas de coordenadas reales (continuas)
 //  int xPoints[4] = { 0, 0, 1, 1 };
-//  int yPoints[4] = { 1, 0, 0, 1 };
+//  int yPoints[4] = { 0, 1, 1, 0 };
   
-  int xPoints[4] = {0, 0,          matrixSize, 0         };
-  int yPoints[4] = {0, matrixSize, matrixSize, matrixSize};
+  int xMatrixPoints[4] = {0, 0,          matrixSize, matrixSize};
+  int yMatrixPoints[4] = {0, matrixSize, matrixSize, 0         };
+  
+  int xPoints[4] =       {0, 0,          matrixSize, matrixSize};
+  int yPoints[4] =       {0, matrixSize, matrixSize, 0         };
   
   const vector<int> * ptrSequence;
   
-  if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()) == 
-          GenomAMf::Proteic_Alphabet)
-  {
+  if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
+          == GenomAMf::Proteic_Alphabet) {
     translateSequence();
-    ptrSequence = &translatedSequence; 
+    ptrSequence = &translatedSequence;
     cout << "Secuencia de Proteína clasificada" << endl;
   }
-  else
-  { 
+  else {
     ptrSequence = &sequence->getContent();
   }
-  double x = matrixSize / 2;
-  double y = x;
   
   int xImage = utils::round((double)cgrSize/2);
   int yImage = xImage;
-  
 /*
   int xMatrix =  utils::round((double)matrixSize/2);
   int yMatrix = xMatrix;
 */
-  double xMatrix = utils::round((double)matrixSize/2);
+  double xMatrix = matrixSize / 2;
   double yMatrix = xMatrix;
   
+  double x = matrixSize / 2;
+  double y = x;
   
   if(generateImage){
-    QImage * cgrImage = new QImage(cgrSize + (margin * 2), 
-            cgrSize + (margin * 3), QImage::Format_RGB32);
-    QRgb backgroundColor = qRgb(255,255,255);
+    QImage * cgrImage = new QImage(cgrSize + (margin * 2), cgrSize + (margin
+            * 3), QImage::Format_RGB32);
+    QRgb backgroundColor = qRgb(255, 255, 255);
     cgrImage->fill(backgroundColor);
     
     QPainter * painter = new QPainter(cgrImage);
     painter->setPen(QColor(0, 0, 0));
     
-    drawBoxAndLabels(painter, cgrSize,
-            utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType()));
-                    
-    painter->translate(1,1);
-   
-//    cout << "DEBUG CGR::153 - sequenceSize: " << sequenceSize << endl;
-    for (unsigned int i = 0; i < sequenceSize; ++i)
-    {
+    drawBoxAndLabels(painter, cgrSize, 
+                     utils::getAlphabetType(sequence->getAlphabet()->
+                                            getAlphabetType()));
+    
+    painter->translate(1, 1);
+    
+    //    cout << "DEBUG CGR::153 - sequenceSize: " << sequenceSize << endl;
+    for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
       // Los gaps y bases/aminoácidos no resueltos son ignorados
-      if(element > -1 && element < 4 ) 
-      { 
-//        xImage = floor(((xPoints[element] * cgrSize) + xImage) / 2);
-//        yImage = floor(((yPoints[element] * cgrSize) + yImage) / 2);
-//        
-//        xMatrix = floor(((xPoints[element] * matrixSize) + xMatrix) / 2);
-//        yMatrix = floor(((yPoints[element] * matrixSize) + yMatrix) / 2);
+      if (element > -1 && element < 4) {
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
         
-        xMatrix = (xMatrixPoints[element] + xMatrix) / 2;
-        yMatrix = (yMatrixPoints[element] + yMatrix) / 2;
+        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
+        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
-        coordinatesOfPoints->append(QPointF(x,y));
+        coordinatesOfPoints->append(QPointF(x, y));
         
         int x1 = floor(xImage);
         int y1 = floor(yImage);
         
-        painter->drawPoint(QPointF(x1,y1));
+//        painter->drawPoint(QPointF(x1,y1));
+        painter->drawPoint(QPointF(xImage, yImage));
         
-//        x1 = utils::round((xMatrix));
-//        x1 = floor(xMatrix);
-        x1 = (int)floor(x);
-//        y1 = utils::round((yMatrix));
-//        y1 = floor(yMatrix);
-        y1 = (int)floor(y);
+        x1 = floor(xMatrix);
+        y1 = floor(yMatrix);
         
-//        if(x1 >= matrixSize)
-//          x1 = matrixSize - 1;
-//        if(y1 >= matrixSize)
-//          y1 = matrixSize - 1;
-//        cout << "(" << x << ", "<< y << ") " << "(" << floor(x) << ", "<< floor(y) << ") " << "(" << x1 << ", "<< y1 << ") " << endl;
-        
-//        cout << "   DEBUG CGR::170 -  i: " << i << "  element: " << element
-//        << "  x: " << x 
-//        << "  y: " << y << endl;
         int row = matrixSize - 1 - y1;
         int col = x1;
         
 //        matrixOfPoints(x1,y1)++;
-        matrixOfPoints(row,col)++;
+        matrixOfPoints(row, col)++;
       }
     }
-    cout << endl;
+//    cout << endl;
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
                                                        getAlphabetType());
-    imagefilePath = "tmp/cgr_" + 
+    imagefilePath = "tmp/cgr_" +  
             sequenceType + "_" + sequence->getName() + ".png";
 //    imagefilePath = "tmp/cgr_" + sequence->getName() + ".dat";
-    cgrImage->save(QString::fromStdString(imagefilePath) , "PNG");
+    cgrImage->save(QString::fromStdString(imagefilePath), "PNG");
     
     delete painter;
     delete cgrImage;
     
   }
-  else{
-    for (unsigned int i = 0; i < sequenceSize; ++i)
-    {
+  else {
+    for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
-      if(element > -1){
+      if (element > -1) {
 //        x = (xPoints[element] + x) / 2;
 //        y = (yPoints[element] + y) / 2;
 //        matrixOfPoints(floor(x), floor(y))++;
         xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
         yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
-        matrixOfPoints(xMatrix,yMatrix)++;
+        matrixOfPoints(xMatrix, yMatrix)++;
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
-        coordinatesOfPoints->append(QPointF(x,y));
+        coordinatesOfPoints->append(QPointF(x, y));
       }
     }
   }
+  
+  MatrixTools::print(matrixOfPoints);
+  cout << endl;
+  
+  foreach(QPointF p, *coordinatesOfPoints){
+    int xcoor = floor(p.x()); 
+    int ycoor = floor(p.y()); 
+    cout << " (" << p.x() << ", " << p.y() << ");" << "(" << xcoor << ", " << ycoor << ");"<<"(" << matrixSize - 1 - ycoor << ", " << xcoor << ")" <<endl;
+  }
+  
+  cout << endl;
 }
 
 void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter, 
@@ -307,7 +296,7 @@ void ChaosGameRepresentation::performRepresentation1(int cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20;
-  matrixOfPoints = RowMatrix<int>(cgrSize,cgrSize);
+  matrixOfPoints = RowMatrix<int>(cgrSize, cgrSize);
   if(generateImage){
     QImage * cgrImage = new QImage(cgrSize + (margin * 2), cgrSize + 
             (margin * 2), QImage::Format_RGB32);
