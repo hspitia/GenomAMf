@@ -122,16 +122,30 @@ MultifractalAnalisys::~MultifractalAnalisys()
 
 void MultifractalAnalisys::performAnalisys(AnalisysType type)
 {
-  switch (type){
+  switch (type) {
     case CONTINOUS_ANALISYS:
       performContinousAnalisys();
       break;
     case DISCRETE_ANALISYS:
       performDiscreteAnalisys();
       break;
+    case COMPARATIVE_ANALISYS:
+      performComparativeAnalisys();
+      break;
     default:
       return;
   }
+}
+
+void MultifractalAnalisys::performComparativeAnalisys()
+{
+  SandBoxMethod * sandBoxObject = 
+          new SandBoxMethod(cgrObject->getMatrixOfPoints(),
+                            *(cgrObject->getCoordinatesOfPoints()),
+                            minQ - 1, // Dato adicional necesario para calcular Cq
+                            maxQ + 1); // Dato adicional necesario para calcular Cq
+  
+  sandBoxObject->performAnalisys(COMPARATIVE_ANALISYS);
 }
 
 void MultifractalAnalisys::performContinousAnalisys()
@@ -179,7 +193,7 @@ void MultifractalAnalisys::performContinousAnalisys()
 
 void MultifractalAnalisys::performDiscreteAnalisys()
 {
-  //  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
+/*  //  int fractalSize = cgrObject->getMatrixOfPoints()->nRows();
   SandBoxMethod * sandBoxObject =
           new SandBoxMethod(cgrObject->getMatrixOfPoints(), minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1); // Dato adicional necesario para calcular Cq
@@ -194,7 +208,16 @@ void MultifractalAnalisys::performDiscreteAnalisys()
   dqValues = new QList <vector <double> > (*(sandBoxObject->getDqValues()));
   
   if (sandBoxObject != 0) delete sandBoxObject;
-  sandBoxObject = 0;
+  sandBoxObject = 0;*/
+  
+  SandBoxMethod * sandBoxObject = 
+          new SandBoxMethod(cgrObject->getMatrixOfPoints(),
+                            *(cgrObject->getCoordinatesOfPoints()),
+                            minQ - 1, // Dato adicional necesario para calcular Cq
+                            maxQ + 1);
+  
+  sandBoxObject->performAnalisys(DISCRETE_ANALISYS);
+  
 }
 
 void MultifractalAnalisys::calculateCqValues()

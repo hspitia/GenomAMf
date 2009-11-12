@@ -105,7 +105,8 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
 //    cout << "AppController::99 - " << qPrintable(QString::
 //            fromStdString(sequence->getName())) << endl;
     cgrObject = new ChaosGameRepresentation(sequence);
-    cgrObject->performRepresentation(512,512,true);
+//    cgrObject->performRepresentation(512,512,true);
+    cgrObject->performRepresentation(512,20,true);
     cgrHash->insert(cgrKey, cgrObject);
     
     mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
@@ -129,7 +130,9 @@ int AppController::makeMultifractalAnalisys(const int & cgrKey,
 //    cout << "AppController::125 - " << qPrintable(QString::
 //            fromStdString(sequence->getName())) << endl;
     mfaObject = new MultifractalAnalisys(cgrObject, minQ, maxQ);
-    mfaObject->performAnalisys(MultifractalAnalisys::CONTINOUS_ANALISYS);
+//    mfaObject->performAnalisys(MultifractalAnalisys::CONTINOUS_ANALISYS);
+//    mfaObject->performAnalisys(MultifractalAnalisys::DISCRETE_ANALISYS);
+    mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
     mfaHash->insert(mfaKey, mfaObject);
 //    
 //    mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);

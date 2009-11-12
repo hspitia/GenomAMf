@@ -22,8 +22,16 @@
 #ifndef MULTIFRACTALANALYZER_H_
 #define MULTIFRACTALANALYZER_H_
 
+//QT Libraries
+#include <QtCore/QList>
+
+//Project
+#include <cgr/ChaosGameRepresentation.h>
+#include <mfa/MultifractalAnalisys.h>
+
 /**
- * 
+ * @brief Ejecuta el análisis multifractal sobre múltiples objetos 
+ * ChaosGameRepresentation. 
  */
 class MultifractalAnalyzer
 {

@@ -91,15 +91,17 @@ void ChaosGameRepresentation::translateSequence()
     newElement = -1;
     // Los gaps y aminoácidos no resueltos son ignorados 
     if (element > -1 && element < 20) {
-      if (element == 3 || element == 6) { // Negativo polar
+      // D, E  -> Negativo polar
+      if (element == 3 || element == 6) {
         newElement = 1;
       }
-      else if (element == 1 || element == 8 || element == 11) { // Positivo polar
+      // R, H, K -> Positivo polar
+      else if (element == 1 || element == 8 || element == 11) {
         newElement = 3;
       }
-      else if (element == 2 || element == 4 || element == 5 || element == 7
-              || element == 15 || element == 16 || element == 18) { // Polar no
-        // cargado
+      // N. C, Q, G, S, T, Y, Polar no cargado
+      else if (element == 2 || element == 4 || element == 5 || element == 7 ||
+               element == 15 || element == 16 || element == 18) {
         newElement = 2;
       }
       else { // No polar
@@ -122,8 +124,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int xImagePoints[4]  = {0,       0, cgrSize, cgrSize};
   int yImagePoints[4]  = {cgrSize, 0, 0,       cgrSize};
   
-  int xMatrixPoints[4] = {0, 0,          matrixSize, 0         }; // { 0, 0, matrixSize, matrixSize };
-  int yMatrixPoints[4] = {0, matrixSize, matrixSize, matrixSize}; // { matrixSize, 0, 0, matrixSize };
+  int xMatrixPoints[4] = /*{0, 0,          matrixSize, 0         };*/ { 0, 0, matrixSize, matrixSize };
+  int yMatrixPoints[4] = /*{0, matrixSize, matrixSize, matrixSize};*/ { matrixSize, 0, 0, matrixSize };
   
   // Para parejas de coordenadas reales (continuas)
 //  int xPoints[4] = { 0, 0, 1, 1 };
@@ -139,7 +141,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   {
     translateSequence();
     ptrSequence = &translatedSequence; 
-//    cout << "Secuencia de Proteína clasificada" << endl;
+    cout << "Secuencia de Proteína clasificada" << endl;
   }
   else
   { 
@@ -151,8 +153,12 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int xImage = utils::round((double)cgrSize/2);
   int yImage = xImage;
   
+/*
   int xMatrix =  utils::round((double)matrixSize/2);
   int yMatrix = xMatrix;
+*/
+  double xMatrix = utils::round((double)matrixSize/2);
+  double yMatrix = xMatrix;
   
   
   if(generateImage){
@@ -190,24 +196,36 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x,y));
-//        cout << "(" << x << ", "<< y << ")";
         
         int x1 = floor(xImage);
         int y1 = floor(yImage);
         
         painter->drawPoint(QPointF(x1,y1));
         
-        x1 = floor(xMatrix);
-        y1 = floor(yMatrix);
+//        x1 = utils::round((xMatrix));
+//        x1 = floor(xMatrix);
+        x1 = (int)floor(x);
+//        y1 = utils::round((yMatrix));
+//        y1 = floor(yMatrix);
+        y1 = (int)floor(y);
+        
+//        if(x1 >= matrixSize)
+//          x1 = matrixSize - 1;
+//        if(y1 >= matrixSize)
+//          y1 = matrixSize - 1;
+//        cout << "(" << x << ", "<< y << ") " << "(" << floor(x) << ", "<< floor(y) << ") " << "(" << x1 << ", "<< y1 << ") " << endl;
         
 //        cout << "   DEBUG CGR::170 -  i: " << i << "  element: " << element
 //        << "  x: " << x 
 //        << "  y: " << y << endl;
-        matrixOfPoints(x1,y1)++;
+        int row = matrixSize - 1 - y1;
+        int col = x1;
+        
+//        matrixOfPoints(x1,y1)++;
+        matrixOfPoints(row,col)++;
       }
     }
-    
-//    cout << endl;
+    cout << endl;
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
                                                        getAlphabetType());
     imagefilePath = "tmp/cgr_" + 

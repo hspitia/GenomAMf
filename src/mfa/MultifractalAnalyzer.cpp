@@ -23,8 +23,8 @@
 
 MultifractalAnalyzer::MultifractalAnalyzer()
 {
-  this->cgrObjects = QList<ChaosGameRepresentation *>;
-  this->cgrObjects = QList<MultifractalAnalisys *>;
+  this->cgrObjects = QList<ChaosGameRepresentation *>();
+  this->mfaObjects = QList<MultifractalAnalisys *>();
   this->minQ       = -70;
   this->maxQ       =  70;
   this->nCenters   =  50;
@@ -41,7 +41,7 @@ MultifractalAnalyzer::MultifractalAnalyzer(QList<ChaosGameRepresentation * >
                                            const double & maxR)
 { 
   this->cgrObjects = cgrObjects;
-  this->cgrObjects = QList<MultifractalAnalisys *>;
+  this->mfaObjects = QList<MultifractalAnalisys *>();
   this->minQ       = minQ;
   this->maxQ       = maxQ;
   this->nCenters   = nCenters;
@@ -53,7 +53,7 @@ MultifractalAnalyzer::MultifractalAnalyzer(const MultifractalAnalyzer &
                                            multifractalAnalyzerObject)
 { 
   this->cgrObjects = multifractalAnalyzerObject.cgrObjects;
-  this->cgrObjects = QList<MultifractalAnalisys *>;
+  this->mfaObjects = QList<MultifractalAnalisys *>();
   this->minQ       = multifractalAnalyzerObject.minQ;
   this->maxQ       = multifractalAnalyzerObject.maxQ;
   this->nCenters   = multifractalAnalyzerObject.nCenters;
@@ -69,13 +69,13 @@ MultifractalAnalyzer::~MultifractalAnalyzer()
 
 QList<ChaosGameRepresentation *> MultifractalAnalyzer::getCgrObjects()
 {
-  return * cgrObjects;
+  return cgrObjects;
 }
 
 void MultifractalAnalyzer::setCgrObjects(QList<ChaosGameRepresentation *>  
                                          cgrObjects)
 {
-  this->* cgrObjects = * cgrObjects;
+  this->cgrObjects = cgrObjects;
 }
 
 int MultifractalAnalyzer::getMinQ()

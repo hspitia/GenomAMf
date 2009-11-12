@@ -5,3 +5,4 @@ rm app
 rm tmp/*.*
 tar -zcvf ../GenomAMf_$1.tgz ../GenomAMf
 mv ../GenomAMf_$1.tgz $2/Univalle/Trabajo\ de\ Grado/Fuente
+sync

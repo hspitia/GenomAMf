@@ -83,6 +83,8 @@ class SandBoxMethod
     void performContinousAnalisys();
     
     void performDiscreteAnalisys();
+    
+    void performComparativeAnalisys();
 
     
     double calculateDqValue(const int & q, vector<double> & xData,
@@ -96,14 +98,14 @@ class SandBoxMethod
                                vector<double> * yCoordinates);
     
     
-    double countPointsOnTheSquareSandbox(const int & x, 
-                                         const int & y, 
-                                         const int & radius);
+    double countPointsOnTheDiscreteSquareSandbox(const int & x, 
+                                                 const int & y, 
+                                                 const int & radius);
     
     
-    double countPointsOnTheSquareSandbox(const double & x, 
-                                         const double & y, 
-                                         const double & radius);
+    double countPointsOnTheContinousSquareSandbox(const double & x, 
+                                                  const double & y, 
+                                                  const double & radius);
     
     
     int getMinQ();

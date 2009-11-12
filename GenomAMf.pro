@@ -69,14 +69,14 @@ INCLUDEPATH += . \
 INCLUDEPATH += /usr/include \
     /usr/local/include
 
-# LIBS += -L/usr/lib \
 LIBS += -L/usr/local/lib \
     -lbpp-utils \
     -lbpp-seq \
     -lbpp-numcalc \
-    \ \ # -lbpp-phyl \
-# -lbpp-qt \
-    -L/usr/lib \
+    -lbpp-qt
+# -lbpp-phyl \
+
+LIBS += -L/usr/lib \
     -lmgl \
     -lmgl-qt
 
