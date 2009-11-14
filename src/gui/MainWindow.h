@@ -154,7 +154,7 @@ class MainWindow : public QMainWindow
     /**
      * 
      */
-    void displayMfaResults();
+    void displayMfaResults(const QList<int> & mgaKeys);
     
     /**
      * 

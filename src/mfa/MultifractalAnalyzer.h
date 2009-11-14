@@ -28,6 +28,7 @@
 //Project
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/MultifractalAnalisys.h>
+#include <app/AppController.h>
 
 /**
  * @brief Ejecuta el análisis multifractal sobre múltiples objetos 
@@ -37,23 +38,27 @@ class MultifractalAnalyzer
 {
   public:
     MultifractalAnalyzer();
-    
-    MultifractalAnalyzer(const MultifractalAnalyzer & multifractalAnalyzerObject);
-    
-    MultifractalAnalyzer(QList<ChaosGameRepresentation * >  cgrObjects,
+
+    MultifractalAnalyzer(
+//                         const AppController * parentApp,
+                         QList<const ChaosGameRepresentation * >  cgrObjects,
+                         MultifractalAnalisys::AnalisysType type,
                          const int & minQ     = -70,
                          const int & maxQ     =  70,
                          const int & nCenters =  50,
                          const double & minR  =   1.0,
                          const double & maxR  = 256.0);
     
+    
+    MultifractalAnalyzer(const MultifractalAnalyzer & multifractalAnalyzerObject);
+    
     virtual ~MultifractalAnalyzer();
     
     
-    QList<ChaosGameRepresentation *> getCgrObjects();
+    QList<const ChaosGameRepresentation *> getCgrObjects();
     
     
-    void setCgrObjects(QList<ChaosGameRepresentation *>  cgrObjects);
+    void setCgrObjects(QList<const ChaosGameRepresentation *>  cgrObjects);
 
     
     int getMinQ();
@@ -89,8 +94,10 @@ class MultifractalAnalyzer
     
     void setMaxR(double maxR);
     
+//    AppController * getParentApp();
+    
   private:
-    QList<ChaosGameRepresentation *> cgrObjects; /**< Lista de apuntadores a 
+    QList<const ChaosGameRepresentation *> cgrObjects; /**< Lista de apuntadores a 
       los objetos CGR sobre los cuales se realizará el análisis multifractal. */
     
     QList<MultifractalAnalisys *> mfaObjects; /**< Lista de apuntadores a los 
@@ -108,7 +115,11 @@ class MultifractalAnalyzer
     
     double maxR; /**< Valor para el parámetro radio máximo de las cajas de 
       arena del análisis multifractal */
-
+    
+//    AppController * parentApp; /**< Pauntador al objeto AppController padre. */
+    
+    MultifractalAnalisys::AnalisysType type;
+        
 };
 
 #endif /* MULTIFRACTALANALYZER_H_ */

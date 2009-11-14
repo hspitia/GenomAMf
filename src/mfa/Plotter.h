@@ -54,17 +54,24 @@ class Plotter : public mglDraw
 {
   public:
     enum plotType {Linear_Plot, Dq_Plot, Cq_Plot, Measures_Plot};
-    
+    /*
     Plotter(const QList<vector<double> > * dataList, plotType type);
     Plotter(const QList<QList<vector<double> > > * dataList, 
             plotType type = Linear_Plot);
     Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
             plotType type = Measures_Plot);
+    */
+    Plotter(const QList<vector<double> *> & dataList, plotType type);
+    Plotter(const QList<QList<vector<double> *> > & dataList, 
+            plotType type = Linear_Plot);
+    Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
+            plotType type = Measures_Plot);
+    
     virtual ~Plotter();
     
     int Draw(mglGraph * gr);
     void plot0(mglGraph * gr);
-    void plot1(mglGraph * gr);
+//    void plot1(mglGraph * gr);
     
     /**
      * Asigna 
@@ -98,9 +105,15 @@ class Plotter : public mglDraw
     void setLegends(QStringList legends);
     
   private:
+    /*
     const QList<vector<double> > * dataListNormal;
     const QList<QList<vector<double> > > * dataListLinearReg;
     const QList<RowMatrix<int> * > * dataListMatrix;
+    */
+    QList<vector<double> *> dataListNormal;
+    QList<QList<vector<double> *> > dataListLinearReg;
+    const QList<RowMatrix<int> * > * dataListMatrix;
+    
     plotType type;
     QString title; /**< Título del gráfico */
     QString xLabel; /**< Etiqueta para el eje x */

@@ -39,6 +39,7 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
+#include <mfa/MultifractalAnalyzer.h>
 #include <mfa/MultifractalAnalisys.h>
 #include <gui/MainWindow.h>
 #include <utils/CustomSequencesContainer.h>
@@ -99,7 +100,8 @@ class AppController : public QApplication
     /**
      * 
      */
-    int makeMultifractalAnalisys(const int & cgrKey, const int & minQ,
+    QList<int> makeMultifractalAnalisys(const QList<int> & cgrKeys, 
+                                 const int & minQ,
                                  const int & maxQ);
 
     /**

@@ -87,8 +87,11 @@ class SandBoxMethod
     void performComparativeAnalisys();
 
     
-    double calculateDqValue(const int & q, vector<double> & xData,
-                            vector<double> & yData);
+    double calculateContinousDqValue(const int & q, vector<double> & xData,
+                                     vector<double> & yData);
+    
+    double calculateDiscreteDqValue(const int & q, vector<double> & xData,
+                                    vector<double> & yData);
 
     
     void generateRandomCenters(vector<int> * xCoordinates,
@@ -144,31 +147,11 @@ class SandBoxMethod
     void setNCenters(int nCenters);
 
     
-    QList<vector<double> > * getDqValues();
+//    QList<vector<double> > * getDqValues();
+    vector<double> * getDqValues();
     
     
-    void setDqValues(QList<vector<double> > * dqValues);
-
-//    /**
-//     * Retorna 
-//     * @return 
-//     */
-//    int getFractalSize();
-//    
-//    /**
-//     * Asigna 
-//     */
-//    void setFractalSize(int fractalSize);
-    
-    
-    QList<vector<double> > * getLinearRegressionValues();
-    
-    /**
-     * Asigna
-     */
-    void setLinearRegressionValues(QList<vector<double> > * 
-                                   linearRegressionValues);
-    
+    QList<vector<double> *> getLinearRegressionValues();
     
 //    const QList<QPointF> * getCoordinatesOfPoints() const;
     const QList<QPointF> getCoordinatesOfPoints() const;
@@ -194,10 +177,14 @@ class SandBoxMethod
     int nCenters; /**< Número de centros de caja de arena por cada 
       medida de radio a ser generados aleatoriamente */
 
-    QList<vector<double> > * dqValues; /**< Contenedor para los valores 
+//    QList<vector<double> > * dqValues; /**< Contenedor para los valores 
+//      Dq vs q */ 
+    vector<double> * dqValues; /**< Contenedor para los valores 
       Dq vs q */ 
     
-    QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
+//    QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
+//      valores de la regresión lineal */
+    QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
    
 //    int fractalSize; /**< Longitud lineal del fractal */

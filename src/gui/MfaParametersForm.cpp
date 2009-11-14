@@ -9,8 +9,8 @@ MfaParametersForm::MfaParametersForm(SequenceListModel * model, QWidget *parent)
   minQValue = 0;
   maxQValue = 0;
   ui->setupUi(this);
-  ui->cgrTableView->setModel(model);
-  ui->cgrTableView->selectRow(0);
+  ui->sequenceTableView->setModel(model);
+  ui->sequenceTableView->selectRow(0);
 }
 
 MfaParametersForm::~MfaParametersForm()
@@ -26,17 +26,36 @@ void MfaParametersForm::done(int result)
 {
   // TODO Verificar validación de existencia de modelo o index
   
+//  if (result == QDialog::Accepted) {
+//    QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
+//    QAbstractItemModel *model = ui->sequenceTableView->model();
+//
+//    if(model->rowCount() > 0){
+//      cgrSelectedKey = model->data(index,Qt::UserRole).toInt();
+//      minQValue = ui->qMinSpinBox->text().toInt();
+//      maxQValue = ui->qMaxSpinBox->text().toInt();
+//    }
+//  }
+//  QDialog::done(result);
+  
+  
   if (result == QDialog::Accepted) {
-    QModelIndex index = ui->cgrTableView->selectionModel()->currentIndex();
-    QAbstractItemModel *model = ui->cgrTableView->model();
-
-    if(model->rowCount() > 0){
-      cgrSelectedKey = model->data(index,Qt::UserRole).toInt();
+    QList<QModelIndex> selectedIndexes = ui->sequenceTableView->
+            selectionModel()->selectedRows();
+    
+    if (!selectedIndexes.isEmpty()) {
+      for (int i = 0; i < selectedIndexes.count(); ++i) {
+        QModelIndex index = selectedIndexes.at(i);
+        QAbstractItemModel *model = ui->sequenceTableView->model();
+        
+        selectedSequencesKeys << model->data(index,Qt::UserRole).toInt();
+      }
       minQValue = ui->qMinSpinBox->text().toInt();
       maxQValue = ui->qMaxSpinBox->text().toInt();
     }
   }
   QDialog::done(result);
+  
 }
 
 int MfaParametersForm::getMinQValue()
@@ -47,4 +66,9 @@ int MfaParametersForm::getMinQValue()
 int MfaParametersForm::getMaxQValue()
 {
   return maxQValue;
+}
+
+QList<int> MfaParametersForm::getSelectedSequencesKeys()
+{
+  return selectedSequencesKeys;
 }

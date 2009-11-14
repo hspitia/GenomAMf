@@ -65,24 +65,19 @@ class MultifractalAnalisys
     
     MultifractalAnalisys & operator=(const MultifractalAnalisys & mfaObject);
     
-    /**
-     * 
-     */
+    
     void performAnalisys(AnalisysType type);
     
-    void performContinousAnalisys();
     
-    void performDiscreteAnalisys();
     void performComparativeAnalisys();
 
-    /**
-     * 
-     */
+    
+    void calculateDqValues(AnalisysType type);
+
+    
     void calculateCqValues();
 
-    /**
-     * 
-     */
+    
     void calculateTqValues();
     
     
@@ -113,29 +108,21 @@ class MultifractalAnalisys
     QString getCqImagePath();
 
     
-    QList<vector<double> > * getLinearRegressionValues();
+//    QList<vector<double> > * getLinearRegressionValues();
+    QList<vector<double> *> getLinearRegressionValues();
+    
+//    QList<vector<double> > * getDqValues();
+    vector<double> * getDqValues();
     
     
-    void setLinearRegressionValues(QList<vector<double> > * 
-                                   linearRegressionValues);
-
-    
-    QList<vector<double> > * getDqValues();
+//    QList<vector<double> > * getCqValues();
+    vector<double> * getCqValues();
     
     
-    void setDqValues(QList<vector<double> > * dqValues);
-
+//    QList<vector<double> > * getTqValues();
+    vector<double> * getTqValues();
     
-    QList<vector<double> > * getCqValues();
-    
-    
-    void setCqValues(QList<vector<double> > * cqValues);
-
-    
-    QList<vector<double> > * getTqValues();
-    
-    
-    void setTqValues(QList<vector<double> > * tqValues);
+    vector<double> * getQValues();
     
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
@@ -154,20 +141,28 @@ class MultifractalAnalisys
     
     QString cqImagePath; /**< Ruta a la imagen correspondiente al 
       gráfico Dq */
-
-    QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
+/*
+    QList<vector<double> > * linearRegressionValues; *< Contenedor de los 
+      valores de la regresión lineal 
+*/
+    QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
     
-    QList<vector<double> > * dqValues; /**< Contenedor de los valores Dq vs q */
+    /*
+    QList<vector<double> > * dqValues; *< Contenedor de los valores Dq vs q 
     
-    QList<vector<double> > * cqValues; /**< contenedor de los valores Cq vs q */
+    QList<vector<double> > * cqValues; *< contenedor de los valores Cq vs q 
 
-    QList<vector<double> > * tqValues; /**< Contenedor para valores tau q */
+    QList<vector<double> > * tqValues; *< Contenedor para valores tau q 
+    */
     
-    /**
-     * 
-     */
-    QString plotResults(const QList <vector <double> > & values);
+   vector<double> * dqValues; /**< Contenedor de los valores Dq  */
+   
+   vector<double> * cqValues; /**< contenedor de los valores Cq */
+
+   vector<double> * tqValues; /**< Contenedor para valores tau q */
+   
+//   QString plotResults(const QList <vector <double> > & values);
     
 };
 

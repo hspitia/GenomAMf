@@ -292,39 +292,40 @@ int log(mglGraph *gr, void *)
 
 Plotter * sinSample()
 {
-  QList<vector<double> > * data = new QList<vector<double> > ();
-  vector<double> q(50);
-  vector<double> y1(50);
-  vector<double> y2(50);
-  vector<double> y3(50);
+  QList<vector<double> *> data = QList<vector<double> *> ();
+  vector<double> * q  = new vector<double>(50);
+  vector<double> * y1 = new vector<double>(50);
+  vector<double> * y2 = new vector<double>(50);
+  vector<double> * y3 = new vector<double>(50);
+  
   double pi = 3.141593;
-  for (unsigned int i = 0; i < q.size(); ++i) {
-    q.at(i) = i;
+  for (unsigned int i = 0; i < q->size(); ++i) {
+    q->at(i) = i;
   }
   //  double size = y1.size() - 1;
   double size = 1;
-  for (unsigned int i = 0; i < y1.size(); ++i) {
+  for (unsigned int i = 0; i < y1->size(); ++i) {
     //    0.7*sin(2*pi*x) + 0.5*cos(3*pi*x) + 0.2*sin(pi*x)
-    y1.at(i) = (0.7 * sin(2 * pi * (i / size))) + (0.5 * cos(3 * pi
+    y1->at(i) = (0.7 * sin(2 * pi * (i / size))) + (0.5 * cos(3 * pi
             * (i / size)) + (0.2 * sin(pi * (i / size))));
   }
   cout << endl;
-  for (unsigned int i = 0; i < y2.size(); ++i) {
+  for (unsigned int i = 0; i < y2->size(); ++i) {
     //    sin(2*pi*x)
-    y2.at(i) = sin(2 * pi * (i / size));
+    y2->at(i) = sin(2 * pi * (i / size));
   }
   cout << endl;
   
-  for (unsigned int i = 0; i < y3.size(); ++i) {
+  for (unsigned int i = 0; i < y3->size(); ++i) {
     //    cos(2*pi*x)
-    y3.at(i) = cos(2 * pi * (i / size));
+    y3->at(i) = cos(2 * pi * (i / size));
   }
   cout << endl;
   
-  data->append(q);
-  data->append(y1);
-  data->append(y2);
-  data->append(y3);
+  data.append(q);
+  data.append(y1);
+  data.append(y2);
+  data.append(y3);
   
   Plotter * plotter = new Plotter(data, Plotter::Dq_Plot);
   return plotter;
@@ -398,34 +399,34 @@ Plotter * measuresSample()
 
 Plotter * rectSample()
 {
-  QList<vector<double> > * data = new QList<vector<double> > ();
-  vector<double> q(50);
-  vector<double> y1(50);
-  vector<double> y2(50);
-  vector<double> y3(50);
+  QList<vector<double> *> data = QList<vector<double> *>();
+  vector<double> * q  = new vector<double>(50);
+  vector<double> * y1 = new vector<double>(50);
+  vector<double> * y2 = new vector<double>(50);
+  vector<double> * y3 = new vector<double>(50);
   
   int datum = -20;
-  for (unsigned int i = 0; i < q.size(); ++i, datum++) {
-    q.at(i) = datum;
+  for (unsigned int i = 0; i < q->size(); ++i, datum++) {
+    q->at(i) = datum;
   }
-  for (unsigned int i = 0; i < y1.size(); ++i) {
-    y1.at(i) = i * 0.5;
-  }
-  cout << endl;
-  for (unsigned int i = 0; i < y2.size(); ++i) {
-    y2.at(i) = i * 0.8;
+  for (unsigned int i = 0; i < y1->size(); ++i) {
+    y1->at(i) = i * 0.5;
   }
   cout << endl;
-  
-  for (unsigned int i = 0; i < y3.size(); ++i) {
-    y3.at(i) = i;
+  for (unsigned int i = 0; i < y2->size(); ++i) {
+    y2->at(i) = i * 0.8;
   }
   cout << endl;
   
-  data->append(q);
-  data->append(y1);
-  data->append(y2);
-  data->append(y3);
+  for (unsigned int i = 0; i < y3->size(); ++i) {
+    y3->at(i) = i;
+  }
+  cout << endl;
+  
+  data.append(q);
+  data.append(y1);
+  data.append(y2);
+  data.append(y3);
   
   Plotter * plotter = new Plotter(data, Plotter::Dq_Plot);
   plotter->setTitle("Rectas");
@@ -436,30 +437,30 @@ Plotter * rectSample()
 
 Plotter * multiRectSample()
 {
-  QList<QList<vector<double> > > * data = new QList<QList<vector<double> > > ();
+  QList<QList<vector<double> *> > data = QList<QList<vector<double> *> >();
   
   for (int n = 0; n < 5; ++n) {
-    QList<vector<double> > subData = QList<vector<double> > ();
-    vector<double> q(50);
-    vector<double> y1(50);
-    vector<double> y2(50);
-    vector<double> y3(50);
+    QList<vector<double> *> subData = QList<vector<double> *> ();
+    vector<double> * q  = new vector<double>(50);
+    vector<double> * y1 = new vector<double>(50);
+    vector<double> * y2 = new vector<double>(50);
+    vector<double> * y3 = new vector<double>(50);
     
     int datum = -20;
-    for (unsigned int i = 0; i < q.size(); ++i, datum++) {
-      q.at(i) = datum;
+    for (unsigned int i = 0; i < q->size(); ++i, datum++) {
+      q->at(i) = datum;
     }
-    for (unsigned int i = 0; i < y1.size(); ++i) {
-      y1.at(i) = i * 0.5;
+    for (unsigned int i = 0; i < y1->size(); ++i) {
+      y1->at(i) = i * 0.5;
     }
     cout << endl;
-    for (unsigned int i = 0; i < y2.size(); ++i) {
-      y2.at(i) = i * 0.8;
+    for (unsigned int i = 0; i < y2->size(); ++i) {
+      y2->at(i) = i * 0.8;
     }
     cout << endl;
     
-    for (unsigned int i = 0; i < y3.size(); ++i) {
-      y3.at(i) = i;
+    for (unsigned int i = 0; i < y3->size(); ++i) {
+      y3->at(i) = i;
     }
     cout << endl;
     
@@ -467,7 +468,7 @@ Plotter * multiRectSample()
     subData.append(y1);
     subData.append(y2);
     subData.append(y3);
-    data->append(subData);
+    data.append(subData);
   }
   Plotter * plotter = new Plotter(data, Plotter::Linear_Plot);
   plotter->setTitle("Multi Rectas");
@@ -487,9 +488,9 @@ int appNormal(int argc, char *argv[])
 
 int appPlot(int argc, char *argv[])
 {
-  //  Plotter * plotter = sinSample();
-  //  Plotter * plotter = rectSample();
-  //  Plotter * plotter = multiRectSample();
+//    Plotter * plotter = sinSample();
+//    Plotter * plotter = rectSample();
+//    Plotter * plotter = multiRectSample();
   Plotter * plotter = measuresSample();
   
   QApplication a(argc, argv);

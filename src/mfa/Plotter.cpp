@@ -21,11 +21,13 @@
 
 #include "Plotter.h"
 
-Plotter::Plotter(const QList<vector<double> > * dataListNormal, plotType type) :
+//Plotter::Plotter(const QList<vector<double> > * dataListNormal, plotType type) :
+Plotter::Plotter(const QList<vector<double> *> & dataListNormal, plotType type) :
   mglDraw()
 {
   this->dataListNormal = dataListNormal;
-  this->dataListLinearReg = 0;
+//  this->dataListLinearReg = 0;
+  this->dataListLinearReg = QList<QList<vector<double> *> >();
   this->dataListMatrix = 0;
   this->type = type;
   this->title = "";
@@ -34,11 +36,13 @@ Plotter::Plotter(const QList<vector<double> > * dataListNormal, plotType type) :
   this->zLabel = "";
 }
 
-Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
+//Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
+Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
                  plotType type) :
   mglDraw()
 {
-  this->dataListNormal = 0;
+//  this->dataListNormal = 0;
+  this->dataListNormal = QList<vector<double> *>();
   this->dataListLinearReg = dataListLinearReg;
   this->dataListMatrix = 0;
   this->type = type;
@@ -51,8 +55,8 @@ Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
 Plotter::Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
                  plotType type) : mglDraw()
 {
-  this->dataListNormal = 0;
-  this->dataListLinearReg = 0;
+  this->dataListNormal = QList<vector<double> *>();
+  this->dataListLinearReg = QList<QList<vector<double> *> >();
   this->dataListMatrix = dataListMatrix;
   this->type = type;
   this->title = "";
@@ -63,11 +67,8 @@ Plotter::Plotter(const QList<RowMatrix<int> * > * dataListMatrix,
 
 Plotter::~Plotter()
 {
-  if (dataListNormal != 0) dataListNormal = 0;
-  delete dataListNormal;
-  
-  if (dataListLinearReg != 0) dataListLinearReg = 0;
-  delete dataListLinearReg;
+  dataListNormal.clear();
+  dataListLinearReg.clear();
 }
 
 void Plotter::setLabels(mglGraph *gr)
@@ -132,7 +133,7 @@ int Plotter::Draw(mglGraph *gr)
 
 void Plotter::plotLinearRegression(mglGraph * gr)
 {
-  int nSubPlots = dataListLinearReg->count();
+  int nSubPlots = dataListLinearReg.count();
   int plotsPerRow = 2;
   int nPlotRows = utils::round(((double) nSubPlots) / plotsPerRow);
   
@@ -140,29 +141,36 @@ void Plotter::plotLinearRegression(mglGraph * gr)
   
   for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex)
   {
-    int nData = static_cast<int> (dataListLinearReg->at(mainIndex).at(0).
+//    int nData = static_cast<int> (dataListLinearReg->at(mainIndex).at(0).
+    int nData = static_cast<int> (dataListLinearReg.at(mainIndex).at(0)->
             size());
-    int nSlices = dataListLinearReg->at(mainIndex).count() - 1;
+    int nSlices = dataListLinearReg.at(mainIndex).count() - 1;
     
     double minValue = 800000;
     double maxValue = -800000;
     
     mglData y(nData, nSlices);
     int index = 0;
-    for (int i = 0; i < nData; ++i)
-    {
+    for (int i = 0; i < nData; ++i) {
       int j;
-      for (j = 0; j < nSlices; ++j)
-      {
+      for (j = 0; j < nSlices; ++j) {
         index = i + (nData * j);
-        y.a[index] = dataListLinearReg->at(mainIndex).at(j + 1).at(i);
-        if (y.a[index] < minValue) minValue = y.a[index];
-        if (y.a[index] > maxValue) maxValue = y.a[index];
+//        y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1).at(i);
+        y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1)->at(i);
+        
+        // Valores máximo y mínimo para establecer los rangos de los gráficos
+        if (y.a[index] < minValue)
+          minValue = y.a[index];
+        
+        if (y.a[index] > maxValue)
+          maxValue = y.a[index];
       }
     }
     
-    int minX = dataListLinearReg->at(mainIndex).at(0).at(0);
-    int maxX = dataListLinearReg->at(mainIndex).at(0).at(nData - 1);
+//    int minX = dataListLinearReg.at(mainIndex).at(0).at(0);
+    int minX = dataListLinearReg.at(mainIndex).at(0)->at(0);
+//    int maxX = dataListLinearReg.at(mainIndex).at(0).at(nData - 1);
+    int maxX = dataListLinearReg.at(mainIndex).at(0)->at(nData - 1);
     
     gr->SetFontSizePT(8);
     gr->SubPlot(plotsPerRow, nPlotRows, mainIndex);
@@ -181,27 +189,33 @@ void Plotter::plotLinearRegression(mglGraph * gr)
 
 void Plotter::plotNormalData(mglGraph *gr)
 {
-  int nData = static_cast<int> (dataListNormal->at(0).size());
-  int nSlices = dataListNormal->count() - 1;
+//  int nData = static_cast<int> (dataListNormal->at(0).size());
+  int nData = static_cast<int> (dataListNormal.at(0)->size());
+  int nSlices = dataListNormal.count() - 1;
   
   double minValue = 800000;
   double maxValue = -800000;
   
   mglData y(nData, nSlices);
   int index = 0;
-  for (int i = 0; i < nData; ++i)
-  {
-    for (int j = 0; j < nSlices; ++j)
-    {
+  for (int i = 0; i < nData; ++i) {
+    for (int j = 0; j < nSlices; ++j) {
       index = i + (nData * j);
-      y.a[index] = dataListNormal->at(j + 1).at(i);
-      if (y.a[index] < minValue) minValue = y.a[index];
-      if (y.a[index] > maxValue) maxValue = y.a[index];
+//      y.a[index] = dataListNormal.at(j + 1).at(i);
+      y.a[index] = dataListNormal.at(j + 1)->at(i);
+      
+      if (y.a[index] < minValue)
+        minValue = y.a[index];
+      
+      if (y.a[index] > maxValue)
+        maxValue = y.a[index];
       
     }
   }
-  int minX = dataListNormal->at(0).at(0);
-  int maxX = dataListNormal->at(0).at(nData - 1);
+//  int minX = dataListNormal.at(0).at(0);
+  int minX = dataListNormal.at(0)->at(0);
+//  int maxX = dataListNormal.at(0).at(nData - 1);
+  int maxX = dataListNormal.at(0)->at(nData - 1);
   
   setTitle(gr);
   gr->SetFontSizePT(9);
@@ -279,18 +293,24 @@ void Plotter::plot0(mglGraph *gr)
   mglData x(100);
   mglData y(100);
   
-  int xSize = static_cast<int> (dataListNormal->at(0).size());
-  int ySize = static_cast<int> (dataListNormal->at(1).size());
+//  int xSize = static_cast<int> (dataListNormal.at(0).size());
+  int xSize = static_cast<int> (dataListNormal.at(0)->size());
+//  int ySize = static_cast<int> (dataListNormal.at(1).size());
+  int ySize = static_cast<int> (dataListNormal.at(1)->size());
 
   mglData data(xSize, ySize);
   
-  x.Set(dataListNormal->at(0));
-  y.Set(dataListNormal->at(1));
+  x.Set(*(dataListNormal.at(0)));
+  y.Set(*(dataListNormal.at(1)));
   
-  double minX = dataListNormal->at(0).at(0);
-  double maxX = dataListNormal->at(0).at(xSize - 1);
-  double minY = dataListNormal->at(1).at(0);
-  double maxY = dataListNormal->at(1).at(ySize - 1);
+//  double minX = dataListNormal.at(0).at(0);
+  double minX = dataListNormal.at(0)->at(0);
+//  double maxX = dataListNormal.at(0).at(xSize - 1);
+  double maxX = dataListNormal.at(0)->at(xSize - 1);
+//  double minY = dataListNormal.at(1).at(0);
+  double minY = dataListNormal.at(1)->at(0);
+//  double maxY = dataListNormal.at(1).at(ySize - 1);
+  double maxY = dataListNormal.at(1)->at(ySize - 1);
   
   gr->SetRanges(minX, maxX, minY, maxY);
   gr->SetFontSizePT(9);

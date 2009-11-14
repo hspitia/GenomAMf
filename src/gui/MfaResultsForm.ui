@@ -25,39 +25,6 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Información de la secuencia:</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="sequenceNameLabel">
-          <property name="text">
-           <string>Nombre:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="SequenceNameLineEdit"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="sequenceTypeLabel">
-          <property name="text">
-           <string>Tipo:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="SequenceTypeLineEdit"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QLabel" name="label">
@@ -77,35 +44,26 @@
         <enum>QTabWidget::Rounded</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="icon">
          <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/cgr.png</normaloff>:/icons/cgr.png</iconset>
+          <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
         </attribute>
         <attribute name="title">
-         <string>Juego del Caos</string>
+         <string>Secuencias</string>
         </attribute>
-        <widget class="QGraphicsView" name="graphicsView">
+        <widget class="QTableView" name="sequenceListView">
          <property name="geometry">
           <rect>
            <x>10</x>
            <y>10</y>
-           <width>350</width>
-           <height>350</height>
+           <width>631</width>
+           <height>451</height>
           </rect>
          </property>
         </widget>
-       </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="icon">
-         <iconset resource="../../resources/resources.qrc">
-          <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
-        </attribute>
-        <attribute name="title">
-         <string>Regresión Lineal</string>
-        </attribute>
        </widget>
        <widget class="QWidget" name="tab_3">
         <attribute name="icon">
@@ -114,6 +72,15 @@
         </attribute>
         <attribute name="title">
          <string>Espectro Dq</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="icon">
+         <iconset resource="../../resources/resources.qrc">
+          <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
+        </attribute>
+        <attribute name="title">
+         <string>Regresiones Lineales</string>
         </attribute>
        </widget>
        <widget class="QWidget" name="tab_4">
@@ -138,7 +105,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="topMargin">
       <number>9</number>

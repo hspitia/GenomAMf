@@ -116,12 +116,11 @@ void MainWindow::insertTreeMainElements()
   
   QModelIndex index = ui->explorerTreeView->model()->index(0, 0);
   
-  for (int i = 0; i < 3; ++i)
-  {
-    if (!treeModel->insertRow(index.row() + i + 1, index.parent())) return;
+  for (int i = 0; i < 3; ++i) {
+    if (!treeModel->insertRow(index.row() + i + 1, index.parent()))
+      return;
     
-    for (int column = 0; column < treeModel->columnCount(index.parent()); ++column)
-    {
+    for (int column = 0; column < treeModel->columnCount(index.parent()); ++column) {
       QModelIndex child = treeModel->index(index.row() + i + 1, column,
                                            index.parent());
       treeModel->setData(child, dataList.at(i).at(column), Qt::EditRole);
@@ -428,8 +427,10 @@ void MainWindow::makeCgr()
             sequenceListModel, this);
     
     if (cgrParametersForm->exec() == QDialog::Accepted) {
-      for (int i = 0; i
-              < cgrParametersForm->getSelectedSequencesKeys(). count(); ++i) {
+      for (int i = 0; 
+           i < cgrParametersForm->getSelectedSequencesKeys().count(); 
+           ++i) 
+      {
         int key = cgrParametersForm->getSelectedSequencesKeys().at(i);
         if (key != -1) {
           //          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
@@ -466,32 +467,27 @@ void MainWindow::makeMultifractalAnalisys()
   {
     MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
             this);
-    if (mfaParametersForm->exec() == QDialog::Accepted)
-    {
-      int key  = mfaParametersForm->getCgrSelectedKey();
+    if (mfaParametersForm->exec() == QDialog::Accepted) {
       int minQ = mfaParametersForm->getMinQValue();
       int maxQ = mfaParametersForm->getMaxQValue();
       
-      if (key != -1)
-      {
-        int mfaKey = parentApp->makeMultifractalAnalisys(key, minQ, maxQ);
-        const MultifractalAnalisys * mfa = parentApp->getMfaHash()->value(mfaKey);
-        
-        /*MfaResultsForm * mfaResultsForm = new MfaResultsForm(mfa, this);
-        ui->mdiArea->addSubWindow(mfaResultsForm);
-        mfaResultsForm->show();
-         */
-        QMessageBox msgBox(this);
-        msgBox.setText("Análisis Multifractal");
-        msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-                "\nq máximo: %3").arg(key)
-                .arg(mfaParametersForm->getMinQValue())
-                .arg(mfaParametersForm->getMaxQValue()));
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setTextFormat(Qt::RichText);
-        msgBox.exec();
-      }
+      QList<int> mfaKeysFromAnalysis = 
+              parentApp->makeMultifractalAnalisys(mfaParametersForm->
+                                                  getSelectedSequencesKeys(),
+                                                  minQ,
+                                                  maxQ);
+//      displayMfaResults(mfaKeysFromAnalysis);
+      
+      QMessageBox msgBox(this);
+      msgBox.setText("Análisis Multifractal");
+      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
+                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+                                        .arg(mfaParametersForm->getMinQValue())
+                                        .arg(mfaParametersForm->getMaxQValue()));
+      msgBox.setStandardButtons(QMessageBox::Ok);
+      msgBox.setDefaultButton(QMessageBox::Ok);
+      msgBox.setTextFormat(Qt::RichText);
+      msgBox.exec();
     }
   }
   
@@ -523,11 +519,19 @@ void MainWindow::displayResultForm(QModelIndex index)
   
 }
 
-void MainWindow::displayMfaResults()
+void MainWindow::displayMfaResults(const QList<int> & mfaKeys)
 {
+  // TODO Establecer vínculo con clase MfaResultsController
+  // la cual se encarga de construir los gráficos y pasarlos al objeto
+  // de tipo MfaResultsForm para su visualización 
+  
+  
+  
   MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
+  
+  
 }
 
 

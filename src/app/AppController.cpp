@@ -119,29 +119,44 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
 }
 
 
-int AppController::makeMultifractalAnalisys(const int & cgrKey, 
+QList<int> AppController::makeMultifractalAnalisys(const QList<int> & cgrKeys,
                                             const int & minQ,
                                             const int & maxQ)
 {
-  const ChaosGameRepresentation * cgrObject = cgrHash->value(cgrKey);
   MultifractalAnalisys * mfaObject = 0;
-  int mfaKey = mfaObjectsCounter;
-  if(cgrObject){
-//    cout << "AppController::125 - " << qPrintable(QString::
-//            fromStdString(sequence->getName())) << endl;
-    mfaObject = new MultifractalAnalisys(cgrObject, minQ, maxQ);
-//    mfaObject->performAnalisys(MultifractalAnalisys::CONTINOUS_ANALISYS);
-//    mfaObject->performAnalisys(MultifractalAnalisys::DISCRETE_ANALISYS);
-    mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
-    mfaHash->insert(mfaKey, mfaObject);
-//    
-//    mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
-//    
+  MultifractalAnalyzer * mfAnalyzer = 0;
+  QList<int> mfaKeys;
+  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
+  
+  for (int i = 0; i < cgrKeys.count(); ++i) {
+    int cgrKey = cgrKeys.at(i);
+    if(cgrKey != -1){
+      const ChaosGameRepresentation * cgrObject = cgrHash->value(cgrKey);
+      if(cgrObject)
+        cgrListForAnalysis.append(cgrObject);
+    }
+  }  
+  //    cout << "AppController::125 - " << qPrintable(QString::
+  //            fromStdString(sequence->getName())) << endl;
+  mfaObject = new MultifractalAnalisys(cgrListForAnalysis.at(0), minQ, maxQ);
+  mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
+  
+  mfAnalyzer = new MultifractalAnalyzer(
+//                                        this,
+                                        cgrListForAnalysis,
+                                        MultifractalAnalisys::
+                                        COMPARATIVE_ANALISYS);
+  QList<MultifractalAnalisys *> mfaListFromAnalysis = 
+          mfAnalyzer->getMfaObjects();
+  
+  for (int i = 0; i < mfaListFromAnalysis.count(); ++i) {
+    int mfaKey = mfaObjectsCounter;
+    mfaHash->insert(mfaKey, mfaListFromAnalysis.at(i));
+    mfaKeys.append(mfaKey);
     ++mfaObjectsCounter;
   }
-//  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
-////  return cgrObject;
-  return mfaKey;
+  
+  return mfaKeys;
 }
 
 MainWindow * AppController::getMainWindow()

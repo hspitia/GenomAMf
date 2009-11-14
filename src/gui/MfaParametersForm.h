@@ -23,6 +23,9 @@ public:
     ~MfaParametersForm();
     
     int getCgrSelectedKey();
+    
+    QList<int> getSelectedSequencesKeys();
+    
     void done(int result);
     
     /**
@@ -40,6 +43,9 @@ public:
 private:
     Ui::MfaParametersForm *ui;
     int cgrSelectedKey;
+    
+    QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
+      seleccionadas por el usuario */
     
     int minQValue; /**< Valor q mínimo seleccionado en la interfaz como 
       parámetro para el análisis multifractal */
