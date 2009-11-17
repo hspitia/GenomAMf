@@ -1,29 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CgrParametersForm</class>
- <widget class="QDialog" name="CgrParametersForm">
+ <class>CorrelationAnalysisParametersFormClass</class>
+ <widget class="QWidget" name="CorrelationAnalysisParametersFormClass">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>350</height>
+    <height>450</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>500</width>
-    <height>300</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>Representación del Juego del Caos</string>
+   <string>CorrelationAnalysisParametersForm</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
-    <normaloff>:/icons/cgr.png</normaloff>:/icons/cgr.png</iconset>
-  </property>
-  <layout class="QGridLayout" name="gridLayout_2">
+  <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
    </property>
@@ -38,7 +28,7 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Parámetros de Entrada&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccione la secuencia para la cual desea generar la Representación del Juego del Caos.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccione el tipo y las secuencias para las cuales desea realizar el anaĺisis de correlación.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -52,11 +42,56 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item row="1" column="0">
-    <layout class="QGridLayout" name="gridLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <property name="margin">
       <number>9</number>
      </property>
-     <item row="0" column="0">
+     <item>
+      <widget class="QGroupBox" name="sequenceTypeGroup">
+       <property name="title">
+        <string>Tipo de secuencias:</string>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QRadioButton" name="adnRadio">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>ADN</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="proteinRadio">
+          <property name="text">
+           <string>Proteínas</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QLabel" name="sequenceLabel">
@@ -95,7 +130,7 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="topMargin">
         <number>9</number>
@@ -129,41 +164,7 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../../resources/resources.qrc"/>
- </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>CgrParametersForm</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>489</x>
-     <y>339</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>CgrParametersForm</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>489</x>
-     <y>339</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
 </ui>

@@ -7,7 +7,10 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/gui/MfaResultsController.h \
+HEADERS += src/gui/PreprocessRoutineParametersForm.h \
+    src/gui/CorrelationAnalysisParametersForm.h \
+    src/gui/CorrelationAnalysisResultsForm.h \
+    src/gui/MfaResultsController.h \
     src/mfa/MultifractalAnalyzer.h \
     src/mfa/Plotter.h \
     src/utils/Linear.h \
@@ -30,7 +33,10 @@ HEADERS += src/gui/MfaResultsController.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/gui/MfaResultsController.cpp \
+SOURCES += src/gui/PreprocessRoutineParametersForm.cpp \
+    src/gui/CorrelationAnalysisParametersForm.cpp \
+    src/gui/CorrelationAnalysisResultsForm.cpp \
+    src/gui/MfaResultsController.cpp \
     src/mfa/MultifractalAnalyzer.cpp \
     src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
@@ -50,7 +56,10 @@ SOURCES += src/gui/MfaResultsController.cpp \
     src/gui/MainWindow.cpp \
     src/gui/MfaParametersForm.cpp \
     src/gui/MfaResultsForm.cpp
-FORMS += src/gui/CgrResultsForm.ui \
+FORMS += src/gui/PreprocessRoutineParametersForm.ui \
+    src/gui/CorrelationAnalysisParametersForm.ui \
+    src/gui/CorrelationAnalysisResultsForm.ui \
+    src/gui/CgrResultsForm.ui \
     src/gui/ImageViewer.ui \
     src/gui/CgrParametersForm.ui \
     src/gui/MainWindow.ui \

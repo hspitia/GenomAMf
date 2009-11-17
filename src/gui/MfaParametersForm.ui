@@ -35,7 +35,7 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Parámetros de Entrada&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccione la representación del Juego del Caos sobre la cual realizará el análisis multifractal y especifique los valores &lt;span style=&quot; font-style:italic;&quot;&gt;q&lt;/span&gt; mínimo y &lt;span style=&quot; font-style:italic;&quot;&gt;q&lt;/span&gt; máximo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccione las secuencias para las cuales realizará el análisis multifractal; a continuación especifique los valores &lt;span style=&quot; font-style:italic;&quot;&gt;q&lt;/span&gt; mínimo y &lt;span style=&quot; font-style:italic;&quot;&gt;q&lt;/span&gt; máximo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
