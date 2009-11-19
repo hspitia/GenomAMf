@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CorrelationAnalysisParametersFormClass</class>
- <widget class="QWidget" name="CorrelationAnalysisParametersFormClass">
+ <widget class="QDialog" name="CorrelationAnalysisParametersFormClass">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -166,5 +166,38 @@ p, li { white-space: pre-wrap; }
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>CorrelationAnalysisParametersFormClass</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>459</x>
+     <y>423</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>242</x>
+     <y>407</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CorrelationAnalysisParametersFormClass</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>367</x>
+     <y>424</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

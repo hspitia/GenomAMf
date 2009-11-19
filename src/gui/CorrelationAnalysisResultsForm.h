@@ -13,7 +13,7 @@ public:
     ~CorrelationAnalysisResultsForm();
 
 private:
-    Ui::CorrelationAnalysisResultsFormClass ui;
+    Ui::CorrelationAnalysisResultsFormClass *ui;
 };
 
 #endif // CORRELATIONANALYSISRESULTSFORM_H

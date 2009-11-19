@@ -6,7 +6,7 @@
 #include <QModelIndex>
 #include <QVariant>
 
-#include <gui/SequenceTreeItem.h>
+//#include <gui/SequenceTreeItem.h>
 
 
 class TreeItem;

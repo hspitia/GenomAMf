@@ -35,19 +35,18 @@ using namespace bpp;
 
 // Project files includes
 #include "ui_MainWindow.h"
+
 #include <app/AppController.h>
 #include <cgr/ChaosGameRepresentation.h>
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
+#include <gui/CorrelationAnalysisParametersForm.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
-#include <gui/TreeModel.h>
-#include <gui/TreeItem.h>
-#include <gui/SequenceTreeItem.h>
 #include <gui/SequenceListModel.h>
+#include <gui/TreeItem.h>
+#include <gui/TreeModel.h>
 #include <utils/SeqLoader.h>
-
-
 
 // STD libraries
 #include <iostream>
@@ -127,14 +126,10 @@ class MainWindow : public QMainWindow
      */
     void setUpExplorerTreeView();
     
-    /**
-     * 
-     */
+    
     void insertTreeMainElements();
     
-    /**
-     * 
-     */
+    
     void insertSequenceToTreeView(const Sequence * sequence, const int & key);
     
     void insertSequenceToSequenceListModel(const Sequence * sequence, 
@@ -151,41 +146,28 @@ class MainWindow : public QMainWindow
 //    {
 //      
 //    }
-    /**
-     * 
-     */
+    
     void displayMfaResults(const QList<int> & mgaKeys);
     
-    /**
-     * 
-     */
+    
     void displayCgrResults( const int & cgrKey );
 
     
   private slots:
-    /**
-     * 
-     */
+    
     void loadSequences();
 
-    /**
-     * 
-     */
+    
     void makeCgr();
 
-    /**
-     * 
-     */
+    
     void makeMultifractalAnalisys();
     
-    /**
-     * 
-     */
+    void makeCorrelationAnalysis();
+    
     void displayResultForm(QModelIndex index);
     
-    /**
-     * 
-     */
+    
     void closeSubWindow();
     
     void testSlot();

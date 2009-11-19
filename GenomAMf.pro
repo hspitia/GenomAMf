@@ -24,7 +24,6 @@ HEADERS += src/gui/PreprocessRoutineParametersForm.h \
     src/cgr/ChaosGameRepresentation.h \
     src/utils/Definitions.h \
     src/utils/CustomSequencesContainer.h \
-    src/gui/SequenceTreeItem.h \
     src/gui/TreeModel.h \
     src/gui/TreeItem.h \
     src/app/AppController.h \
@@ -47,7 +46,6 @@ SOURCES += src/gui/PreprocessRoutineParametersForm.cpp \
     src/gui/SequenceListModel.cpp \
     src/cgr/ChaosGameRepresentation.cpp \
     src/utils/CustomSequencesContainer.cpp \
-    src/gui/SequenceTreeItem.cpp \
     src/gui/TreeModel.cpp \
     src/gui/TreeItem.cpp \
     src/app/AppController.cpp \

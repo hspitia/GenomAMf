@@ -7,7 +7,7 @@
 #include <QStringList>
 
 #include "TreeItem.h"
-#include <gui/SequenceTreeItem.h>
+//#include <gui/SequenceTreeItem.h>
 
 class SequenceTreeItem;
 

@@ -84,7 +84,7 @@ QDockWidget::title {
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_Archivo">
@@ -99,7 +99,7 @@ QDockWidget::title {
      <string>&amp;Herramientas</string>
     </property>
     <addaction name="makeMultifractalAnalisysAction"/>
-    <addaction name="actionCorrelaci_n"/>
+    <addaction name="makeCorrelationAnalysisAction"/>
    </widget>
    <widget class="QMenu" name="menuJuego_del_Caos">
     <property name="title">
@@ -144,7 +144,7 @@ QDockWidget::title {
    <addaction name="loadSequencesAction"/>
    <addaction name="makeCgrAction"/>
    <addaction name="makeMultifractalAnalisysAction"/>
-   <addaction name="actionCorrelaci_n"/>
+   <addaction name="makeCorrelationAnalysisAction"/>
    <addaction name="exitAction"/>
    <addaction name="testAction"/>
   </widget>
@@ -285,7 +285,7 @@ QDockWidget::title {
     <string>Análisis &amp;Multifractal ...</string>
    </property>
   </action>
-  <action name="actionCorrelaci_n">
+  <action name="makeCorrelationAnalysisAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
      <normaloff>:/icons/correl_start.png</normaloff>:/icons/correl_start.png</iconset>

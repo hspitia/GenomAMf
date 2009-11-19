@@ -11,6 +11,5 @@ GenomAMf
 *.*~
 # Ignore moc files
 #moc_*.*
-tmp/*
 ui_*
 app

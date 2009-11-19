@@ -65,6 +65,8 @@ void MainWindow::connectSignalsSlots()
   connect(ui->makeCgrAction, SIGNAL(triggered()), this, SLOT(makeCgr()));
   connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
           SLOT(makeMultifractalAnalisys()));
+  connect(ui->makeCorrelationAnalysisAction, SIGNAL(triggered()), this,
+          SLOT(makeCorrelationAnalysis()));
   connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
   connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex /*index*/)), 
           this, SLOT(displayResultForm(QModelIndex /*index*/)));
@@ -491,6 +493,53 @@ void MainWindow::makeMultifractalAnalisys()
     }
   }
   
+}
+
+void MainWindow::makeCorrelationAnalysis()
+{
+  /*if (cgrListModel->rowCount() == 0)
+  {
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("GenomAMf - Análisis Multifractal");
+    msgBox.setWindowIcon(QIcon(":/icons/mfa.png"));
+    msgBox.setText("No existen Representaciones del Juego del Caos en la "
+            "aplicación.");
+    msgBox.setInformativeText("Debe realizar Representaciones del Juego del "
+            "Caos en la aplicación para ejecutar el Análisis Multifractal");
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setTextFormat(Qt::RichText);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.exec();
+  }
+  else if (cgrListModel->rowCount() > 0)
+  {*/
+    CorrelationAnalysisParametersForm * correlationParametersForm = 
+            new CorrelationAnalysisParametersForm(this);
+    
+    if (correlationParametersForm->exec() == QDialog::Accepted) {
+      /*int minQ = mfaParametersForm->getMinQValue();
+      int maxQ = mfaParametersForm->getMaxQValue();
+      
+      QList<int> mfaKeysFromAnalysis = 
+              parentApp->makeMultifractalAnalisys(mfaParametersForm->
+                                                  getSelectedSequencesKeys(),
+                                                  minQ,
+                                                  maxQ);
+//      displayMfaResults(mfaKeysFromAnalysis);
+      
+      QMessageBox msgBox(this);
+      msgBox.setText("Análisis Multifractal");
+      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
+                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+                                        .arg(mfaParametersForm->getMinQValue())
+                                        .arg(mfaParametersForm->getMaxQValue()));
+      msgBox.setStandardButtons(QMessageBox::Ok);
+      msgBox.setDefaultButton(QMessageBox::Ok);
+      msgBox.setTextFormat(Qt::RichText);
+      msgBox.exec();*/
+    }
+//  }
 }
 
 void MainWindow::displayResultForm(QModelIndex index)
