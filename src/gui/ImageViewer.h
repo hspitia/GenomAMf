@@ -21,15 +21,8 @@ class ImageViewer : public QScrollArea
     ImageViewer(QImage * image = 0, QWidget *parent = 0);
     ~ImageViewer();
 
-    /**
-     * 
-     */
     void loadImage();
     void loadImage(QImage * image);
-    
-    /**
-     * 
-     */
     bool saveImage(const QString & fileName, const QString & format);
 
   protected:

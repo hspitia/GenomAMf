@@ -234,6 +234,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     }
   }
   
+  /*
   MatrixTools::print(matrixOfPoints);
   cout << endl;
   
@@ -243,7 +244,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     cout << " (" << p.x() << ", " << p.y() << ");" << "(" << xcoor << ", " << ycoor << ");"<<"(" << matrixSize - 1 - ycoor << ", " << xcoor << ")" <<endl;
   }
   
-  cout << endl;
+  cout << endl;*/
 }
 
 void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter, 

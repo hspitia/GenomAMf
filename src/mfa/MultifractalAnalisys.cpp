@@ -203,6 +203,7 @@ void MultifractalAnalisys::performComparativeAnalisys()
                             maxQ + 1); // Dato adicional necesario para calcular Cq
   
   sandBoxObject->performAnalisys(COMPARATIVE_ANALISYS);
+  cout << "DEBUG MultifractalAnalisys::206 - despues de ComparativeAnalisys"<< endl;
 }
 
 void MultifractalAnalisys::calculateDqValues(AnalisysType type)

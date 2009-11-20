@@ -124,7 +124,7 @@ QList<int> AppController::makeMultifractalAnalisys(const QList<int> & cgrKeys,
                                             const int & maxQ)
 {
   MultifractalAnalisys * mfaObject = 0;
-  MultifractalAnalyzer * mfAnalyzer = 0;
+//  MultifractalAnalyzer * mfAnalyzer = 0;
   QList<int> mfaKeys;
   QList<const ChaosGameRepresentation * > cgrListForAnalysis;
   
@@ -140,7 +140,7 @@ QList<int> AppController::makeMultifractalAnalisys(const QList<int> & cgrKeys,
   //            fromStdString(sequence->getName())) << endl;
   mfaObject = new MultifractalAnalisys(cgrListForAnalysis.at(0), minQ, maxQ);
   mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
-  
+  /*
   mfAnalyzer = new MultifractalAnalyzer(
 //                                        this,
                                         cgrListForAnalysis,
@@ -155,7 +155,7 @@ QList<int> AppController::makeMultifractalAnalisys(const QList<int> & cgrKeys,
     mfaKeys.append(mfaKey);
     ++mfaObjectsCounter;
   }
-  
+  */
   return mfaKeys;
 }
 

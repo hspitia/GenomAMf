@@ -480,16 +480,19 @@ void MainWindow::makeMultifractalAnalisys()
                                                   maxQ);
 //      displayMfaResults(mfaKeysFromAnalysis);
       
+      
       QMessageBox msgBox(this);
       msgBox.setText("Análisis Multifractal");
-      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
-                                        .arg(mfaParametersForm->getMinQValue())
-                                        .arg(mfaParametersForm->getMaxQValue()));
+      msgBox.setInformativeText(QString("Terminado "));
+//      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
+//                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+//                                        .arg(mfaParametersForm->getMinQValue())
+//                                        .arg(mfaParametersForm->getMaxQValue()));
       msgBox.setStandardButtons(QMessageBox::Ok);
       msgBox.setDefaultButton(QMessageBox::Ok);
       msgBox.setTextFormat(Qt::RichText);
       msgBox.exec();
+      
     }
   }
   

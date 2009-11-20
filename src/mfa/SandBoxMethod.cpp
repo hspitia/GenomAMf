@@ -131,6 +131,18 @@ SandBoxMethod::~SandBoxMethod()
     linearRegressionValues.clear();
 }
 
+bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2)
+{
+//  cout << "DEBUG - SandBoxMethod::452 - xCoordinatesLessThan"<< endl;
+  return x1.x() < x2.x();
+}
+
+bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
+{
+//  cout << "DEBUG - SandBoxMethod::458 - xCoordinatesLessThan"<< endl;
+  return y1.y() < y2.y();
+}
+
 void SandBoxMethod::performAnalisys(int type)
 {
   
@@ -151,7 +163,8 @@ void SandBoxMethod::performAnalisys(int type)
 
 void SandBoxMethod::performComparativeAnalisys()
 {
-  int nIteraciones = 1;
+  
+  int nIteraciones = 5;
   unsigned int nIteracionesInternas = 10;
   
   /*MatrixTools::print(*cgrMatrix);
@@ -164,6 +177,9 @@ void SandBoxMethod::performComparativeAnalisys()
   vector<double> * continousAverages = new vector<double>();
   vector<double> * discreteAverages = new vector<double>();
   vector<int> * nCentros = new vector<int>();
+  
+  qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
+        xCoordinateLessThan);
   
   for (int genIt = 0; genIt < nIteraciones; ++genIt)
   {
@@ -195,7 +211,8 @@ void SandBoxMethod::performComparativeAnalisys()
      */
     
     //  for (int i = 0; i < dataLenght; ++i)
-    int radio = 10;
+    
+    int radio = 6;
 //    cout << "No.\tCENTROS\tPROMEDIO\tRADIO" << endl; 
     for (unsigned int current = 0; current <= nIteracionesInternas; ++current) {
       unsigned int centers = 20 + (current * 10);
@@ -203,9 +220,10 @@ void SandBoxMethod::performComparativeAnalisys()
 //      cout << current + 1 << ";" << centers << ";";
       vector <double> * countsContinous =  new vector<double>();
       vector <double> * countsDiscrete =  new vector<double>();
-      cout << "\n\nNo.;CENTRO CONTINUO;P. INICIAL CONTINUO;P .FINAL CONTINUO;CONTEO CONTINUO;P. INICIAL DISCRETO;P .FINAL DISCRETO;CONTEO DISCRETO;RADIO" << endl;
+//      cout << "\n\nNo.;CENTRO CONTINUO;P. INICIAL CONTINUO;P .FINAL CONTINUO;CONTEO CONTINUO;P. INICIAL DISCRETO;P .FINAL DISCRETO;CONTEO DISCRETO;RADIO" << endl;
+      cout << "\n\nNo.;CONTEO CONTINUO;CONTEO DISCRETO;RADIO" << endl;
       for (unsigned int i = 0; i < centers; ++i) {
-        /*debug_comparative*/cout << i << ";"; // No.
+        /*debug_comparative*/cout << (i + 1) << ";"; // No.
         countsContinous->push_back(
           countPointsOnTheContinousSquareSandbox(xCoordinatesDouble.at(i),
                                                  yCoordinatesDouble.at(i),
@@ -216,8 +234,8 @@ void SandBoxMethod::performComparativeAnalisys()
                                                 yCoordinates.at(i),
                                                 radio));
          /*debug_comparative*/cout << radio << endl; // No.
-         nCentros->push_back(centers);
       }
+         nCentros->push_back(centers);
 //          cout << "  \nConteos: ";
 //      VectorTools::print(*counts);
 //          cout << "Promedio: ";
@@ -447,16 +465,6 @@ bool SandBoxMethod::yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
 {
   return y1.y() < y2.y();
 }*/
-bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2)
-{
-  return x1.x() < x2.x();
-}
-
-bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
-{
-  return y1.y() < y2.y();
-}
-
 double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
                                                              const double & y,
                                                              const double & 
@@ -468,9 +476,10 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   double maxX = x + radius;
   double minY = y - radius;
   double maxY = y + radius;
-  
-  qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
-        xCoordinateLessThan);
+//  cout << "DEBUG: SandBoxMethod::473 - Antes qSort() "<< endl;
+//  qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
+//        xCoordinateLessThan);
+//  cout << "DEBUG: SandBoxMethod::476 - DespuEs qSort() "<< endl;
 //  cout << "Lista de puntos ordenada (por coordenada x): " << endl;
 //  int count = 0;
 //  foreach(QPointF p, coordinatesOfPoints){
@@ -478,11 +487,11 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
 //    ++count;
 //  }
 //  
-  QPointF lookFor = QPointF(x,y);
-  /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
-  /*debug_comparative*/cout <<"(" << minX << ", " << minY << ")" << ";"; // p. inicial
-  /*debug_comparative*/cout <<"(" << maxX << ", " << maxY << ")" << ";"; // p. final
-  
+//  QPointF lookFor = QPointF(x,y);
+//  /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
+//  /*debug_comparative*/cout <<"(" << minX << ", " << minY << ")" << ";"; // p. inicial
+//  /*debug_comparative*/cout <<"(" << maxX << ", " << maxY << ")" << ";"; // p. final
+//  
   /*cout << "\n\nlookFor:    (" << x << ", " << y << ")  " << endl;*/
 //  
 //  QList<QPointF>::Iterator center = 
@@ -504,11 +513,12 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   cout << "(" << lowerBoundPoint.x() << ", " << lowerBoundPoint.y() << ")  "<< endl;
   cout << "upper: "; 
   cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ")  " << endl;*/
-  
+//  cout << "\nDEBUG - SandBoxMethod::509 - Antes de lowerBound x" << endl;
   QList<QPointF>::Iterator lowerBound = 
           qLowerBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
                       lowerBoundPoint, xCoordinateLessThan);
   
+//  cout << "DEBUG - SandBoxMethod::514 - Antes de upperBound x" << endl;
   QList<QPointF>::Iterator upperBound = 
           qUpperBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
                       upperBoundPoint, xCoordinateLessThan);
@@ -550,10 +560,12 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
 //  cout << "upperBoundPoint: "; 
 //  cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ") " << endl;
   
+//  cout << "DEBUG - SandBoxMethod::557 - Antes de lowerBound y" << endl;
   lowerBound = 
           qLowerBound(subList.begin(), subList.end(),
                       lowerBoundPoint, yCoordinateLessThan);
   
+//  cout << "DEBUG - SandBoxMethod::562 - Antes de upperBound y" << endl;
   upperBound = 
           qUpperBound(subList.begin(), subList.end(),
                       upperBoundPoint, yCoordinateLessThan);
@@ -563,7 +575,7 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   length = endPosition - beginPosition;
   sum = static_cast<double>(endPosition - beginPosition);
   
-  /*debug_comparative*/cout << sum << ";"; // centro
+  /*debug_comparative*/cout << sum << ";"; // conteo
   
 //  cout << "beginPosition: " << beginPosition << endl;
 //  cout << "endPosition: " << endPosition << endl;
@@ -585,6 +597,7 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   foreach(QPointF p, subList){
     puntosRedondeados << QPointF(floor(p.x()), floor(p.y()));
     cout << "(" << p.x() << ", " << p.y() << ") ";
+    
     
   }
   cout << endl;
@@ -626,9 +639,9 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
     int endRow = maxRow - (y - radius);
     int endCol = x + radius;
     
-    /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
-    /*debug_comparative*/cout <<"(" << x - radius << ", " << y - radius << ")" << ";"; // inicial
-    /*debug_comparative*/cout <<"(" << x + radius << ", " << y + radius << ")" << ";"; // final
+//    /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
+//    /*debug_comparative*/cout <<"(" << x - radius << ", " << y - radius << ")" << ";"; // inicial
+//    /*debug_comparative*/cout <<"(" << x + radius << ", " << y + radius << ")" << ";"; // final
     
     if (initRow < minIndex)
       initRow = 0;
