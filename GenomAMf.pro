@@ -81,7 +81,8 @@ LIBS += -L/usr/local/lib \
     -lbpp-utils \
     -lbpp-seq \
     -lbpp-numcalc \
-    -lbpp-qt
+    -lbpp-qt \
+    -lbpp-raa
 
 # -lbpp-phyl \
 LIBS += -L/usr/lib \

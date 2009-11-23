@@ -37,6 +37,8 @@
 #include <Seq/Sequence.h>
 #include <Seq/VectorSequenceContainer.h>
 #include <NumCalc/RandomTools.h>
+#include <Bpp/Raa/RAA.h>
+
 
 #include <NumCalc/VectorTools.h>
 #include <NumCalc/Matrix.h>
@@ -44,6 +46,9 @@
 
 //STL library
 #include <vector>
+#include <string>
+
+using namespace std;
 
 //MathGl Library
 #include <mgl/mgl_data.h>
@@ -620,12 +625,44 @@ int otherTests(){
   return 0;
 }
 
+using namespace bpp;
+
+int bppRaaTest(){
+  RAA * raaObj = new RAA("genbank");
+  Sequence * seq = 0;
+  DNA * alphabet = new DNA();
+  
+//  int result = raaObj->openDatabase("genbank", 0, 0);
+  
+//  if (result == 0)
+//    cout << "Ok"<< endl;
+//  else{
+//    cout << "Ooops!: "<< result << endl;
+//  }
+  
+  cout << "DEBUG " << endl;
+//  seq = raaObj->getSeq("GU211234.1");
+  string id = "L04470";
+  seq->
+  seq = raaObj->getSeq(id);
+  
+  if (seq) {
+    cout << "Nombre secuencia: "<< seq->getName() <<endl;
+  }
+  else{
+    cout << "Ninguna secuencia concuerda con su bUsqueda"<< endl;
+  }
+    
+  return 0;
+}
+
 int main(int argc, char *argv[])
 {
-  return appNormal(argc, argv);
+//  return appNormal(argc, argv);
 //  return appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
+  return bppRaaTest();
   // TODO Probar regresión lineal
   // TODO Implementar conteo en cada sand box
 }
