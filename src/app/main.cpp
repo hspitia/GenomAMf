@@ -628,9 +628,30 @@ int otherTests(){
 using namespace bpp;
 
 int bppRaaTest(){
-  RAA * raaObj = new RAA("genbank");
-  Sequence * seq = 0;
-  DNA * alphabet = new DNA();
+  try {
+    RAA * raaObj = new RAA("genbank");
+    Sequence * seq = 0;
+    cout << "DEBUG " << endl;
+    //  seq = raaObj->getSeq("GU211234.1");
+    string id = "L04470";
+    seq = raaObj->getSeq(id);
+    //  
+    if (seq) {
+      cout << "Nombre secuencia: "<< seq->getName() <<endl;
+    }
+    else{
+      cout << "Ninguna secuencia concuerda con su bUsqueda"<< endl;
+    }
+    return 0;
+  }
+  catch (int e) {
+    cout << "Excepcion al crear conexion con el servidor." 
+         << "Excepcion: " << endl 
+         << e 
+         << endl;
+    return 0;
+  }
+  
   
 //  int result = raaObj->openDatabase("genbank", 0, 0);
   
@@ -640,20 +661,7 @@ int bppRaaTest(){
 //    cout << "Ooops!: "<< result << endl;
 //  }
   
-  cout << "DEBUG " << endl;
-//  seq = raaObj->getSeq("GU211234.1");
-  string id = "L04470";
-  seq->
-  seq = raaObj->getSeq(id);
   
-  if (seq) {
-    cout << "Nombre secuencia: "<< seq->getName() <<endl;
-  }
-  else{
-    cout << "Ninguna secuencia concuerda con su bUsqueda"<< endl;
-  }
-    
-  return 0;
 }
 
 int main(int argc, char *argv[])
