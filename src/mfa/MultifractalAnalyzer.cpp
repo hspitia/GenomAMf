@@ -76,6 +76,29 @@ MultifractalAnalyzer::~MultifractalAnalyzer()
 //    parentApp = 0;
 }
 
+QList<MultifractalAnalisys *> MultifractalAnalyzer::performAnalysis()
+{
+//  MultifractalAnalisys * mfaObject = 0;
+//  //  MultifractalAnalyzer * mfAnalyzer = 0;
+//  QList<int> mfaKeys;
+//  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
+//  
+//  for (int i = 0; i < cgrKeys.count(); ++i) {
+//    int cgrKey = cgrKeys.at(i);
+//    if(cgrKey != -1){
+//      const ChaosGameRepresentation * cgrObject = cgrHash->value(cgrKey);
+//      if(cgrObject)
+//        cgrListForAnalysis.append(cgrObject);
+//    }
+//  }  
+//  //    cout << "AppController::125 - " << qPrintable(QString::
+//  //            fromStdString(sequence->getName())) << endl;
+//  mfaObject = new MultifractalAnalisys(cgrListForAnalysis.at(0), minQ, maxQ);
+//  mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
+  
+  
+  return QList<MultifractalAnalisys *>();
+}
 
 QList<const ChaosGameRepresentation *> MultifractalAnalyzer::getCgrObjects()
 {

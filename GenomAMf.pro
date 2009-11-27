@@ -7,7 +7,9 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/gui/PreprocessRoutineParametersForm.h \
+HEADERS += src/utils/MatrixOperations.h \
+    src/cra/CorrelationAnalysis.h \
+    src/gui/PreprocessRoutineParametersForm.h \
     src/gui/CorrelationAnalysisParametersForm.h \
     src/gui/CorrelationAnalysisResultsForm.h \
     src/gui/MfaResultsController.h \
@@ -32,7 +34,9 @@ HEADERS += src/gui/PreprocessRoutineParametersForm.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/gui/PreprocessRoutineParametersForm.cpp \
+SOURCES += src/utils/MatrixOperations.cpp \
+    src/cra/CorrelationAnalysis.cpp \
+    src/gui/PreprocessRoutineParametersForm.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
     src/gui/CorrelationAnalysisResultsForm.cpp \
     src/gui/MfaResultsController.cpp \

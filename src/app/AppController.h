@@ -89,85 +89,63 @@ class AppController : public QApplication
 //                      GenomAMf::AlphabetType & seqLoadedType);
 //    int loadSequences(const string & fileName, int & seqLoadedType);
     QVector<int> loadSequences(const QStringList & fileName);
-    /**
-     * 
-     */
-//    const ChaosGameRepresentation *  makeCgr(const Sequence * sequence) /*const*/;
-//    const ChaosGameRepresentation *  makeCgr(const int & sequenceKey) /*const*/;
     int  makeCgr(const int & sequenceKey) /*const*/;
-    // Access
     
-    /**
-     * 
-     */
-    QList<int> makeMultifractalAnalisys(const QList<int> & cgrKeys, 
-                                 const int & minQ,
-                                 const int & maxQ);
-
-    /**
-     * Retorna 
-     * @return 
-     */
+    
+    QList<int> makeMultifractalAnalisys(const QList<int> & cgrKeys,
+                                        const int & minQ,
+                                        const int & maxQ);
+    int makeMultifractalAnalisys_(const QList<int> & sequenceKeys,
+                                  const int & minQ,
+                                  const int & maxQ);
+    // Access
     MainWindow * getMainWindow();
 
-    /**
-     * Asigna 
-     */
+    
     void setMainWindow(MainWindow * mainWindow);
 
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     const CustomSequencesContainer * getSequences() const;
 
-    /**
-     * Asigna 
-     */
+    
     void setSequences(CustomSequencesContainer * sequences);
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     const QHash<int, ChaosGameRepresentation*> * getCgrHash() const;
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     const QHash<int, MultifractalAnalisys *> * getMfaHash() const;
     
-    /**
-     * Asigna 
-     */
+    
     void setMfaHash(QHash<int, MultifractalAnalisys *> * mfaHash);
       
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getCgrObjectsCounter();
     
-    /**
-     * Retorna 
-     * @return 
-     */
+    
     int getMfaObjectsCounter();
+    
+    int getmfaResultSetsCounter();
+    
+    QHash<int, QList<int> > * getMfaResultSetHash();
     
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
 //    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
     CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
       proteínas de la aplicación. */
+    
     int cgrObjectsCounter; /**< Contador de objetos de representación del juego 
       del caos creados en la aplicación para asignar valor clave al hash 
       contenedor */
     
-    
     int mfaObjectsCounter;/**< Contador de objetos de análisis multifractal 
       creados en la aplicación para asignar valor clave al hash 
+      contenedor */
+    
+    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de análisis 
+      multifractal creados en la aplicación para asignar valor clave al hash 
       contenedor */
     
     QHash<int, ChaosGameRepresentation *> * cgrHash; /**< Hash de 
@@ -177,6 +155,10 @@ class AppController : public QApplication
     QHash<int, MultifractalAnalisys *> * mfaHash; /**< Hash de 
       apuntadores a los objetos Mfa creados en la aplicación. La clave 
       funciona como un identificador único del objeto*/
+    
+    QHash<int, QList<int> > * mfaResultSetHash; /**< Hash de 
+      lista de claves de objetos Mfa que pertenecen a un análisis realizado. 
+      La clave funciona como un identificador único de cada lista */
     
 };
 

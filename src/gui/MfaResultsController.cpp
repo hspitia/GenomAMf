@@ -36,14 +36,23 @@ MfaResultsController::MfaResultsController(const QList<MultifractalAnalisys * > 
 
 MfaResultsController::~MfaResultsController()
 {
+  if (mfaResultsForm != 0)
+    mfaResultsForm = 0;
   
+  delete mfaResultsForm;
 }
 
 
 MfaResultsForm * MfaResultsController::contructTheResultsForm()
 {
+  MfaResultsForm * mfaResultsForm = new MfaResultsForm(0);
+  QList<Plotter *> plots = plotResults();
   
-  return 0;
+  // TODO 1.- Agregar ScrollArea's en MfaResultsForm
+  // TODO 2.- Implementar métodos en MfaResultForm para asignar cada plot
+  // TODO 3.- Asignar cada plot
+   
+  return mfaResultsForm;
 }
 
 QList<Plotter *> MfaResultsController::plotResults()
@@ -61,7 +70,8 @@ QList<Plotter *> MfaResultsController::plotResults()
   for (int i = 0; i < mfaObjects.count(); ++i) {
      dqDataSet.append(mfaObjects.at(i)->getDqValues());
      cqDataSet.append(mfaObjects.at(i)->getCqValues());
-     linearRegressionsDataSet.append(mfaObjects.at(i)->getLinearRegressionValues());
+     linearRegressionsDataSet.append(mfaObjects.at(i)->
+                                     getLinearRegressionValues());
   }
   
   Plotter * dqPlot = new Plotter(dqDataSet,Plotter::Dq_Plot);

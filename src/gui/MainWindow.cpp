@@ -451,6 +451,7 @@ void MainWindow::makeCgr()
 void MainWindow::makeMultifractalAnalisys()
 {
   if (cgrListModel->rowCount() == 0)
+//  if (sequenceListModel->rowCount() == 0)
   {
     QMessageBox msgBox(this);
     msgBox.setWindowTitle("GenomAMf - Análisis Multifractal");
@@ -466,6 +467,7 @@ void MainWindow::makeMultifractalAnalisys()
     msgBox.exec();
   }
   else if (cgrListModel->rowCount() > 0)
+//  else if (sequenceListModel->rowCount() > 0)
   {
     MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
             this);
@@ -494,7 +496,30 @@ void MainWindow::makeMultifractalAnalisys()
       msgBox.exec();
       
     }
+    
   }
+  
+  // Descomentar este bloque para poner en funcionamiento el análisis 
+  // multifractal de forma definitiva a través del MultifractalAnalyzer  
+  /*{
+//    QList<int> sequencesKeysList = QList<int>();
+//    sequencesKeysList << 1;
+//    sequencesKeysList << 3;
+//    parentApp->makeMultifractalAnalisys_(sequencesKeysList, -10, 10);
+    
+    MfaParametersForm * mfaParametersForm = 
+            new MfaParametersForm(sequenceListModel, this);
+    if (mfaParametersForm->exec() == QDialog::Accepted) {
+      int minQ = mfaParametersForm->getMinQValue();
+      int maxQ = mfaParametersForm->getMaxQValue();
+      QList<int> sequencesKeysList = 
+              mfaParametersForm->getSelectedSequencesKeys();
+    }
+    int mfaResultSetKey = 
+            parentApp->makeMultifractalAnalisys_(sequencesKeysList, -10, 10);
+    
+    displayMfaResults(mfaResultSetKey);
+  }*/
   
 }
 
@@ -571,15 +596,25 @@ void MainWindow::displayResultForm(QModelIndex index)
   
 }
 
-void MainWindow::displayMfaResults(const QList<int> & mfaKeys)
+void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 {
-  // TODO Establecer vínculo con clase MfaResultsController
-  // la cual se encarga de construir los gráficos y pasarlos al objeto
-  // de tipo MfaResultsForm para su visualización 
+  QList<int> mfaKeys = parentApp->getMfaResultSetHash()->value(mfaResultSetKey);
+  QList<MultifractalAnalisys *> mfaListFromAnalysis;
   
+  for (int i = 0; i < mfaKeys.count(); ++i) {
+    MultifractalAnalisys * mfaObject = 
+            parentApp->getMfaHash()->value(mfaKeys.at(i));
+    mfaListFromAnalysis.append(mfaObject);
+  }
   
+  MfaResultsController * mfaResultsController = 
+          new MfaResultsController(mfaListFromAnalysis);
+  MfaResultsForm * mfaResultsForm = 
+          mfaResultsController->contructTheResultsForm();
+    
+    
   
-  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
+//  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
   

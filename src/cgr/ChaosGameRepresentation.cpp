@@ -53,15 +53,15 @@ ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
 
 ChaosGameRepresentation::~ChaosGameRepresentation()
 {
-  if (sequence != 0) {
-    sequence = 0;
+  if (sequence != 0)
     delete sequence;
-  }
 
-  if (coordinatesOfPoints != 0) {
+  sequence = 0;
+
+  if (coordinatesOfPoints != 0)
     delete coordinatesOfPoints;
-    coordinatesOfPoints = 0;
-  }
+  
+  coordinatesOfPoints = 0;
 
   translatedSequence.clear();
 //  matrixOfPoints.clear();
@@ -119,7 +119,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
+//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
+  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
   
   int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
   int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
@@ -181,27 +182,27 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
         
-        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
-        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
+        painter->drawPoint(QPointF(xImage, yImage));
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x, y));
         
-        int x1 = floor(xImage);
-        int y1 = floor(yImage);
+        xMatrix = static_cast<int>(utils::roundToInt(x));
+        yMatrix = static_cast<int>(utils::roundToInt(y));
         
-//        painter->drawPoint(QPointF(x1,y1));
-        painter->drawPoint(QPointF(xImage, yImage));
+//        xMatrix = static_cast<int>(floor(x));
+//        yMatrix = static_cast<int>(floor(y));
         
-        x1 = floor(xMatrix);
-        y1 = floor(yMatrix);
+//        cout << x << ", " << y;
+//        cout << "    "<< xMatrix << ", " << yMatrix << endl;
         
-        int row = matrixSize - 1 - y1;
-        int col = x1;
-        
-//        matrixOfPoints(x1,y1)++;
+//        int row = matrixSize - 1 - yMatrix;
+        int row = matrixSize - yMatrix;
+        int col = xMatrix;
+
         matrixOfPoints(row, col)++;
+        
       }
     }
 //    cout << endl;
@@ -223,8 +224,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        x = (xPoints[element] + x) / 2;
 //        y = (yPoints[element] + y) / 2;
 //        matrixOfPoints(floor(x), floor(y))++;
-        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
-        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
+//        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
+//        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
+        xMatrix = utils::round((xMatrixPoints[element] + xMatrix) / 2);
+        yMatrix = utils::round((yMatrixPoints[element] + yMatrix) / 2);
         matrixOfPoints(xMatrix, yMatrix)++;
         
         x = (xPoints[element] + x) / 2;

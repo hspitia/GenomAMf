@@ -94,6 +94,9 @@ class MultifractalAnalyzer
     
     void setMaxR(double maxR);
     
+    QList<MultifractalAnalisys *> performAnalysis();
+    
+    
 //    AppController * getParentApp();
     
   private:

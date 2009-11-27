@@ -22,12 +22,10 @@
 #ifndef MFARESULTSCONTROLLER_H_
 #define MFARESULTSCONTROLLER_H_
 
-#include <app/AppController.h>
+//#include <app/AppController.h>
 #include <gui/MfaResultsForm.h>
 #include <mfa/MultifractalAnalisys.h>
 #include <mfa/Plotter.h>
-
-
 
 
 class MfaResultsController
@@ -35,9 +33,8 @@ class MfaResultsController
   public:
     MfaResultsController();
     
-    MfaResultsController(QList<MultifractalAnalisys * > mfaObjects);
-    MfaResultsController(const QList<MultifractalAnalisys * > & 
-                                           mfaObjects);
+//    MfaResultsController(QList<MultifractalAnalisys * > mfaObjects);
+    MfaResultsController(const QList<MultifractalAnalisys * > & mfaObjects);
     
     virtual ~MfaResultsController();
     

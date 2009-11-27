@@ -7,8 +7,8 @@
 
 using namespace std;
 
-namespace utils 
-{
+//namespace utils 
+//{
   
   template <class T>
   class Matrix
@@ -157,6 +157,6 @@ namespace utils
         return matrix;
       }
   };
-}
+//}
 
 #endif // MATRIX_H

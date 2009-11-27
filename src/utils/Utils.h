@@ -29,14 +29,13 @@
 
 // LOCAL INCLUDES
 #include <utils/Definitions.h>
-#include <utils/Matrix.h>
+//#include <utils/Matrix.h>
 
 
 //class AppController;
 
 namespace utils 
 {
-  
   
   inline int getAlphabetType(const string & alphabetTypeString)
   {
@@ -66,6 +65,10 @@ namespace utils
    
   inline float round(float number) {
     return floor(number + 0.5);
+  }
+  
+  inline int roundToInt(double number) {
+    return static_cast<int> (floor(number + 0.5));
   }
   
 }

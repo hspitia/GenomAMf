@@ -1,4 +1,4 @@
-#Fri Nov 06 16:16:08 COT 2009
+#Thu Nov 26 08:14:38 COT 2009
 eclipse.preferences.version=1
 org.eclipse.cdt.core.formatter.alignment_for_arguments_in_method_invocation=18
 org.eclipse.cdt.core.formatter.alignment_for_base_clause_in_type_declaration=36
@@ -111,8 +111,8 @@ org.eclipse.cdt.core.formatter.insert_space_before_comma_in_method_declaration_t
 org.eclipse.cdt.core.formatter.insert_space_before_comma_in_method_invocation_arguments=do not insert
 org.eclipse.cdt.core.formatter.insert_space_before_comma_in_template_arguments=do not insert
 org.eclipse.cdt.core.formatter.insert_space_before_comma_in_template_parameters=do not insert
-org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_arguments=insert
-org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_parameters=insert
+org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_arguments=do not insert
+org.eclipse.cdt.core.formatter.insert_space_before_opening_angle_bracket_in_template_parameters=do not insert
 org.eclipse.cdt.core.formatter.insert_space_before_opening_brace_in_array_initializer=insert
 org.eclipse.cdt.core.formatter.insert_space_before_opening_brace_in_block=insert
 org.eclipse.cdt.core.formatter.insert_space_before_opening_brace_in_method_declaration=insert

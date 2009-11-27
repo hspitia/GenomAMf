@@ -50,6 +50,9 @@ using namespace bpp;
 // PROJECT INCLUDES
 #include <utils/Utils.h>
 
+
+using namespace utils;
+
 // LOCAL INCLUDES
 // --
 

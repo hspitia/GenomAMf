@@ -41,6 +41,7 @@ using namespace bpp;
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
 #include <gui/CorrelationAnalysisParametersForm.h>
+#include <gui/MfaResultsController.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
 #include <gui/SequenceListModel.h>
@@ -147,7 +148,7 @@ class MainWindow : public QMainWindow
 //      
 //    }
     
-    void displayMfaResults(const QList<int> & mgaKeys);
+    void displayMfaResults(const int & mfaResultSetKey);
     
     
     void displayCgrResults( const int & cgrKey );

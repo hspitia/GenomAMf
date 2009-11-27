@@ -664,14 +664,34 @@ int bppRaaTest(){
   
 }
 
+int roundTest()
+{
+  vector<double> numbers;
+  
+  numbers.push_back(1.1);
+  numbers.push_back(2.1);
+  numbers.push_back(2.09546);
+  numbers.push_back(2.02122);
+  numbers.push_back(170.078);
+  numbers.push_back(2.5);
+  
+  for (unsigned int i = 0; i < numbers.size(); ++i) {
+    cout << numbers.at(i) << "  "<< utils::round(numbers.at(i)) << endl;
+  }
+  return 0;
+}
+
+
 int main(int argc, char *argv[])
 {
-//  return appNormal(argc, argv);
+  appNormal(argc, argv);
 //  return appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
-  return bppRaaTest();
+//  return bppRaaTest();
+//  return roundTest();
   // TODO Probar regresión lineal
   // TODO Implementar conteo en cada sand box
+  return 0;
 }
 

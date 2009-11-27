@@ -175,31 +175,31 @@ void SandBoxMethod::performComparativeAnalisys()
         xCoordinateLessThan);
   
   for (int genIt = 0; genIt < nIteraciones; ++genIt) {
-    vector <int> xCoordinates(nCenters);
-    vector <int> yCoordinates(nCenters);
+    vector<int> xCoordinates(nCenters);
+    vector<int> yCoordinates(nCenters);
     
-    vector <double> xCoordinatesDouble(nCenters);
-    vector <double> yCoordinatesDouble(nCenters);
+    vector<double> xCoordinatesDouble(nCenters);
+    vector<double> yCoordinatesDouble(nCenters);
     
     generateRandomCenters(&xCoordinatesDouble, &yCoordinatesDouble);
     
     for (unsigned int i = 0; i < xCoordinatesDouble.size(); ++i) {
-      int x = (int) floor(xCoordinatesDouble.at(i));
-      int y = (int) floor(yCoordinatesDouble.at(i));
+      int x = static_cast<int> (utils::roundToInt(xCoordinatesDouble.at(i)));
+      int y = static_cast<int> (utils::roundToInt(yCoordinatesDouble.at(i)));
       
       xCoordinates.at(i) = x;
       yCoordinates.at(i) = y;
     }
-    
+
     int radio = 6;
     unsigned int initIndex = 0;
     double continousSum = 0.0;
     double discreteSum = 0.0;
     
-    vector <double> * countsContinous =  new vector<double>();
-    vector <double> * countsDiscrete =  new vector<double>();
+    vector<double> * countsContinous = new vector<double>();
+    vector<double> * countsDiscrete  = new vector<double>();
     
-    cout << "No.;CONTEO CONTINUO;CONTEO DISCRETO;RADIO" << endl;
+    /*debug_comparative*/cout << "No.;CONTEO CONTINUO;CONTEO DISCRETO;RADIO" << endl;
     
     for (unsigned int currentIt = 0; currentIt < nIteracionesInternas; ++currentIt) {
       unsigned int centers = 50;
@@ -386,7 +386,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
     vector <double> masses(nCenters);
     for (int i = 0; i < nCenters; ++i) {
       masses.at(i) = 
-              pow(countPointsOnTheContinousSquareSandbox(xCoordinates.at(i),
+              pow(countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
                                                          yCoordinates.at(i),
                                                          radius),
                                                          static_cast<double>
@@ -414,18 +414,33 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
                                           vector<int> * yCoordinates)
 {
-//  int maxNumber = static_cast<int>(cgrMatrix->nRows()) + 1;
-  int maxNumber = static_cast<int>(cgrMatrix->getNumberOfRows());
-//  int maxNumber = 1024;
-  for (int i = 0; i < nCenters; ++i)
-  {
-    xCoordinates->at(i) = RandomTools::
-            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
-    yCoordinates->at(i) = RandomTools::
-            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
-//    cout << "x: " << xCoordinates->at(i) 
-//         << "  y: " << yCoordinates->at(i) << endl;
+////  int maxNumber = static_cast<int>(cgrMatrix->nRows()) + 1;
+//  int maxNumber = static_cast<int>(cgrMatrix->getNumberOfRows());
+//  for (int i = 0; i < nCenters; ++i)
+//  {
+//    xCoordinates->at(i) = RandomTools::
+//            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
+//    yCoordinates->at(i) = RandomTools::
+//            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
+////    cout << "x: " << xCoordinates->at(i) 
+////         << "  y: " << yCoordinates->at(i) << endl;
+//  }
+  vector<double> * xCoordinatesDouble =  new vector<double>(nCenters);
+  vector<double> * yCoordinatesDouble =  new vector<double>(nCenters);
+  
+//  generateRandomCenters(&xCoordinatesDouble, &yCoordinatesDouble);
+  generateRandomCenters(&*xCoordinatesDouble, &*yCoordinatesDouble);
+  
+  for (unsigned int i = 0; i < xCoordinatesDouble->size(); ++i) {
+    int x = static_cast<int> (utils::roundToInt(xCoordinatesDouble->at(i)));
+    int y = static_cast<int> (utils::roundToInt(yCoordinatesDouble->at(i)));
+    
+    xCoordinates->at(i) = x;
+    yCoordinates->at(i) = y;
   }
+  
+  delete xCoordinatesDouble;
+  delete yCoordinatesDouble;
 }
 
 void SandBoxMethod::generateRandomCenters(vector<double> * xCoordinates,
@@ -463,73 +478,22 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   double maxX = x + radius;
   double minY = y - radius;
   double maxY = y + radius;
-//  cout << "DEBUG: SandBoxMethod::473 - Antes qSort() "<< endl;
-//  qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
-//        xCoordinateLessThan);
-//  cout << "DEBUG: SandBoxMethod::476 - DespuEs qSort() "<< endl;
-//  cout << "Lista de puntos ordenada (por coordenada x): " << endl;
-//  int count = 0;
-//  foreach(QPointF p, coordinatesOfPoints){
-//    cout << count <<" (" << p.x() << ", " << p.y() << ")  ";
-//    ++count;
-//  }
-//  
-//  QPointF lookFor = QPointF(x,y);
-//  /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
-//  /*debug_comparative*/cout <<"(" << minX << ", " << minY << ")" << ";"; // p. inicial
-//  /*debug_comparative*/cout <<"(" << maxX << ", " << maxY << ")" << ";"; // p. final
-//  
-  /*cout << "\n\nlookFor:    (" << x << ", " << y << ")  " << endl;*/
-//  
-//  QList<QPointF>::Iterator center = 
-//          qBinaryFind(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
-//                      lookFor,
-//                      xCoordinateLessThan);
-//  
-//  if(center != coordinatesOfPoints.end())
-//    cout << "Encontrado: (" << center->x() << ", " << center->y() << ") " 
-//         << endl;
-//  else
-//    cout << "No" << endl;
   
-//  cout << "center: " << "(" << x << ", " << y << ") "<< endl;
   QPointF lowerBoundPoint = QPointF(minX, minY);
   QPointF upperBoundPoint = QPointF(maxX, maxY);
   
-  /*cout << "lower: "; 
-  cout << "(" << lowerBoundPoint.x() << ", " << lowerBoundPoint.y() << ")  "<< endl;
-  cout << "upper: "; 
-  cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ")  " << endl;*/
-//  cout << "\nDEBUG - SandBoxMethod::509 - Antes de lowerBound x" << endl;
   QList<QPointF>::Iterator lowerBound = 
           qLowerBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
                       lowerBoundPoint, xCoordinateLessThan);
   
-//  cout << "DEBUG - SandBoxMethod::514 - Antes de upperBound x" << endl;
   QList<QPointF>::Iterator upperBound = 
           qUpperBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
                       upperBoundPoint, xCoordinateLessThan);
   
-  int beginPosition = (int)(lowerBound - coordinatesOfPoints.begin());
-  int endPosition = (int)(upperBound - coordinatesOfPoints.begin());
-  int length = endPosition - beginPosition;
+  int beginPosition = static_cast<int>(lowerBound - coordinatesOfPoints.begin());
+  int endPosition   = static_cast<int>(upperBound - coordinatesOfPoints.begin());
+  int length        = endPosition - beginPosition;
   
-//  cout << "beginPosition: " << beginPosition << endl;
-//  cout << "endPosition: " << endPosition << endl;
-  /*
-  int beg = beginPosition;
-  int en = endPosition;
-  if(beginPosition > 0) 
-    --beg;
-  
-  if(endPosition < coordinatesOfPoints.count() - 1)
-    ++en;
-  
-  for (int i = beg; i < en; ++i)
-  {
-    cout << "(" << coordinatesOfPoints.at(i).x() << ", " << coordinatesOfPoints.at(i).y() << ") " << endl;
-  }
-  */
   QList<QPointF> subList = coordinatesOfPoints.mid(beginPosition, length);
   
   qSort(subList.begin(), subList.end(), yCoordinateLessThan);
@@ -542,65 +506,18 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   
   lowerBoundPoint = QPointF(minX, minY);
   upperBoundPoint = QPointF(maxX, maxY);
-//  cout << "lowerBoundPoint: "; 
-//  cout << "(" << lowerBoundPoint.x() << ", " << lowerBoundPoint.y() << ") " << endl;
-//  cout << "upperBoundPoint: "; 
-//  cout << "(" << upperBoundPoint.x() << ", " << upperBoundPoint.y() << ") " << endl;
+
+  lowerBound = qLowerBound(subList.begin(), subList.end(), lowerBoundPoint, 
+                           yCoordinateLessThan);
   
-//  cout << "DEBUG - SandBoxMethod::557 - Antes de lowerBound y" << endl;
-  lowerBound = 
-          qLowerBound(subList.begin(), subList.end(),
-                      lowerBoundPoint, yCoordinateLessThan);
+  upperBound = qUpperBound(subList.begin(), subList.end(), upperBoundPoint,
+                           yCoordinateLessThan);
   
-//  cout << "DEBUG - SandBoxMethod::562 - Antes de upperBound y" << endl;
-  upperBound = 
-          qUpperBound(subList.begin(), subList.end(),
-                      upperBoundPoint, yCoordinateLessThan);
+  beginPosition = static_cast<int>(lowerBound - subList.begin());
+  endPosition   = static_cast<int>(upperBound - subList.begin());
+  length        = endPosition - beginPosition;
+  sum           = static_cast<double>(endPosition - beginPosition);
   
-  beginPosition = (int)(lowerBound - subList.begin());
-  endPosition = (int)(upperBound - subList.begin());
-  length = endPosition - beginPosition;
-  sum = static_cast<double>(endPosition - beginPosition);
-  
-//  /*debug_comparative*/cout << sum << ";"; // conteo
-  
-//  cout << "beginPosition: " << beginPosition << endl;
-//  cout << "endPosition: " << endPosition << endl;
-  /*
-  beg = beginPosition;
-  en = endPosition;
-  
-  
-  for (int i = beg; i < en; ++i)
-  {
-    cout << "(" << subList.at(i).x() << ", " << subList.at(i).y() << ") " << endl;
-  }*/
-//  cout << "DEBUG " << endl;
-  
- /* cout << "Total puntos continuo: " << length << endl;*/
-  /*
-  subList = subList.mid(beginPosition, length);
-  QList<QPointF> puntosRedondeados;
-  foreach(QPointF p, subList){
-    puntosRedondeados << QPointF(floor(p.x()), floor(p.y()));
-    cout << "(" << p.x() << ", " << p.y() << ") ";
-    
-    
-  }
-  cout << endl;
-  QList<QPointF> puntosMatriz;
-  foreach(QPointF p, puntosRedondeados){
-    puntosMatriz << QPointF(cgrMatrix->getNumberOfRows() - 1 - p.y(), p.x());
-    cout << "(" << p.x() << ", " << p.y() << ") ";
-  }
-  
-  cout << endl;
-  foreach(QPointF p, puntosMatriz){
-    cout << "(" << p.x() << ", " << p.y() << ") ";
-  }
-    
-  cout << endl;
-  */
   return sum;
 }
 
@@ -608,27 +525,15 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
                                                             const int & y, // row
                                                             const int & radius)
 {
-  double sum = 0.0;
-  int maxRow = cgrMatrix->getNumberOfRows() - 1;
+  double sum   = 0.0;
    
   if (radius > 0) {
     int minIndex = 0;
-    //    int maxValue = cgrMatrix->nRows() - 1;
     int maxIndex = cgrMatrix->getNumberOfRows() - 1;
-    //    int half = floor(radius / 2);
-/*    int initRow = maxRow - (y - radius);
-    int initCol = x - radius;
-    int endRow = maxRow - (y + radius);
-    int endCol = x + radius;*/
-    
-    int initRow = maxRow - (y + radius);
-    int initCol = x - radius;
-    int endRow = maxRow - (y - radius);
-    int endCol = x + radius;
-    
-//    /*debug_comparative*/cout <<"(" << x << ", " << y << ")" << ";"; // centro
-//    /*debug_comparative*/cout <<"(" << x - radius << ", " << y - radius << ")" << ";"; // inicial
-//    /*debug_comparative*/cout <<"(" << x + radius << ", " << y + radius << ")" << ";"; // final
+    int initRow  = maxIndex - (y + radius);
+    int initCol  = x - radius;
+    int endRow   = maxIndex - (y - radius);
+    int endCol   = x + radius;
     
     if (initRow < minIndex)
       initRow = 0;
@@ -642,7 +547,8 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
     if (endRow > maxIndex)
       endRow = maxIndex;
     
-    /*cout << "\n\nDEBUG -- SandBoxMethod::605" << endl;
+    /*
+    cout << "\n\nDEBUG -- SandBoxMethod::605" << endl;
     cout << "centro:  (" << x << ", " << y << ") " << "(" << maxRow - y << ", " << x << ")  "<< endl;
     cout << "inicial: (" << initRow << ", " << initCol << ")  "<< endl;
     cout << "final:   (" << endRow << ", " << endCol << ")  "<< endl;
@@ -656,8 +562,7 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
   else if (radius == 0) {
     sum += (*cgrMatrix)(y, x);
   }
-  /*cout << "Total puntos discreto: " << sum << endl;*/
-//  /*debug_comparative*/cout << sum << ";"; // centro
+  
   return sum;
 }
 
