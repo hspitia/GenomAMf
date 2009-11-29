@@ -162,7 +162,7 @@ class MainWindow : public QMainWindow
     void makeCgr();
 
     
-    void makeMultifractalAnalisys();
+    void makeMultifractalAnalysis();
     
     void makeCorrelationAnalysis();
     

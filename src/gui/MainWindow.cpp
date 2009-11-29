@@ -63,8 +63,8 @@ void MainWindow::connectSignalsSlots()
   connect(ui->loadSequencesAction, SIGNAL(triggered()), this,
           SLOT(loadSequences()));
   connect(ui->makeCgrAction, SIGNAL(triggered()), this, SLOT(makeCgr()));
-  connect(ui->makeMultifractalAnalisysAction, SIGNAL(triggered()), this,
-          SLOT(makeMultifractalAnalisys()));
+  connect(ui->makeMultifractalAnalysisAction, SIGNAL(triggered()), this,
+          SLOT(makeMultifractalAnalysis()));
   connect(ui->makeCorrelationAnalysisAction, SIGNAL(triggered()), this,
           SLOT(makeCorrelationAnalysis()));
   connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
@@ -336,12 +336,12 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
 }
 
 /*      
- void insertMfaTotreeView(const MultyfractalAnalisys * mfa)
+ void insertMfaTotreeView(const MultyfractalAnalysis * mfa)
  {
  
  }
  
- void insertCorrelationToTreeView(const CorrelationAnalisys * correl)
+ void insertCorrelationToTreeView(const CorrelationAnalysis * correl)
  {
  
  }
@@ -448,7 +448,7 @@ void MainWindow::makeCgr()
   }
 }
 
-void MainWindow::makeMultifractalAnalisys()
+void MainWindow::makeMultifractalAnalysis()
 {
   if (cgrListModel->rowCount() == 0)
 //  if (sequenceListModel->rowCount() == 0)
@@ -476,7 +476,7 @@ void MainWindow::makeMultifractalAnalisys()
       int maxQ = mfaParametersForm->getMaxQValue();
       
       QList<int> mfaKeysFromAnalysis = 
-              parentApp->makeMultifractalAnalisys(mfaParametersForm->
+              parentApp->makeMultifractalAnalysis(mfaParametersForm->
                                                   getSelectedSequencesKeys(),
                                                   minQ,
                                                   maxQ);
@@ -505,7 +505,7 @@ void MainWindow::makeMultifractalAnalisys()
 //    QList<int> sequencesKeysList = QList<int>();
 //    sequencesKeysList << 1;
 //    sequencesKeysList << 3;
-//    parentApp->makeMultifractalAnalisys_(sequencesKeysList, -10, 10);
+//    parentApp->makeMultifractalAnalysis_(sequencesKeysList, -10, 10);
     
     MfaParametersForm * mfaParametersForm = 
             new MfaParametersForm(sequenceListModel, this);
@@ -516,7 +516,7 @@ void MainWindow::makeMultifractalAnalisys()
               mfaParametersForm->getSelectedSequencesKeys();
     }
     int mfaResultSetKey = 
-            parentApp->makeMultifractalAnalisys_(sequencesKeysList, -10, 10);
+            parentApp->makeMultifractalAnalysis_(sequencesKeysList, -10, 10);
     
     displayMfaResults(mfaResultSetKey);
   }*/
@@ -550,7 +550,7 @@ void MainWindow::makeCorrelationAnalysis()
       int maxQ = mfaParametersForm->getMaxQValue();
       
       QList<int> mfaKeysFromAnalysis = 
-              parentApp->makeMultifractalAnalisys(mfaParametersForm->
+              parentApp->makeMultifractalAnalysis(mfaParametersForm->
                                                   getSelectedSequencesKeys(),
                                                   minQ,
                                                   maxQ);
@@ -599,10 +599,10 @@ void MainWindow::displayResultForm(QModelIndex index)
 void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 {
   QList<int> mfaKeys = parentApp->getMfaResultSetHash()->value(mfaResultSetKey);
-  QList<MultifractalAnalisys *> mfaListFromAnalysis;
+  QList<MultifractalAnalysis *> mfaListFromAnalysis;
   
   for (int i = 0; i < mfaKeys.count(); ++i) {
-    MultifractalAnalisys * mfaObject = 
+    MultifractalAnalysis * mfaObject = 
             parentApp->getMfaHash()->value(mfaKeys.at(i));
     mfaListFromAnalysis.append(mfaObject);
   }

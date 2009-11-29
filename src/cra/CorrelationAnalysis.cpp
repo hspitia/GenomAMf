@@ -65,12 +65,12 @@ void CorrelationAnalysis::setCgrMatrix(const RowMatrix<int> * cgrMatrix)
 
 const RowMatrix<double> * CorrelationAnalysis::getMeasuresMatrix() const
 {
-  return measuresMatrix;
+  return &measuresMatrix;
 }
 
 const RowMatrix<double> * CorrelationAnalysis::getFractalBackgroundMatrix() const
 {
-  return fractalBackgroundMatrix;
+  return &fractalBackgroundMatrix;
 }
 
 

@@ -1,5 +1,5 @@
 /**
- * @file MultifractalAnalisys.h
+ * @file MultifractalAnalysis.h
  * @date 13/10/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
  * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
@@ -9,7 +9,7 @@
  */
 
 /* 
- *         File:  MultifractalAnalisys.h
+ *         File:  MultifractalAnalysis.h
  *   Created on:  13/10/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
  *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y 
@@ -19,8 +19,8 @@
  *  Description:  
  */
 
-#ifndef MULTIFRACTALANALISYS_H_
-#define MULTIFRACTALANALISYS_H_
+#ifndef MULTIFRACTALANALYSIS_H_
+#define MULTIFRACTALANALYSIS_H_
 
 // SYSTEM INCLUDES
 // Std - STL 
@@ -50,29 +50,29 @@ using namespace std;
 /**
  * 
  */
-class MultifractalAnalisys
+class MultifractalAnalysis
 {
   public:
-    enum AnalisysType {CONTINOUS_ANALISYS, DISCRETE_ANALISYS, COMPARATIVE_ANALISYS};
+    enum AnalysisType {CONTINOUS_ANALYSIS, DISCRETE_ANALYSIS, COMPARATIVE_ANALYSIS};
     
-    MultifractalAnalisys();
-    MultifractalAnalisys(const MultifractalAnalisys & mfaObject);
-    MultifractalAnalisys(const ChaosGameRepresentation * cgrObject,
+    MultifractalAnalysis();
+    MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
+    MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const int & minQ,
                          const int & qMax);
     
-    virtual ~MultifractalAnalisys();
+    virtual ~MultifractalAnalysis();
     
-    MultifractalAnalisys & operator=(const MultifractalAnalisys & mfaObject);
-    
-    
-    void performAnalisys(AnalisysType type);
+    MultifractalAnalysis & operator=(const MultifractalAnalysis & mfaObject);
     
     
-    void performComparativeAnalisys();
+    void performAnalysis(AnalysisType type);
+    
+    
+    void performComparativeAnalysis();
 
     
-    void calculateDqValues(AnalisysType type);
+    void calculateDqValues(AnalysisType type);
 
     
     void calculateCqValues();
@@ -166,4 +166,4 @@ class MultifractalAnalisys
     
 };
 
-#endif /* MULTIFRACTALANALISYS_H_ */
+#endif /* MULTIFRACTALANALYSIS_H_ */

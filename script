@@ -1,0 +1,18 @@
+#! /bin/bash
+
+for f in $(find $1 -iname "*.cpp" -o -iname "*.h")
+do
+  if [ -a $f ]; then
+  #sips -i $f
+   echo $f
+   # mv $f $f.old
+   # sed 's/nalisys/nalysis/g' $f.old > $f
+   # rm -f $f.old
+    
+   # mv $f $f.old
+   # sed 's/NALISYS/NALYSIS/g' $f.old > $f
+   # rm -f $f.old
+   sed -i 's/nalisys/nalysis/g' $f
+   sed -i 's/NALISYS/NALYSIS/g' $f
+  fi
+done

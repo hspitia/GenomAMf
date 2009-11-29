@@ -24,20 +24,20 @@
 MultifractalAnalyzer::MultifractalAnalyzer()
 {
   this->cgrObjects = QList<const ChaosGameRepresentation *>();
-  this->mfaObjects = QList<MultifractalAnalisys *>();
+  this->mfaObjects = QList<MultifractalAnalysis *>();
   this->minQ       = -70;
   this->maxQ       =  70;
   this->nCenters   =  50;
   this->minR       =   1.0;
   this->maxR       = 256.0; 
-  this->type       = MultifractalAnalisys::CONTINOUS_ANALISYS;
+  this->type       = MultifractalAnalysis::CONTINOUS_ANALYSIS;
 }
 
 MultifractalAnalyzer::MultifractalAnalyzer(
 //                                           const AppController * parentApp,
                                            QList<const ChaosGameRepresentation * >  
                                            cgrObjects,
-                                           MultifractalAnalisys::AnalisysType type,
+                                           MultifractalAnalysis::AnalysisType type,
                                            const int & minQ,
                                            const int & maxQ,
                                            const int & nCenters,
@@ -47,7 +47,7 @@ MultifractalAnalyzer::MultifractalAnalyzer(
   
 //  this->parentApp  = parentApp;
   this->cgrObjects = cgrObjects;
-  this->mfaObjects = QList<MultifractalAnalisys *>();
+  this->mfaObjects = QList<MultifractalAnalysis *>();
   this->minQ       = minQ;
   this->maxQ       = maxQ;
   this->nCenters   = nCenters;
@@ -61,7 +61,7 @@ MultifractalAnalyzer::MultifractalAnalyzer(const MultifractalAnalyzer &
 { 
 //  this->parentApp  = multifractalAnalyzerObject.parentApp;
   this->cgrObjects = multifractalAnalyzerObject.cgrObjects;
-  this->mfaObjects = QList<MultifractalAnalisys *>();
+  this->mfaObjects = QList<MultifractalAnalysis *>();
   this->minQ       = multifractalAnalyzerObject.minQ;
   this->maxQ       = multifractalAnalyzerObject.maxQ;
   this->nCenters   = multifractalAnalyzerObject.nCenters;
@@ -76,9 +76,9 @@ MultifractalAnalyzer::~MultifractalAnalyzer()
 //    parentApp = 0;
 }
 
-QList<MultifractalAnalisys *> MultifractalAnalyzer::performAnalysis()
+QList<MultifractalAnalysis *> MultifractalAnalyzer::performAnalysis()
 {
-//  MultifractalAnalisys * mfaObject = 0;
+//  MultifractalAnalysis * mfaObject = 0;
 //  //  MultifractalAnalyzer * mfAnalyzer = 0;
 //  QList<int> mfaKeys;
 //  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
@@ -93,11 +93,11 @@ QList<MultifractalAnalisys *> MultifractalAnalyzer::performAnalysis()
 //  }  
 //  //    cout << "AppController::125 - " << qPrintable(QString::
 //  //            fromStdString(sequence->getName())) << endl;
-//  mfaObject = new MultifractalAnalisys(cgrListForAnalysis.at(0), minQ, maxQ);
-//  mfaObject->performAnalisys(MultifractalAnalisys::COMPARATIVE_ANALISYS);
+//  mfaObject = new MultifractalAnalysis(cgrListForAnalysis.at(0), minQ, maxQ);
+//  mfaObject->performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
   
   
-  return QList<MultifractalAnalisys *>();
+  return QList<MultifractalAnalysis *>();
 }
 
 QList<const ChaosGameRepresentation *> MultifractalAnalyzer::getCgrObjects()
@@ -151,12 +151,12 @@ void MultifractalAnalyzer::setMinR(double minR)
   this->minR = minR;
 }
 
-QList<MultifractalAnalisys *>  MultifractalAnalyzer::getMfaObjects()
+QList<MultifractalAnalysis *>  MultifractalAnalyzer::getMfaObjects()
 {
   return mfaObjects;
 }
 
-void MultifractalAnalyzer::setMfaObjects(QList<MultifractalAnalisys *> 
+void MultifractalAnalyzer::setMfaObjects(QList<MultifractalAnalysis *> 
                                          mfaObjects)
 {
   this->mfaObjects = mfaObjects;

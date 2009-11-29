@@ -1,5 +1,4 @@
 #! /bin/sh
-
 make clean
 rm app
 rm tmp/*.*

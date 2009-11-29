@@ -40,7 +40,7 @@ using namespace bpp;
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/MultifractalAnalyzer.h>
-#include <mfa/MultifractalAnalisys.h>
+#include <mfa/MultifractalAnalysis.h>
 #include <gui/MainWindow.h>
 #include <utils/CustomSequencesContainer.h>
 #include <utils/SeqLoader.h>
@@ -92,10 +92,10 @@ class AppController : public QApplication
     int  makeCgr(const int & sequenceKey) /*const*/;
     
     
-    QList<int> makeMultifractalAnalisys(const QList<int> & cgrKeys,
+    QList<int> makeMultifractalAnalysis(const QList<int> & cgrKeys,
                                         const int & minQ,
                                         const int & maxQ);
-    int makeMultifractalAnalisys_(const QList<int> & sequenceKeys,
+    int makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
                                   const int & minQ,
                                   const int & maxQ);
     // Access
@@ -114,10 +114,10 @@ class AppController : public QApplication
     const QHash<int, ChaosGameRepresentation*> * getCgrHash() const;
     
     
-    const QHash<int, MultifractalAnalisys *> * getMfaHash() const;
+    const QHash<int, MultifractalAnalysis *> * getMfaHash() const;
     
     
-    void setMfaHash(QHash<int, MultifractalAnalisys *> * mfaHash);
+    void setMfaHash(QHash<int, MultifractalAnalysis *> * mfaHash);
       
     
     
@@ -152,7 +152,7 @@ class AppController : public QApplication
       apuntadores a los objetos CGR creados en la aplicación. La clave 
       funciona como un identificador único del objeto */
     
-    QHash<int, MultifractalAnalisys *> * mfaHash; /**< Hash de 
+    QHash<int, MultifractalAnalysis *> * mfaHash; /**< Hash de 
       apuntadores a los objetos Mfa creados en la aplicación. La clave 
       funciona como un identificador único del objeto*/
     

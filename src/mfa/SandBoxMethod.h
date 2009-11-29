@@ -43,7 +43,7 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
-#include <mfa/MultifractalAnalisys.h>
+#include <mfa/MultifractalAnalysis.h>
 #include <utils/Linear.h>
 
 
@@ -78,13 +78,13 @@ class SandBoxMethod
     virtual ~SandBoxMethod();
     
     
-    void performAnalisys(int type);
+    void performAnalysis(int type);
     
-    void performContinousAnalisys();
+    void performContinousAnalysis();
     
-    void performDiscreteAnalisys();
+    void performDiscreteAnalysis();
     
-    void performComparativeAnalisys();
+    void performComparativeAnalysis();
 
     
     double calculateContinousDqValue(const int & q, vector<double> & xData,

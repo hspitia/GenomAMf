@@ -98,7 +98,7 @@ QDockWidget::title {
     <property name="title">
      <string>&amp;Herramientas</string>
     </property>
-    <addaction name="makeMultifractalAnalisysAction"/>
+    <addaction name="makeMultifractalAnalysisAction"/>
     <addaction name="makeCorrelationAnalysisAction"/>
    </widget>
    <widget class="QMenu" name="menuJuego_del_Caos">
@@ -143,7 +143,7 @@ QDockWidget::title {
    </attribute>
    <addaction name="loadSequencesAction"/>
    <addaction name="makeCgrAction"/>
-   <addaction name="makeMultifractalAnalisysAction"/>
+   <addaction name="makeMultifractalAnalysisAction"/>
    <addaction name="makeCorrelationAnalysisAction"/>
    <addaction name="exitAction"/>
    <addaction name="testAction"/>
@@ -276,7 +276,7 @@ QDockWidget::title {
     <string>Realizar &amp;Representación ...</string>
    </property>
   </action>
-  <action name="makeMultifractalAnalisysAction">
+  <action name="makeMultifractalAnalysisAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
      <normaloff>:/icons/mfa_start.png</normaloff>:/icons/mfa_start.png</iconset>

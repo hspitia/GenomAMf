@@ -143,25 +143,25 @@ bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
   return y1.y() < y2.y();
 }
 
-void SandBoxMethod::performAnalisys(int type)
+void SandBoxMethod::performAnalysis(int type)
 {
   
   switch (type){
-    case MultifractalAnalisys::CONTINOUS_ANALISYS:
-      performContinousAnalisys();
+    case MultifractalAnalysis::CONTINOUS_ANALYSIS:
+      performContinousAnalysis();
       break;
-    case MultifractalAnalisys::DISCRETE_ANALISYS:
-      performDiscreteAnalisys();
+    case MultifractalAnalysis::DISCRETE_ANALYSIS:
+      performDiscreteAnalysis();
       break;
-    case MultifractalAnalisys::COMPARATIVE_ANALISYS:
-      performComparativeAnalisys();
+    case MultifractalAnalysis::COMPARATIVE_ANALYSIS:
+      performComparativeAnalysis();
       break;
     default:
       return;
   }  
 }
 
-void SandBoxMethod::performComparativeAnalisys()
+void SandBoxMethod::performComparativeAnalysis()
 {
   
   int nIteraciones = 1;
@@ -251,7 +251,7 @@ void SandBoxMethod::performComparativeAnalisys()
   }
 }
 
-void SandBoxMethod::performContinousAnalisys()
+void SandBoxMethod::performContinousAnalysis()
 {
 //  int nMomentums = maxQ - minQ + 1;  // Longitud rango valores q
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
@@ -275,7 +275,7 @@ void SandBoxMethod::performContinousAnalisys()
   
 }
 
-void SandBoxMethod::performDiscreteAnalisys()
+void SandBoxMethod::performDiscreteAnalysis()
 {
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   

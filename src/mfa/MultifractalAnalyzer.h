@@ -27,7 +27,7 @@
 
 //Project
 #include <cgr/ChaosGameRepresentation.h>
-#include <mfa/MultifractalAnalisys.h>
+#include <mfa/MultifractalAnalysis.h>
 #include <app/AppController.h>
 
 /**
@@ -42,7 +42,7 @@ class MultifractalAnalyzer
     MultifractalAnalyzer(
 //                         const AppController * parentApp,
                          QList<const ChaosGameRepresentation * >  cgrObjects,
-                         MultifractalAnalisys::AnalisysType type,
+                         MultifractalAnalysis::AnalysisType type,
                          const int & minQ     = -70,
                          const int & maxQ     =  70,
                          const int & nCenters =  50,
@@ -85,16 +85,16 @@ class MultifractalAnalyzer
     void setMinR(double minR);
     
     
-    QList<MultifractalAnalisys *>  getMfaObjects();
+    QList<MultifractalAnalysis *>  getMfaObjects();
     
     
-    void setMfaObjects(QList<MultifractalAnalisys *>  mfaObjects);
+    void setMfaObjects(QList<MultifractalAnalysis *>  mfaObjects);
     
     double getMaxR();
     
     void setMaxR(double maxR);
     
-    QList<MultifractalAnalisys *> performAnalysis();
+    QList<MultifractalAnalysis *> performAnalysis();
     
     
 //    AppController * getParentApp();
@@ -103,7 +103,7 @@ class MultifractalAnalyzer
     QList<const ChaosGameRepresentation *> cgrObjects; /**< Lista de apuntadores a 
       los objetos CGR sobre los cuales se realizará el análisis multifractal. */
     
-    QList<MultifractalAnalisys *> mfaObjects; /**< Lista de apuntadores a los 
+    QList<MultifractalAnalysis *> mfaObjects; /**< Lista de apuntadores a los 
       objetos MFA generados al ejecutar el proceso de análisis sobre los objetos
       CGR. */
     
@@ -121,7 +121,7 @@ class MultifractalAnalyzer
     
 //    AppController * parentApp; /**< Pauntador al objeto AppController padre. */
     
-    MultifractalAnalisys::AnalisysType type;
+    MultifractalAnalysis::AnalysisType type;
         
 };
 

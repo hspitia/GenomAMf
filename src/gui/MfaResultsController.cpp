@@ -23,14 +23,14 @@
 
 MfaResultsController::MfaResultsController()
 {
-  this->mfaObjects     = QList<MultifractalAnalisys *>();
+  this->mfaObjects     = QList<MultifractalAnalysis *>();
   this->mfaResultsForm = 0;
 }
 
-MfaResultsController::MfaResultsController(const QList<MultifractalAnalisys * > & 
+MfaResultsController::MfaResultsController(const QList<MultifractalAnalysis * > & 
                                            mfaObjects)
 {
-  this->mfaObjects     = mfaObjects;//QList<MultifractalAnalisys *>(mfaObjects);
+  this->mfaObjects     = mfaObjects;//QList<MultifractalAnalysis *>(mfaObjects);
   this->mfaResultsForm = 0;
 }
 
@@ -86,10 +86,10 @@ QList<Plotter *> MfaResultsController::plotResults()
   return plots;
 }
 
-void MfaResultsController::setMfaObjects(QList <MultifractalAnalisys *> 
+void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis *> 
                                          mfaObjects)
 {
-//  this->mfaObjects = QList<MultifractalAnalisys *>(mfaObjects);
+//  this->mfaObjects = QList<MultifractalAnalysis *>(mfaObjects);
   this->mfaObjects = mfaObjects;
 }
 

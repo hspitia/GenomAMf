@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/utils/MatrixOperations.h \
+HEADERS += src/mfa/MultifractalAnalysis.h \
+    src/utils/MatrixOperations.h \
     src/cra/CorrelationAnalysis.h \
     src/gui/PreprocessRoutineParametersForm.h \
     src/gui/CorrelationAnalysisParametersForm.h \
@@ -18,7 +19,6 @@ HEADERS += src/utils/MatrixOperations.h \
     src/utils/Linear.h \
     src/mfa/SandBoxMethod.h \
     src/utils/SeqLoader.h \
-    src/mfa/MultifractalAnalisys.h \
     src/gui/CgrResultsForm.h \
     src/gui/ImageViewer.h \
     src/gui/SequenceListModel.h \
@@ -34,7 +34,8 @@ HEADERS += src/utils/MatrixOperations.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/utils/MatrixOperations.cpp \
+SOURCES += src/mfa/MultifractalAnalysis.cpp \
+    src/utils/MatrixOperations.cpp \
     src/cra/CorrelationAnalysis.cpp \
     src/gui/PreprocessRoutineParametersForm.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
@@ -44,7 +45,6 @@ SOURCES += src/utils/MatrixOperations.cpp \
     src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
     src/utils/SeqLoader.cpp \
-    src/mfa/MultifractalAnalisys.cpp \
     src/gui/CgrResultsForm.cpp \
     src/gui/ImageViewer.cpp \
     src/gui/SequenceListModel.cpp \

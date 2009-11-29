@@ -1,5 +1,5 @@
 /**
- * @file MultifractalAnalisys.cpp
+ * @file MultifractalAnalysis.cpp
  * @date 13/10/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
  * Universidad del Valle - Escuela de Ingenier&iacute;a de Sistemas y 
@@ -9,7 +9,7 @@
  */
 
 /* 
- *         File:  MultifractalAnalisys.cpp
+ *         File:  MultifractalAnalysis.cpp
  *   Created on:  13/10/2009
  *       Author:  He-.ctor Fabio Espitia Navarro
  *  Institution:  UNIVERSIDAD DEL VALLE - ESCUELA DE INGENIERIA DE SISTEMAS Y 
@@ -19,9 +19,9 @@
  *  Description:  
  */
 
-#include "MultifractalAnalisys.h"
+#include "MultifractalAnalysis.h"
 
-MultifractalAnalisys::MultifractalAnalisys()
+MultifractalAnalysis::MultifractalAnalysis()
 {
   this->cgrObject = 0;
   this->minQ = 0;
@@ -40,7 +40,7 @@ MultifractalAnalisys::MultifractalAnalisys()
   
 }
 
-MultifractalAnalisys::MultifractalAnalisys(const MultifractalAnalisys & 
+MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis & 
                                            mfaObject)
 {
   //  this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
@@ -62,7 +62,7 @@ MultifractalAnalisys::MultifractalAnalisys(const MultifractalAnalisys &
   this->tqValues = new vector<double>(*(mfaObject.tqValues));
 }
 
-MultifractalAnalisys::MultifractalAnalisys(const ChaosGameRepresentation * 
+MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
                                            cgrObject,
                                            const int & minQ, 
                                            const int & maxQ)
@@ -90,8 +90,8 @@ MultifractalAnalisys::MultifractalAnalisys(const ChaosGameRepresentation *
   
 }
 
-MultifractalAnalisys & MultifractalAnalisys::operator=(const 
-                                                       MultifractalAnalisys & 
+MultifractalAnalysis & MultifractalAnalysis::operator=(const 
+                                                       MultifractalAnalysis & 
                                                        mfaObject)
 {
   this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
@@ -123,7 +123,7 @@ MultifractalAnalisys & MultifractalAnalisys::operator=(const
   return *this;
 }
 
-MultifractalAnalisys::~MultifractalAnalisys()
+MultifractalAnalysis::~MultifractalAnalysis()
 {
   if (cgrObject != 0) cgrObject = 0;
   delete cgrObject;
@@ -172,11 +172,11 @@ MultifractalAnalisys::~MultifractalAnalisys()
   
 }
 
-void MultifractalAnalisys::performAnalisys(AnalisysType type)
+void MultifractalAnalysis::performAnalysis(AnalysisType type)
 {
   switch (type) {
-    case CONTINOUS_ANALISYS:
-    case DISCRETE_ANALISYS: 
+    case CONTINOUS_ANALYSIS:
+    case DISCRETE_ANALYSIS: 
       {
         // Cálculo de valores Dq
         calculateDqValues(type);
@@ -186,15 +186,15 @@ void MultifractalAnalisys::performAnalisys(AnalisysType type)
         calculateCqValues();
       }
       break;
-    case COMPARATIVE_ANALISYS:
-      performComparativeAnalisys();
+    case COMPARATIVE_ANALYSIS:
+      performComparativeAnalysis();
       break;
     default:
       return;
   }
 }
 
-void MultifractalAnalisys::performComparativeAnalisys()
+void MultifractalAnalysis::performComparativeAnalysis()
 {
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
@@ -202,11 +202,11 @@ void MultifractalAnalisys::performComparativeAnalisys()
                             minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1); // Dato adicional necesario para calcular Cq
   
-  sandBoxObject->performAnalisys(COMPARATIVE_ANALISYS);
-//  cout << "DEBUG MultifractalAnalisys::206 - despues de ComparativeAnalisys"<< endl;
+  sandBoxObject->performAnalysis(COMPARATIVE_ANALYSIS);
+//  cout << "DEBUG MultifractalAnalysis::206 - despues de ComparativeAnalysis"<< endl;
 }
 
-void MultifractalAnalisys::calculateDqValues(AnalisysType type)
+void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 {
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
@@ -214,11 +214,11 @@ void MultifractalAnalisys::calculateDqValues(AnalisysType type)
                             minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1);// Dato adicional necesario para calcular Cq
   
-  if(type == CONTINOUS_ANALISYS)
-    sandBoxObject->performAnalisys(CONTINOUS_ANALISYS);
+  if(type == CONTINOUS_ANALYSIS)
+    sandBoxObject->performAnalysis(CONTINOUS_ANALYSIS);
   
-  if(type == DISCRETE_ANALISYS)
-    sandBoxObject->performAnalisys(DISCRETE_ANALISYS);
+  if(type == DISCRETE_ANALYSIS)
+    sandBoxObject->performAnalysis(DISCRETE_ANALYSIS);
   
   linearRegressionValues = sandBoxObject->getLinearRegressionValues();
   
@@ -232,7 +232,7 @@ void MultifractalAnalisys::calculateDqValues(AnalisysType type)
   sandBoxObject = 0;
 }
 
-void MultifractalAnalisys::calculateCqValues()
+void MultifractalAnalysis::calculateCqValues()
 {
   int dataLenght = maxQ - minQ + 1;
   for (int i = 0; i < dataLenght; i++) {
@@ -243,7 +243,7 @@ void MultifractalAnalisys::calculateCqValues()
   
 }
 
-void MultifractalAnalisys::calculateTqValues()
+void MultifractalAnalysis::calculateTqValues()
 {
   int dataLenght = maxQ - minQ + 1 + 2; //Dos datos adicionales para cálculo de Cq
   int q = minQ;
@@ -253,74 +253,74 @@ void MultifractalAnalisys::calculateTqValues()
   }
 }
 
-//QString MultifractalAnalisys::plotResults(const QList <vector <double> >& 
+//QString MultifractalAnalysis::plotResults(const QList <vector <double> >& 
 //                                          values)
 //{
 //  Q_UNUSED(values);
 //  return QString();
 //}
 
-int MultifractalAnalisys::getMinQ()
+int MultifractalAnalysis::getMinQ()
 {
   return minQ;
 }
 
-void MultifractalAnalisys::setMinQ(int minQ)
+void MultifractalAnalysis::setMinQ(int minQ)
 {
   this->minQ = minQ;
 }
 
-int MultifractalAnalisys::getMaxQ()
+int MultifractalAnalysis::getMaxQ()
 {
   return maxQ;
 }
 
-void MultifractalAnalisys::setMaxQ(int maxQ)
+void MultifractalAnalysis::setMaxQ(int maxQ)
 {
   this->maxQ = maxQ;
 }
 
-const ChaosGameRepresentation * MultifractalAnalisys::getCgrObject() const
+const ChaosGameRepresentation * MultifractalAnalysis::getCgrObject() const
 {
   return cgrObject;
 }
 
-void MultifractalAnalisys::setCgrObject(ChaosGameRepresentation * cgrObject)
+void MultifractalAnalysis::setCgrObject(ChaosGameRepresentation * cgrObject)
 {
   this->cgrObject = cgrObject;
 }
 
-QString MultifractalAnalisys::getLinearRegressionImagePath()
+QString MultifractalAnalysis::getLinearRegressionImagePath()
 {
   return linearRegressionImgePath;
 }
 
-QString MultifractalAnalisys::getDqSpectraImagePath()
+QString MultifractalAnalysis::getDqSpectraImagePath()
 {
   return dqSpectraImagePath;
 }
 
-QString MultifractalAnalisys::getCqImagePath()
+QString MultifractalAnalysis::getCqImagePath()
 {
   return cqImagePath;
 }
 
-//QList <vector <double> > * MultifractalAnalisys::getLinearRegressionValues()
-QList<vector<double> *> MultifractalAnalisys::getLinearRegressionValues()
+//QList <vector <double> > * MultifractalAnalysis::getLinearRegressionValues()
+QList<vector<double> *> MultifractalAnalysis::getLinearRegressionValues()
 {
   return linearRegressionValues;
 }
 
 /*
-void MultifractalAnalisys::setLinearRegressionValues(QList <vector <double> > * 
+void MultifractalAnalysis::setLinearRegressionValues(QList <vector <double> > * 
                                                      linearRegressionValues)
 {
   this->linearRegressionValues = linearRegressionValues;
 }
 */
 
-//QList <vector <double> > * MultifractalAnalisys::getDqValues()
-vector<double> * MultifractalAnalisys::getDqValues()
+//QList <vector <double> > * MultifractalAnalysis::getDqValues()
+vector<double> * MultifractalAnalysis::getDqValues()
 {
   // Se eliminan los dos datos adicionales (extremos) necesarios para el cálculo
   // de Cq 
@@ -338,30 +338,30 @@ vector<double> * MultifractalAnalisys::getDqValues()
   return trueDqValues;
 }
 
-//void MultifractalAnalisys::setDqValues(QList <vector <double> > * dqValues)
+//void MultifractalAnalysis::setDqValues(QList <vector <double> > * dqValues)
 //{
 //  this->dqValues = dqValues;
 //}
 
-//QList <vector <double> > * MultifractalAnalisys::getCqValues()
-vector <double> * MultifractalAnalisys::getCqValues()
+//QList <vector <double> > * MultifractalAnalysis::getCqValues()
+vector <double> * MultifractalAnalysis::getCqValues()
 {
   return cqValues;
 }
 
-//void MultifractalAnalisys::setCqValues(QList <vector <double> > * cqValues)
+//void MultifractalAnalysis::setCqValues(QList <vector <double> > * cqValues)
 //{
 //  this->cqValues = cqValues;
 //}
 
-//QList <vector <double> > * MultifractalAnalisys::getTqValues()
-vector <double> * MultifractalAnalisys::getTqValues()
+//QList <vector <double> > * MultifractalAnalysis::getTqValues()
+vector <double> * MultifractalAnalysis::getTqValues()
 {
   return tqValues;
 }
 
 
-vector<double> * MultifractalAnalisys::getQValues()
+vector<double> * MultifractalAnalysis::getQValues()
 {
   vector<double> * qValues = new vector<double>();
   for (int i = minQ; i <= maxQ; ++i) {
@@ -369,7 +369,7 @@ vector<double> * MultifractalAnalisys::getQValues()
   }
   return qValues;
 }
-//void MultifractalAnalisys::setTqValues(QList <vector <double> > * tqValues)
+//void MultifractalAnalysis::setTqValues(QList <vector <double> > * tqValues)
 //{
 //  this->tqValues = tqValues;
 //}

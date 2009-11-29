@@ -26,6 +26,8 @@
 #include <NumCalc/Matrix.h>
 #include <Seq/Sequence.h>
 
+using namespace bpp;
+
 #include <utils/MatrixOperations.h>
 
 
