@@ -174,22 +174,20 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     
     painter->translate(1, 1);
     
-    //    cout << "DEBUG CGR::153 - sequenceSize: " << sequenceSize << endl;
     for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
       // Los gaps y bases/aminoácidos no resueltos son ignorados
       if (element > -1 && element < 4) {
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
-        
         painter->drawPoint(QPointF(xImage, yImage));
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x, y));
         
-        xMatrix = static_cast<int>(utils::roundToInt(x));
-        yMatrix = static_cast<int>(utils::roundToInt(y));
+        xMatrix = utils::roundToInt(x);
+        yMatrix = utils::roundToInt(y);
         
 //        xMatrix = static_cast<int>(floor(x));
 //        yMatrix = static_cast<int>(floor(y));
@@ -197,8 +195,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        cout << x << ", " << y;
 //        cout << "    "<< xMatrix << ", " << yMatrix << endl;
         
-//        int row = matrixSize - 1 - yMatrix;
-        int row = matrixSize - yMatrix;
+//        int row = matrixSize - 1 - yMatrix; // Tamaño normal de matriz
+        int row = matrixSize - yMatrix;     // Tamaño agrandado de matriz en una fila y columna
         int col = xMatrix;
 
         matrixOfPoints(row, col)++;

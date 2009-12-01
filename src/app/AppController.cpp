@@ -124,7 +124,7 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
 QList<const ChaosGameRepresentation *>
 AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys) 
 {
-  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
+  QList<const ChaosGameRepresentation *> cgrListForAnalysis;
   
   for (int i = 0; i < sequenceKeys.count(); ++i) {
     int sequenceKey = sequenceKeys.at(i);
@@ -136,7 +136,8 @@ AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys)
     
     bool cgrFound = false;
     while (i != cgrHash->constEnd() && !cgrFound) {
-      cgrFound = sequences->getSequence(sequenceKey) == i.value()->getSequence();
+      cgrFound = 
+              sequences->getSequence(sequenceKey) == i.value()->getSequence();
       
       if (cgrFound)
         cgrListForAnalysis.append(i.value());
@@ -159,17 +160,19 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
                                              const int & maxQ)
 {
   QList<int> mfaKeys;
-  QList<const ChaosGameRepresentation * > cgrList = 
+  QList<const ChaosGameRepresentation *> cgrList =
           getCgrObjectsForAnalysis(sequenceKeys);
   
   int mfaKey = 0;
   
   for (int i = 0; i < cgrList.count(); ++i) {
 //    MultifractalAnalysis * mfaObject = 
-    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
-                                                          minQ, maxQ);
+    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), minQ, 
+                                                          maxQ);
     
-    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
+    cout << "DEBUG - AppController::174 - makeMultifractalAnalysis - antes performAnalysis()"<< endl;
+    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
     
     mfaKey = mfaObjectsCounter;
     mfaHash->insert(mfaKey, mfaObject);
@@ -194,9 +197,9 @@ QList<int> AppController::makeMultifractalAnalysis(const QList<int> & cgrKeys,
   
   for (int i = 0; i < cgrKeys.count(); ++i) {
     int cgrKey = cgrKeys.at(i);
-    if(cgrKey != -1){
+    if (cgrKey != -1) {
       const ChaosGameRepresentation * cgrObject = cgrHash->value(cgrKey);
-      if(cgrObject)
+      if (cgrObject)
         cgrListForAnalysis.append(cgrObject);
     }
   }  

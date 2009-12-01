@@ -40,7 +40,6 @@ using namespace bpp;
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
 #include <cra/CorrelationAnalysis.h>
-#include <cra/CorrelationAnalyzer.h>
 #include <mfa/MultifractalAnalysis.h>
 #include <mfa/MultifractalAnalyzer.h>
 #include <gui/MainWindow.h>

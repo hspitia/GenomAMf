@@ -25,12 +25,12 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ = -70;
-  this->maxQ =  70;
-  this->minR = 0;
-  this->maxR = 1;
-  this->cgrMatrix = 0;
-  this->nCenters = 150;
+  this->minQ      = -70;
+  this->maxQ      =  70;
+  this->minR      =   0;
+  this->maxR      =   1;
+  this->cgrMatrix =   0;
+  this->nCenters  =  30;
 //  this->dqValues = new QList<vector<double> >();
   this->dqValues = new vector<double>();
 //  this->linearRegressionValues = new QList<vector<double> >();
@@ -88,7 +88,7 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->maxQ = maxQ;
   this->minR = 0;
 //  this->maxR = cgrMatrix->nRows();
-  this->maxR = cgrMatrix->getNumberOfRows();
+  this->maxR = 3;
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
 //  this->dqValues = new QList<vector<double> >();
@@ -280,14 +280,17 @@ void SandBoxMethod::performDiscreteAnalysis()
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   
   for (int q = minQ; q <= maxQ; ++q) {
+//    cout << "DEBUG SandBoxMethod::283 - calculateDiscreteDqValue\n " << " q: " << q << endl;
     vector<double> * xData = new vector<double>(dataLenght);
     vector<double> * yData = new vector<double>(dataLenght);
     
     double dqValue = calculateDiscreteDqValue(q, *xData, *yData);
+    cout << "  DEBUG SandBoxMethod::288 - dqValue = " << dqValue << endl;
     dqValues->push_back(dqValue);
 
     linearRegressionValues.append(xData);
     linearRegressionValues.append(yData);
+//    cout << "  DEBUG SandBoxMethod::289 - despues append y " << q << endl;
   }
   
   
@@ -336,21 +339,12 @@ double SandBoxMethod::calculateContinousDqValue(const int & q,
     generateRandomCenters(&xCoordinates, &yCoordinates);
     
     vector <double> masses(nCenters);
+    double count = 0.0;
     for (int i = 0; i < nCenters; ++i) {
-      masses.at(i) = 
-              pow(countPointsOnTheContinousSquareSandbox(xCoordinates.at(i),
-                                                         yCoordinates.at(i),
-                                                         radius),
-                                                         static_cast<double>
-                                                         (q - 1));
-      /*
-      masses.at(i) = 
-              pow(countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
-                                                        yCoordinates.at(i),
-                                                        radius),
-                                                        static_cast<double>
-                                                        (q - 1));
-    */
+      count = countPointsOnTheContinousSquareSandbox(xCoordinates.at(i), 
+                                                     yCoordinates.at(i),
+                                                     radius);
+      masses.at(i) = pow(count, static_cast<double>(q - 1));
     }
     
     massAverage = VectorTools::mean<double,double>(masses);
@@ -375,40 +369,40 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
   double massAverage;
 //  int fractalSize = cgrMatrix->nRows(); 
   int fractalSize = cgrMatrix->getNumberOfRows(); 
+  int index = 0;
   
-  for (int radius = minR, index = 0; radius <= maxR; ++radius, ++index) {
+  for (int radius = minR; radius <= maxR; ++radius) {
     // Sand box centers coordinates
     vector <int> xCoordinates(nCenters);
     vector <int> yCoordinates(nCenters);
     
     generateRandomCenters(&xCoordinates, &yCoordinates);
-    
     vector <double> masses(nCenters);
+    
+//    cout << "    DEBUG - SandBoxMethod::calculateDiscreteDqValue::382 - radio: "<< radius << endl;
     for (int i = 0; i < nCenters; ++i) {
-      masses.at(i) = 
-              pow(countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
-                                                         yCoordinates.at(i),
-                                                         radius),
-                                                         static_cast<double>
-                                                         (q - 1));
-      /*
-      masses.at(i) = 
-              pow(countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
-                                                        yCoordinates.at(i),
-                                                        radius),
-                                                        static_cast<double>
-                                                        (q - 1));
-    */
+      double count = countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
+                                                           yCoordinates.at(i),
+                                                           radius);
+      
+      masses.at(i) = pow(count, static_cast<double>(q - 1));
+      
+//      cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::391 - i: "<< i << endl;
+      
     }
     
+//    cout << "    DEBUG - SandBoxMethod::calculateDiscreteDqValue::979 - index: "<< index << endl;
     massAverage = VectorTools::mean<double,double>(masses);
     xData.at(index) = (q - 1) * log(radius / fractalSize);
     yData.at(index) = log(massAverage);
+    ++index;
   }
   
   Linear * linear = new Linear(dataLenght, &xData, &yData);
-  
-  return linear->getSlope();
+  double slope = linear->getSlope();
+  delete linear;
+  return slope;
+//  return 1;
 }
 
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
@@ -432,8 +426,8 @@ void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
   generateRandomCenters(&*xCoordinatesDouble, &*yCoordinatesDouble);
   
   for (unsigned int i = 0; i < xCoordinatesDouble->size(); ++i) {
-    int x = static_cast<int> (utils::roundToInt(xCoordinatesDouble->at(i)));
-    int y = static_cast<int> (utils::roundToInt(yCoordinatesDouble->at(i)));
+    int x = utils::roundToInt(xCoordinatesDouble->at(i));
+    int y = utils::roundToInt(yCoordinatesDouble->at(i));
     
     xCoordinates->at(i) = x;
     yCoordinates->at(i) = y;

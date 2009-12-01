@@ -75,10 +75,10 @@ class MultifractalAnalysis
     void calculateDqValues(AnalysisType type);
 
     
-    void calculateCqValues();
+    void calculateTqValues();
 
     
-    void calculateTqValues();
+    void calculateCqValues();
     
     
     int getMinQ();
@@ -111,6 +111,7 @@ class MultifractalAnalysis
 //    QList<vector<double> > * getLinearRegressionValues();
     QList<vector<double> *> getLinearRegressionValues() const;
     
+    
 //    QList<vector<double> > * getDqValues();
     vector<double> * getDqValues() const;
     
@@ -121,6 +122,7 @@ class MultifractalAnalysis
     
 //    QList<vector<double> > * getTqValues();
     vector<double> * getTqValues() const;
+    
     
     vector<double> * getQValues() const;
     
