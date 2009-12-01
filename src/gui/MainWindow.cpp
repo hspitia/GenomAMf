@@ -599,10 +599,12 @@ void MainWindow::displayResultForm(QModelIndex index)
 void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 {
   QList<int> mfaKeys = parentApp->getMfaResultSetHash()->value(mfaResultSetKey);
-  QList<MultifractalAnalysis *> mfaListFromAnalysis;
+//  QList<MultifractalAnalysis *> mfaListFromAnalysis;
+  QList<MultifractalAnalysis> mfaListFromAnalysis;
   
   for (int i = 0; i < mfaKeys.count(); ++i) {
-    MultifractalAnalysis * mfaObject = 
+//    MultifractalAnalysis * mfaObject = 
+    MultifractalAnalysis mfaObject = 
             parentApp->getMfaHash()->value(mfaKeys.at(i));
     mfaListFromAnalysis.append(mfaObject);
   }
@@ -611,8 +613,6 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
           new MfaResultsController(mfaListFromAnalysis);
   MfaResultsForm * mfaResultsForm = 
           mfaResultsController->contructTheResultsForm();
-    
-    
   
 //  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
@@ -624,11 +624,9 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 
 void MainWindow::displayCgrResults(const int & cgrKey)
 {
-//  cout << "MainWindow::546  --  cgrKey " << cgrKey << endl; 
   const ChaosGameRepresentation * cgr = parentApp->getCgrHash()->value(cgrKey);
-  //          cout << "DEBUG - Después de parentApp->makeCgr(key)" << endl;
-  if(cgr != 0)
-  {
+
+  if (cgr != 0) {
     CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
     ui->mdiArea->addSubWindow(cgrResultsForm);
     cgrResultsForm->show();

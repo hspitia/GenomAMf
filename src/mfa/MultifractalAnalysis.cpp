@@ -306,7 +306,7 @@ QString MultifractalAnalysis::getCqImagePath()
 }
 
 //QList <vector <double> > * MultifractalAnalysis::getLinearRegressionValues()
-QList<vector<double> *> MultifractalAnalysis::getLinearRegressionValues()
+QList<vector<double> *> MultifractalAnalysis::getLinearRegressionValues() const
 {
   return linearRegressionValues;
 }
@@ -320,7 +320,7 @@ void MultifractalAnalysis::setLinearRegressionValues(QList <vector <double> > *
 */
 
 //QList <vector <double> > * MultifractalAnalysis::getDqValues()
-vector<double> * MultifractalAnalysis::getDqValues()
+vector<double> * MultifractalAnalysis::getDqValues() const
 {
   // Se eliminan los dos datos adicionales (extremos) necesarios para el cálculo
   // de Cq 
@@ -344,7 +344,7 @@ vector<double> * MultifractalAnalysis::getDqValues()
 //}
 
 //QList <vector <double> > * MultifractalAnalysis::getCqValues()
-vector <double> * MultifractalAnalysis::getCqValues()
+vector <double> * MultifractalAnalysis::getCqValues() const
 {
   return cqValues;
 }
@@ -355,13 +355,13 @@ vector <double> * MultifractalAnalysis::getCqValues()
 //}
 
 //QList <vector <double> > * MultifractalAnalysis::getTqValues()
-vector <double> * MultifractalAnalysis::getTqValues()
+vector <double> * MultifractalAnalysis::getTqValues() const
 {
   return tqValues;
 }
 
 
-vector<double> * MultifractalAnalysis::getQValues()
+vector<double> * MultifractalAnalysis::getQValues() const
 {
   vector<double> * qValues = new vector<double>();
   for (int i = minQ; i <= maxQ; ++i) {

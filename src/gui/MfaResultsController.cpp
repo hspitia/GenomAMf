@@ -23,11 +23,13 @@
 
 MfaResultsController::MfaResultsController()
 {
-  this->mfaObjects     = QList<MultifractalAnalysis *>();
+//  this->mfaObjects     = QList<MultifractalAnalysis *>();
+  this->mfaObjects     = QList<MultifractalAnalysis>();
   this->mfaResultsForm = 0;
 }
 
-MfaResultsController::MfaResultsController(const QList<MultifractalAnalysis * > & 
+//MfaResultsController::MfaResultsController(const QList<MultifractalAnalysis * > & 
+MfaResultsController::MfaResultsController(const QList<MultifractalAnalysis> & 
                                            mfaObjects)
 {
   this->mfaObjects     = mfaObjects;//QList<MultifractalAnalysis *>(mfaObjects);
@@ -62,15 +64,19 @@ QList<Plotter *> MfaResultsController::plotResults()
   QList<vector<double> *> cqDataSet;
   QList<QList<vector<double> *> > linearRegressionsDataSet;
   
-  vector<double> * qValues = mfaObjects.at(0)->getQValues();
+//  vector<double> * qValues = mfaObjects.at(0)->getQValues();
+  vector<double> * qValues = mfaObjects.at(0).getQValues();
   
   dqDataSet.append(qValues);
   cqDataSet.append(qValues);
   
   for (int i = 0; i < mfaObjects.count(); ++i) {
-     dqDataSet.append(mfaObjects.at(i)->getDqValues());
-     cqDataSet.append(mfaObjects.at(i)->getCqValues());
-     linearRegressionsDataSet.append(mfaObjects.at(i)->
+//     dqDataSet.append(mfaObjects.at(i)->getDqValues());
+     dqDataSet.append(mfaObjects.at(i).getDqValues());
+//     cqDataSet.append(mfaObjects.at(i)->getCqValues());
+     cqDataSet.append(mfaObjects.at(i).getCqValues());
+//     linearRegressionsDataSet.append(mfaObjects.at(i)->
+     linearRegressionsDataSet.append(mfaObjects.at(i).
                                      getLinearRegressionValues());
   }
   
@@ -86,7 +92,8 @@ QList<Plotter *> MfaResultsController::plotResults()
   return plots;
 }
 
-void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis *> 
+//void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis *> 
+void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis> 
                                          mfaObjects)
 {
 //  this->mfaObjects = QList<MultifractalAnalysis *>(mfaObjects);

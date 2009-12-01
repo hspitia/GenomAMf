@@ -39,8 +39,10 @@ using namespace bpp;
 
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
-#include <mfa/MultifractalAnalyzer.h>
+#include <cra/CorrelationAnalysis.h>
+#include <cra/CorrelationAnalyzer.h>
 #include <mfa/MultifractalAnalysis.h>
+#include <mfa/MultifractalAnalyzer.h>
 #include <gui/MainWindow.h>
 #include <utils/CustomSequencesContainer.h>
 #include <utils/SeqLoader.h>
@@ -95,6 +97,7 @@ class AppController : public QApplication
     QList<int> makeMultifractalAnalysis(const QList<int> & cgrKeys,
                                         const int & minQ,
                                         const int & maxQ);
+    
     int makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
                                   const int & minQ,
                                   const int & maxQ);
@@ -114,10 +117,12 @@ class AppController : public QApplication
     const QHash<int, ChaosGameRepresentation*> * getCgrHash() const;
     
     
-    const QHash<int, MultifractalAnalysis *> * getMfaHash() const;
+//    const QHash<int, MultifractalAnalysis *> * getMfaHash() const;
+    const QHash<int, MultifractalAnalysis> * getMfaHash() const;
     
     
-    void setMfaHash(QHash<int, MultifractalAnalysis *> * mfaHash);
+//    void setMfaHash(QHash<int, MultifractalAnalysis *> * mfaHash);
+    void setMfaHash(QHash<int, MultifractalAnalysis> * mfaHash);
       
     
     
@@ -126,9 +131,15 @@ class AppController : public QApplication
     
     int getMfaObjectsCounter();
     
-    int getmfaResultSetsCounter();
+    int getMfaResultSetsCounter();
     
     QHash<int, QList<int> > * getMfaResultSetHash();
+    
+    const QHash<int, CorrelationAnalysis> * getCraHash() const;
+    
+    void setCraHash(QHash<int, CorrelationAnalysis> * craHash);
+    
+    QHash<int, QList<int> > * getCraResultSetHash();
     
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
@@ -152,13 +163,25 @@ class AppController : public QApplication
       apuntadores a los objetos CGR creados en la aplicación. La clave 
       funciona como un identificador único del objeto */
     
-    QHash<int, MultifractalAnalysis *> * mfaHash; /**< Hash de 
+//    QHash<int, MultifractalAnalysis *> * mfaHash; /**< Hash de 
+    QHash<int, MultifractalAnalysis > * mfaHash; /**< Hash de 
       apuntadores a los objetos Mfa creados en la aplicación. La clave 
       funciona como un identificador único del objeto*/
     
     QHash<int, QList<int> > * mfaResultSetHash; /**< Hash de 
       lista de claves de objetos Mfa que pertenecen a un análisis realizado. 
       La clave funciona como un identificador único de cada lista */
+    
+    QHash<int, CorrelationAnalysis> * craHash; /**< Hash de apuntadores a los 
+      objetos Cra creados en la aplicación.  La clave 
+      funciona como un identificador único del objeto */
+    
+    QHash<int, QList<int> > * craResultSetHash; /**< Hash de 
+      lista de claves de objetos Cra que pertenecen a un análisis realizado. 
+      La clave funciona como un identificador único de cada lista */
+    
+    QList<const ChaosGameRepresentation *>
+    getCgrObjectsForAnalysis(const QList<int> sequenceKeys);
     
 };
 

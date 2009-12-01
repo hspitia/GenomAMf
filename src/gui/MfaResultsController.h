@@ -34,18 +34,21 @@ class MfaResultsController
     MfaResultsController();
     
 //    MfaResultsController(QList<MultifractalAnalysis * > mfaObjects);
-    MfaResultsController(const QList<MultifractalAnalysis * > & mfaObjects);
+//    MfaResultsController(const QList<MultifractalAnalysis * > & mfaObjects);
+    MfaResultsController(const QList<MultifractalAnalysis> & mfaObjects);
     
     virtual ~MfaResultsController();
     
-    void setMfaObjects(QList <MultifractalAnalysis *> mfaObjects);
+//    void setMfaObjects(QList <MultifractalAnalysis *> mfaObjects);
+    void setMfaObjects(QList <MultifractalAnalysis> mfaObjects);
     
     MfaResultsForm * getMfaResultsForm();
     
     MfaResultsForm * contructTheResultsForm();
     
   private:
-    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
+//    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
+    QList<MultifractalAnalysis> mfaObjects; /**< Lista de apuntadores a los 
       objetos Mfa cuyos resultados se desplegarán por pantalla */
     
     MfaResultsForm * mfaResultsForm; /**< Ventana para desplegar resultados 

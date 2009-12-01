@@ -78,10 +78,13 @@ MultifractalAnalyzer::~MultifractalAnalyzer()
 
 QList<MultifractalAnalysis *> MultifractalAnalyzer::performAnalysis()
 {
-//  MultifractalAnalysis * mfaObject = 0;
-//  //  MultifractalAnalyzer * mfAnalyzer = 0;
-//  QList<int> mfaKeys;
-//  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
+//  
+//  for (int i = 0; i < cgrObjects.count(); ++i) {
+//    MultifractalAnalysis * currentMfaObject = 
+//            new MultifractalAnalysis(cgrObjects.at(i), )
+//    
+//  }  
+//  
 //  
 //  for (int i = 0; i < cgrKeys.count(); ++i) {
 //    int cgrKey = cgrKeys.at(i);

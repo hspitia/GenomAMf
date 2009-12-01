@@ -7,7 +7,8 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/mfa/MultifractalAnalysis.h \
+HEADERS += src/cra/CorrelationAnalyzer.h \
+    src/mfa/MultifractalAnalysis.h \
     src/utils/MatrixOperations.h \
     src/cra/CorrelationAnalysis.h \
     src/gui/PreprocessRoutineParametersForm.h \
@@ -34,7 +35,8 @@ HEADERS += src/mfa/MultifractalAnalysis.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/MultifractalAnalysis.cpp \
+SOURCES += src/cra/CorrelationAnalyzer.cpp \
+    src/mfa/MultifractalAnalysis.cpp \
     src/utils/MatrixOperations.cpp \
     src/cra/CorrelationAnalysis.cpp \
     src/gui/PreprocessRoutineParametersForm.cpp \

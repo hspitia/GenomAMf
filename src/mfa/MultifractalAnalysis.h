@@ -59,7 +59,7 @@ class MultifractalAnalysis
     MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
     MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const int & minQ,
-                         const int & qMax);
+                         const int & maxQ);
     
     virtual ~MultifractalAnalysis();
     
@@ -109,20 +109,20 @@ class MultifractalAnalysis
 
     
 //    QList<vector<double> > * getLinearRegressionValues();
-    QList<vector<double> *> getLinearRegressionValues();
+    QList<vector<double> *> getLinearRegressionValues() const;
     
 //    QList<vector<double> > * getDqValues();
-    vector<double> * getDqValues();
+    vector<double> * getDqValues() const;
     
     
 //    QList<vector<double> > * getCqValues();
-    vector<double> * getCqValues();
+    vector<double> * getCqValues() const;
     
     
 //    QList<vector<double> > * getTqValues();
-    vector<double> * getTqValues();
+    vector<double> * getTqValues() const;
     
-    vector<double> * getQValues();
+    vector<double> * getQValues() const;
     
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
