@@ -27,8 +27,8 @@ SandBoxMethod::SandBoxMethod()
 {
   this->minQ      = -70;
   this->maxQ      =  70;
-  this->minR      =   0;
-  this->maxR      =   1;
+  this->minR      =   1;
+  this->maxR      =   3;
   this->cgrMatrix =   0;
   this->nCenters  =  30;
 //  this->dqValues = new QList<vector<double> >();
@@ -64,9 +64,9 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ = minQ;
   this->maxQ = maxQ;
-  this->minR = 0;
+  this->minR = 1;
 //  this->maxR = cgrMatrix->nRows();
-  this->maxR = cgrMatrix->getNumberOfRows();
+  this->maxR = 3;
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
 //  this->dqValues = new QList<vector<double> >();
@@ -86,7 +86,7 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ = minQ;
   this->maxQ = maxQ;
-  this->minR = 0;
+  this->minR = 1;
 //  this->maxR = cgrMatrix->nRows();
   this->maxR = 3;
   this->cgrMatrix = cgrMatrix;
@@ -193,8 +193,8 @@ void SandBoxMethod::performComparativeAnalysis()
 
     int radio = 6;
     unsigned int initIndex = 0;
-    double continousSum = 0.0;
-    double discreteSum = 0.0;
+    double continousSum    = 0.0;
+    double discreteSum     = 0.0;
     
     vector<double> * countsContinous = new vector<double>();
     vector<double> * countsDiscrete  = new vector<double>();
@@ -290,7 +290,7 @@ void SandBoxMethod::performDiscreteAnalysis()
 
     linearRegressionValues.append(xData);
     linearRegressionValues.append(yData);
-//    cout << "  DEBUG SandBoxMethod::289 - despues append y " << q << endl;
+//    cout << "  DEBUG SandBoxMethod::289 - q: " << q << endl;
   }
   
   
@@ -373,13 +373,14 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
   
   for (int radius = minR; radius <= maxR; ++radius) {
     // Sand box centers coordinates
-    vector <int> xCoordinates(nCenters);
-    vector <int> yCoordinates(nCenters);
+    vector<int> xCoordinates(nCenters);
+    vector<int> yCoordinates(nCenters);
     
     generateRandomCenters(&xCoordinates, &yCoordinates);
     vector <double> masses(nCenters);
     
 //    cout << "    DEBUG - SandBoxMethod::calculateDiscreteDqValue::382 - radio: "<< radius << endl;
+    double sum = 0.0;
     for (int i = 0; i < nCenters; ++i) {
       double count = countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
                                                            yCoordinates.at(i),
@@ -387,22 +388,35 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
       
       masses.at(i) = pow(count, static_cast<double>(q - 1));
       
-//      cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::391 - i: "<< i << endl;
-      
+//      cout << "        DEBUG - SandBoxMethod::calculateDiscreteDqValue::391 - count: "<< count << "radius: " << radius << "  q: " << q << endl;
     }
     
 //    cout << "    DEBUG - SandBoxMethod::calculateDiscreteDqValue::979 - index: "<< index << endl;
+//    massAverage = VectorTools::mean<double,double>(masses);
     massAverage = VectorTools::mean<double,double>(masses);
-    xData.at(index) = (q - 1) * log(radius / fractalSize);
+    double quotient  = (static_cast<double>(radius) / static_cast<double>(fractalSize));
+    cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::397 - massAverage: " << massAverage << endl;
+    double tmpQ = static_cast<double>(q) - 1;
+    if ( tmpQ == 0)
+      xData.at(index) = 0;
+    else
+      xData.at(index) = tmpQ * log(quotient);
+    cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::399 - : " <<  "  (q-1): " << tmpQ << "  radius: " << radius << "  fractalSize: " << fractalSize <<"  (radius / fractalSize): " << quotient << "  log(radius/fractalSize): " << log(radius/fractalSize) << endl;
+    cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::399 - x: " <<  xData.at(index) << endl;
     yData.at(index) = log(massAverage);
     ++index;
+    
+    
   }
-  
-  Linear * linear = new Linear(dataLenght, &xData, &yData);
+  cout << "AQUI" << endl;
+  for (int i = 0; i < xData.size(); ++i) {
+    cout << xData.at(i)<< ";" <<yData.at(i)<<endl;
+  }
+  /*Linear * linear = new Linear(dataLenght, &xData, &yData);
   double slope = linear->getSlope();
   delete linear;
-  return slope;
-//  return 1;
+  return slope;*/
+  return 1;
 }
 
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
