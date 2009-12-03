@@ -53,7 +53,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QRadioButton" name="adnRadio">
+         <widget class="QRadioButton" name="dnaRadio">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>

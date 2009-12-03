@@ -20,8 +20,8 @@ public:
       DnaSequenceItem,
       ProteinSequenceItem,
       CgrItem,
-      MfaItem,
-      CorrelItem
+      MfaResultItem,
+      CorrelResultItem
     };
     
 //    TreeItem(ItemType type, const QVector<QVariant> &data, 

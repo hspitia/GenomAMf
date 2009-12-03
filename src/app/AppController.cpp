@@ -99,7 +99,7 @@ QVector<int> AppController::loadSequences(const QStringList & fileName)
 //const ChaosGameRepresentation * AppController::makeCgr(const Sequence * 
 //                                                       sequence) /*const*/
 //const ChaosGameRepresentation * AppController::makeCgr(const int & sequenceKey) /*const*/
-int AppController::makeCgr(const int & sequenceKey) /*const*/
+/*int AppController::makeCgr(const int & sequenceKey)
 {
   const Sequence * sequence = sequences->getSequence(sequenceKey);
   ChaosGameRepresentation * cgrObject = 0;
@@ -119,12 +119,42 @@ int AppController::makeCgr(const int & sequenceKey) /*const*/
 //  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
 //  return cgrObject;
   return cgrKey;
+}*/
+
+QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
+{
+  const Sequence * sequence = 0;
+  ChaosGameRepresentation * cgrObject = 0;
+  QList<int> cgrKeys = QList<int>();
+  
+  for (int i = 0; i < sequenceKeys.count(); ++i) {
+    int sequenceKey = sequenceKeys.at(i);
+    int cgrKey = cgrObjectsCounter;
+    
+    sequence = sequences->getSequence(sequenceKey);
+    if(sequence){
+      cgrObject = new ChaosGameRepresentation(sequence);
+      cgrObject->performRepresentation(512,512,true);
+      //    cgrObject->performRepresentation(512,20,true);
+      cgrHash->insert(cgrKey, cgrObject);
+      cgrKeys.append(cgrKey);
+      mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
+      
+      ++cgrObjectsCounter;
+    }
+    
+  }
+//  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
+//  return cgrObject;
+  return cgrKeys;
 }
+
 
 QList<const ChaosGameRepresentation *>
 AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys) 
 {
   QList<const ChaosGameRepresentation *> cgrListForAnalysis;
+  QList<int> sequenceKeysForCgr;
   
   for (int i = 0; i < sequenceKeys.count(); ++i) {
     int sequenceKey = sequenceKeys.at(i);
@@ -145,10 +175,16 @@ AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys)
       ++i;
     }
     
-    if(!cgrFound){
-      int newCgrKey = makeCgr(sequenceKey);
-      cgrListForAnalysis.append(cgrHash->value(newCgrKey));
-    }
+    if (!cgrFound)
+      sequenceKeysForCgr.append(sequenceKey);
+  }
+  
+  QList<int> newsCgrKeys = makeCgr(sequenceKeysForCgr);
+  
+  for (int i = 0; i < newsCgrKeys.count(); ++i) {
+    int newCgrKey = newsCgrKeys.at(i);
+    cgrListForAnalysis.append(cgrHash->value(newCgrKey));
+    //    mainWindow->addCgrToModels(newCgrKey, sequenceKeysForCgr.at(i));
   }
   return cgrListForAnalysis;
 }
@@ -173,6 +209,7 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
 //    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
     cout << "DEBUG - AppController::174 - makeMultifractalAnalysis - antes performAnalysis()"<< endl;
     mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
     
     mfaKey = mfaObjectsCounter;
     mfaHash->insert(mfaKey, mfaObject);
@@ -182,6 +219,7 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
     
   int mfaResultSetKey = mfaResultSetsCounter;
   mfaResultSetHash->insert(mfaResultSetKey, mfaKeys);
+  mainWindow->insertMfaResultSetTotreeView(mfaResultSetKey);
   ++mfaResultSetsCounter;
   
   return mfaResultSetKey;
@@ -284,3 +322,4 @@ QHash<int, QList<int> > * AppController::getCraResultSetHash()
 {
   return mfaResultSetHash;
 }
+ 

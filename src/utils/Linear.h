@@ -94,7 +94,6 @@ class Linear
       // calculate regression line parameters
 
       // make sure slope is not infinite
-      cout << "      Linear::97 -  xx: " << xx << endl;
       assert(fabs(xx) != 0);
       
       m_b = xy / xx;

@@ -90,8 +90,10 @@ class AppController : public QApplication
 //                      GenomAMf::AlphabetType & seqLoadedType);
 //    int loadSequences(const string & fileName, int & seqLoadedType);
     QVector<int> loadSequences(const QStringList & fileName);
-    int  makeCgr(const int & sequenceKey) /*const*/;
     
+//    int  makeCgr(const int & sequenceKey);
+    
+    QList<int> makeCgr(const QList<int> & sequenceKeys);
     
     QList<int> makeMultifractalAnalysis(const QList<int> & cgrKeys,
                                         const int & minQ,

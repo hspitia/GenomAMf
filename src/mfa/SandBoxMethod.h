@@ -26,6 +26,7 @@
 // Std - STL 
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 
 using namespace std;
@@ -45,6 +46,7 @@ using namespace bpp;
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/MultifractalAnalysis.h>
 #include <utils/Linear.h>
+#include <utils/Utils.h>
 
 
 // LOCAL INCLUDES
@@ -62,16 +64,16 @@ class SandBoxMethod
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 //                  const int & fractalSize,
-                  const int & minQ     = -100,
-                  const int & maxQ     =  100,
-                  const int & nCenters =  150);
+                  const int & minQ     = -20,
+                  const int & maxQ     =  20,
+                  const int & nCenters = 300);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const QList<QPointF> & coordinatesOfPoints,
 //                  const int & fractalSize,
-                  const int & minQ     = -100,
-                  const int & maxQ     =  100,
-                  const int & nCenters =  150);
+                  const int & minQ     = -20,
+                  const int & maxQ     =  20,
+                  const int & nCenters = 300);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     

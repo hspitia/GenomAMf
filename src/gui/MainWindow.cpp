@@ -27,15 +27,28 @@ MainWindow::MainWindow(AppController *parentApp, QWidget *parent) :
   this->parentApp = parentApp;
   this->treeModel = 0;
   this->sequenceListModel = new SequenceListModel(QList<QList<QVariant> > ());
+  this->sequenceListModelForCgr = 
+          new SequenceListModel(QList<QList<QVariant> > ());
+  this->modelForDnaCra = 
+          new SequenceListModel(QList<QList<QVariant> > ());
+  this->modelForProteinCra = 
+          new SequenceListModel(QList<QList<QVariant> > ());
   this->cgrListModel = new SequenceListModel(QList<QList<QVariant> > ());
   ui->setupUi(this);
   connectSignalsSlots();
   setUpExplorerTreeView();
+  updateActionsState();
 }
 
 MainWindow::~MainWindow()
 {
+  parentApp = 0;
   delete ui;
+  delete sequenceListModel;
+  delete sequenceListModelForCgr;
+  delete treeModel;
+  delete modelForDnaCra;
+  delete modelForProteinCra;
 }
 
 TreeModel * MainWindow::getTreeModel()
@@ -90,12 +103,10 @@ void MainWindow::setUpExplorerTreeView()
   // Insert main elements
   insertTreeMainElements();
   
-  
 }
 
 void MainWindow::insertTreeMainElements()
 {
-
   QVector<QVariant> mainSeqElementData;
   QVector<QVariant> mainMfaElementData;
   QVector<QVariant> mainCorrelElementData;
@@ -127,48 +138,20 @@ void MainWindow::insertTreeMainElements()
                                            index.parent());
       treeModel->setData(child, dataList.at(i).at(column), Qt::EditRole);
     }
-    
   }
-  
 }
 
 void MainWindow::addSequenceToModels(const Sequence * sequence, const int & key)
 {
   insertSequenceToTreeView(sequence, key);
   insertSequenceToSequenceListModel(sequence, key);
+  insertSequenceToSequenceListModelForCgr(sequence, key);
+  insertSequenceToModelsForCra(sequence, key);
 }
 
 void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
                                           const int & key)
 {
-  /*int count = treeModel->rowCount();
-  
-  QModelIndex index = ui->explorerTreeView->model()->index(count - 1, 0);
-  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
-  
-  QVector<QVariant> data;
-  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
-
-  // Tipo de item según el tipo de secuencia
-  if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
-  else if (type == GenomAMf::Proteic_Alphabet) data
-          << TreeItem::ProteinSequenceItem;
-  
-  // Key de Hash contenedor
-  //  data << parentApp->getSequences()->getSequencesHash().key(sequence);
-  data << key;
-  
-  if (!treeModel->insertRow(index.row() + 1, index.parent())) return;
-  
-  for (int column = 0; column < treeModel->columnCount(index.parent()); ++column)
-  {
-    QModelIndex child = treeModel->index(index.row() + 1, column,
-            index.parent());
-    treeModel->setData(child, data.at(column), Qt::EditRole);
-  }
-  */
-  /* ------ */
-  
   QVector<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
   
@@ -188,75 +171,31 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
   int row = 0;
   QModelIndex index;
   QModelIndex parentIndex;
-  if(count == 0){
+  if (count == 0) {
     index = mainSeqElementIndex;
     parentIndex = index;
-    if (!model->insertRow(0, mainSeqElementIndex)) return;
+    if (!model->insertRow(0, mainSeqElementIndex))
+      return;
   }
-  else{
+  else {
     row = count;
     index = model->index(row - 1, 0, mainSeqElementIndex);
     parentIndex = mainSeqElementIndex;
-    if (!model->insertRow(row, mainSeqElementIndex)) return;
+    if (!model->insertRow(row, mainSeqElementIndex))
+      return;
   }
-  
-  for (int column = 0; column < model->columnCount(index); ++column)
-  {
+
+  for (int column = 0; column < model->columnCount(index); ++column) {
     QModelIndex child = model->index(row, column, parentIndex);
     model->setData(child, data.at(column), Qt::EditRole);
-    if (!model->headerData(column, Qt::Horizontal).isValid()) 
-      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), 
+    if (!model->headerData(column, Qt::Horizontal).isValid())
+      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
                            Qt::EditRole);
   }
   
   ui->explorerTreeView->selectionModel()->
       setCurrentIndex(model->index(row, 0,parentIndex),
                       QItemSelectionModel::ClearAndSelect);
-  
-/*
-  QModelIndex index = treeModel->index(0, 0, QModelIndex());
-  QAbstractItemModel *model = treeModel;
-  
-  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
-  
-  if (model->columnCount(index) == 0)
-  {
-    if (!model->insertColumn(0, index)) return;
-  }
-  
-//  TreeItem * item = treeModel->getItem(index);
-//  int row = item->childCount() - 1;
-//  cout << "debug --- childCount: "<< row << endl;
-//  if (row < 0) ++row;
-//  cout << "debug --- position: "<< row << endl;
-  if (!model->insertRow(0, index)) return;
-  
-  QVector<QVariant> data;
-  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
-  
-  // Tipo de item según el tipo de secuencia
-  if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
-  else if (type == GenomAMf::Proteic_Alphabet) data
-  << TreeItem::ProteinSequenceItem;
-  
-  // Key de Hash contenedor
-  //  data << parentApp->getSequences()->getSequencesHash().key(sequence);
-  data << key;
-  
-  for (int column = 0; column < model->columnCount(index); ++column)
-  {
-    QModelIndex child = model->index(0, column, index);
-    model->setData(child, data.at(column), Qt::EditRole);
-    if (!model->headerData(column, Qt::Horizontal).isValid()) 
-      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"), 
-                            Qt::EditRole);
-  }
-  
-  ui->explorerTreeView->selectionModel()->setCurrentIndex(
-                                          model->index(0, 0,
-                                          index), 
-                                          QItemSelectionModel::ClearAndSelect);
-  */
 }
 
 void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence,
@@ -271,19 +210,90 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence,
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
   // Tipo de item según tipo de secuencia 
-  if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
-  else if (type == GenomAMf::Proteic_Alphabet) data
-          << TreeItem::ProteinSequenceItem;
+  if (type == GenomAMf::DNA_Alphabet) 
+    data << TreeItem::DnaSequenceItem;
+  else if (type == GenomAMf::Proteic_Alphabet) 
+    data << TreeItem::ProteinSequenceItem;
   
   data << key; // Key en hash
 
   sequenceListModel->setData(index, data);
 }
 
+void MainWindow::insertSequenceToModelsForCra(const Sequence * sequence,
+                                              const int & key)
+{
+  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+  
+  QList<QVariant> data;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
+
+  // Tipo de item según tipo de secuencia 
+  if (type == GenomAMf::DNA_Alphabet){ 
+    data << TreeItem::DnaSequenceItem;
+    data << key; // Key en hash
+    
+    int position = modelForDnaCra->rowCount();
+    modelForDnaCra->insertRows(position, 1);
+    QModelIndex index = modelForDnaCra->index(position, 0, QModelIndex());
+    modelForDnaCra->setData(index, data);
+  }
+  else if (type == GenomAMf::Proteic_Alphabet){
+    data << TreeItem::ProteinSequenceItem;
+    data << key; // Key en hash
+    
+    int position = modelForProteinCra->rowCount();
+    modelForProteinCra->insertRows(position, 1);
+    QModelIndex index = modelForProteinCra->index(position, 0, QModelIndex());
+    modelForProteinCra->setData(index, data);
+  }
+}
+
+void 
+MainWindow::insertSequenceToSequenceListModelForCgr(const Sequence * sequence,
+                                                    const int & key)
+{
+  int position = sequenceListModelForCgr->rowCount();
+  sequenceListModelForCgr->insertRows(position, 1);
+  QModelIndex index = sequenceListModelForCgr->index(position, 0, QModelIndex());
+  int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+  
+  QList<QVariant> data;
+  data << QString::fromStdString(sequence->getName()); // Nombre secuencia
+
+  // Tipo de item según tipo de secuencia 
+  if (type == GenomAMf::DNA_Alphabet) 
+    data << TreeItem::DnaSequenceItem;
+  else if (type == GenomAMf::Proteic_Alphabet) 
+    data << TreeItem::ProteinSequenceItem;
+  
+  data << key; // Key en hash
+
+  sequenceListModelForCgr->setData(index, data);
+}
+
+void MainWindow::removeSequenceFromSequenceListModel(SequenceListModel * model,
+                                         const int & sequenceKey)
+{
+  bool keyFound = false;
+  int position = -1;
+  while (position < model->rowCount() && !keyFound){
+    ++position;
+    QModelIndex keyIndex = model->index(position, 0, QModelIndex());
+    int key = model->data(keyIndex, Qt::UserRole).toInt();
+    keyFound = key == sequenceKey;
+  }
+  if (keyFound){
+    model->removeRows(position, 1);
+    updateActionsState();
+  }
+}
+
 void MainWindow::addCgrToModels(const int & cgrKey, const int & sequenceKey)
 {
   insertCgrToTreeView(cgrKey, sequenceKey);
-  insertCgrToCgrListModel(cgrKey);
+  removeSequenceFromSequenceListModel(sequenceListModelForCgr, sequenceKey);
+//  insertCgrToCgrListModel(cgrKey);
 }
 
 void MainWindow::insertCgrToTreeView(const int & cgrKey,
@@ -293,9 +303,9 @@ void MainWindow::insertCgrToTreeView(const int & cgrKey,
   QModelIndex index = treeModel->index(sequenceKey, 0, mainSeqElementIndex);
   QAbstractItemModel *model = treeModel;
   
-  if (model->columnCount(index) == 0)
-  {
-    if (!model->insertColumn(0, index)) return;
+  if (model->columnCount(index) == 0) {
+    if (!model->insertColumn(0, index))
+      return;
   }
 
   if (!model->insertRow(0, index)) return;
@@ -305,13 +315,12 @@ void MainWindow::insertCgrToTreeView(const int & cgrKey,
   data << TreeItem::CgrItem;
   data << cgrKey;
   
-  for (int column = 0; column < model->columnCount(index); ++column)
-  {
+  for (int column = 0; column < model->columnCount(index); ++column) {
     QModelIndex child = model->index(0, column, index);
     model->setData(child, data.at(column), Qt::EditRole);
-    if (!model->headerData(column, Qt::Horizontal).isValid()) 
-      model->setHeaderData( column, Qt::Horizontal, QVariant("[No header]"), 
-              Qt::EditRole);
+    if (!model->headerData(column, Qt::Horizontal).isValid())
+      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+                           Qt::EditRole);
   }
   
   ui->explorerTreeView->selectionModel()->setCurrentIndex(model->index(0, 0,
@@ -335,12 +344,51 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
   cgrListModel->setData(index, data);
 }
 
-/*      
- void insertMfaTotreeView(const MultyfractalAnalysis * mfa)
+     
+ void MainWindow::insertMfaResultSetTotreeView(const int & resultSetKey)
  {
- 
+   QAbstractItemModel *model = treeModel;
+   QModelIndex mainMfaElementIndex = model->index(1, 0);
+   int count = treeModel->getItem(mainMfaElementIndex)->childCount();
+   int row = 0;
+   QModelIndex index;
+   QModelIndex parentIndex;
+   
+   if (count == 0) {
+     index = mainMfaElementIndex;
+     parentIndex = index;
+     if (!model->insertRow(0, mainMfaElementIndex))
+       return;
+   }
+   else {
+     row = count;
+     index = model->index(row - 1, 0, mainMfaElementIndex);
+     parentIndex = mainMfaElementIndex;
+     if (!model->insertRow(row, mainMfaElementIndex))
+       return;
+   }
+   
+   QVector<QVariant> data;
+   // Nombre
+   data << QString("Resultado %1").arg(count + 1);
+   // Tipo
+   data << TreeItem::MfaResultItem;
+   // Key de Hash contenedor
+   data << resultSetKey;
+   
+   for (int column = 0; column < model->columnCount(index); ++column) {
+     QModelIndex child = model->index(row, column, parentIndex);
+     model->setData(child, data.at(column), Qt::EditRole);
+     if (!model->headerData(column, Qt::Horizontal).isValid())
+       model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+                            Qt::EditRole);
+   }
+   
+   ui->explorerTreeView->selectionModel()->
+           setCurrentIndex(model->index(row, 0,parentIndex),
+                           QItemSelectionModel::ClearAndSelect);
  }
- 
+ /* 
  void insertCorrelationToTreeView(const CorrelationAnalysis * correl)
  {
  
@@ -382,6 +430,7 @@ void MainWindow::loadSequences()
                   "Nuevas secuencias de proteínas: %2") .arg(
                         loadedSequences.at(0)) .arg(loadedSequences.at(1));
         icon = QMessageBox::Information;
+        updateActionsState();
       }
 
       QMessageBox msgBox(this);
@@ -411,101 +460,66 @@ void MainWindow::loadSequences()
 
 void MainWindow::makeCgr()
 {
-  if (sequenceListModel->rowCount() == 0) {
-    QMessageBox msgBox(this);
-    msgBox.setWindowTitle("GenomAMf - Representación del Juego del Caos");
-    msgBox.setWindowIcon(QIcon(":/icons/cgr.png"));
-    msgBox.setText("No hay secuencias cargadas en la aplicación.");
-    msgBox.setInformativeText("Debe adicionar secuencias a la aplicación para "
-      "realizar la Representación del Juego del Caos");
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.exec();
-  }
-  else if (sequenceListModel->rowCount() > 0) {
-    CgrParametersForm * cgrParametersForm = new CgrParametersForm(
-            sequenceListModel, this);
+  CgrParametersForm * cgrParametersForm = new CgrParametersForm(
+          sequenceListModelForCgr, this);
+  
+  if (cgrParametersForm->exec() == QDialog::Accepted) {
+    QList<int> sequenceKeysForCgr = 
+            cgrParametersForm->getSelectedSequencesKeys();
+    QList<int> cgrKeys = parentApp->makeCgr(sequenceKeysForCgr);
     
-    if (cgrParametersForm->exec() == QDialog::Accepted) {
-      for (int i = 0; 
-           i < cgrParametersForm->getSelectedSequencesKeys().count(); 
-           ++i) 
-      {
-        int key = cgrParametersForm->getSelectedSequencesKeys().at(i);
-        if (key != -1) {
-          //          const ChaosGameRepresentation * cgr = parentApp->makeCgr(key);
-          int cgrKey = parentApp->makeCgr(key);
-          displayCgrResults(cgrKey);
-          
-          //          CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
-          //          ui->mdiArea->addSubWindow(cgrResultsForm);
-          //          cgrResultsForm->show();
-        }
-      }
+    for (int i = 0; i < cgrKeys.count(); ++i) {
+      int cgrKey = cgrKeys.at(i);
+      displayCgrResults(cgrKey);
+    }
+    
+    for (int i = 0; i < sequenceKeysForCgr.count(); ++i) {
+      int sequenceKey = sequenceKeysForCgr.at(i);
+      removeSequenceFromSequenceListModel(sequenceListModelForCgr, 
+                                          sequenceKey);
     }
   }
 }
 
 void MainWindow::makeMultifractalAnalysis()
 {
-  if (cgrListModel->rowCount() == 0)
-//  if (sequenceListModel->rowCount() == 0)
-  {
+  //    MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
+  MfaParametersForm * mfaParametersForm = 
+          new MfaParametersForm(sequenceListModel, this);
+  if (mfaParametersForm->exec() == QDialog::Accepted) {
+    int minQ = mfaParametersForm->getMinQValue();
+    int maxQ = mfaParametersForm->getMaxQValue();
+    
+    // TODO - LLAMADO AL ANALISIS MULTIFRACTAL
+    //      QList<int> mfaKeysFromAnalysis = 
+    //              parentApp->makeMultifractalAnalysis(mfaParametersForm->
+    //                                                  getSelectedSequencesKeys(),
+    //                                                  minQ,
+    //                                                  maxQ);
+    int mfaResultSetKey = 
+            parentApp->makeMultifractalAnalysis_(mfaParametersForm->
+                                                 getSelectedSequencesKeys(),
+                                                 minQ,
+                                                 maxQ);
+    
+    //      displayMfaResults(mfaKeysFromAnalysis);
+    
+    
     QMessageBox msgBox(this);
-    msgBox.setWindowTitle("GenomAMf - Análisis Multifractal");
-    msgBox.setWindowIcon(QIcon(":/icons/mfa.png"));
-    msgBox.setText("No existen Representaciones del Juego del Caos en la "
-            "aplicación.");
-    msgBox.setInformativeText("Debe realizar Representaciones del Juego del "
-            "Caos en la aplicación para ejecutar el Análisis Multifractal");
+    msgBox.setText("Análisis Multifractal");
+    msgBox.setInformativeText(QString("Terminado "));
+    //      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
+    //                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+    //                                        .arg(mfaParametersForm->getMinQValue())
+    //                                        .arg(mfaParametersForm->getMaxQValue()));
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setTextFormat(Qt::RichText);
-    msgBox.setIcon(QMessageBox::Warning);
     msgBox.exec();
-  }
-  else if (cgrListModel->rowCount() > 0)
-//  else if (sequenceListModel->rowCount() > 0)
-  {
-    MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
-            this);
-    if (mfaParametersForm->exec() == QDialog::Accepted) {
-      int minQ = mfaParametersForm->getMinQValue();
-      int maxQ = mfaParametersForm->getMaxQValue();
-      
-//      QList<int> mfaKeysFromAnalysis = 
-//              parentApp->makeMultifractalAnalysis(mfaParametersForm->
-//                                                  getSelectedSequencesKeys(),
-//                                                  minQ,
-//                                                  maxQ);
-      int mfaResultSetKey = 
-              parentApp->makeMultifractalAnalysis_(mfaParametersForm->
-                                                   getSelectedSequencesKeys(),
-                                                   minQ,
-                                                   maxQ);
-      
-//      displayMfaResults(mfaKeysFromAnalysis);
-      
-      
-      QMessageBox msgBox(this);
-      msgBox.setText("Análisis Multifractal");
-      msgBox.setInformativeText(QString("Terminado "));
-//      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-//                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
-//                                        .arg(mfaParametersForm->getMinQValue())
-//                                        .arg(mfaParametersForm->getMaxQValue()));
-      msgBox.setStandardButtons(QMessageBox::Ok);
-      msgBox.setDefaultButton(QMessageBox::Ok);
-      msgBox.setTextFormat(Qt::RichText);
-      msgBox.exec();
       
     }
     
-  }
-  
-  // Descomentar este bloque para poner en funcionamiento el análisis 
+  // TODO - Descomentar este bloque para poner en funcionamiento el análisis 
   // multifractal de forma definitiva a través del MultifractalAnalyzer  
   /*{
 //    QList<int> sequencesKeysList = QList<int>();
@@ -549,7 +563,9 @@ void MainWindow::makeCorrelationAnalysis()
   else if (cgrListModel->rowCount() > 0)
   {*/
     CorrelationAnalysisParametersForm * correlationParametersForm = 
-            new CorrelationAnalysisParametersForm(this);
+            new CorrelationAnalysisParametersForm(modelForDnaCra,
+                                                  modelForProteinCra,
+                                                  this);
     
     if (correlationParametersForm->exec() == QDialog::Accepted) {
       /*int minQ = mfaParametersForm->getMinQValue();
@@ -590,11 +606,11 @@ void MainWindow::displayResultForm(QModelIndex index)
       displayCgrResults(key);
       return;
       
-    case TreeItem::MfaItem:
+    case TreeItem::MfaResultItem:
       
       return;
       
-    case TreeItem::CorrelItem:
+    case TreeItem::CorrelResultItem:
       
       return;
       
@@ -623,10 +639,7 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 //  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
-  
-  
 }
-
 
 void MainWindow::displayCgrResults(const int & cgrKey)
 {
@@ -639,6 +652,16 @@ void MainWindow::displayCgrResults(const int & cgrKey)
   }
 }
 
+void MainWindow::updateActionsState()
+{
+  bool active = sequenceListModel->rowCount() > 0;
+  ui->makeCorrelationAnalysisAction->setEnabled(active);
+  ui->makeMultifractalAnalysisAction->setEnabled(active);
+  
+  active = sequenceListModelForCgr->rowCount() > 0;
+  ui->makeCgrAction->setEnabled(active);
+}
+
 void MainWindow::closeSubWindow()
 {
   ui->mdiArea->closeActiveSubWindow();
@@ -648,3 +671,24 @@ void MainWindow::testSlot()
 {
   
 }
+
+SequenceListModel * MainWindow::getSequenceListModelForCgr()
+{
+  return sequenceListModelForCgr;
+}
+
+QList<int> MainWindow::getCgrResultsFormsOnView()
+{
+  return cgrResultsFormsOnView;
+}
+
+SequenceListModel * MainWindow::getModelForDnaCra()
+{
+  return modelForDnaCra;
+}
+
+SequenceListModel * MainWindow::getModelForProteinCra()
+{
+  return modelForProteinCra;
+}
+

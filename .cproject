@@ -147,6 +147,10 @@
 <pathentry include="/usr/include/c++/4.4/i486-linux-gnu" kind="inc" path="" system="true"/>
 <pathentry include="/usr/lib/gcc/i486-linux-gnu/4.4/include" kind="inc" path="" system="true"/>
 <pathentry base-path="GenomAMf" include="src" kind="inc" path="" system="true"/>
+<pathentry include="/usr/include/c++/4.2" kind="inc" path="" system="true"/>
+<pathentry include="/usr/include/c++/4.2/backward" kind="inc" path="" system="true"/>
+<pathentry include="/usr/include/c++/4.2/i486-linux-gnu" kind="inc" path="" system="true"/>
+<pathentry include="/usr/lib/gcc/i486-linux-gnu/4.2/include" kind="inc" path="" system="true"/>
 <pathentry kind="src" path=""/>
 <pathentry kind="out" path=""/>
 </storageModule>

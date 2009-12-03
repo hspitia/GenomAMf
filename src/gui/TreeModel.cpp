@@ -58,9 +58,10 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
             return item->data(index.column());
           case TreeItem::CgrItem:
             return tr("Rep. Juego del Caos");
-          case TreeItem::MfaItem:
-            return tr("Análisis Multifractal");
-          case TreeItem::CorrelItem:
+          case TreeItem::MfaResultItem:
+//            return tr("Análisis Multifractal");
+            return item->data(index.column());
+          case TreeItem::CorrelResultItem:
             return tr("Análisis de Correlación");
           default:
             return tr("Desconocido");
@@ -109,9 +110,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
         case TreeItem::ProteinSequenceItem:
         case TreeItem::CgrItem:
           return QBrush(QColor("#EEECE1"));
-        case TreeItem::MfaItem:
+        case TreeItem::MfaResultItem:
           return QBrush(QColor("#E5E0EC"));
-        case TreeItem::CorrelItem:
+        case TreeItem::CorrelResultItem:
           return QBrush(QColor("#FDEADA"));
         default:
           return QVariant();
@@ -356,9 +357,9 @@ QIcon TreeModel::getIcon(const int & type) const
           return QIcon(":/icons/seq_protein.png");
     case TreeItem::CgrItem:
       return QIcon(":/icons/cgr_result.png");
-    case TreeItem::MfaItem:
+    case TreeItem::MfaResultItem:
       return QIcon(":/icons/mfa_result.png");
-    case TreeItem::CorrelItem:
+    case TreeItem::CorrelResultItem:
       return QIcon(":/icons/correl_result.png");
     default:
       return QIcon();

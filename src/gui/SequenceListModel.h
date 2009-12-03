@@ -35,8 +35,6 @@
 /**
  * 
  */
-//class SequenceListModel : public QAbstractListModel
-//class SequenceListModel : public QAbstractItemModel
 class SequenceListModel : public QAbstractTableModel
  {
      Q_OBJECT

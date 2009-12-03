@@ -128,30 +128,6 @@ MultifractalAnalysis::~MultifractalAnalysis()
   if (cgrObject != 0) cgrObject = 0;
   delete cgrObject;
   
-  /*if (linearRegressionValues != 0) {
-    linearRegressionValues->clear();
-    delete linearRegressionValues;
-    linearRegressionValues = 0;
-  }
-
-  if (dqValues != 0) {
-    dqValues->clear();
-    delete dqValues;
-    dqValues = 0;
-  }
-
-  if (cqValues != 0) {
-    cqValues->clear();
-    delete cqValues;
-    cqValues = 0;
-  }
-  
-  if (tqValues != 0) {
-    tqValues->clear();
-    delete tqValues;
-    tqValues = 0;
-  }*/
-  
   if (!linearRegressionValues.empty())
     linearRegressionValues.clear();
 
@@ -181,13 +157,24 @@ void MultifractalAnalysis::performAnalysis(AnalysisType type)
         // Cálculo de valores Dq
         cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateDqValues" << endl;
         calculateDqValues(type);
-        cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - despues calculateDqValues" << endl;
-        /*// Cálculo de valores Tauq
-        cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateTqValues" << endl;
+        cout << "Dq VALUES: "<<dqValues->size() << endl;
+        for (unsigned int i = 0; i < dqValues->size(); ++i) {
+          cout << dqValues->at(i)<< endl;
+        }
+        // Cálculo de valores Tauq
         calculateTqValues();
-        cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - despues calculateTqValues" << endl;
-        // Calcular Cq
-        calculateCqValues();*/
+        cout << "tq VALUES: "<<tqValues->size() << endl;
+        for (unsigned int i = 0; i < tqValues->size(); ++i) {
+          cout << tqValues->at(i)<< endl;
+        }
+        
+        /*// Cálculo de valores Cq
+        calculateCqValues();
+        cout << "Cq VALUES: "<<cqValues->size() << endl;
+        for (unsigned int i = 0; i < cqValues->size(); ++i) {
+          cout << cqValues->at(i)<< endl;
+        }*/
+
       }
       break;
     case COMPARATIVE_ANALYSIS:
@@ -207,7 +194,7 @@ void MultifractalAnalysis::performComparativeAnalysis()
                             maxQ + 1); // Dato adicional necesario para calcular Cq
   
   sandBoxObject->performAnalysis(COMPARATIVE_ANALYSIS);
-//  cout << "DEBUG MultifractalAnalysis::206 - despues de ComparativeAnalysis"<< endl;
+//  cout << "DEBUG MultifractalAnalysis::206 - después de ComparativeAnalysis"<< endl;
 }
 
 void MultifractalAnalysis::calculateDqValues(AnalysisType type)
@@ -235,28 +222,27 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 
 void MultifractalAnalysis::calculateTqValues()
 {
-  int dataLenght = maxQ - minQ + 1 + 2; //Dos datos adicionales para cálculo de Cq
+  // TODO -  SE SUPRIMIO UN VALOR EQUIVALENTE AL DE Dq CUANDO q = 1
+  int dataLenght = maxQ - minQ + /*1 +*/ 2; // Dos datos adicionales para cálculo de Cq
   int q = minQ;
   for (int i = 0; i < dataLenght; ++i) {
-//    tqValues->at(i) = (q - 1) * dqValues->at(i);
-    double tqValue = (q - 1) * dqValues->at(i);
-    tqValues->push_back(tqValue);
-    cout << "    DEBUG - MultifractalAnalysis::calculateTqValues::243 - tqValues->at(i): "<< dqValues->at(i) <<endl;
-    cout << "    DEBUG - MultifractalAnalysis::calculateTqValues::243 - tqValues->at(i): "<< tqValues->at(i) <<endl;
-//    cout << "    DEBUG - MultifractalAnalysis::calculateTqValues::242 - tqValues->at(i): ";
-//    cout << tqValues->at(i) << endl;
-//    cout << "    DEBUG - MultifractalAnalysis::calculateTqValues::243 - dqValues->at(i): " << dqValues->at(i) << endl;
+    if (q != 1) {
+      double tqValue = (q - 1) * dqValues->at(i);
+      tqValues->push_back(tqValue);
+    }
     ++q;
   }
 }
   
 void MultifractalAnalysis::calculateCqValues()
 {
-  int dataLenght = maxQ - minQ + 1;
+  // TODO - SE SUPRIMIÓ UN VALOR EQUIVALENTE A Dq CUNDO q = 1
+  int dataLenght = maxQ - minQ/* + 1*/;
   for (int i = 0; i < dataLenght; i++) {
-    cqValues->at(i) = (2 * tqValues->at(i + 1)) - 
-                           tqValues->at(i + 2)  -
-                           tqValues->at(i);
+    double cqValue = (2 * tqValues->at(i + 1)) - 
+                          tqValues->at(i + 2)  -
+                          tqValues->at(i);
+    cqValues->push_back(cqValue);
   }
 }
 
@@ -376,7 +362,3 @@ vector<double> * MultifractalAnalysis::getQValues() const
   }
   return qValues;
 }
-//void MultifractalAnalysis::setTqValues(QList <vector <double> > * tqValues)
-//{
-//  this->tqValues = tqValues;
-//}

@@ -90,6 +90,9 @@ class MainWindow : public QMainWindow
      */
     SequenceListModel *  getSequenceListModel();
     
+    
+    SequenceListModel * getSequenceListModelForCgr();
+    
     /**
      * Asigna 
      */
@@ -99,10 +102,14 @@ class MainWindow : public QMainWindow
     
     void addCgrToModels(const int & key, const int & sequenceKey);
     
+    QList<int> getCgrResultsFormsOnView();
     
-    /* 
-     void insertMfaTotreeView();
-     void insertCorrelationToTreeView();
+    SequenceListModel * getModelForDnaCra();
+    
+    SequenceListModel * getModelForProteinCra();
+     
+    void insertMfaResultSetTotreeView(const int & resultSetKey);
+     /*void insertCorrelationToTreeView();
      */
     
   private:
@@ -111,10 +118,23 @@ class MainWindow : public QMainWindow
     AppController * parentApp;
     TreeModel * treeModel; /**< Modelo para el explorador de elementos */
     
-    SequenceListModel *  sequenceListModel; /**< Modelo para el formulario de 
+    SequenceListModel * sequenceListModel; /**< Modelo para el formulario de 
       parámetros de CGR */
+    
+    SequenceListModel * sequenceListModelForCgr; /**< Modelo para el formulario 
+      de parámetros de CGR */
+    
+    QList<int> cgrResultsFormsOnView; /**< Listado de formularios de resultados 
+      de CGR que están actualmente visibles en la aplicación */
+    
     SequenceListModel *  cgrListModel; /**< Modelo para el formulario de 
       parámetros de Análisis Multifractal */
+    
+    SequenceListModel * modelForDnaCra; /**< Modelo de secuencias ADN para el 
+      formulario de parámetros de Análisis de Correlación */
+    
+    SequenceListModel * modelForProteinCra; /**<  Modelo de secuencias ADN para 
+      el formulario de parámetros de Análisis de Correlación */
     
     // Metodos
     /**
@@ -135,23 +155,24 @@ class MainWindow : public QMainWindow
     
     void insertSequenceToSequenceListModel(const Sequence * sequence, 
                                            const int & key);
+    void insertSequenceToModelsForCra(const Sequence * sequence,
+                                      const int & key);
+    
+    void insertSequenceToSequenceListModelForCgr(const Sequence * sequence,
+                                                 const int & key);
+    
+    void removeSequenceFromSequenceListModel(SequenceListModel * model,
+                                             const int & sequenceKey);
     
     void insertCgrToTreeView(const int & cgrKey, const int & sequenceKey);
     
     void insertCgrToCgrListModel(const int & cgrKey);
-//    /**
-//     * 
-//     */
-//    void setUpSequenceListModel(params);
-//    void setUpSequenceListModel(params)
-//    {
-//      
-//    }
-    
+
     void displayMfaResults(const int & mfaResultSetKey);
     
-    
     void displayCgrResults( const int & cgrKey );
+    
+    void updateActionsState();
 
     
   private slots:

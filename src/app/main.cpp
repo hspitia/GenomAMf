@@ -645,7 +645,7 @@ int bppRaaTest(){
     return 0;
   }
   catch (int e) {
-    cout << "Excepcion al crear conexion con el servidor." 
+    cout << "Excepcion al crear conexion con el servidor." << endl
          << "Excepcion: " << endl 
          << e 
          << endl;
@@ -688,10 +688,9 @@ int main(int argc, char *argv[])
 //  return appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
-//  return bppRaaTest();
+//  bppRaaTest();
 //  return roundTest();
   // TODO Probar regresión lineal
-  // TODO Implementar conteo en cada sand box
   return 0;
 }
 
