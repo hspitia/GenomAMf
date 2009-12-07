@@ -87,7 +87,7 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->maxQ = maxQ;
   this->minR = 1;
 //  this->maxR = cgrMatrix->nRows();
-  this->maxR = 3;
+  this->maxR = 6;
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
 //  this->dqValues = new QList<vector<double> >();
@@ -444,8 +444,7 @@ void SandBoxMethod::generateRandomCenters(vector<double> * xCoordinates,
     randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
     xCoordinates->at(i) = coordinatesOfPoints.at(randomIndex).x();
     yCoordinates->at(i) = coordinatesOfPoints.at(randomIndex).y();
-//    cout << "x: " << xCoordinates->at(i) 
-//         << "  y: " << yCoordinates->at(i) << endl;
+//    cout << xCoordinates->at(i) << "," << yCoordinates->at(i) << endl;
   }
 } 
 

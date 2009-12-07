@@ -186,8 +186,11 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x, y));
         
-        xMatrix = utils::roundToInt(x);
-        yMatrix = utils::roundToInt(y);
+        double xNuevo = utils::roundToHalf(x);
+        double yNuevo = utils::roundToHalf(y);
+        
+        xMatrix = static_cast<int>(xNuevo - 0.5);
+        yMatrix = static_cast<int>(yNuevo - 0.5);
         
 //        xMatrix = static_cast<int>(floor(x));
 //        yMatrix = static_cast<int>(floor(y));

@@ -490,18 +490,18 @@ void MainWindow::makeMultifractalAnalysis()
     int minQ = mfaParametersForm->getMinQValue();
     int maxQ = mfaParametersForm->getMaxQValue();
     
-    // TODO - LLAMADO AL ANALISIS MULTIFRACTAL
-    //      QList<int> mfaKeysFromAnalysis = 
-    //              parentApp->makeMultifractalAnalysis(mfaParametersForm->
-    //                                                  getSelectedSequencesKeys(),
-    //                                                  minQ,
-    //                                                  maxQ);
-    int mfaResultSetKey = 
-            parentApp->makeMultifractalAnalysis_(mfaParametersForm->
-                                                 getSelectedSequencesKeys(),
-                                                 minQ,
-                                                 maxQ);
-    
+//     TODO - LLAMADO AL ANALISIS MULTIFRACTAL
+          QList<int> mfaKeysFromAnalysis = 
+                  parentApp->makeMultifractalAnalysis(mfaParametersForm->
+                                                      getSelectedSequencesKeys(),
+                                                      minQ,
+                                                      maxQ);
+//    int mfaResultSetKey = 
+//            parentApp->makeMultifractalAnalysis(mfaParametersForm->
+//                                                 getSelectedSequencesKeys(),
+//                                                 minQ,
+//                                                 maxQ);
+//    
     //      displayMfaResults(mfaKeysFromAnalysis);
     
     

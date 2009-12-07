@@ -59,8 +59,10 @@ namespace utils
     return string("Undefined");
   }
   
-  inline double round(double number) {
-    return floor(number + 0.5);
+  inline double roundToHalf(double number) {
+//    return floor(number + 0.5);
+    return floor(number + 1.0) - 0.5;
+    return floor(number + 1.0) - 0.5;
   }
    
   inline float round(float number) {
