@@ -1,0 +1,28 @@
+buscado: 0x8607178 - gi|28380636|ref|NG_000007.3| Homo sapiens beta globin region (HBB@)
+
+DEBUG - AppController::174 - makeMultifractalAnalysis - antes performAnalysis()
+  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateDqValues
+    DEBUG - MultifractalAnalysis::216 - calculateDqValues - Antes de performAnalysis(1)
+0.168193
+0.255422
+0.145094
+0.786387
+1.07139
+0.420784
+0.934479
+0.973004
+0.695811
+1.20426
+1.12089
+1.12711
+1.25203
+1.18161
+1.12253
+1.0337
+0.677417
+1.36811
+0.887438
+1.2186
+0.682515
+0.622118
+  DEBUG - MultifractalAnalysis::performAnalysis::182 - despues calculateDqValues
