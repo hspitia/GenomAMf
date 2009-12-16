@@ -14,3 +14,4 @@ GenomAMf
 ui_*
 app
 *.png
+Makefile*

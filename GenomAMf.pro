@@ -7,10 +7,11 @@ QT += core \
     gui
 
 # Input
-HEADERS += src/mfa/MultifractalAnalysis.h \
+HEADERS += src/script/ScriptBuilder.h \
+    src/gui/PreprocessingScriptParametersForm.h \
+    src/mfa/MultifractalAnalysis.h \
     src/utils/MatrixOperations.h \
     src/cra/CorrelationAnalysis.h \
-    src/gui/PreprocessRoutineParametersForm.h \
     src/gui/CorrelationAnalysisParametersForm.h \
     src/gui/CorrelationAnalysisResultsForm.h \
     src/gui/MfaResultsController.h \
@@ -34,10 +35,11 @@ HEADERS += src/mfa/MultifractalAnalysis.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/MultifractalAnalysis.cpp \
+SOURCES += src/script/ScriptBuilder.cpp \
+    src/gui/PreprocessingScriptParametersForm.cpp \
+    src/mfa/MultifractalAnalysis.cpp \
     src/utils/MatrixOperations.cpp \
     src/cra/CorrelationAnalysis.cpp \
-    src/gui/PreprocessRoutineParametersForm.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
     src/gui/CorrelationAnalysisResultsForm.cpp \
     src/gui/MfaResultsController.cpp \
@@ -58,7 +60,7 @@ SOURCES += src/mfa/MultifractalAnalysis.cpp \
     src/gui/MainWindow.cpp \
     src/gui/MfaParametersForm.cpp \
     src/gui/MfaResultsForm.cpp
-FORMS += src/gui/PreprocessRoutineParametersForm.ui \
+FORMS += src/gui/PreprocessingScriptParametersForm.ui \
     src/gui/CorrelationAnalysisParametersForm.ui \
     src/gui/CorrelationAnalysisResultsForm.ui \
     src/gui/CgrResultsForm.ui \

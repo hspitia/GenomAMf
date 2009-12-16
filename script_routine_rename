@@ -1,0 +1,15 @@
+#! /bin/bash
+
+for f in $(find $1 -iname "*.cpp" -o -iname "*.h")
+do
+  if [ -a $f ]; then
+  #sips -i $f
+   echo $f
+   sed -i 's/routine/script/g' $f
+   sed -i 's/ROUTINE/SCRIPT/g' $f
+   sed -i 's/Routine/Script/g' $f
+   sed -i 's/Preprocess/Preprocessing/g' $f
+   sed -i 's/PREPROCESS/PREPROCESSING/g' $f
+   sed -i 's/preprocess/preprocessing/g' $f
+  fi
+done

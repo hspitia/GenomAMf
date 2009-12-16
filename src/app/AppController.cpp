@@ -144,8 +144,6 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
     }
     
   }
-//  cout << "AppController::111  --  cgrKey " << cgrKey << endl; 
-//  return cgrObject;
   return cgrKeys;
 }
 
