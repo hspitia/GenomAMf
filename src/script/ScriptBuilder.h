@@ -23,6 +23,7 @@
 #define SCRIPTBUILDER_H_
 
 #include <QString>
+#include <QStringList>
 
 /**
  * 
@@ -31,6 +32,9 @@ class ScriptBuilder
 {
   public:
     ScriptBuilder();
+    ScriptBuilder(const QString & destinationDirectory,
+                                 const QStringList & sequences,
+                                 const QString & dataBaseName);
     ScriptBuilder(const ScriptBuilder & scriptBuilderObject);
     ScriptBuilder & operator=(const ScriptBuilder & scriptBuilderObject);
     virtual ~ScriptBuilder();

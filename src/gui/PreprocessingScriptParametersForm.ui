@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PreprocessRoutineParametersFormClass</class>
- <widget class="QWidget" name="PreprocessRoutineParametersFormClass">
+ <class>PreprocessingScriptParametersFormClass</class>
+ <widget class="QWidget" name="PreprocessingScriptParametersFormClass">
   <property name="geometry">
    <rect>
     <x>0</x>

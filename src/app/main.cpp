@@ -631,13 +631,12 @@ int bppRaaTest(){
   try {
     RAA * raaObj = new RAA("genbank");
     Sequence * seq = 0;
-    cout << "DEBUG " << endl;
-    //  seq = raaObj->getSeq("GU211234.1");
-    string id = "L04470";
-    seq = raaObj->getSeq(id);
-    //  
+//    seq = raaObj->getSeq("GU211234.1");
+//    seq = raaObj->getSeq("GU323343.1");
+    seq = raaObj->getSeq("L04470");
     if (seq) {
       cout << "Nombre secuencia: "<< seq->getName() <<endl;
+      cout << "Nombre secuencia: "<< seq->toString() <<endl;
     }
     else{
       cout << "Ninguna secuencia concuerda con su bUsqueda"<< endl;
@@ -645,8 +644,8 @@ int bppRaaTest(){
     return 0;
   }
   catch (int e) {
-    cout << "Excepcion al crear conexion con el servidor." << endl
-         << "Excepcion: " << endl 
+    cout << "Excepción al crear conexion con el servidor." << endl
+         << "Excepción: " << endl 
          << e 
          << endl;
     return 0;
@@ -674,6 +673,7 @@ int roundTest()
   numbers.push_back(2.02122);
   numbers.push_back(170.078);
   numbers.push_back(2.5);
+  
   
   for (unsigned int i = 0; i < numbers.size(); ++i) {
     cout << numbers.at(i) << "  "<< utils::round(numbers.at(i)) << endl;

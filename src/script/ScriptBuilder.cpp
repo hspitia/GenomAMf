@@ -25,7 +25,7 @@ ScriptBuilder::ScriptBuilder()
 {
   this->destinationDirectory = "";
   this->dataBaseName         = "";
-  this->sequences            = "";
+  this->sequences            = QStringList();
   this->forSegment           = true;
   this->segmentSize          = 100000;
   this->script               = "";
