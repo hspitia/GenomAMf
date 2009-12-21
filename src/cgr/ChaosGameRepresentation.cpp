@@ -212,6 +212,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     imagefilePath = "tmp/cgr_" +  
             sequenceType + "_" + sequence->getName() + ".png";
 //    imagefilePath = "tmp/cgr_" + sequence->getName() + ".dat";
+    QDir currentDir = QDir::current();
+    if (!currentDir.cd("tmp")) {
+      currentDir.mkdir("tmp");
+    }
     cgrImage->save(QString::fromStdString(imagefilePath), "PNG");
     
     delete painter;

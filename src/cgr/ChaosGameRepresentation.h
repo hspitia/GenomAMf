@@ -28,6 +28,7 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPen>
 #include <QtCore/QPointF>
+#include <QtCore/QDir>
 
 // STL libraries
 #include <string>

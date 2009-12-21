@@ -2,6 +2,8 @@
 doc/**/*
 # Ignore debug directory
 debug/*
+# Ignore bin directory
+bin/*
 # Ignore release directory
 release/**/*
 # Ignore project executable
@@ -11,7 +13,13 @@ GenomAMf
 *.*~
 # Ignore moc files
 #moc_*.*
+# Ignore ui_ files
 ui_*
-app
+# Ignore executable file
+app*
+# Ignore png files
 *.png
+# Ignore makefile files
 Makefile*
+# Ignore object_script files
+object_script*

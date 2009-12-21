@@ -37,7 +37,7 @@
 #include <Seq/Sequence.h>
 #include <Seq/VectorSequenceContainer.h>
 #include <NumCalc/RandomTools.h>
-#include <Bpp/Raa/RAA.h>
+//#include <Bpp/Raa/RAA.h>
 
 
 #include <NumCalc/VectorTools.h>
@@ -626,7 +626,7 @@ int otherTests(){
 }
 
 using namespace bpp;
-
+/*
 int bppRaaTest(){
   try {
     RAA * raaObj = new RAA("genbank");
@@ -659,10 +659,9 @@ int bppRaaTest(){
 //  else{
 //    cout << "Ooops!: "<< result << endl;
 //  }
-  
-  
+ 
 }
-
+*/
 int roundTest()
 {
   vector<double> numbers;

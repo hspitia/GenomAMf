@@ -3,10 +3,9 @@
 # #####################################################################
 TEMPLATE = app
 TARGET = app
-DESTDIR = bin
 QT += core \
     gui
-WIN_USER_ENV_PATH = e:/programming
+
 # Input
 HEADERS += src/script/ScriptBuilder.h \
     src/gui/PreprocessingScriptParametersForm.h \
@@ -82,30 +81,23 @@ INCLUDEPATH += . \
     src/cgr \
     src/utils \
     src/gui
+INCLUDEPATH += /usr/include \
+    /usr/local/include
+LIBS += -L/usr/local/lib \
+    -lbpp-utils \
+    -lbpp-seq \
+    -lbpp-numcalc \
+    -lbpp-qt \
+    -lbpp-raa
 
-unix {
-  INCLUDEPATH += /usr/include \
-      /usr/local/include
-  LIBS += -L/usr/local/lib \
-      -lbpp-utils \
-      -lbpp-seq \
-      -lbpp-numcalc \
-      -lbpp-qt \
-      -lbpp-raa
-  LIBS += -L/usr/lib \
-      -lmgl \
-      -lmgl-qt
-}
-win32 {
-  INCLUDEPATH += $$WIN_USER_ENV_PATH/include
-  LIBS += -L$$WIN_USER_ENV_PATH/lib \
-      -lbpp-utils \
-      -lbpp-seq \
-      -lbpp-numcalc \
-      -lbpp-qt \
-      -lmgl \
-      -lmgl-qt \
-      -lgsl
-  CONFIG += console
-}
+# -lbpp-phyl \
+LIBS += -L/usr/lib \
+    -lmgl \
+    -lmgl-qt
+
+# -L/opt/bpp/lib \
+# -lbpp-utils \
+# -lbpp-seq \
+# -lbpp-numcalc \
+# -lbpp-phyl \
 RESOURCES += resources/resources.qrc
