@@ -47,8 +47,7 @@ using namespace bpp;
 #include <mfa/MultifractalAnalysis.h>
 #include <utils/Linear.h>
 #include <utils/Utils.h>
-
-
+  
 // LOCAL INCLUDES
 // --
 

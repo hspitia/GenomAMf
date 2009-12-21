@@ -34,9 +34,8 @@
 
 //class AppController;
 
-namespace utils 
+namespace utils
 {
-  
   inline int getAlphabetType(const string & alphabetTypeString)
   {
     if(alphabetTypeString.compare("DNA alphabet") == 0) {
@@ -60,8 +59,6 @@ namespace utils
   }
   
   inline double roundToHalf(double number) {
-//    return floor(number + 0.5);
-    return floor(number + 1.0) - 0.5;
     return floor(number + 1.0) - 0.5;
   }
    
@@ -75,3 +72,10 @@ namespace utils
   
 }
 #endif /* UTILS_H_ */
+
+=SI((((B2-$K$2)<=0)Y((b$k$2-B2)<=$K$1))O(((B2 - $K$2)>=0)Y((B2-$K$2)<=$K$1)))
+SI (
+    ( (() <= 0) Y ( () <= R) ) 
+    O
+    ( (() >= 0) Y ( () <= R) )
+    )

@@ -183,8 +183,11 @@ void SandBoxMethod::performComparativeAnalysis()
     generateRandomCenters(&xCoordinatesDouble, &yCoordinatesDouble);
     
     for (unsigned int i = 0; i < xCoordinatesDouble.size(); ++i) {
-      int x = static_cast<int> (utils::roundToInt(xCoordinatesDouble.at(i)));
-      int y = static_cast<int> (utils::roundToInt(yCoordinatesDouble.at(i)));
+      double  xTmp = utils::roundToHalf(xCoordinatesDouble.at(i));
+      double  yTmp = utils::roundToHalf(yCoordinatesDouble.at(i));
+      
+      int x = static_cast<int> (xTmp - 0.5);
+      int y = static_cast<int> (yTmp - 0.5);
       
       xCoordinates.at(i) = x;
       yCoordinates.at(i) = y;
@@ -205,7 +208,6 @@ void SandBoxMethod::performComparativeAnalysis()
       unsigned int endIndex = initIndex + centers;
       
       for (unsigned int i = initIndex; i < endIndex; ++i) {
-        /*debug_comparative*/cout << (i + 1) << ";"; // No.
         countsContinous->push_back(
           countPointsOnTheContinousSquareSandbox(xCoordinatesDouble.at(i),
                                                  yCoordinatesDouble.at(i),
@@ -220,10 +222,6 @@ void SandBoxMethod::performComparativeAnalysis()
          
          continousSum += countsContinous->back();
          discreteSum  += countsDiscrete->back();
-                 
-         /*debug_comparative*/cout << countsContinous->back() << ";"; // conteo continuo
-         /*debug_comparative*/cout << countsDiscrete->back()  << ";"; // conteo discreto
-         /*debug_comparative*/cout << radio << endl; // radio
       }
       
       nCentros->push_back(centers + (currentIt * 50));
