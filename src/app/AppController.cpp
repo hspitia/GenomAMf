@@ -18,8 +18,11 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de implementacio-.n para la clase AppController.
  */
+#define DEBUG_MODE
 
 #include "AppController.h"
+#include "utils/Trace.h"
+
 
 AppController::AppController(int & argc, char ** argv) :
   QApplication(argc, argv), mainWindow(new MainWindow(this))
@@ -200,14 +203,12 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
   int mfaKey = 0;
   
   for (int i = 0; i < cgrList.count(); ++i) {
-//    MultifractalAnalysis * mfaObject = 
     MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), minQ, 
                                                           maxQ);
     
+//    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
 //    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
-    cout << "DEBUG - AppController::174 - makeMultifractalAnalysis - antes performAnalysis()"<< endl;
-    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
-//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
+    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
     
     mfaKey = mfaObjectsCounter;
     mfaHash->insert(mfaKey, mfaObject);

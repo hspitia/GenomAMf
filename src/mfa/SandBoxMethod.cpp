@@ -18,18 +18,20 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
+#define DEBUG_MODE
 
 #include "SandBoxMethod.h"
-
+#include "utils/Trace.h"
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ      = -70;
-  this->maxQ      =  70;
-  this->minR      =   1;
-  this->maxR      = 256;
-  this->cgrMatrix =   0;
-  this->nCenters  = 300;
+  this->minQ        = -70;
+  this->maxQ        =  70;
+  this->minR        =   0;
+  this->maxR        = 256;
+  this->totalPoints =   0;                 
+  this->cgrMatrix   =   0;
+  this->nCenters    = 300;
 //  this->dqValues = new QList<vector<double> >();
   this->dqValues = new vector<double>();
 //  this->linearRegressionValues = new QList<vector<double> >();
@@ -45,6 +47,7 @@ SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
   this->maxQ = sandBoxObject.maxQ;
   this->minR = sandBoxObject.minR;
   this->maxR = sandBoxObject.maxR;
+  this->totalPoints = sandBoxObject.totalPoints;
   this->cgrMatrix = sandBoxObject.cgrMatrix;
   this->nCenters = sandBoxObject.nCenters;
 //  this->dqValues = sandBoxObject.dqValues;
@@ -56,24 +59,24 @@ SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-//                             const int & fractalSize,
+                             const long & totalPoints,
                              const int & minQ,
                              const int & maxQ,
                              const int & nCenters)
 {
-  this->minQ = minQ;
-  this->maxQ = maxQ;
-  this->minR = 1;
-//  this->maxR = cgrMatrix->nRows();
-  this->maxR = 3;
-  this->cgrMatrix = cgrMatrix;
-  this->nCenters = nCenters;
-//  this->dqValues = new QList<vector<double> >();
-  this->dqValues = new vector<double>();
-//  this->linearRegressionValues = new QList<vector<double> >();
+  this->minQ        = minQ;
+  this->maxQ        = maxQ;
+  this->minR        = 0;
+  this->maxR        = 256;
+  this->totalPoints = totalPoints; 
+  this->cgrMatrix   = cgrMatrix;
+  this->nCenters    = nCenters;
+  this->dqValues    = new vector<double>();
   this->linearRegressionValues = QList<vector<double> *>();
-//   this->coordinatesOfPoints = new QList<QPointF>();
   this->coordinatesOfPoints = QList<QPointF>();
+//  this->dqValues = new QList<vector<double> >();
+//  this->linearRegressionValues = new QList<vector<double> >();
+//   this->coordinatesOfPoints = new QList<QPointF>();
 //  this->fractalSize = fractalSize;
 }
 
@@ -85,9 +88,9 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ = minQ;
   this->maxQ = maxQ;
-  this->minR = 1;
+  this->minR = 0;
 //  this->maxR = cgrMatrix->nRows();
-  this->maxR = 6;
+  this->maxR = 256;
   this->cgrMatrix = cgrMatrix;
   this->nCenters = nCenters;
 //  this->dqValues = new QList<vector<double> >();
@@ -132,13 +135,11 @@ SandBoxMethod::~SandBoxMethod()
 
 bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2)
 {
-//  cout << "DEBUG - SandBoxMethod::452 - xCoordinatesLessThan"<< endl;
   return x1.x() < x2.x();
 }
 
 bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
 {
-//  cout << "DEBUG - SandBoxMethod::458 - xCoordinatesLessThan"<< endl;
   return y1.y() < y2.y();
 }
 
@@ -163,8 +164,8 @@ void SandBoxMethod::performAnalysis(int type)
 void SandBoxMethod::performComparativeAnalysis()
 {
   
-  int nIteraciones = 1;
-  unsigned int nIteracionesInternas = 2;
+  int nIteraciones = 3;
+  unsigned int nIteracionesInternas = 3;
 
   vector<double> * continousAverages = new vector<double>();
   vector<double> * discreteAverages = new vector<double>();
@@ -183,11 +184,15 @@ void SandBoxMethod::performComparativeAnalysis()
     generateRandomCenters(&xCoordinatesDouble, &yCoordinatesDouble);
     
     for (unsigned int i = 0; i < xCoordinatesDouble.size(); ++i) {
-      double  xTmp = utils::roundToHalf(xCoordinatesDouble.at(i));
-      double  yTmp = utils::roundToHalf(yCoordinatesDouble.at(i));
+//      double  xTmp = utils::roundToHalf(xCoordinatesDouble.at(i));
+//      double  yTmp = utils::roundToHalf(yCoordinatesDouble.at(i));
+      double  xTmp = utils::roundToInt(xCoordinatesDouble.at(i));
+      double  yTmp = utils::roundToInt(yCoordinatesDouble.at(i));
       
-      int x = static_cast<int> (xTmp - 0.5);
-      int y = static_cast<int> (yTmp - 0.5);
+//      int x = static_cast<int> (xTmp - 0.5);
+//      int y = static_cast<int> (yTmp - 0.5);
+      int x = xTmp;
+      int y = yTmp;
       
       xCoordinates.at(i) = x;
       yCoordinates.at(i) = y;
@@ -217,7 +222,6 @@ void SandBoxMethod::performComparativeAnalysis()
           countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
                                                 yCoordinates.at(i),
                                                 radio));
-         
          
          
          continousSum += countsContinous->back();
@@ -257,14 +261,14 @@ void SandBoxMethod::performContinousAnalysis()
 //  vector<double> * dqData = new vector<double>(nMomentums);
   
   for (int q = minQ; q <= maxQ; ++q) {
-    if (q != 1){
-      vector<double> * xData = new vector<double>(dataLenght);
-      vector<double> * yData = new vector<double>(dataLenght);
+    if (q != 1) {
+      vector<double> * xData = new vector<double> (dataLenght);
+      vector<double> * yData = new vector<double> (dataLenght);
       
-  //    dqData->at(i) = calculateContinousDqValue(q, *xData, *yData);
+      //    dqData->at(i) = calculateContinousDqValue(q, *xData, *yData);
       double dqValue = calculateContinousDqValue(q, *xData, *yData);
       dqValues->push_back(dqValue);
-  
+      
       linearRegressionValues.append(xData);
       linearRegressionValues.append(yData);
     }
@@ -279,9 +283,9 @@ void SandBoxMethod::performDiscreteAnalysis()
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   
   for (int q = minQ; q <= maxQ; ++q) {
-    if (q != 1){
-      vector<double> * xData = new vector<double>(dataLenght);
-      vector<double> * yData = new vector<double>(dataLenght);
+    if (q != 1) {
+      vector<double> * xData = new vector<double> (dataLenght);
+      vector<double> * yData = new vector<double> (dataLenght);
       
       double dqValue = calculateDiscreteDqValue(q, *xData, *yData);
       dqValues->push_back(dqValue);
@@ -357,7 +361,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
   int index = 0;
   
   for (int radius = minR; radius <= maxR; ++radius) {
-    // Sand box centers coordinates
+    // Sandbox centers coordinates
     vector<int> xCoordinates(nCenters);
     vector<int> yCoordinates(nCenters);
     
@@ -370,9 +374,10 @@ double SandBoxMethod::calculateDiscreteDqValue(const int & q,
                                                            radius);
       
       masses.at(i) = pow(count, static_cast<double>(q - 1));
+      masses.at(i) = pow(count, static_cast<double>(q - 1));
     }
     
-    massAverage = VectorTools::mean<double,double>(masses);
+    massAverage = VectorTools::mean<double, double>(masses);
     double quotient = 
             (static_cast<double>(radius) / static_cast<double>(fractalSize));
     double tmpQ = static_cast<double>(q - 1);
@@ -455,6 +460,8 @@ bool SandBoxMethod::yCoordinateLessThan(const QPointF & y1, const QPointF & y2)
 {
   return y1.y() < y2.y();
 }*/
+
+
 double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
                                                              const double & y,
                                                              const double & 
@@ -509,19 +516,21 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   return sum;
 }
 
-double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // col
-                                                            const int & y, // row
+double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, 
+                                                            const int & y, 
                                                             const int & radius)
 {
-  double sum   = 0.0;
+  /*double sum   = 0.0;
    
   if (radius > 0) {
     int minIndex = 0;
     int maxIndex = cgrMatrix->getNumberOfRows() - 1;
     int initRow  = maxIndex - (y + radius);
     int initCol  = x - radius;
-    int endRow   = maxIndex - (y - radius);
-    int endCol   = x + radius;
+//    int endRow   = maxIndex - (y - radius);
+    int endRow   = maxIndex - (y - radius) - 1;
+//    int endCol   = x + radius;
+    int endCol   = x + radius - 1;
     
     if (initRow < minIndex)
       initRow = 0;
@@ -535,12 +544,12 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
     if (endRow > maxIndex)
       endRow = maxIndex;
     
-    /*
+    
     cout << "\n\nDEBUG -- SandBoxMethod::605" << endl;
     cout << "centro:  (" << x << ", " << y << ") " << "(" << maxRow - y << ", " << x << ")  "<< endl;
     cout << "inicial: (" << initRow << ", " << initCol << ")  "<< endl;
     cout << "final:   (" << endRow << ", " << endCol << ")  "<< endl;
-    */
+    
     for (int row = initRow; row <= endRow; ++row) {
       for (int col = initCol; col <= endCol; ++col) {
         sum = sum + (*cgrMatrix)(row, col);
@@ -549,6 +558,37 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x, // co
   }
   else if (radius == 0) {
     sum += (*cgrMatrix)(y, x);
+  }*/
+  
+  double sum = 0.0;
+  
+  if (radius > 0) {
+    int minIndex = 0;
+    int maxIndex = cgrMatrix->getNumberOfRows() - 1;
+    int initX = x - radius;
+    int initY = y - radius;
+    int endX  = x + radius - 1; 
+    int endY  = y + radius - 1;
+    
+    if (initX < minIndex)
+      initX = 0;
+    
+    if (initY < minIndex)
+      initY = 0;
+    
+    if (endX > maxIndex)
+      endX = maxIndex;
+    
+    if (endY > maxIndex)
+      endY = maxIndex;
+    for (int i = initX; i <= endX; ++i) {
+      for (int j = initY; j <= endY; ++j) {
+        sum = sum + (*cgrMatrix)(i, j);
+      }
+    }
+  }
+  else if (radius == 0) {
+    sum += (*cgrMatrix)(x, y);
   }
   
   return sum;
@@ -588,6 +628,11 @@ void SandBoxMethod::setMinR(int minR)
 int SandBoxMethod::getMaxR()
 {
   return maxR;
+}
+
+int SandBoxMethod::getTotalPoints()
+{
+  return totalPoints;
 }
 
 void SandBoxMethod::setMaxR(int maxR)

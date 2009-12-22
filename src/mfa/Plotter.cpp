@@ -135,7 +135,8 @@ void Plotter::plotLinearRegression(mglGraph * gr)
 {
   int nSubPlots = dataListLinearReg.count();
   int plotsPerRow = 2;
-  int nPlotRows = utils::round(((double) nSubPlots) / plotsPerRow);
+  int nPlotRows = 
+          static_cast<int> (utils::round(((double) nSubPlots) / plotsPerRow));
   
   setTitle(gr);
   
@@ -158,7 +159,7 @@ void Plotter::plotLinearRegression(mglGraph * gr)
 //        y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1).at(i);
         y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1)->at(i);
         
-        // Valores máximo y mínimo para establecer los rangos de los gráficos
+        // Valores mï¿½ximo y mï¿½nimo para establecer los rangos de los grï¿½ficos
         if (y.a[index] < minValue)
           minValue = y.a[index];
         
@@ -168,9 +169,10 @@ void Plotter::plotLinearRegression(mglGraph * gr)
     }
     
 //    int minX = dataListLinearReg.at(mainIndex).at(0).at(0);
-    int minX = dataListLinearReg.at(mainIndex).at(0)->at(0);
+    int minX = static_cast<int> (dataListLinearReg.at(mainIndex).at(0)->at(0));
 //    int maxX = dataListLinearReg.at(mainIndex).at(0).at(nData - 1);
-    int maxX = dataListLinearReg.at(mainIndex).at(0)->at(nData - 1);
+    int maxX = static_cast<int> (dataListLinearReg.at(mainIndex).at(0)->
+                                   at(nData - 1));
     
     gr->SetFontSizePT(8);
     gr->SubPlot(plotsPerRow, nPlotRows, mainIndex);
@@ -193,7 +195,7 @@ void Plotter::plotNormalData(mglGraph *gr)
   int nData = static_cast<int> (dataListNormal.at(0)->size());
   int nSlices = dataListNormal.count() - 1;
   
-  double minValue = 800000;
+  double minValue =  800000;
   double maxValue = -800000;
   
   mglData y(nData, nSlices);
@@ -213,9 +215,9 @@ void Plotter::plotNormalData(mglGraph *gr)
     }
   }
 //  int minX = dataListNormal.at(0).at(0);
-  int minX = dataListNormal.at(0)->at(0);
+  int minX = static_cast<int> (dataListNormal.at(0)->at(0));
 //  int maxX = dataListNormal.at(0).at(nData - 1);
-  int maxX = dataListNormal.at(0)->at(nData - 1);
+  int maxX = static_cast<int> (dataListNormal.at(0)->at(nData - 1));
   
   setTitle(gr);
   gr->SetFontSizePT(9);
@@ -244,14 +246,11 @@ void Plotter::plotMeasures(mglGraph * gr)
   
   setTitle(gr);
   
-  for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex)
-  {
-//    int rows = dataListMatrix->at(mainIndex)->nRows();
+  for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex) {
+    //    int rows = dataListMatrix->at(mainIndex)->nRows();
     int rows = dataListMatrix->at(mainIndex)->getNumberOfRows();
-//    int cols = dataListMatrix->at(mainIndex)->nCols();
+    //    int cols = dataListMatrix->at(mainIndex)->nCols();
     int cols = dataListMatrix->at(mainIndex)->getNumberOfColumns();
-    
-    
     
     mglData a(cols, rows);
     

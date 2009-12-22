@@ -154,21 +154,21 @@ void MultifractalAnalysis::performAnalysis(AnalysisType type)
     case CONTINOUS_ANALYSIS:
     case DISCRETE_ANALYSIS:
       {
-        // C·lculo de valores Dq
+        // C√°lculo de valores Dq
         cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateDqValues" << endl;
         calculateDqValues(type);
         cout << "Dq VALUES: "<<dqValues->size() << endl;
         for (unsigned int i = 0; i < dqValues->size(); ++i) {
           cout << dqValues->at(i)<< endl;
         }
-        // C·lculo de valores Tauq
+        // C√°lculo de valores Tauq
         calculateTqValues();
         cout << "tq VALUES: "<<tqValues->size() << endl;
         for (unsigned int i = 0; i < tqValues->size(); ++i) {
           cout << tqValues->at(i)<< endl;
         }
         
-        /*// C·lculo de valores Cq
+        /*// C√°lculo de valores Cq
         calculateCqValues();
         cout << "Cq VALUES: "<<cqValues->size() << endl;
         for (unsigned int i = 0; i < cqValues->size(); ++i) {
@@ -194,7 +194,7 @@ void MultifractalAnalysis::performComparativeAnalysis()
                             maxQ + 1); // Dato adicional necesario para calcular Cq
   
   sandBoxObject->performAnalysis(COMPARATIVE_ANALYSIS);
-//  cout << "DEBUG MultifractalAnalysis::206 - despuÈs de ComparativeAnalysis"<< endl;
+//  cout << "DEBUG MultifractalAnalysis::206 - despu√©s de ComparativeAnalysis"<< endl;
 }
 
 void MultifractalAnalysis::calculateDqValues(AnalysisType type)
@@ -216,14 +216,16 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
   
   dqValues = new vector<double>(*(sandBoxObject->getDqValues()));
   
-  if (sandBoxObject != 0) delete sandBoxObject;
+  if (sandBoxObject != 0) 
+    delete sandBoxObject;
+  
   sandBoxObject = 0;
 }
 
 void MultifractalAnalysis::calculateTqValues()
 {
   // TODO -  SE SUPRIMIO UN VALOR EQUIVALENTE AL DE Dq CUANDO q = 1
-  int dataLenght = maxQ - minQ + /*1 +*/ 2; // Dos datos adicionales para c·lculo de Cq
+  int dataLenght = maxQ - minQ + /*1 +*/ 2; // Dos datos adicionales para c√°lculo de Cq
   int q = minQ;
   for (int i = 0; i < dataLenght; ++i) {
     if (q != 1) {
@@ -236,7 +238,7 @@ void MultifractalAnalysis::calculateTqValues()
   
 void MultifractalAnalysis::calculateCqValues()
 {
-  // TODO - SE SUPRIMI” UN VALOR EQUIVALENTE A Dq CUNDO q = 1
+  // TODO - SE SUPRIMIÔøΩ UN VALOR EQUIVALENTE A Dq CUNDO q = 1
   int dataLenght = maxQ - minQ/* + 1*/;
   for (int i = 0; i < dataLenght; i++) {
     double cqValue = (2 * tqValues->at(i + 1)) - 
@@ -315,7 +317,7 @@ void MultifractalAnalysis::setLinearRegressionValues(QList <vector <double> > *
 //QList <vector <double> > * MultifractalAnalysis::getDqValues()
 vector<double> * MultifractalAnalysis::getDqValues() const
 {
-  // Se eliminan los dos datos adicionales (extremos) necesarios para el c·lculo
+  // Se eliminan los dos datos adicionales (extremos) necesarios para el c√°lculo
   // de Cq 
 
 //  QList <vector <double> > * trueDqValues;

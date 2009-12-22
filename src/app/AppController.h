@@ -34,7 +34,6 @@
 #include <Seq/VectorSequenceContainer.h>
 #include <Utils/Exceptions.h>
 
-
 using namespace bpp;
 
 // PROJECT INCLUDES
@@ -84,7 +83,7 @@ class AppController : public QApplication
      * Carga secuencias en la aplicacio-.n desde el archivo <code> fileName
      * </code> en formato FASTA.
      * @param fileName nombre de archivo de las secuencias.
-     * @return n鷐ero de nuevas cadenas cargadas.
+     * @return n煤mero de nuevas cadenas cargadas.
      */
 //    int loadSequences(const string & fileName,
 //                      GenomAMf::AlphabetType & seqLoadedType);
@@ -143,43 +142,43 @@ class AppController : public QApplication
     QHash<int, QList<int> > * getCraResultSetHash();
     
   private:
-    MainWindow * mainWindow; /**< Ventana principal de la aplicaci髇. */
-//    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicaci髇. */
+    MainWindow * mainWindow; /**< Ventana principal de la aplicaci贸n. */
+//    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicaci贸n. */
     CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
-      prote韓as de la aplicaci髇. */
+      prote锟絥as de la aplicaci贸n. */
     
-    int cgrObjectsCounter; /**< Contador de objetos de representaci髇 del juego 
-      del caos creados en la aplicaci髇 para asignar valor clave al hash 
+    int cgrObjectsCounter; /**< Contador de objetos de representaci贸n del juego 
+      del caos creados en la aplicaci贸n para asignar valor clave al hash 
       contenedor */
     
-    int mfaObjectsCounter;/**< Contador de objetos de an醠isis multifractal 
-      creados en la aplicaci髇 para asignar valor clave al hash 
+    int mfaObjectsCounter;/**< Contador de objetos de an谩lisis multifractal 
+      creados en la aplicaci贸n para asignar valor clave al hash 
       contenedor */
     
-    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de an醠isis 
-      multifractal creados en la aplicaci髇 para asignar valor clave al hash 
+    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de an谩lisis 
+      multifractal creados en la aplicaci贸n para asignar valor clave al hash 
       contenedor */
     
     QHash<int, ChaosGameRepresentation *> * cgrHash; /**< Hash de 
-      apuntadores a los objetos CGR creados en la aplicaci髇. La clave 
-      funciona como un identificador 鷑ico del objeto */
+      apuntadores a los objetos CGR creados en la aplicaci贸n. La clave 
+      funciona como un identificador 煤nico del objeto */
     
 //    QHash<int, MultifractalAnalysis *> * mfaHash; /**< Hash de 
     QHash<int, MultifractalAnalysis > * mfaHash; /**< Hash de 
-      apuntadores a los objetos Mfa creados en la aplicaci髇. La clave 
-      funciona como un identificador 鷑ico del objeto*/
+      apuntadores a los objetos Mfa creados en la aplicaci贸n. La clave 
+      funciona como un identificador 煤nico del objeto*/
     
     QHash<int, QList<int> > * mfaResultSetHash; /**< Hash de 
-      lista de claves de objetos Mfa que pertenecen a un an醠isis realizado. 
-      La clave funciona como un identificador 鷑ico de cada lista */
+      lista de claves de objetos Mfa que pertenecen a un an谩lisis realizado. 
+      La clave funciona como un identificador 煤nico de cada lista */
     
     QHash<int, CorrelationAnalysis> * craHash; /**< Hash de apuntadores a los 
-      objetos Cra creados en la aplicaci髇.  La clave 
-      funciona como un identificador 鷑ico del objeto */
+      objetos Cra creados en la aplicaci贸n.  La clave 
+      funciona como un identificador 煤nico del objeto */
     
     QHash<int, QList<int> > * craResultSetHash; /**< Hash de 
-      lista de claves de objetos Cra que pertenecen a un an醠isis realizado. 
-      La clave funciona como un identificador 鷑ico de cada lista */
+      lista de claves de objetos Cra que pertenecen a un an谩lisis realizado. 
+      La clave funciona como un identificador 煤nico de cada lista */
     
     QList<const ChaosGameRepresentation *>
     getCgrObjectsForAnalysis(const QList<int> sequenceKeys);

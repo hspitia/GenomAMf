@@ -83,13 +83,13 @@ ScriptBuilder::~ScriptBuilder()
 
 QString ScriptBuilder::buildScript()
 {
-  
+  return QString();
 }
 
 
 QString ScriptBuilder::getTextFromFile(const QString & fileName)
 {
-  
+  return QString();
 }
 
 QString ScriptBuilder::getDestinationDirectory()

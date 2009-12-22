@@ -62,10 +62,10 @@ class SandBoxMethod
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-//                  const int & fractalSize,
-                  const int & minQ     = -20,
-                  const int & maxQ     =  20,
-                  const int & nCenters = 300);
+                  const int & totalPoints
+                  const int & minQ         = -20,
+                  const int & maxQ         =  20,
+                  const int & nCenters     = 300);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const QList<QPointF> & coordinatesOfPoints,
@@ -160,22 +160,26 @@ class SandBoxMethod
     
     void setCoordinatesOfPoints(const QList<QPointF> & coordinatesOfPoints);
     
+    int getTotalPoints();
+    
   private:
-    int minQ; /**< Valor para el parámetro q mínimo */
+    int minQ; /**< Valor para el parÃ¡metro q mÃ­nimo */
 
-    int maxQ; /**< Valor para el parámetro q máximo */
+    int maxQ; /**< Valor para el parÃ¡metro q mÃ¡ximo */
     
-    int minR; /**< Valor del radio mínimo de las cajas de arena */
+    int minR; /**< Valor del radio mÃ­nimo de las cajas de arena */
     
-    int maxR; /**< Valor del radio máximo de las cajas de arena */
+    int maxR; /**< Valor del radio mÃ¡ximo de las cajas de arena */
     
+    int totalPoints; /**< NÃºmero total de puntos del fractal */
+
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
-      obtenida de la representación de juego del caos*/
+      obtenida de la representaciÃ³n de juego del caos*/
 
     QList<QPointF> coordinatesOfPoints; /**< Apuntador a la lista de 
-      coordenadas de puntos obtenida de la representación de juego del caos*/
+      coordenadas de puntos obtenida de la representaciÃ³n de juego del caos*/
     
-    int nCenters; /**< Número de centros de caja de arena por cada 
+    int nCenters; /**< NÃºmero de centros de caja de arena por cada 
       medida de radio a ser generados aleatoriamente */
 
 //    QList<vector<double> > * dqValues; /**< Contenedor para los valores 
@@ -184,9 +188,9 @@ class SandBoxMethod
       Dq vs q */ 
     
 //    QList<vector<double> > * linearRegressionValues; /**< Contenedor de los 
-//      valores de la regresión lineal */
+//      valores de la regresiÃ³n lineal */
     QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
-      valores de la regresión lineal */
+      valores de la regresiÃ³n lineal */
    
 //    int fractalSize; /**< Longitud lineal del fractal */
    /* 

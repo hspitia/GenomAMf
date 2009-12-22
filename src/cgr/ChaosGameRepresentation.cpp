@@ -19,7 +19,11 @@
  *  Description:
  */
 
+#define DEBUG_MODE
+
+#include "utils/Trace.h"
 #include "ChaosGameRepresentation.h"
+
 
 ChaosGameRepresentation::ChaosGameRepresentation()
 {
@@ -89,7 +93,7 @@ void ChaosGameRepresentation::translateSequence()
     string elementChar = sequence->getChar(i);
     int element = sequence->getValue(i);
     newElement = -1;
-    // Los gaps y amino�cidos no resueltos son ignorados 
+    // Los gaps y aminoácidos no resueltos son ignorados 
     if (element > -1 && element < 20) {
       // D, E  -> Negativo polar
       if (element == 3 || element == 6) {
@@ -119,8 +123,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize);
-  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
+  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal
+//  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
   
   int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
   int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
@@ -141,7 +145,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
           == GenomAMf::Proteic_Alphabet) {
     translateSequence();
     ptrSequence = &translatedSequence;
-    cout << "Secuencia de Prote�na clasificada" << endl;
+    cout << "Secuencia de Proteína clasificada" << endl;
   }
   else {
     ptrSequence = &sequence->getContent();
@@ -176,7 +180,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     
     for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
-      // Los gaps y bases/amino�cidos no resueltos son ignorados
+      // Los gaps y bases/aminoácidos no resueltos son ignorados
       if (element > -1 && element < 4) {
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
@@ -186,32 +190,36 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x, y));
         
+        // Redondeo a 0.5
+        /*
         double xNuevo = utils::roundToHalf(x);
         double yNuevo = utils::roundToHalf(y);
         
         xMatrix = static_cast<int>(xNuevo - 0.5);
         yMatrix = static_cast<int>(yNuevo - 0.5);
+        */
         
-//        xMatrix = static_cast<int>(floor(x));
-//        yMatrix = static_cast<int>(floor(y));
+        // Redondeo a Piso
+        xMatrix = utils::roundToInt(x);
+        yMatrix = utils::roundToInt(y);
         
-//        cout << x << ", " << y;
-//        cout << "    "<< xMatrix << ", " << yMatrix << endl;
-        
-//        int row = matrixSize - 1 - yMatrix; // Tama�o normal de matriz
-        int row = matrixSize - yMatrix;     // Tama�o agrandado de matriz en una fila y columna
-        int col = xMatrix;
+        // Transformación de la coordenada cartesiana a matricial
+//        int row = matrixSize - 1 - yMatrix; // Tamaño normal de matriz
+//        int row = matrixSize - yMatrix;     // Tamaño agrandado de matriz en una fila y columna
+//        int col = xMatrix;
 
-        matrixOfPoints(row, col)++;
+//        matrixOfPoints(row, col)++;
+        matrixOfPoints(x, y)++;
         
       }
     }
-//    cout << endl;
     string sequenceType = utils::getAlphabetTypeString(sequence->getAlphabet()->
                                                        getAlphabetType());
     imagefilePath = "tmp/cgr_" +  
             sequenceType + "_" + sequence->getName() + ".png";
 //    imagefilePath = "tmp/cgr_" + sequence->getName() + ".dat";
+    
+    // Si el directorio tmp no existe, entonces lo crea
     QDir currentDir = QDir::current();
     if (!currentDir.cd("tmp")) {
       currentDir.mkdir("tmp");
@@ -226,6 +234,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
       if (element > -1) {
+//        TODO - Implementar de igual forma al de la generación de la imagen
 //        x = (xPoints[element] + x) / 2;
 //        y = (yPoints[element] + y) / 2;
 //        matrixOfPoints(floor(x), floor(y))++;

@@ -7,8 +7,10 @@ DESTDIR = bin
 QT += core \
     gui
 WIN_USER_ENV_PATH = e:/programming
+
 # Input
-HEADERS += src/script/ScriptBuilder.h \
+HEADERS += src/utils/Trace.h \
+    src/script/ScriptBuilder.h \
     src/gui/PreprocessingScriptParametersForm.h \
     src/mfa/MultifractalAnalysis.h \
     src/utils/MatrixOperations.h \
@@ -82,30 +84,29 @@ INCLUDEPATH += . \
     src/cgr \
     src/utils \
     src/gui
-
-unix {
-  INCLUDEPATH += /usr/include \
-      /usr/local/include
-  LIBS += -L/usr/local/lib \
-      -lbpp-utils \
-      -lbpp-seq \
-      -lbpp-numcalc \
-      -lbpp-qt \
-      -lbpp-raa
-  LIBS += -L/usr/lib \
-      -lmgl \
-      -lmgl-qt
+unix { 
+    INCLUDEPATH += /usr/include \
+        /usr/local/include
+    LIBS += -L/usr/local/lib \
+        -lbpp-utils \
+        -lbpp-seq \
+        -lbpp-numcalc \
+        -lbpp-qt \
+        -lbpp-raa
+    LIBS += -L/usr/lib \
+        -lmgl \
+        -lmgl-qt
 }
-win32 {
-  INCLUDEPATH += $$WIN_USER_ENV_PATH/include
-  LIBS += -L$$WIN_USER_ENV_PATH/lib \
-      -lbpp-utils \
-      -lbpp-seq \
-      -lbpp-numcalc \
-      -lbpp-qt \
-      -lmgl \
-      -lmgl-qt \
-      -lgsl
-  CONFIG += console
+win32 { 
+    INCLUDEPATH += $$WIN_USER_ENV_PATH/include
+    LIBS += -L$$WIN_USER_ENV_PATH/lib \
+        -lbpp-utils \
+        -lbpp-seq \
+        -lbpp-numcalc \
+        -lbpp-qt \
+        -lmgl \
+        -lmgl-qt \
+        -lgsl
+    CONFIG += console
 }
 RESOURCES += resources/resources.qrc

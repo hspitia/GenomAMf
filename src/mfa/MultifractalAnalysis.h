@@ -129,26 +129,26 @@ class MultifractalAnalysis
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
       ChaosGameRepresentation sobre el que se realiza el 
-      análisis multifractal */
+      anÃ¡lisis multifractal */
     
-    int minQ; /**< Valor para el parámetro q mínimo */
+    int minQ; /**< Valor para el parÃ¡metro q mÃ­nimo */
     
-    int maxQ; /**< Valor para el parámetro q máximo */
+    int maxQ; /**< Valor para el parÃ¡metro q mÃ¡ximo*/
     
     QString linearRegressionImgePath; /**< Ruta a la imagen
-      correspondiente a la regresión lineal */
+      correspondiente a la regresiÃ³n lineal */
    
     QString dqSpectraImagePath; /**< Ruta a la imagen correspondiente al 
       espectro Dq */
     
     QString cqImagePath; /**< Ruta a la imagen correspondiente al 
-      gráfico Dq */
+      grÃ¡fico Dq */
 /*
     QList<vector<double> > * linearRegressionValues; *< Contenedor de los 
-      valores de la regresión lineal 
+      valores de la regresiÃ³n lineal 
 */
     QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
-      valores de la regresión lineal */
+      valores de la regresiÃ³n lineal */
     
     /*
     QList<vector<double> > * dqValues; *< Contenedor de los valores Dq vs q 
