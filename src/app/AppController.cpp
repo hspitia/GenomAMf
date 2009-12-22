@@ -35,7 +35,7 @@ AppController::AppController(int & argc, char ** argv) :
   mfaResultSetHash      = new QHash<int, QList<int> >();
   cgrObjectsCounter     = 0;
   mfaObjectsCounter     = 0;
-  mfaResultSetsCounter = 0;
+  mfaResultSetsCounter  = 0;
 }
 
 AppController::~AppController()
@@ -162,8 +162,8 @@ AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys)
     QHash<int, ChaosGameRepresentation *>::const_iterator i = 
             cgrHash->constBegin();
     
-    cout << "buscado: " << sequences->getSequence(sequenceKey);
-    cout << " - " << sequences->getSequence(sequenceKey)->getName() << endl << endl;
+//    cout << "buscado: " << sequences->getSequence(sequenceKey);
+//    cout << " - " << sequences->getSequence(sequenceKey)->getName() << endl << endl;
     
     bool cgrFound = false;
     while (i != cgrHash->constEnd() && !cgrFound) {
@@ -206,9 +206,9 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
     MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), minQ, 
                                                           maxQ);
     
-//    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
+    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
 //    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
-    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
     
     mfaKey = mfaObjectsCounter;
     mfaHash->insert(mfaKey, mfaObject);

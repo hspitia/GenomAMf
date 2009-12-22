@@ -203,6 +203,9 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xMatrix = utils::roundToInt(x);
         yMatrix = utils::roundToInt(y);
         
+//        cout << x << ", " << y;
+//        cout << "    "<< xMatrix << ", " << yMatrix << endl;
+        
         // Transformación de la coordenada cartesiana a matricial
 //        int row = matrixSize - 1 - yMatrix; // Tamaño normal de matriz
 //        int row = matrixSize - yMatrix;     // Tamaño agrandado de matriz en una fila y columna

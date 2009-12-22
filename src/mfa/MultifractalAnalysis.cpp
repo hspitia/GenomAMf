@@ -155,20 +155,20 @@ void MultifractalAnalysis::performAnalysis(AnalysisType type)
     case DISCRETE_ANALYSIS:
       {
         // Cálculo de valores Dq
-        cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateDqValues" << endl;
+//        cout << "  DEBUG - MultifractalAnalysis::performAnalysis::182 - antes   calculateDqValues" << endl;
         calculateDqValues(type);
-        cout << "Dq VALUES: "<<dqValues->size() << endl;
-        for (unsigned int i = 0; i < dqValues->size(); ++i) {
-          cout << dqValues->at(i)<< endl;
-        }
-        // Cálculo de valores Tauq
+//        cout << "Dq VALUES: "<<dqValues->size() << endl;
+//        for (unsigned int i = 0; i < dqValues->size(); ++i) {
+//          cout << dqValues->at(i)<< endl;
+//        }
+        /*// Cálculo de valores Tauq
         calculateTqValues();
         cout << "tq VALUES: "<<tqValues->size() << endl;
         for (unsigned int i = 0; i < tqValues->size(); ++i) {
           cout << tqValues->at(i)<< endl;
         }
         
-        /*// Cálculo de valores Cq
+        // Cálculo de valores Cq
         calculateCqValues();
         cout << "Cq VALUES: "<<cqValues->size() << endl;
         for (unsigned int i = 0; i < cqValues->size(); ++i) {
@@ -204,7 +204,7 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
                             *(cgrObject->getCoordinatesOfPoints()),
                             minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1);// Dato adicional necesario para calcular Cq
-  cout << "    DEBUG - MultifractalAnalysis::216 - calculateDqValues - Antes de performAnalysis("<< type << ")" << endl;
+  cout << "    DEBUG - MultifractalAnalysis::207 - calculateDqValues - Antes de performAnalysis("<< type << ")" << endl;
   
   sandBoxObject->performAnalysis(type);
   

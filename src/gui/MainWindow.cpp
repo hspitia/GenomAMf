@@ -114,10 +114,10 @@ void MainWindow::insertTreeMainElements()
   mainSeqElementData << "Secuencias";
   mainSeqElementData << TreeItem::MainSequenceItem;
   mainSeqElementData << -1;
-  mainMfaElementData << "Análisis Multifractal";
+  mainMfaElementData << "AnÃ¡lisis Multifractal";
   mainMfaElementData << TreeItem::MainMfaItem;
   mainMfaElementData << -1;
-  mainCorrelElementData << "Análisis de Correlación";
+  mainCorrelElementData << "AnÃ¡lisis de CorrelaciÃ³n";
   mainCorrelElementData << TreeItem::MainCorrelationItem;
   mainCorrelElementData << -1;
   
@@ -155,7 +155,7 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
   QVector<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
   
-  // Tipo de item según el tipo de secuencia
+  // Tipo de item segï¿½n el tipo de secuencia
   int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
   if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) data
@@ -209,7 +209,7 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item según tipo de secuencia 
+  // Tipo de item segï¿½n tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet) 
     data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) 
@@ -228,7 +228,7 @@ void MainWindow::insertSequenceToModelsForCra(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item según tipo de secuencia 
+  // Tipo de item segï¿½n tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet){ 
     data << TreeItem::DnaSequenceItem;
     data << key; // Key en hash
@@ -261,7 +261,7 @@ MainWindow::insertSequenceToSequenceListModelForCgr(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item según tipo de secuencia 
+  // Tipo de item segï¿½n tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet) 
     data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) 
@@ -311,7 +311,7 @@ void MainWindow::insertCgrToTreeView(const int & cgrKey,
   if (!model->insertRow(0, index)) return;
 
   QVector<QVariant> data;
-  data << "Representación Juego del Caos";
+  data << "RepresentaciÃ³n Juego del Caos";
   data << TreeItem::CgrItem;
   data << cgrKey;
   
@@ -427,7 +427,7 @@ void MainWindow::loadSequences()
       else {
         text = QString("Secuencias cargadas correctamente.");
         infoText = QString("Nuevas secuencias de ADN: %1\n"
-                  "Nuevas secuencias de proteínas: %2") .arg(
+                  "Nuevas secuencias de proteÃ­nas: %2") .arg(
                         loadedSequences.at(0)) .arg(loadedSequences.at(1));
         icon = QMessageBox::Information;
         updateActionsState();
@@ -483,7 +483,7 @@ void MainWindow::makeCgr()
 
 void MainWindow::makeMultifractalAnalysis()
 {
-  //    MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
+ /* //    MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
   MfaParametersForm * mfaParametersForm = 
           new MfaParametersForm(sequenceListModel, this);
   if (mfaParametersForm->exec() == QDialog::Accepted) {
@@ -506,10 +506,10 @@ void MainWindow::makeMultifractalAnalysis()
     
     
     QMessageBox msgBox(this);
-    msgBox.setText("Análisis Multifractal");
+    msgBox.setText(QString::fromUtf8("AnÃ¡lisis Multifractal"));
     msgBox.setInformativeText(QString("Terminado "));
-    //      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-    //                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+    //      msgBox.setInformativeText(QString("Key cgr: %1\nq mï¿½nimo: %2"
+    //                                        "\nq mÃ¡ximo: %3").arg(mfaKeysFromAnalysis.at(0))
     //                                        .arg(mfaParametersForm->getMinQValue())
     //                                        .arg(mfaParametersForm->getMaxQValue()));
     msgBox.setStandardButtons(QMessageBox::Ok);
@@ -518,28 +518,23 @@ void MainWindow::makeMultifractalAnalysis()
     msgBox.exec();
       
     }
-    
-  // TODO - Descomentar este bloque para poner en funcionamiento el análisis 
-  // multifractal de forma definitiva a través del MultifractalAnalyzer  
-  /*{
-//    QList<int> sequencesKeysList = QList<int>();
-//    sequencesKeysList << 1;
-//    sequencesKeysList << 3;
-//    parentApp->makeMultifractalAnalysis_(sequencesKeysList, -10, 10);
-    
-    MfaParametersForm * mfaParametersForm = 
-            new MfaParametersForm(sequenceListModel, this);
-    if (mfaParametersForm->exec() == QDialog::Accepted) {
-      int minQ = mfaParametersForm->getMinQValue();
-      int maxQ = mfaParametersForm->getMaxQValue();
-      QList<int> sequencesKeysList = 
-              mfaParametersForm->getSelectedSequencesKeys();
-    }
-    int mfaResultSetKey = 
-            parentApp->makeMultifractalAnalysis_(sequencesKeysList, -10, 10);
-    
-    displayMfaResults(mfaResultSetKey);
-  }*/
+    */
+  // TODO - Descomentar este bloque para poner en funcionamiento el anÃ¡lisis 
+  // multifractal de forma definitiva a travÃ©s del MultifractalAnalyzer  
+  QList<int> sequencesKeysList = QList<int>();
+  
+  MfaParametersForm * mfaParametersForm = 
+          new MfaParametersForm(sequenceListModel, this);
+  if (mfaParametersForm->exec() == QDialog::Accepted) {
+    int minQ = mfaParametersForm->getMinQValue();
+    int maxQ = mfaParametersForm->getMaxQValue();
+    sequencesKeysList = mfaParametersForm->getSelectedSequencesKeys();
+  }
+  int mfaResultSetKey = 
+          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
+//          parentApp->makeMultifractalAnalysis_(sequencesKeysList, minQ, maxQ);
+  
+  displayMfaResults(mfaResultSetKey);
   
 }
 
@@ -548,12 +543,12 @@ void MainWindow::makeCorrelationAnalysis()
   /*if (cgrListModel->rowCount() == 0)
   {
     QMessageBox msgBox(this);
-    msgBox.setWindowTitle("GenomAMf - Análisis Multifractal");
+    msgBox.setWindowTitle("GenomAMf - AnÃ¡lisis Multifractal");
     msgBox.setWindowIcon(QIcon(":/icons/mfa.png"));
     msgBox.setText("No existen Representaciones del Juego del Caos en la "
-            "aplicación.");
+            "aplicaciÃ³n.");
     msgBox.setInformativeText("Debe realizar Representaciones del Juego del "
-            "Caos en la aplicación para ejecutar el Análisis Multifractal");
+            "Caos en la aplicaciÃ³n para ejecutar el AnÃ¡lisis Multifractal");
     msgBox.setStandardButtons(QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setTextFormat(Qt::RichText);
@@ -579,9 +574,9 @@ void MainWindow::makeCorrelationAnalysis()
 //      displayMfaResults(mfaKeysFromAnalysis);
       
       QMessageBox msgBox(this);
-      msgBox.setText("Análisis Multifractal");
-      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
+      msgBox.setText("AnÃ¡lisis Multifractal");
+      msgBox.setInformativeText(QString("Key cgr: %1\nq mÃ­nimo: %2"
+                                        "\nq mï¿½ximo: %3").arg(mfaKeysFromAnalysis.at(0))
                                         .arg(mfaParametersForm->getMinQValue())
                                         .arg(mfaParametersForm->getMaxQValue()));
       msgBox.setStandardButtons(QMessageBox::Ok);

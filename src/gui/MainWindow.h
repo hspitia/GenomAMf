@@ -119,22 +119,22 @@ class MainWindow : public QMainWindow
     TreeModel * treeModel; /**< Modelo para el explorador de elementos */
     
     SequenceListModel * sequenceListModel; /**< Modelo para el formulario de 
-      parámetros de CGR */
+      parÃ¡metros de CGR */
     
     SequenceListModel * sequenceListModelForCgr; /**< Modelo para el formulario 
-      de parámetros de CGR */
+      de parÃ¡metros de CGR */
     
     QList<int> cgrResultsFormsOnView; /**< Listado de formularios de resultados 
-      de CGR que están actualmente visibles en la aplicación */
+      de CGR que estÃ¡n actualmente visibles en la aplicaciÃ³n */
     
     SequenceListModel *  cgrListModel; /**< Modelo para el formulario de 
-      parámetros de Análisis Multifractal */
+      parÃ¡metros de AnÃ¡lisis Multifractal */
     
     SequenceListModel * modelForDnaCra; /**< Modelo de secuencias ADN para el 
-      formulario de parámetros de Análisis de Correlación */
+      formulario de parÃ¡metros de AnÃ¡lisis de CorrelaciÃ³n */
     
     SequenceListModel * modelForProteinCra; /**<  Modelo de secuencias ADN para 
-      el formulario de parámetros de Análisis de Correlación */
+      el formulario de parÃ¡metros de AnÃ¡lisis de CorrelaciÃ³n */
     
     // Metodos
     /**

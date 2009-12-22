@@ -62,17 +62,16 @@ class SandBoxMethod
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                  const int & totalPoints
+                  const int & totalPoints,
                   const int & minQ         = -20,
                   const int & maxQ         =  20,
-                  const int & nCenters     = 300);
+                  const int & nCenters     = 30);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                  const QList<QPointF> & coordinatesOfPoints,
-//                  const int & fractalSize,
+                  const QList<QPointF> & fractalPoints,
                   const int & minQ     = -20,
                   const int & maxQ     =  20,
-                  const int & nCenters = 300);
+                  const int & nCenters = 30);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -88,12 +87,13 @@ class SandBoxMethod
     void performComparativeAnalysis();
 
     
-    double calculateContinousDqValue(const int & q, vector<double> & xData,
+    double calculateContinousDqValue(const double & q, vector<double> & xData,
                                      vector<double> & yData);
     
-    double calculateDiscreteDqValue(const int & q, vector<double> & xData,
+    double calculateDiscreteDqValue(const double & q, vector<double> & xData,
                                     vector<double> & yData);
 
+    void generateRandomCenters();
     
     void generateRandomCenters(vector<int> * xCoordinates,
                                vector<int> * yCoordinates);
@@ -154,13 +154,17 @@ class SandBoxMethod
     
     QList<vector<double> *> getLinearRegressionValues();
     
-//    const QList<QPointF> * getCoordinatesOfPoints() const;
-    const QList<QPointF> getCoordinatesOfPoints() const;
+//    const QList<QPointF> * getFractalPoints() const;
+    const QList<QPointF> getFractalPoints() const;
     
     
-    void setCoordinatesOfPoints(const QList<QPointF> & coordinatesOfPoints);
+    void setFractalPoints(const QList<QPointF> & fractalPoints);
     
     int getTotalPoints();
+    
+    QList<int> getIndexesOfCenters();
+    
+    void setIndexesOfCenters(QList<int> indexesOfCenters);
     
   private:
     int minQ; /**< Valor para el parámetro q mínimo */
@@ -176,12 +180,15 @@ class SandBoxMethod
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
 
-    QList<QPointF> coordinatesOfPoints; /**< Apuntador a la lista de 
-      coordenadas de puntos obtenida de la representación de juego del caos*/
+    QList<QPointF> fractalPoints; /**< Lista de coordenadas de puntos 
+      obtenida de la representación de juego del caos*/
     
-    int nCenters; /**< Número de centros de caja de arena por cada 
-      medida de radio a ser generados aleatoriamente */
-
+    int nCenters; /**< Número de centros de caja de arena que serán ser 
+      generados aleatoriamente */
+    
+    QList<int> indexesOfCenters; /**< Listado de índices de los puntos 
+      correspondientes a los centros generados aleatoriamente */
+    
 //    QList<vector<double> > * dqValues; /**< Contenedor para los valores 
 //      Dq vs q */ 
     vector<double> * dqValues; /**< Contenedor para los valores 

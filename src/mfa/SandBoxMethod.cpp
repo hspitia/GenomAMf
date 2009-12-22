@@ -25,97 +25,88 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ        = -70;
-  this->maxQ        =  70;
-  this->minR        =   0;
-  this->maxR        = 256;
-  this->totalPoints =   0;                 
-  this->cgrMatrix   =   0;
-  this->nCenters    = 300;
-//  this->dqValues = new QList<vector<double> >();
-  this->dqValues = new vector<double>();
-//  this->linearRegressionValues = new QList<vector<double> >();
+  this->minQ                   =  -70;
+  this->maxQ                   =   70;
+  this->minR                   =    0;
+  this->maxR                   =  256;
+  this->totalPoints            =    0;                 
+  this->cgrMatrix              =    0;
+  this->nCenters               = 1000;
+  this->indexesOfCenters       = QList<int>();
+  this->dqValues               = new vector<double>();
   this->linearRegressionValues = QList<vector<double> *>();
-//  this->coordinatesOfPoints = new QList<QPointF>();
-  this->coordinatesOfPoints = QList<QPointF>();
-//  this->fractalSize = 1;
+  this->fractalPoints          = QList<QPointF>();
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 {
-  this->minQ = sandBoxObject.minQ;
-  this->maxQ = sandBoxObject.maxQ;
-  this->minR = sandBoxObject.minR;
-  this->maxR = sandBoxObject.maxR;
-  this->totalPoints = sandBoxObject.totalPoints;
-  this->cgrMatrix = sandBoxObject.cgrMatrix;
-  this->nCenters = sandBoxObject.nCenters;
-//  this->dqValues = sandBoxObject.dqValues;
-  this->dqValues = new vector<double>(*sandBoxObject.dqValues);
+  this->minQ                   = sandBoxObject.minQ;
+  this->maxQ                   = sandBoxObject.maxQ;
+  this->minR                   = sandBoxObject.minR;
+  this->maxR                   = sandBoxObject.maxR;
+  this->totalPoints            = sandBoxObject.totalPoints;
+  this->cgrMatrix              = sandBoxObject.cgrMatrix;
+  this->nCenters               = sandBoxObject.nCenters;
+  this->indexesOfCenters       = sandBoxObject.indexesOfCenters;
+  this->dqValues               = new vector<double>(*sandBoxObject.dqValues);
   this->linearRegressionValues = sandBoxObject.linearRegressionValues;
-  this->coordinatesOfPoints = sandBoxObject.coordinatesOfPoints; 
-//          new QList<QPointF>(*(sandBoxObject.coordinatesOfPoints));
-//  this->fractalSize = sandBoxObject.fractalSize;
+  this->fractalPoints          = sandBoxObject.fractalPoints; 
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                             const long & totalPoints,
+                             const int & totalPoints,
                              const int & minQ,
                              const int & maxQ,
                              const int & nCenters)
 {
-  this->minQ        = minQ;
-  this->maxQ        = maxQ;
-  this->minR        = 0;
-  this->maxR        = 256;
-  this->totalPoints = totalPoints; 
-  this->cgrMatrix   = cgrMatrix;
-  this->nCenters    = nCenters;
-  this->dqValues    = new vector<double>();
+  this->minQ                   = minQ;
+  this->maxQ                   = maxQ;
+  this->minR                   = 0;
+  this->maxR                   = 256;
+  this->totalPoints            = totalPoints;
+  this->cgrMatrix              = cgrMatrix;
+  this->nCenters               = nCenters;
+  this->indexesOfCenters       = QList<int>();
+  this->dqValues               = new vector<double>();
   this->linearRegressionValues = QList<vector<double> *>();
-  this->coordinatesOfPoints = QList<QPointF>();
-//  this->dqValues = new QList<vector<double> >();
-//  this->linearRegressionValues = new QList<vector<double> >();
-//   this->coordinatesOfPoints = new QList<QPointF>();
-//  this->fractalSize = fractalSize;
+  this->fractalPoints    = QList<QPointF>();
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
-                             const QList<QPointF> & coordinatesOfPoints,
+                             const QList<QPointF> & fractalPoints,
                              const int & minQ,
                              const int & maxQ,
                              const int & nCenters)
 {
-  this->minQ = minQ;
-  this->maxQ = maxQ;
-  this->minR = 0;
-//  this->maxR = cgrMatrix->nRows();
-  this->maxR = 256;
-  this->cgrMatrix = cgrMatrix;
-  this->nCenters = nCenters;
-//  this->dqValues = new QList<vector<double> >();
-  this->dqValues = new vector<double>();
-//  this->linearRegressionValues = new QList<vector<double> >();
+  this->minQ                   = minQ;
+  this->maxQ                   = maxQ;
+  this->minR                   = 0;
+  this->maxR                   = 256;
+  this->totalPoints            = fractalPoints.count();
+  this->cgrMatrix              = cgrMatrix;
+  this->nCenters               = nCenters;
+  this->indexesOfCenters       = QList<int>();
+  this->dqValues               = new vector<double>();
   this->linearRegressionValues = QList<vector<double> *>();
-//  this->coordinatesOfPoints = new QList<QPointF>(*coordinatesOfPoints);
-  this->coordinatesOfPoints = QList<QPointF>(coordinatesOfPoints);
-//  this->fractalSize = fractalSize;
+  this->fractalPoints    = QList<QPointF>(fractalPoints);
+  
+  generateRandomCenters();
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
 {
-  this->minQ = sandBoxObject.minQ;
-  this->maxQ = sandBoxObject.maxQ;
-  this->minR = sandBoxObject.minR;
-  this->maxR = sandBoxObject.maxR;
-  this->cgrMatrix = sandBoxObject.cgrMatrix;
-  this->nCenters = sandBoxObject.nCenters;
-//  this->dqValues = sandBoxObject.dqValues;
-  this->dqValues = new vector<double>(*sandBoxObject.dqValues);
+  this->minQ                   = sandBoxObject.minQ;
+  this->maxQ                   = sandBoxObject.maxQ;
+  this->minR                   = sandBoxObject.minR;
+  this->maxR                   = sandBoxObject.maxR;
+  this->totalPoints            = sandBoxObject.totalPoints;
+  this->cgrMatrix              = sandBoxObject.cgrMatrix;
+  this->nCenters               = sandBoxObject.nCenters;
+  this->indexesOfCenters       = sandBoxObject.indexesOfCenters;
+  this->dqValues               = new vector<double>(*sandBoxObject.dqValues);
   this->linearRegressionValues = sandBoxObject.linearRegressionValues;
-  this->coordinatesOfPoints = QList<QPointF>(sandBoxObject.coordinatesOfPoints);
-//          new QList<QPointF>(*(sandBoxObject.coordinatesOfPoints));
-//  this->fractalSize = sandBoxObject.fractalSize;
+  this->fractalPoints    = sandBoxObject.fractalPoints;
+  
   return *this;
 }
 
@@ -131,6 +122,7 @@ SandBoxMethod::~SandBoxMethod()
   
   if (!linearRegressionValues.empty())
     linearRegressionValues.clear();
+  
 }
 
 bool xCoordinateLessThan(const QPointF & x1, const QPointF & x2)
@@ -166,12 +158,17 @@ void SandBoxMethod::performComparativeAnalysis()
   
   int nIteraciones = 3;
   unsigned int nIteracionesInternas = 3;
+  int radio = 6;
 
   vector<double> * continousAverages = new vector<double>();
   vector<double> * discreteAverages = new vector<double>();
+  
+  vector<double> * countsContinous = new vector<double>();
+  vector<double> * countsDiscrete  = new vector<double>();
+  
   vector<int> * nCentros = new vector<int>();
   
-  qSort(coordinatesOfPoints.begin(), coordinatesOfPoints.end(), 
+  qSort(fractalPoints.begin(), fractalPoints.end(), 
         xCoordinateLessThan);
   
   for (int genIt = 0; genIt < nIteraciones; ++genIt) {
@@ -198,15 +195,9 @@ void SandBoxMethod::performComparativeAnalysis()
       yCoordinates.at(i) = y;
     }
 
-    int radio = 6;
     unsigned int initIndex = 0;
     double continousSum    = 0.0;
     double discreteSum     = 0.0;
-    
-    vector<double> * countsContinous = new vector<double>();
-    vector<double> * countsDiscrete  = new vector<double>();
-    
-    /*debug_comparative*/cout << "No.;CONTEO CONTINUO;CONTEO DISCRETO;RADIO" << endl;
     
     for (unsigned int currentIt = 0; currentIt < nIteracionesInternas; ++currentIt) {
       unsigned int centers = 50;
@@ -239,16 +230,25 @@ void SandBoxMethod::performComparativeAnalysis()
 
 //    delete countsContinous;
 //    delete countsDiscrete;
-    cout << "\nNo.;CENTROS;PROMEDIO CONTINUO;PROMEDIO DISCRETO;RADIO" << endl; 
-    for (unsigned int i = 0; i < continousAverages->size(); ++i) {
-      cout << i << ";"
-           << nCentros->at(i) << ";"
-           << continousAverages->at(i) << ";"
-           << discreteAverages->at(i) << ";"
-           << radio
-           << endl;
-    }
-    cout << endl << endl;;
+  }
+  cout << "\nNo.;CENTROS;PROMEDIO CONTINUO;PROMEDIO DISCRETO;RADIO" << endl; 
+  for (unsigned int i = 0; i < continousAverages->size(); ++i) {
+    cout << i << ";"
+            << nCentros->at(i) << ";"
+            << continousAverages->at(i) << ";"
+            << discreteAverages->at(i) << ";"
+            << radio
+            << endl;
+  }
+  cout << endl << endl;
+  
+  /*debug_comparative*/cout << "No.;CONTEO CONTINUO;CONTEO DISCRETO;RADIO" << endl;
+  for (unsigned int i = 0; i < countsDiscrete->size(); ++i) {
+    cout << i << ";"
+            << countsContinous->at(i) << ";"
+            << countsDiscrete->at(i) << ";"
+            << radio
+            << endl;
   }
 }
 
@@ -283,20 +283,21 @@ void SandBoxMethod::performDiscreteAnalysis()
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   
   for (int q = minQ; q <= maxQ; ++q) {
-    if (q != 1) {
+//    if (q != 1) {
+      TRACE (__LINE__ << "\n\t" << "q: " << q);
       vector<double> * xData = new vector<double> (dataLenght);
       vector<double> * yData = new vector<double> (dataLenght);
       
       double dqValue = calculateDiscreteDqValue(q, *xData, *yData);
       dqValues->push_back(dqValue);
-      
+      TRACE (__LINE__ << "\n\t" << "dqValue: " << dqValue );
       linearRegressionValues.append(xData);
       linearRegressionValues.append(yData);
-    }
+//    }
   }
 }
 
-double SandBoxMethod::calculateContinousDqValue(const int & q, 
+double SandBoxMethod::calculateContinousDqValue(const double & q, 
                                                 vector<double> & xData,
                                                 vector<double> & yData)
 {
@@ -319,13 +320,13 @@ double SandBoxMethod::calculateContinousDqValue(const int & q,
                                                             yCoordinates.at(i),
                                                             radius);
       
-      masses.at(i) = pow(count, static_cast<double>(q - 1));
+      masses.at(i) = pow(count, (q - 1.0));
     }
     
     massAverage = VectorTools::mean<double,double>(masses);
     double quotient = 
             (static_cast<double>(radius) / static_cast<double>(fractalSize));
-    double tmpQ = static_cast<double>(q - 1);
+    double tmpQ = (q - 1.0);
 
     xData.at(index) = tmpQ * log(quotient);
     yData.at(index) = log(massAverage);
@@ -350,75 +351,102 @@ double SandBoxMethod::calculateContinousDqValue(const int & q,
   return slope;
 }
 
-double SandBoxMethod::calculateDiscreteDqValue(const int & q, 
+double SandBoxMethod::calculateDiscreteDqValue(const double & q, 
                                                vector<double> & xData,
                                                vector<double> & yData)
 {
-  int dataLenght = maxR - minR + 1;
-  
-  double massAverage;
-  int fractalSize = cgrMatrix->getNumberOfRows(); 
-  int index = 0;
-  
-  for (int radius = minR; radius <= maxR; ++radius) {
-    // Sandbox centers coordinates
+  double DqValue = 0.0;
+  if (q != 1) {
+    int dataLenght = maxR - minR + 1;
+    
+    double massAverage;
+    int fractalSize = cgrMatrix->getNumberOfRows(); 
+    int index = 0;
+    double qMinusOne = (q - 1.0);
+    double probabilityDistribution = 0.0;
+    double count = 0.0;
+    
+    /*// Sandbox centers coordinates
     vector<int> xCoordinates(nCenters);
     vector<int> yCoordinates(nCenters);
-    
-    generateRandomCenters(&xCoordinates, &yCoordinates);
-    vector <double> masses(nCenters);
-    
-    for (int i = 0; i < nCenters; ++i) {
-      double count = countPointsOnTheDiscreteSquareSandbox(xCoordinates.at(i),
-                                                           yCoordinates.at(i),
-                                                           radius);
+    generateRandomCenters(&xCoordinates, &yCoordinates);*/
+    for (int radius = minR; radius <= maxR; ++radius) {
+      vector <double> masses(nCenters);
       
-      masses.at(i) = pow(count, static_cast<double>(q - 1));
-      masses.at(i) = pow(count, static_cast<double>(q - 1));
-    }
-    
-    massAverage = VectorTools::mean<double, double>(masses);
-    double quotient = 
-            (static_cast<double>(radius) / static_cast<double>(fractalSize));
-    double tmpQ = static_cast<double>(q - 1);
-
-    xData.at(index) = tmpQ * log(quotient);
-    yData.at(index) = log(massAverage);
-    ++index;
-    /*cout << "      DEBUG - SandBoxMethod::calculateDiscreteDqValue::401\n"
-            "                      massAverage: " << massAverage << endl
-         << "                            (q-1): " << tmpQ << endl
+      for (int i = 0; i < nCenters; ++i) {
+        QPointF center = fractalPoints.at(indexesOfCenters.at(i));
+        int xCenterCoordinate = utils::roundToInt(center.x());
+        int yCenterCoordinate = utils::roundToInt(center.y());
+        
+        count = countPointsOnTheDiscreteSquareSandbox(xCenterCoordinate,
+                                                      yCenterCoordinate,
+                                                      radius);
+        probabilityDistribution = count / totalPoints;
+        masses.at(i) = pow(probabilityDistribution, qMinusOne);
+        cout << "radius: " << radius << "   ->  count : " << count << endl;
+      }
+      
+      massAverage = VectorTools::mean<double, double>(masses);
+      double sizeRelation = 
+              (static_cast<double>(radius) / static_cast<double>(fractalSize));
+      
+      //    xData.at(index) = qMinusOne * log(sizeRelation);
+      xData.at(index) = log(sizeRelation);
+      yData.at(index) = log(massAverage) / qMinusOne;
+     /* TRACE (__LINE__ << "\n\t"  
+         << "                      massAverage: " << massAverage << endl
+         << "                            (q-1): " << qMinusOne << endl
          << "                           radius: " << radius  << endl
-         << "                      fractalSize: " << fractalSize << endl
-         << "           (radius / fractalSize): " << quotient << endl
-         << "          log(radius/fractalSize): " << log(quotient) << endl;*/
-  }
-  /*cout << "\n           Valores x e y:" << endl;
+         << "           (radius / fractalSize): " << sizeRelation << endl
+         << "          log(radius/fractalSize): " << log(sizeRelation) << endl
+         << "                  xData.at(index): " << xData.at(index) << endl
+         << "                  yData.at(index): " << yData.at(index) << endl
+                 );*/
+      ++index;
+    }
+    /*cout << "\n           Valores x e y:" << endl;
   for (unsigned int i = 0; i < xData.size(); ++i) {
     cout << "            "<< xData.at(i)<< ";" <<yData.at(i)<<endl;
   }*/
+    
+    Linear * linear = new Linear(dataLenght, &xData, &yData);
+    DqValue = linear->getSlope();
+    delete linear;
+  }
+  else if (q == 1) {
+//    vector<double> xDataPlusEpsilon(xData.size());
+//    vector<double> yDataPlusEpsilon(yData.size());
+    vector<double> xDataMinusEpsilon(xData.size());
+    vector<double> yDataMinusEpsilon(yData.size());
+    double epsilon = 0.001;
+    double DqPlusEpsilon = calculateDiscreteDqValue(q + epsilon, 
+                                                    xData,
+                                                    yData);
+    
+    double DqMinusEpsilon = calculateDiscreteDqValue(q + epsilon, 
+                                                    xDataMinusEpsilon,
+                                                    yDataMinusEpsilon);
+    
+    DqValue = (DqPlusEpsilon + DqMinusEpsilon) / 2;
+  }
   
-  Linear * linear = new Linear(dataLenght, &xData, &yData);
-  double slope = linear->getSlope();
-  delete linear;
-  
-  return slope;
+  return DqValue;
 }
+
+void SandBoxMethod::generateRandomCenters()
+{
+  int maxIndex = fractalPoints.size();
+  int randomIndex = 0;
+  
+  for (int i = 0; i < nCenters; ++i) {
+    randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
+    indexesOfCenters.append(randomIndex);
+  }
+} 
 
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
                                           vector<int> * yCoordinates)
 {
-////  int maxNumber = static_cast<int>(cgrMatrix->nRows()) + 1;
-//  int maxNumber = static_cast<int>(cgrMatrix->getNumberOfRows());
-//  for (int i = 0; i < nCenters; ++i)
-//  {
-//    xCoordinates->at(i) = RandomTools::
-//            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
-//    yCoordinates->at(i) = RandomTools::
-//            giveIntRandomNumberBetweenZeroAndEntry(maxNumber);
-////    cout << "x: " << xCoordinates->at(i) 
-////         << "  y: " << yCoordinates->at(i) << endl;
-//  }
   vector<double> * xCoordinatesDouble =  new vector<double>(nCenters);
   vector<double> * yCoordinatesDouble =  new vector<double>(nCenters);
   
@@ -437,16 +465,18 @@ void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
   delete yCoordinatesDouble;
 }
 
+
+
 void SandBoxMethod::generateRandomCenters(vector<double> * xCoordinates,
                                           vector<double> * yCoordinates)
 {
-  int maxIndex = coordinatesOfPoints.size();
+  int maxIndex = fractalPoints.size();
   int randomIndex = 0;
           
   for (int i = 0; i < nCenters; ++i){
     randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
-    xCoordinates->at(i) = coordinatesOfPoints.at(randomIndex).x();
-    yCoordinates->at(i) = coordinatesOfPoints.at(randomIndex).y();
+    xCoordinates->at(i) = fractalPoints.at(randomIndex).x();
+    yCoordinates->at(i) = fractalPoints.at(randomIndex).y();
 //    cout << xCoordinates->at(i) << "," << yCoordinates->at(i) << endl;
   }
 } 
@@ -478,18 +508,18 @@ double SandBoxMethod::countPointsOnTheContinousSquareSandbox(const double & x,
   QPointF upperBoundPoint = QPointF(maxX, maxY);
   
   QList<QPointF>::Iterator lowerBound = 
-          qLowerBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
+          qLowerBound(fractalPoints.begin(), fractalPoints.end(),
                       lowerBoundPoint, xCoordinateLessThan);
   
   QList<QPointF>::Iterator upperBound = 
-          qUpperBound(coordinatesOfPoints.begin(), coordinatesOfPoints.end(),
+          qUpperBound(fractalPoints.begin(), fractalPoints.end(),
                       upperBoundPoint, xCoordinateLessThan);
   
-  int beginPosition = static_cast<int>(lowerBound - coordinatesOfPoints.begin());
-  int endPosition   = static_cast<int>(upperBound - coordinatesOfPoints.begin());
+  int beginPosition = static_cast<int>(lowerBound - fractalPoints.begin());
+  int endPosition   = static_cast<int>(upperBound - fractalPoints.begin());
   int length        = endPosition - beginPosition;
   
-  QList<QPointF> subList = coordinatesOfPoints.mid(beginPosition, length);
+  QList<QPointF> subList = fractalPoints.mid(beginPosition, length);
   
   qSort(subList.begin(), subList.end(), yCoordinateLessThan);
   
@@ -687,14 +717,22 @@ void SandBoxMethod::setLinearRegressionValues(QList<vector<double> > *
 }
 */
 
-const QList<QPointF> SandBoxMethod::getCoordinatesOfPoints() const
+const QList<QPointF> SandBoxMethod::getFractalPoints() const
 {
-  return coordinatesOfPoints;
+  return fractalPoints;
 }
 
-void SandBoxMethod::setCoordinatesOfPoints(const QList<QPointF> & 
-                                           coordinatesOfPoints)
+void SandBoxMethod::setFractalPoints(const QList<QPointF> & fractalPoints)
 {
-  this->coordinatesOfPoints = coordinatesOfPoints;
+  this->fractalPoints = fractalPoints;
 }
 
+QList<int> SandBoxMethod::getIndexesOfCenters()
+{
+  return indexesOfCenters;
+}
+
+void SandBoxMethod::setIndexesOfCenters(QList<int> indexesOfCenters)
+{
+  this->indexesOfCenters = indexesOfCenters;
+}
