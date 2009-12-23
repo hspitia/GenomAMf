@@ -40,6 +40,8 @@ public:
      */
     int getMaxQValue();
     
+    int getNCenters();
+    
 private:
     Ui::MfaParametersForm *ui;
     int cgrSelectedKey;
@@ -47,11 +49,14 @@ private:
     QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
       seleccionadas por el usuario */
     
-    int minQValue; /**< Valor q m�nimo seleccionado en la interfaz como 
-      par�metro para el an�lisis multifractal */
-    int maxQValue; /**< Valor q m�ximo seleccionado en la interfaz como 
-      par�metro para el an�lisis multifractal */
+    int minQValue; /**< Valor q mínimo seleccionado en la interfaz como 
+      parámetro para el análisis multifractal */
+    int maxQValue; /**< Valor q máximoseleccionado en la interfaz como 
+      parámetro para el análisis multifractal */
     
+    int nCenters; /**< Número de centros para ejecución del análisis 
+      multifractal */
+
 };
 
 #endif // MFAPARAMETERSFORM_H

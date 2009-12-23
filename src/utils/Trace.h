@@ -25,7 +25,8 @@
 
 #ifdef DEBUG_MODE
 #define TRACE(arg) (std::cout << "\nDEBUG - " << __FILE__ << ", line: " << arg << std::endl)
-#define DEBUG(arg) (std::cout << "\t" << arg)
+//#define DEBUG(arg) (std::cout << __FILE__<<":"<<__LINE__<<"\t" << arg)
+#define DEBUG(arg) (std::cout << arg << std::endl)
 #else
 #define TRACE(arg) sizeof(std::cout << arg << std::endl)
 #define DEBUG(arg) sizeof(std::cout << arg)

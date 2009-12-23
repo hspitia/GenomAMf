@@ -84,7 +84,7 @@ class AppController : public QApplication
      * Carga secuencias en la aplicacio-.n desde el archivo <code> fileName
      * </code> en formato FASTA.
      * @param fileName nombre de archivo de las secuencias.
-     * @return número de nuevas cadenas cargadas.
+     * @return nï¿½mero de nuevas cadenas cargadas.
      */
 //    int loadSequences(const string & fileName,
 //                      GenomAMf::AlphabetType & seqLoadedType);
@@ -97,11 +97,13 @@ class AppController : public QApplication
     
     QList<int> makeMultifractalAnalysis(const QList<int> & cgrKeys,
                                         const int & minQ,
-                                        const int & maxQ);
+                                        const int & maxQ,
+                                        const int & nCenters);
     
     int makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
                                   const int & minQ,
-                                  const int & maxQ);
+                                  const int & maxQ,
+                                  const int & nCenters);
     // Access
     MainWindow * getMainWindow();
 
@@ -143,43 +145,43 @@ class AppController : public QApplication
     QHash<int, QList<int> > * getCraResultSetHash();
     
   private:
-    MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
-//    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicación. */
+    MainWindow * mainWindow; /**< Ventana principal de la aplicaciï¿½n. */
+//    SeqLoader * seqLoader; /**< Cargador de secuencias en al aplicaciï¿½n. */
     CustomSequencesContainer * sequences; /**< Contenedor de secuencias de ADN y
-      proteínas de la aplicación. */
+      proteï¿½nas de la aplicaciï¿½n. */
     
-    int cgrObjectsCounter; /**< Contador de objetos de representación del juego 
-      del caos creados en la aplicación para asignar valor clave al hash 
+    int cgrObjectsCounter; /**< Contador de objetos de representaciï¿½n del juego 
+      del caos creados en la aplicaciï¿½n para asignar valor clave al hash 
       contenedor */
     
-    int mfaObjectsCounter;/**< Contador de objetos de análisis multifractal 
-      creados en la aplicación para asignar valor clave al hash 
+    int mfaObjectsCounter;/**< Contador de objetos de anï¿½lisis multifractal 
+      creados en la aplicaciï¿½n para asignar valor clave al hash 
       contenedor */
     
-    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de análisis 
-      multifractal creados en la aplicación para asignar valor clave al hash 
+    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de anï¿½lisis 
+      multifractal creados en la aplicaciï¿½n para asignar valor clave al hash 
       contenedor */
     
     QHash<int, ChaosGameRepresentation *> * cgrHash; /**< Hash de 
-      apuntadores a los objetos CGR creados en la aplicación. La clave 
-      funciona como un identificador único del objeto */
+      apuntadores a los objetos CGR creados en la aplicaciï¿½n. La clave 
+      funciona como un identificador ï¿½nico del objeto */
     
 //    QHash<int, MultifractalAnalysis *> * mfaHash; /**< Hash de 
     QHash<int, MultifractalAnalysis > * mfaHash; /**< Hash de 
-      apuntadores a los objetos Mfa creados en la aplicación. La clave 
-      funciona como un identificador único del objeto*/
+      apuntadores a los objetos Mfa creados en la aplicaciï¿½n. La clave 
+      funciona como un identificador ï¿½nico del objeto*/
     
     QHash<int, QList<int> > * mfaResultSetHash; /**< Hash de 
-      lista de claves de objetos Mfa que pertenecen a un análisis realizado. 
-      La clave funciona como un identificador único de cada lista */
+      lista de claves de objetos Mfa que pertenecen a un anï¿½lisis realizado. 
+      La clave funciona como un identificador ï¿½nico de cada lista */
     
     QHash<int, CorrelationAnalysis> * craHash; /**< Hash de apuntadores a los 
-      objetos Cra creados en la aplicación.  La clave 
-      funciona como un identificador único del objeto */
+      objetos Cra creados en la aplicaciï¿½n.  La clave 
+      funciona como un identificador ï¿½nico del objeto */
     
     QHash<int, QList<int> > * craResultSetHash; /**< Hash de 
-      lista de claves de objetos Cra que pertenecen a un análisis realizado. 
-      La clave funciona como un identificador único de cada lista */
+      lista de claves de objetos Cra que pertenecen a un anï¿½lisis realizado. 
+      La clave funciona como un identificador ï¿½nico de cada lista */
     
     QList<const ChaosGameRepresentation *>
     getCgrObjectsForAnalysis(const QList<int> sequenceKeys);

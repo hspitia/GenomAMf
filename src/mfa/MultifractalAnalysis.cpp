@@ -18,14 +18,18 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
+//#define DEBUG_MODE
 
 #include "MultifractalAnalysis.h"
+#include "utils/Trace.h"
+
 
 MultifractalAnalysis::MultifractalAnalysis()
 {
   this->cgrObject = 0;
   this->minQ = 0;
   this->maxQ = 0;
+  this->nCenters = 0;
   this->linearRegressionImgePath = "";
   this->dqSpectraImagePath = "";
   this->cqImagePath = "";
@@ -47,6 +51,7 @@ MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis &
   this->cgrObject = mfaObject.cgrObject;
   this->minQ = mfaObject.minQ;
   this->maxQ = mfaObject.maxQ;
+  this->nCenters = 300;
   this->linearRegressionImgePath = mfaObject.linearRegressionImgePath;
   this->dqSpectraImagePath = mfaObject.dqSpectraImagePath;
   this->cqImagePath = mfaObject.cqImagePath;
@@ -65,11 +70,13 @@ MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis &
 MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
                                            cgrObject,
                                            const int & minQ, 
-                                           const int & maxQ)
+                                           const int & maxQ,
+                                           const int & nCenters)
 {
   this->cgrObject = cgrObject;
   this->minQ = minQ;
   this->maxQ = maxQ;
+  this->nCenters = nCenters;
   this->linearRegressionImgePath = "";
   this->dqSpectraImagePath = "";
   this->cqImagePath = "";
@@ -161,19 +168,19 @@ void MultifractalAnalysis::performAnalysis(AnalysisType type)
 //        for (unsigned int i = 0; i < dqValues->size(); ++i) {
 //          cout << dqValues->at(i)<< endl;
 //        }
-        /*// Cálculo de valores Tauq
+        // Cálculo de valores Tauq
         calculateTqValues();
-        cout << "tq VALUES: "<<tqValues->size() << endl;
-        for (unsigned int i = 0; i < tqValues->size(); ++i) {
-          cout << tqValues->at(i)<< endl;
-        }
+//        cout << "tq VALUES: "<<tqValues->size() << endl;
+//        for (unsigned int i = 0; i < tqValues->size(); ++i) {
+//          cout << tqValues->at(i)<< endl;
+//        }
         
         // Cálculo de valores Cq
         calculateCqValues();
-        cout << "Cq VALUES: "<<cqValues->size() << endl;
-        for (unsigned int i = 0; i < cqValues->size(); ++i) {
-          cout << cqValues->at(i)<< endl;
-        }*/
+//        cout << "Cq VALUES: "<<cqValues->size() << endl;
+//        for (unsigned int i = 0; i < cqValues->size(); ++i) {
+//          cout << cqValues->at(i)<< endl;
+//        }
 
       }
       break;
@@ -191,20 +198,21 @@ void MultifractalAnalysis::performComparativeAnalysis()
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
                             *(cgrObject->getCoordinatesOfPoints()),
                             minQ - 1, // Dato adicional necesario para calcular Cq
-                            maxQ + 1); // Dato adicional necesario para calcular Cq
+                            maxQ + 1, // Dato adicional necesario para calcular Cq
+                            30);      // nCenters
   
   sandBoxObject->performAnalysis(COMPARATIVE_ANALYSIS);
-//  cout << "DEBUG MultifractalAnalysis::206 - después de ComparativeAnalysis"<< endl;
 }
 
 void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 {
+//  TRACE (__LINE__ << "\n\t" << "nCenters: " << nCenters);
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
                             *(cgrObject->getCoordinatesOfPoints()),
                             minQ - 1, // Dato adicional necesario para calcular Cq
-                            maxQ + 1);// Dato adicional necesario para calcular Cq
-  cout << "    DEBUG - MultifractalAnalysis::207 - calculateDqValues - Antes de performAnalysis("<< type << ")" << endl;
+                            maxQ + 1, // Dato adicional necesario para calcular Cq
+                            nCenters);      // nCenters
   
   sandBoxObject->performAnalysis(type);
   
@@ -216,6 +224,7 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
   
   dqValues = new vector<double>(*(sandBoxObject->getDqValues()));
   
+  
   if (sandBoxObject != 0) 
     delete sandBoxObject;
   
@@ -224,27 +233,29 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 
 void MultifractalAnalysis::calculateTqValues()
 {
-  // TODO -  SE SUPRIMIO UN VALOR EQUIVALENTE AL DE Dq CUANDO q = 1
-  int dataLenght = maxQ - minQ + /*1 +*/ 2; // Dos datos adicionales para cálculo de Cq
-  int q = minQ;
+  int dataLenght = maxQ - minQ + 1 + 2; // Dos datos adicionales para cálculo de Cq
+  int q = minQ - 1;
+  DEBUG("\nNo.;q;TauQ");
   for (int i = 0; i < dataLenght; ++i) {
-    if (q != 1) {
-      double tqValue = (q - 1) * dqValues->at(i);
-      tqValues->push_back(tqValue);
-    }
+    double tqValue = (q - 1) * dqValues->at(i);
+    tqValues->push_back(tqValue);
+    DEBUG (i+1 <<";"<< q <<";"<< tqValues->at(i) );
     ++q;
   }
 }
   
 void MultifractalAnalysis::calculateCqValues()
 {
-  // TODO - SE SUPRIMI� UN VALOR EQUIVALENTE A Dq CUNDO q = 1
-  int dataLenght = maxQ - minQ/* + 1*/;
+  int dataLenght = maxQ - minQ + 1;
+  int q = minQ;
+  DEBUG("\nNo.;q;Cq");
   for (int i = 0; i < dataLenght; i++) {
     double cqValue = (2 * tqValues->at(i + 1)) - 
                           tqValues->at(i + 2)  -
                           tqValues->at(i);
     cqValues->push_back(cqValue);
+    DEBUG (i+1 <<";"<< q <<";"<< cqValues->at(i) );
+    ++q;
   }
 }
 
@@ -364,3 +375,10 @@ vector<double> * MultifractalAnalysis::getQValues() const
   }
   return qValues;
 }
+
+int MultifractalAnalysis::getNCenters()
+{
+  return nCenters;
+}
+
+

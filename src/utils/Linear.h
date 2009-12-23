@@ -69,9 +69,6 @@ class Linear
     
     Linear(int n, vector<double> * x, vector<double> * y)
     {
-      for (unsigned int i = 0; i < x->size(); ++i) {
-       cout << x->at(i) << ";" << y->at(i) << endl;
-      }
       // calculate the averages of arrays x and y
       double xa = 0, ya = 0;
       for (int i = 0; i < n; i++)

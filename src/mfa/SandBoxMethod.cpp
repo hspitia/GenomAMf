@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include "SandBoxMethod.h"
 #include "utils/Trace.h"
@@ -27,7 +27,7 @@ SandBoxMethod::SandBoxMethod()
 {
   this->minQ                   =  -70;
   this->maxQ                   =   70;
-  this->minR                   =    0;
+  this->minR                   =    1;
   this->maxR                   =  256;
   this->totalPoints            =    0;                 
   this->cgrMatrix              =    0;
@@ -61,7 +61,7 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ                   = minQ;
   this->maxQ                   = maxQ;
-  this->minR                   = 0;
+  this->minR                   = 1;
   this->maxR                   = 256;
   this->totalPoints            = totalPoints;
   this->cgrMatrix              = cgrMatrix;
@@ -80,8 +80,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ                   = minQ;
   this->maxQ                   = maxQ;
-  this->minR                   = 0;
-  this->maxR                   = 256;
+  this->minR                   = 1;
+  this->maxR                   = 10;
   this->totalPoints            = fractalPoints.count();
   this->cgrMatrix              = cgrMatrix;
   this->nCenters               = nCenters;
@@ -156,7 +156,7 @@ void SandBoxMethod::performAnalysis(int type)
 void SandBoxMethod::performComparativeAnalysis()
 {
   
-  int nIteraciones = 3;
+  int nIteraciones = 4;
   unsigned int nIteracionesInternas = 3;
   int radio = 6;
 
@@ -188,8 +188,8 @@ void SandBoxMethod::performComparativeAnalysis()
       
 //      int x = static_cast<int> (xTmp - 0.5);
 //      int y = static_cast<int> (yTmp - 0.5);
-      int x = xTmp;
-      int y = yTmp;
+      int x = static_cast<int> (xTmp);
+      int y = static_cast<int> (yTmp);
       
       xCoordinates.at(i) = x;
       yCoordinates.at(i) = y;
@@ -282,18 +282,15 @@ void SandBoxMethod::performDiscreteAnalysis()
 {
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   
+  DEBUG ("Coeficiente regresión;q;Dq");
   for (int q = minQ; q <= maxQ; ++q) {
-//    if (q != 1) {
-      TRACE (__LINE__ << "\n\t" << "q: " << q);
-      vector<double> * xData = new vector<double> (dataLenght);
-      vector<double> * yData = new vector<double> (dataLenght);
-      
-      double dqValue = calculateDiscreteDqValue(q, *xData, *yData);
-      dqValues->push_back(dqValue);
-      TRACE (__LINE__ << "\n\t" << "dqValue: " << dqValue );
-      linearRegressionValues.append(xData);
-      linearRegressionValues.append(yData);
-//    }
+    vector<double> * xData = new vector<double> (dataLenght);
+    vector<double> * yData = new vector<double> (dataLenght);
+    
+    double dqValue = calculateDiscreteDqValue((double) q, *xData, *yData);
+    dqValues->push_back(dqValue);
+    linearRegressionValues.append(xData);
+    linearRegressionValues.append(yData);
   }
 }
 
@@ -360,7 +357,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     int dataLenght = maxR - minR + 1;
     
     double massAverage;
-    int fractalSize = cgrMatrix->getNumberOfRows(); 
+    int fractalSize = cgrMatrix->getNumberOfRows() - 1; // Menos 1 por ser matriz ampliada 
     int index = 0;
     double qMinusOne = (q - 1.0);
     double probabilityDistribution = 0.0;
@@ -372,7 +369,6 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     generateRandomCenters(&xCoordinates, &yCoordinates);*/
     for (int radius = minR; radius <= maxR; ++radius) {
       vector <double> masses(nCenters);
-      
       for (int i = 0; i < nCenters; ++i) {
         QPointF center = fractalPoints.at(indexesOfCenters.at(i));
         int xCenterCoordinate = utils::roundToInt(center.x());
@@ -383,7 +379,6 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
                                                       radius);
         probabilityDistribution = count / totalPoints;
         masses.at(i) = pow(probabilityDistribution, qMinusOne);
-        cout << "radius: " << radius << "   ->  count : " << count << endl;
       }
       
       massAverage = VectorTools::mean<double, double>(masses);
@@ -393,24 +388,20 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
       //    xData.at(index) = qMinusOne * log(sizeRelation);
       xData.at(index) = log(sizeRelation);
       yData.at(index) = log(massAverage) / qMinusOne;
-     /* TRACE (__LINE__ << "\n\t"  
-         << "                      massAverage: " << massAverage << endl
-         << "                            (q-1): " << qMinusOne << endl
-         << "                           radius: " << radius  << endl
-         << "           (radius / fractalSize): " << sizeRelation << endl
-         << "          log(radius/fractalSize): " << log(sizeRelation) << endl
-         << "                  xData.at(index): " << xData.at(index) << endl
-         << "                  yData.at(index): " << yData.at(index) << endl
-                 );*/
       ++index;
     }
-    /*cout << "\n           Valores x e y:" << endl;
-  for (unsigned int i = 0; i < xData.size(); ++i) {
-    cout << "            "<< xData.at(i)<< ";" <<yData.at(i)<<endl;
-  }*/
     
     Linear * linear = new Linear(dataLenght, &xData, &yData);
     DqValue = linear->getSlope();
+    cout.precision(10);
+    DEBUG (linear->getCoefficient() << ";" << q << ";" << DqValue);
+    
+//    cout << "x;y"<< endl;
+//    for (unsigned int i = 0; i < xData.size(); ++i) {
+//      cout << xData.at(i) << ";" << yData.at(i) << endl;
+//    }
+//    cout << endl;
+    
     delete linear;
   }
   else if (q == 1) {
@@ -419,7 +410,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     vector<double> xDataMinusEpsilon(xData.size());
     vector<double> yDataMinusEpsilon(yData.size());
     double epsilon = 0.001;
-    double DqPlusEpsilon = calculateDiscreteDqValue(q + epsilon, 
+    double DqPlusEpsilon = calculateDiscreteDqValue(q - epsilon, 
                                                     xData,
                                                     yData);
     
@@ -591,7 +582,7 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
   }*/
   
   double sum = 0.0;
-  
+//  TRACE (__LINE__ << "\n\t" << "cgrMatrix(x, y): (" << x << ", " << y << ") " << (*cgrMatrix)(x, y));
   if (radius > 0) {
     int minIndex = 0;
     int maxIndex = cgrMatrix->getNumberOfRows() - 1;

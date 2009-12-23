@@ -19,7 +19,7 @@
  *  Description:
  */
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include "utils/Trace.h"
 #include "ChaosGameRepresentation.h"
@@ -123,8 +123,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal
-//  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
+//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal
+  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
   
   int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
   int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
@@ -157,8 +157,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int xMatrix =  utils::round((double)matrixSize/2);
   int yMatrix = xMatrix;
 */
-  double xMatrix = matrixSize / 2;
-  double yMatrix = xMatrix;
+//  int xMatrix = matrixSize / 2;
+//  int yMatrix = xMatrix;
+  int xMatrix = 0;
+  int yMatrix = 0;
   
   double x = matrixSize / 2;
   double y = x;
@@ -202,7 +204,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         // Redondeo a Piso
         xMatrix = utils::roundToInt(x);
         yMatrix = utils::roundToInt(y);
-        
+
 //        cout << x << ", " << y;
 //        cout << "    "<< xMatrix << ", " << yMatrix << endl;
         
@@ -212,7 +214,9 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        int col = xMatrix;
 
 //        matrixOfPoints(row, col)++;
-        matrixOfPoints(x, y)++;
+        TRACE (__LINE__ << "\n\t" << "(x, y): (" << x << ", " << y << ") "
+               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
+        matrixOfPoints(xMatrix, yMatrix)++;
         
       }
     }

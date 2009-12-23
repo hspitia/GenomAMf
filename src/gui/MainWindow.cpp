@@ -522,19 +522,25 @@ void MainWindow::makeMultifractalAnalysis()
   // TODO - Descomentar este bloque para poner en funcionamiento el análisis 
   // multifractal de forma definitiva a través del MultifractalAnalyzer  
   QList<int> sequencesKeysList = QList<int>();
-  
+  int minQ = 0;
+  int maxQ = 0;
+  int nCenters = 0;
   MfaParametersForm * mfaParametersForm = 
           new MfaParametersForm(sequenceListModel, this);
   if (mfaParametersForm->exec() == QDialog::Accepted) {
-    int minQ = mfaParametersForm->getMinQValue();
-    int maxQ = mfaParametersForm->getMaxQValue();
+    minQ     = mfaParametersForm->getMinQValue();
+    maxQ     = mfaParametersForm->getMaxQValue();
+    nCenters = mfaParametersForm->getNCenters();
     sequencesKeysList = mfaParametersForm->getSelectedSequencesKeys();
   }
   int mfaResultSetKey = 
-          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
-//          parentApp->makeMultifractalAnalysis_(sequencesKeysList, minQ, maxQ);
+//          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
+          parentApp->makeMultifractalAnalysis_(sequencesKeysList, 
+                                               minQ, 
+                                               maxQ,
+                                               nCenters);
   
-  displayMfaResults(mfaResultSetKey);
+//  displayMfaResults(mfaResultSetKey);
   
 }
 
@@ -593,7 +599,7 @@ void MainWindow::displayResultForm(QModelIndex index)
   QModelIndex keyIndex = treeModel->index(index.row(), 2, index.parent());
   int elementType = treeModel->data(typeIndex, Qt::DisplayRole).toInt();
   int key = treeModel->data(keyIndex, Qt::DisplayRole).toInt();
-  cout << "Type: "<< elementType << "  Key: "<< key << endl;
+//  cout << "Type: "<< elementType << "  Key: "<< key << endl;
   
   switch (elementType)
   {

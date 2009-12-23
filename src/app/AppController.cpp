@@ -194,7 +194,8 @@ AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys)
 //MfaResultsForm * AppController::makeMultifractalAnalysis_(const QList<int> & 
 int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
                                              const int & minQ,
-                                             const int & maxQ)
+                                             const int & maxQ,
+                                             const int & nCenters)
 {
   QList<int> mfaKeys;
   QList<const ChaosGameRepresentation *> cgrList =
@@ -203,8 +204,10 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
   int mfaKey = 0;
   
   for (int i = 0; i < cgrList.count(); ++i) {
-    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), minQ, 
-                                                          maxQ);
+    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
+                                                          minQ, 
+                                                          maxQ,
+                                                          nCenters);
     
     mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
 //    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
@@ -226,7 +229,8 @@ int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
 
 QList<int> AppController::makeMultifractalAnalysis(const QList<int> & cgrKeys,
                                             const int & minQ,
-                                            const int & maxQ)
+                                            const int & maxQ,
+                                            const int & nCenters)
 {
   MultifractalAnalysis * mfaObject = 0;
   QList<int> mfaKeys;
@@ -244,7 +248,10 @@ QList<int> AppController::makeMultifractalAnalysis(const QList<int> & cgrKeys,
   //            fromStdString(sequence->getName())) << endl;
   
   
-  mfaObject = new MultifractalAnalysis(cgrListForAnalysis.at(0), minQ, maxQ);
+  mfaObject = new MultifractalAnalysis(cgrListForAnalysis.at(0), 
+                                       minQ, 
+                                       maxQ,
+                                       nCenters);
   mfaObject->performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
 
   return mfaKeys;

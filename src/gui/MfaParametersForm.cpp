@@ -24,7 +24,7 @@ int MfaParametersForm::getCgrSelectedKey(){
 
 void MfaParametersForm::done(int result)
 {
-  // TODO Verificar validación de existencia de modelo o index
+  // TODO Verificar validaciï¿½n de existencia de modelo o index
   
 //  if (result == QDialog::Accepted) {
 //    QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
@@ -52,6 +52,7 @@ void MfaParametersForm::done(int result)
       }
       minQValue = ui->qMinSpinBox->text().toInt();
       maxQValue = ui->qMaxSpinBox->text().toInt();
+      nCenters  = ui->nCentersSpinBox->text().toInt();
     }
   }
   QDialog::done(result);
@@ -71,4 +72,9 @@ int MfaParametersForm::getMaxQValue()
 QList<int> MfaParametersForm::getSelectedSequencesKeys()
 {
   return selectedSequencesKeys;
+}
+
+int MfaParametersForm::getNCenters()
+{
+  return nCenters;
 }

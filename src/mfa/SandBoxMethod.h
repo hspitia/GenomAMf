@@ -65,13 +65,13 @@ class SandBoxMethod
                   const int & totalPoints,
                   const int & minQ         = -20,
                   const int & maxQ         =  20,
-                  const int & nCenters     = 30);
+                  const int & nCenters     = 300);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const QList<QPointF> & fractalPoints,
                   const int & minQ     = -20,
                   const int & maxQ     =  20,
-                  const int & nCenters = 30);
+                  const int & nCenters =  300);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
