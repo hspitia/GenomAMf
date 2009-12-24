@@ -265,7 +265,7 @@ void MultifractalAnalysis::calculateCqValues()
 //  return QString();
 //}
 
-int MultifractalAnalysis::getMinQ()
+int MultifractalAnalysis::getMinQ() const
 {
   return minQ;
 }
@@ -275,7 +275,7 @@ void MultifractalAnalysis::setMinQ(int minQ)
   this->minQ = minQ;
 }
 
-int MultifractalAnalysis::getMaxQ()
+int MultifractalAnalysis::getMaxQ() const
 {
   return maxQ;
 }
@@ -330,13 +330,9 @@ vector<double> * MultifractalAnalysis::getDqValues() const
   // Se eliminan los dos datos adicionales (extremos) necesarios para el cálculo
   // de Cq 
 
-//  QList <vector <double> > * trueDqValues;
-//  vector<double> trueQData;
   unsigned int dataLength = maxQ - minQ + 1;
-  vector<double> * trueDqValues = new vector<double>(dataLength);
-  
+  vector<double> * trueDqValues = new vector<double>();
   for (unsigned int i = 1; i <= dataLength; ++i) {
-//    trueQData.push_back(dqValues->at(0).at(i));
     trueDqValues->push_back(dqValues->at(i));
   }
   

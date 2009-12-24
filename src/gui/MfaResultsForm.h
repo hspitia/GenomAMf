@@ -54,6 +54,7 @@ class MfaResultsForm : public QWidget
     void setUpCqGraphic(Plotter * plotter);
     void setUpLinearRegressionGraphic(Plotter * plotter);
     void setUpSequenceTable(const QList<QStringList> & contentList);
+    void setUpDqValuesTable(const QList<QStringList> & contentList);
     
     Ui::MfaResultsForm * getUi();
     

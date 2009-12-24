@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include "SandBoxMethod.h"
 #include "utils/Trace.h"

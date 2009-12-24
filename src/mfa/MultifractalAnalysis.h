@@ -82,13 +82,13 @@ class MultifractalAnalysis
     void calculateCqValues();
     
     
-    int getMinQ();
+    int getMinQ() const;
     
     
     void setMinQ(int minQ);
 
     
-    int getMaxQ();
+    int getMaxQ() const;
     
     
     void setMaxQ(int qMax);

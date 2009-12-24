@@ -21,6 +21,20 @@
 
 #include "Plotter.h"
 
+Plotter::Plotter(plotType type)
+{
+  this->dataListNormal    = QList<vector<double> *>();
+  this->dataListLinearReg = QList<QList<vector<double> *> >();
+  this->dataListMatrix    = 0;
+  this->type              = type;
+  this->title             = "";
+  this->xLabel            = "";
+  this->yLabel            = "";
+  this->zLabel            = "";
+  this->legends           = QStringList();
+  this->rowsOfPlot        = 1;
+}
+
 //Plotter::Plotter(const QList<vector<double> > * dataListNormal, plotType type) :
 Plotter::Plotter(const QList<vector<double> *> & dataListNormal, plotType type) :
   mglDraw()
@@ -123,10 +137,14 @@ int Plotter::Draw(mglGraph *gr)
       return 0;
     case Dq_Plot:
     case Cq_Plot:
-      plotNormalData(gr);
+//      plotNormalData(gr);
+      plotNormalData_(gr);
       return 0;
     case Measures_Plot:
       plotMeasures(gr);
+      return 0;
+    case Test_Plot:
+      plot0(gr);
       return 0;
     default:
       return 0;
@@ -163,7 +181,7 @@ void Plotter::plotLinearRegression(mglGraph * gr)
 //        y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1).at(i);
         y.a[index] = dataListLinearReg.at(mainIndex).at(j + 1)->at(i);
         
-        // Valores m�ximo y m�nimo para establecer los rangos de los gr�ficos
+        // Valores máximo y mínimo para establecer los rangos de los gráficos
         if (y.a[index] < minValue)
           minValue = y.a[index];
         
@@ -187,7 +205,8 @@ void Plotter::plotLinearRegression(mglGraph * gr)
     gr->Grid("xy", "W");
     gr->Axis();
     gr->Box();
-    gr->Plot(y, "2");
+//    gr->Plot(y, "2");
+    gr->Plot(y, "+ ");
     setLabels(gr);
   }
   
@@ -240,6 +259,84 @@ void Plotter::plotNormalData(mglGraph *gr)
   
   gr->Puts(mglPoint(maxX * 1.28, 10, 10), "texto");
   gr->Legend();
+}
+
+void Plotter::plotNormalData_(mglGraph *gr)
+{
+//  int nData = static_cast<int> (dataListNormal->at(0).size());
+  int nData = static_cast<int> (dataListNormal.at(0)->size());
+  int nSlices = dataListNormal.count() - 1;
+  
+  double minValue =  800000;
+  double maxValue = -800000;
+  
+  mglData slices[nSlices];
+  
+  for (int i = 0; i < nSlices; ++i) {
+    for (int j = 0; j < nData; ++j) {
+      slices[i] = mglData(nData);
+      slices[i].a[j] = dataListNormal.at(i+1)->at(j);
+      
+      if (slices[i].a[j] < minValue)
+        minValue = slices[i].a[j];
+      
+      if (slices[i].a[j] > maxValue)
+        maxValue = slices[i].a[j];
+      cout << "dataListNormal.at("<< i+1 <<")->at("<<j<<"): " << dataListNormal.at(i+1)->at(j) << endl;
+    }
+  }
+  
+  /*mglData y(nData, nSlices);
+  mglData f(nData, nSlices);
+  int index = 0;
+  for (int i = 0; i < nData; ++i) {
+    for (int slice = 0; slice < nSlices; ++slice) {
+      index = i + (nData * slice);
+//      y.a[index] = dataListNormal.at(j + 1).at(i);
+      y.a[index] = dataListNormal.at(slice + 1)->at(i);
+      
+      if (y.a[index] < minValue)
+        minValue = y.a[index];
+      
+      if (y.a[index] > maxValue)
+        maxValue = y.a[index];
+      
+    }
+  }*/
+  int minX = static_cast<int> (dataListNormal.at(0)->at(0));
+  int maxX = static_cast<int> (dataListNormal.at(0)->at(nData - 1));
+  
+  cout << "minX: " << minX << " maxX: " << maxX << endl;
+  cout << "minValue: " << minValue << " maxValue: " <<  maxValue << endl;
+  
+  setTitle(gr);
+  gr->SetFontSizePT(9);
+  
+//  gr->SetRanges(minX, minValue, maxX * 1.2, maxValue * 1.2);
+  gr->SetRanges(minX, minValue, maxX, maxValue);
+//  gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX * 1.2, maxValue * 1.2,
+//                                                    maxValue * 1.2));
+  gr->Axis(mglPoint(minX, minValue), mglPoint(maxX , maxValue));
+  gr->Grid("xy", "W");
+  gr->Axis();
+//  gr->Box();
+  
+//  gr->Plot(y, ". ");
+  
+  for (int i = 0; i < 1/*nSlices- 1*/ ; ++i) {
+    gr->Plot(slices[i], "r");
+  }
+  
+//  float ini[2] = {minX, maxX};
+//  gr->Fit(f, y, "m*x+b", "mb", ini);
+//  gr->Plot(f, "G");
+  setLabels(gr);
+//  gr->AddLegend("Leyenda 1", "-");
+//  gr->AddLegend("Leyenda 2", "-");
+//  gr->AddLegend("Leyenda 3", "-");
+  
+//  gr->Puts(mglPoint(maxX * 1.28, 10, 10), "texto");
+//  gr->Legend();
 }
 
 void Plotter::plotMeasures(mglGraph * gr)
@@ -318,7 +415,8 @@ void Plotter::plot0(mglGraph *gr)
   gr->SetRanges(minX, maxX, minY, maxY);
   gr->SetFontSizePT(9);
   gr->SetTicks('x', 5, 4);
-  gr->Plot(y, "b2");
+//  gr->Plot(y, "b2");
+  gr->Plot(y, "+");
   gr->Axis();
   gr->SetFontSizePT(14);
   gr->AddLegend("lectura para x", "b");

@@ -80,7 +80,7 @@ void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
 
 void MfaResultsForm::setUpSequenceTable(const QList<QStringList> & contentList)
 {
-  QTableWidget * table =  ui->sequenceList;
+  QTableWidget * table =  ui->sequenceTable;
   table->setColumnCount(2);
   table->setRowCount(contentList.count()); 
   QStringList headers;
@@ -104,6 +104,31 @@ void MfaResultsForm::setUpSequenceTable(const QList<QStringList> & contentList)
     
       table->item(row, 1)->setIcon(getIcon(iconType));
   }
+  
+}
+
+void MfaResultsForm::setUpDqValuesTable(const QList<QStringList> & contentList)
+{
+  QTableWidget * table =  ui->dqValuesTable;
+  int nCols = contentList.at(0).count();
+  int nRows = contentList.count();
+  table->setColumnCount(nCols);
+  table->setRowCount(nRows); 
+  QStringList headers;
+  headers << QString::fromUtf8("q");
+  
+  for (int row = 0; row < nRows; ++row) {
+    QStringList contentRow = contentList.at(row);
+    QTableWidgetItem * qItem = new QTableWidgetItem(contentRow.at(0));
+    table->setItem(row, 0, qItem);
+
+    for (int j = 1; j < nCols; ++j) {
+      QTableWidgetItem * dqValueItem = new QTableWidgetItem(contentRow.at(j));
+      table->setItem(row, j, dqValueItem);
+      headers << QString::fromUtf8("Dq Seq_%1").arg(j);
+    }
+  }
+  table->setHorizontalHeaderLabels(headers);
   
 }
 

@@ -55,12 +55,11 @@ MfaResultsForm * MfaResultsController::contructTheResultsForm()
   MfaResultsForm * mfaResultsForm = new MfaResultsForm(0);
   QList<Plotter *> plots = plotResults();
   
-  // TODO 2.- Implementar métodos en MfaResultForm para asignar cada plot
-  // TODO 3.- Asignar cada plot
   mfaResultsForm->setUpDqGraphic(plots.at(0)); // Dq graphic
   mfaResultsForm->setUpCqGraphic(plots.at(1)); // Cq graphic
   mfaResultsForm->setUpLinearRegressionGraphic(plots.at(2)); // Linear reg.
   mfaResultsForm->setUpSequenceTable(prepareContentSequenceTable());
+  mfaResultsForm->setUpDqValuesTable(prepareContentDqValuesTable());
 //  prepareContentSequenceTable();
   TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
   
@@ -93,6 +92,7 @@ QList<Plotter *> MfaResultsController::plotResults()
   
   Plotter * dqPlot = new Plotter(dqDataSet,Plotter::Dq_Plot);
   Plotter * cqPlot = new Plotter(cqDataSet,Plotter::Cq_Plot);
+//  Plotter * cqPlot = new Plotter(Plotter::Test_Plot);
   Plotter * linearRegressionPlot = new Plotter(linearRegressionsDataSet,
                                                Plotter::Linear_Plot);
   
@@ -123,6 +123,29 @@ QList<QStringList > MfaResultsController::prepareContentSequenceTable()
         << name;
     
     contentList << row;
+  }
+  return contentList;
+}
+
+QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
+{
+  QList<QStringList > contentList;
+  int minQ = mfaObjects.at(0).getMinQ();
+  int maxQ = mfaObjects.at(0).getMaxQ();
+  int i = 0;
+  
+  for (int q = minQ; q <= maxQ; ++q) {
+    for (int j = 0; j < mfaObjects.count(); ++j) {
+      double dqValue = mfaObjects.at(j).getDqValues()->at(i);
+      
+      QStringList row;
+      row << QString::number(q)
+          << QString::number(dqValue);
+           
+      contentList << row;
+      DEBUG(q << " " << dqValue);
+    }
+    ++i;
   }
   return contentList;
 }

@@ -50,10 +50,12 @@ class MfaResultsController
     
     QList<QStringList > prepareContentSequenceTable();
     
+    QList<QStringList > prepareContentDqValuesTable();
+    
   private:
 //    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
     QList<MultifractalAnalysis> mfaObjects; /**< Lista de apuntadores a los 
-      objetos Mfa cuyos resultados se desplegar�n por pantalla */
+      objetos Mfa cuyos resultados se desplegarán por pantalla */
     
     MfaResultsForm * mfaResultsForm; /**< Ventana para desplegar resultados 
       de los objetos Mfa*/

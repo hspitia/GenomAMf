@@ -417,21 +417,21 @@ Plotter * rectSample()
   for (unsigned int i = 0; i < y1->size(); ++i) {
     y1->at(i) = i * 0.5;
   }
-  cout << endl;
-  for (unsigned int i = 0; i < y2->size(); ++i) {
-    y2->at(i) = i * 0.8;
-  }
-  cout << endl;
-  
-  for (unsigned int i = 0; i < y3->size(); ++i) {
-    y3->at(i) = i;
-  }
+//  cout << endl;
+//  for (unsigned int i = 0; i < y2->size(); ++i) {
+//    y2->at(i) = i * 0.8;
+//  }
+//  cout << endl;
+//  
+//  for (unsigned int i = 0; i < y3->size(); ++i) {
+//    y3->at(i) = i;
+//  }
   cout << endl;
   
   data.append(q);
   data.append(y1);
-  data.append(y2);
-  data.append(y3);
+//  data.append(y2);
+//  data.append(y3);
   
   Plotter * plotter = new Plotter(data, Plotter::Dq_Plot);
   plotter->setTitle("Rectas");
@@ -494,8 +494,8 @@ int appNormal(int argc, char *argv[])
 int appPlot(int argc, char *argv[])
 {
 //    Plotter * plotter = sinSample();
-//    Plotter * plotter = rectSample();
-    Plotter * plotter = multiRectSample();
+    Plotter * plotter = rectSample();
+//    Plotter * plotter = multiRectSample();
 //  Plotter * plotter = measuresSample();
   
   QApplication a(argc, argv);
@@ -509,7 +509,7 @@ int appPlot(int argc, char *argv[])
   // Create and setup QMathGL
   QMathGL *QMGL = new QMathGL(Wnd);
   //  QMGL->setPopup(popup); // if you want to setup popup menu for QMGL
-  int nPlotRows = 3;
+  int nPlotRows = 2;
   //  QMGL->setSize(580, 260 * nPlotRows); // Linear regression
   QMGL->setSize(620, 280 * nPlotRows); // Measures
   QMGL->setDraw(plotter);
@@ -683,8 +683,8 @@ int roundTest()
 
 int main(int argc, char *argv[])
 {
-  appNormal(argc, argv);
-//  appPlot(argc, argv);
+//  appNormal(argc, argv);
+  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
 //  bppRaaTest();

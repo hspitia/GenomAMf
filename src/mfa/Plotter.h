@@ -53,7 +53,7 @@ using namespace bpp;
 class Plotter : public mglDraw
 {
   public:
-    enum plotType {Linear_Plot, Dq_Plot, Cq_Plot, Measures_Plot};
+    enum plotType {Linear_Plot, Dq_Plot, Cq_Plot, Measures_Plot, Test_Plot};
     /*
     Plotter(const QList<vector<double> > * dataList, plotType type);
     Plotter(const QList<QList<vector<double> > > * dataList, 
@@ -61,6 +61,7 @@ class Plotter : public mglDraw
     Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
             plotType type = Measures_Plot);
     */
+    Plotter(plotType type);
     Plotter(const QList<vector<double> *> & dataList, plotType type);
     Plotter(const QList<QList<vector<double> *> > & dataList, 
             plotType type = Linear_Plot);
@@ -131,6 +132,7 @@ class Plotter : public mglDraw
     
     void plotLinearRegression(mglGraph * gr);
     void plotNormalData(mglGraph * gr);
+    void plotNormalData_(mglGraph * gr);
     void plotMeasures(mglGraph * gr);
     void setLabels(mglGraph *gr);
     void setTitle(mglGraph *gr);
