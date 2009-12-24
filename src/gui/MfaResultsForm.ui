@@ -56,7 +56,7 @@
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="QTabWidget" name="tabWidget">
+    <widget class="QTabWidget" name="resultsTabWidget">
      <property name="font">
       <font>
        <pointsize>8</pointsize>
@@ -68,7 +68,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="sequencesTab">
       <attribute name="icon">
        <iconset resource="../../resources/resources.qrc">
         <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
@@ -78,11 +78,27 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
-        <widget class="QTableView" name="sequenceListView"/>
+        <widget class="QTableWidget" name="sequenceList">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionBehavior">
+          <enum>QAbstractItemView::SelectRows</enum>
+         </property>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+        </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_3">
+     <widget class="QWidget" name="dqTab">
       <attribute name="icon">
        <iconset resource="../../resources/resources.qrc">
         <normaloff>:/icons/graph_Dq.png</normaloff>:/icons/graph_Dq.png</iconset>
@@ -92,7 +108,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QScrollArea" name="scrollArea">
+        <widget class="QScrollArea" name="dqScrollArea">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -102,7 +118,7 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>472</height>
+            <height>466</height>
            </rect>
           </property>
          </widget>
@@ -134,7 +150,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="regressionTab">
       <attribute name="icon">
        <iconset resource="../../resources/resources.qrc">
         <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
@@ -144,7 +160,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <widget class="QScrollArea" name="scrollArea_2">
+        <widget class="QScrollArea" name="linearRegressionScrollArea">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -154,7 +170,7 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>472</height>
+            <height>466</height>
            </rect>
           </property>
          </widget>
@@ -186,7 +202,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_4">
+     <widget class="QWidget" name="cqTab">
       <attribute name="icon">
        <iconset resource="../../resources/resources.qrc">
         <normaloff>:/icons/graph_Cq.png</normaloff>:/icons/graph_Cq.png</iconset>
@@ -196,7 +212,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <widget class="QScrollArea" name="scrollArea_3">
+        <widget class="QScrollArea" name="cqScrollArea">
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -206,7 +222,7 @@
             <x>0</x>
             <y>0</y>
             <width>645</width>
-            <height>472</height>
+            <height>466</height>
            </rect>
           </property>
          </widget>
@@ -238,7 +254,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5">
+     <widget class="QWidget" name="tableTab">
       <attribute name="icon">
        <iconset resource="../../resources/resources.qrc">
         <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
@@ -248,7 +264,7 @@
       </attribute>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableView" name="dqValuesTableView"/>
        </item>
       </layout>
      </widget>

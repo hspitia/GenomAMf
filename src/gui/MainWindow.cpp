@@ -18,8 +18,11 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de implementacio-.n para la clase MainWindow
  */
+#define DEBUG_MODE
 
 #include "MainWindow.h"
+
+#include "utils/Trace.h"
 
 MainWindow::MainWindow(AppController *parentApp, QWidget *parent) :
   QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -540,7 +543,7 @@ void MainWindow::makeMultifractalAnalysis()
                                                maxQ,
                                                nCenters);
   
-//  displayMfaResults(mfaResultSetKey);
+  displayMfaResults(mfaResultSetKey);
   
 }
 
@@ -636,10 +639,39 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
           new MfaResultsController(mfaListFromAnalysis);
   MfaResultsForm * mfaResultsForm = 
           mfaResultsController->contructTheResultsForm();
-  
-//  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
+  
+  /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+  /*
+  QList<Plotter *> plots = mfaResultsController->plotResults();
+  
+  QDialog *Wnd = new QDialog(this);
+  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
+  
+  Wnd->resize(800, 600); // for fill up the QMGL, menu and toolbars
+  Wnd->setWindowTitle("Ventana");
+  // here I allow to scroll QMathGL -- the case 
+  // then user want to prepare huge picture
+  QScrollArea *scroll = new QScrollArea(Wnd);
+  
+  // Create and setup QMathGL
+//  QMathGL *QMGL = new QMathGL(Wnd);
+  QMathGL *QMGL = new QMathGL(mfaResultsForm);
+//  QMGL->setSize(500, 500);
+  QMGL->autoResize = true;
+  QMGL->setDraw(plots.at(1));
+  QMGL->update();
+  scroll->setWidget(QMGL);
+  mfaResultsForm->getUi()->dqScrollArea->setWidget(QMGL);
+//  QLabel * label = new QLabel("Esto es una prueba");
+//  mfaResultsForm->getUi()->dqScrollArea->setWidget(label);
+  
+  ui->mdiArea->addSubWindow(Wnd);
+  ui->mdiArea->addSubWindow(mfaResultsForm);
+  mfaResultsForm->show();
+  Wnd->show();
+  */
 }
 
 void MainWindow::displayCgrResults(const int & cgrKey)

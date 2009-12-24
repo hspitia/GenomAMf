@@ -25,15 +25,16 @@
 Plotter::Plotter(const QList<vector<double> *> & dataListNormal, plotType type) :
   mglDraw()
 {
-  this->dataListNormal = dataListNormal;
-//  this->dataListLinearReg = 0;
+  this->dataListNormal    = dataListNormal;
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix = 0;
-  this->type = type;
-  this->title = "";
-  this->xLabel = "";
-  this->yLabel = "";
-  this->zLabel = "";
+  this->dataListMatrix    = 0;
+  this->type              = type;
+  this->title             = "";
+  this->xLabel            = "";
+  this->yLabel            = "";
+  this->zLabel            = "";
+  this->legends           = QStringList();
+  this->rowsOfPlot        = 1;
 }
 
 //Plotter::Plotter(const QList<QList<vector<double> > > * dataListLinearReg,
@@ -41,28 +42,31 @@ Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
                  plotType type) :
   mglDraw()
 {
-//  this->dataListNormal = 0;
-  this->dataListNormal = QList<vector<double> *>();
+  this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = dataListLinearReg;
-  this->dataListMatrix = 0;
-  this->type = type;
-  this->title = "";
-  this->xLabel = "";
-  this->yLabel = "";
-  this->zLabel = "";
+  this->dataListMatrix    = 0;
+  this->type              = type;
+  this->title             = "";
+  this->xLabel            = "";
+  this->yLabel            = "";
+  this->zLabel            = "";
+  this->legends           = QStringList();
+  this->rowsOfPlot        = 1;
 }
 
 Plotter::Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
                  plotType type) : mglDraw()
 {
-  this->dataListNormal = QList<vector<double> *>();
+  this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix = dataListMatrix;
-  this->type = type;
-  this->title = "";
-  this->xLabel = "";
-  this->yLabel = "";
-  this->zLabel = "";
+  this->dataListMatrix    = dataListMatrix;
+  this->type              = type;
+  this->title             = "";
+  this->xLabel            = "";
+  this->yLabel            = "";
+  this->zLabel            = "";
+  this->legends           = QStringList();
+  this->rowsOfPlot        = 1;
 }
 
 Plotter::~Plotter()
@@ -350,4 +354,14 @@ QStringList Plotter::getLegends()
 void Plotter::setLegends(QStringList legends)
 {
   this->legends = legends;
+}
+
+int Plotter::getRowsOfPlot()
+{
+  return rowsOfPlot;
+}
+
+void Plotter::setRowsOfPlot(const int & rowsOfPlot)
+{
+  this->rowsOfPlot = rowsOfPlot;
 }

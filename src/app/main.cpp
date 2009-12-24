@@ -495,8 +495,8 @@ int appPlot(int argc, char *argv[])
 {
 //    Plotter * plotter = sinSample();
 //    Plotter * plotter = rectSample();
-//    Plotter * plotter = multiRectSample();
-  Plotter * plotter = measuresSample();
+    Plotter * plotter = multiRectSample();
+//  Plotter * plotter = measuresSample();
   
   QApplication a(argc, argv);
   QMainWindow *Wnd = new QMainWindow;
@@ -644,8 +644,8 @@ int bppRaaTest(){
     return 0;
   }
   catch (int e) {
-    cout << "Excepción al crear conexion con el servidor." << endl
-         << "Excepción: " << endl 
+    cout << "Excepciï¿½n al crear conexion con el servidor." << endl
+         << "Excepciï¿½n: " << endl 
          << e 
          << endl;
     return 0;
@@ -684,12 +684,12 @@ int roundTest()
 int main(int argc, char *argv[])
 {
   appNormal(argc, argv);
-//  return appPlot(argc, argv);
+//  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
 //  bppRaaTest();
 //  return roundTest();
-  // TODO Probar regresión lineal
+  // TODO Probar regresiï¿½n lineal
   return 0;
 }
 

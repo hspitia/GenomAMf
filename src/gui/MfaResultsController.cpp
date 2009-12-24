@@ -19,7 +19,12 @@
  *  Description:  
  */
 
+#define DEBUG_MODE
+ 
 #include "MfaResultsController.h"
+
+#include "utils/Trace.h"
+
 
 MfaResultsController::MfaResultsController()
 {
@@ -50,9 +55,15 @@ MfaResultsForm * MfaResultsController::contructTheResultsForm()
   MfaResultsForm * mfaResultsForm = new MfaResultsForm(0);
   QList<Plotter *> plots = plotResults();
   
-  // TODO 1.- Agregar ScrollArea's en MfaResultsForm
-  // TODO 2.- Implementar m�todos en MfaResultForm para asignar cada plot
+  // TODO 2.- Implementar métodos en MfaResultForm para asignar cada plot
   // TODO 3.- Asignar cada plot
+  mfaResultsForm->setUpDqGraphic(plots.at(0)); // Dq graphic
+  mfaResultsForm->setUpCqGraphic(plots.at(1)); // Cq graphic
+  mfaResultsForm->setUpLinearRegressionGraphic(plots.at(2)); // Linear reg.
+  mfaResultsForm->setUpSequenceTable(prepareContentSequenceTable());
+//  prepareContentSequenceTable();
+  TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
+  
    
   return mfaResultsForm;
 }
@@ -90,6 +101,30 @@ QList<Plotter *> MfaResultsController::plotResults()
   plots.append(linearRegressionPlot);
   
   return plots;
+}
+
+QList<QStringList > MfaResultsController::prepareContentSequenceTable()
+{
+  QList<QStringList > contentList;
+  QStringList row;
+  
+  for (int i = 0; i < mfaObjects.count(); ++i) {
+    const Sequence * sequence = mfaObjects.at(i).getCgrObject()->getSequence();
+    
+    int type = 
+            utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
+    
+    QString code = QString("Seq_%1").arg(i + 1);
+    
+    QString name = QString::fromStdString(sequence->getName());
+    
+    row << QString::number(type)
+        << code
+        << name;
+    
+    contentList << row;
+  }
+  return contentList;
 }
 
 //void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis *> 

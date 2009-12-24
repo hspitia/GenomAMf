@@ -21,9 +21,21 @@
 #ifndef MFARESULTSFORM_H
 #define MFARESULTSFORM_H
 
+// QT Library
 #include <QtGui/QWidget>
 #include <QtGui/QMdiSubWindow>
+
+// Project
 #include "ui_MfaResultsForm.h"
+#include <mfa/Plotter.h>
+#include <gui/TreeItem.h>
+
+
+// MathGl Library
+//#include <mgl/mgl_data.h>
+//#include <mgl/mgl_zb.h>
+//#include <mgl/mgl_font.h>
+#include <mgl/mgl_qt.h>
 
 namespace Ui
 {
@@ -37,14 +49,40 @@ class MfaResultsForm : public QWidget
   public:
     MfaResultsForm(QWidget *parent = 0);
     ~MfaResultsForm();
-
+    
+    void setUpDqGraphic(Plotter * plotter);
+    void setUpCqGraphic(Plotter * plotter);
+    void setUpLinearRegressionGraphic(Plotter * plotter);
+    void setUpSequenceTable(const QList<QStringList> & contentList);
+    
+    Ui::MfaResultsForm * getUi();
+    
+    QMathGL * getDqGraphicWidget();
+    
+    void setDqGraphicWidget(QMathGL * dqGraphicWidget);
+    
+    QMathGL * getCqGraphicWidget();
+    
+    void setCqGraphicWidget(QMathGL * cqGraphicWidget);
+    
+    QMathGL * getLinearRegressionGraphicWidget();
+    
+    void setLinearRegressionGraphicWidget(QMathGL * 
+                                          linearRegressionGraphicWidget);
+    
   private:
     Ui::MfaResultsForm *ui;
+    QMathGL * dqGraphicWidget;
+    QMathGL * cqGraphicWidget;
+    QMathGL * linearRegressionGraphicWidget;
+    
     
     /**
      * Realiza conexiones entre signals y slots.
      */
     void connectSignalsSlots();
+    void setupGraphicWidgets();
+    QIcon getIcon(const int & type) const;
     
   private slots:
     void exportImage();

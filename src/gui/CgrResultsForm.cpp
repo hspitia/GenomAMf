@@ -57,9 +57,10 @@ void CgrResultsForm::exportImage()
       }
       
       if(!imageViewer->saveImage(filename, format)){
-        QMessageBox::information(this,"Error",tr("Ocurrió un error mientras se "
-                "trataba de guardar la imagen.\n "
-                "Por favor Inténtelo nuevamente."),
+        QMessageBox::information(this,"Error",QString::fromUtf8("OcurriÃ³ un "
+                "error mientras se trataba de guardar la imagen.\n "
+                "Verifique los permisos del directorio destino e intente "
+                "guardar la imagen nuevamente."),
                 QMessageBox::Ok);
       }
       
@@ -77,7 +78,6 @@ void CgrResultsForm::setupComponents(){
   ui->buttonBox->addButton(QDialogButtonBox::Close);
   QString file = QString::fromStdString(ptrCgr->getImageFilePath());
   QImage * image = new QImage(file);
-//  cout<< "DEBUG -- CgrResultsForm::80  -- image width: " << image->width() << endl;
   imageViewer = new ImageViewer(image, this);
   QGridLayout * layout = new QGridLayout();
   layout->addWidget(imageViewer,0,0);

@@ -206,7 +206,6 @@ void MultifractalAnalysis::performComparativeAnalysis()
 
 void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 {
-//  TRACE (__LINE__ << "\n\t" << "nCenters: " << nCenters);
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
                             *(cgrObject->getCoordinatesOfPoints()),

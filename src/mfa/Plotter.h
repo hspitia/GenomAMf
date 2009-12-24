@@ -104,6 +104,10 @@ class Plotter : public mglDraw
      */
     void setLegends(QStringList legends);
     
+    int getRowsOfPlot();
+    
+    void setRowsOfPlot(const int & rowsOfPlot);
+    
   private:
     /*
     const QList<vector<double> > * dataListNormal;
@@ -115,13 +119,15 @@ class Plotter : public mglDraw
     const QList<RowMatrix<int> * > * dataListMatrix;
     
     plotType type;
-    QString title; /**< Título del gráfico */
+    QString title; /**< TÃ­tulo del grÃ¡fico */
     QString xLabel; /**< Etiqueta para el eje x */
     QString yLabel; /**< Etiqueta para el eje y */
     QString zLabel; /**< Etiqueta para el eje z */
     
     QStringList legends; /**< Lista de cadenas correspondientes a las leyendas 
-      de los gráficos */
+      de los grÃ¡ficos */
+    
+    int rowsOfPlot;
     
     void plotLinearRegression(mglGraph * gr);
     void plotNormalData(mglGraph * gr);

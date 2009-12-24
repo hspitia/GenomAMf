@@ -46,15 +46,18 @@ class MfaResultsController
     
     MfaResultsForm * contructTheResultsForm();
     
+    QList<Plotter *> plotResults();
+    
+    QList<QStringList > prepareContentSequenceTable();
+    
   private:
 //    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
     QList<MultifractalAnalysis> mfaObjects; /**< Lista de apuntadores a los 
-      objetos Mfa cuyos resultados se desplegarán por pantalla */
+      objetos Mfa cuyos resultados se desplegarï¿½n por pantalla */
     
     MfaResultsForm * mfaResultsForm; /**< Ventana para desplegar resultados 
       de los objetos Mfa*/
     
-    QList<Plotter *> plotResults();
 };
 
 #endif /* MFARESULTSCONTROLLER_H_ */
