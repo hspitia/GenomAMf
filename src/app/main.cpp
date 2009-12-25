@@ -684,7 +684,7 @@ int roundTest()
 int main(int argc, char *argv[])
 {
 //  appNormal(argc, argv);
-  appPlot(argc, argv);
+//  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
 //  bppRaaTest();
