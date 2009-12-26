@@ -9,7 +9,8 @@ QT += core \
 WIN_USER_ENV_PATH = e:/programming
 
 # Input
-HEADERS += src/utils/Trace.h \
+HEADERS += src/cra/CorrelationElement.h \
+    src/utils/Trace.h \
     src/script/ScriptBuilder.h \
     src/gui/PreprocessingScriptParametersForm.h \
     src/mfa/MultifractalAnalysis.h \
@@ -18,7 +19,6 @@ HEADERS += src/utils/Trace.h \
     src/gui/CorrelationAnalysisParametersForm.h \
     src/gui/CorrelationAnalysisResultsForm.h \
     src/gui/MfaResultsController.h \
-    src/mfa/MultifractalAnalyzer.h \
     src/mfa/Plotter.h \
     src/utils/Linear.h \
     src/mfa/SandBoxMethod.h \
@@ -38,15 +38,14 @@ HEADERS += src/utils/Trace.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/script/ScriptBuilder.cpp \
+SOURCES += src/cra/CorrelationElement.cpp \
+    src/script/ScriptBuilder.cpp \
     src/gui/PreprocessingScriptParametersForm.cpp \
     src/mfa/MultifractalAnalysis.cpp \
-    src/utils/MatrixOperations.cpp \
     src/cra/CorrelationAnalysis.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
     src/gui/CorrelationAnalysisResultsForm.cpp \
     src/gui/MfaResultsController.cpp \
-    src/mfa/MultifractalAnalyzer.cpp \
     src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
     src/utils/SeqLoader.cpp \

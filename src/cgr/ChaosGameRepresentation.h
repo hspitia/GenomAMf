@@ -135,7 +135,7 @@ class ChaosGameRepresentation
     
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se 
-      obtendrá la GRC */
+      obtendrÃ¡ la GRC */
     
     RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los 
       puntos de la CGR */
@@ -143,7 +143,7 @@ class ChaosGameRepresentation
     
     vector<int> translatedSequence; /**< Secuencia traducida al alfabeto {0,1,
       2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
-      para secuencias de proteínas. */
+      para secuencias de proteÃ­nas. */
     
     QList<QPointF> * coordinatesOfPoints; /**< Lista de coordenadas de los 
       puntos de la CGR */

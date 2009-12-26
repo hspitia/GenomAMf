@@ -28,7 +28,9 @@
 
 using namespace bpp;
 
+// Project
 #include <utils/MatrixOperations.h>
+#include <cra/CorrelationElement.h>
 
 
 /**
@@ -38,41 +40,50 @@ class CorrelationAnalysis
 {
   public:
     CorrelationAnalysis();
+    CorrelationAnalysis(const QList<CorrelationElement *> & 
+                        correlationElements,
+                        const int & nMeshFrames);
+    CorrelationAnalysis(const CorrelationAnalysis & correlationAnalysisObject);
+    CorrelationAnalysis & operator=(const CorrelationAnalysis & 
+                                    correlationAnalysisObject);
+    
     virtual ~CorrelationAnalysis();
+    
+    QList<double> performAnalysis();
+    
+    QList<CorrelationElement *> getCorrelationElements();
     
     int getNumberOfMeshFrames();
     
     void setNumberOfMeshFrames(int nMeshFrames);
     
-    int getSequenceLength();
+    void setCorrelationElements(const QList<CorrelationElement *> & 
+                                correlationElements);
     
-    void setSequenceLength(int sequenceLength);
+    QList<double> getDistances();
     
-    const RowMatrix<int> * getCgrMatrix();
-    
-    void setCgrMatrix(const RowMatrix<int> * cgrMatrix);
-    
-    const RowMatrix<double> * getMeasuresMatrix() const;
-    
-    const RowMatrix<double> * getFractalBackgroundMatrix() const;
+    void setDistances(const QList<double> & distances);
     
   private:
-    int nMeshFrames; /**< Número de cuadros de la malla por fila (o columna).  
-      La malla tendrá tamaño nMeshframes x nMeshFrames */
+    QList<CorrelationElement *> correlationElements;
     
-    int sequenceLength; /**< longitud de la secuencia bajo análisis */
+    int nMeshFrames; /**< NÃºmero de cuadros de la malla por fila (o columna).  
+      La malla tendrÃ¡ tamaÃ±o nMeshframes x nMeshFrames */
+     
+    QList<double> distances;
     
-    const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
-      obtenida de la representación de juego del caos*/
+    QList<double> calculateAverages();
     
-    RowMatrix<double> measuresMatrix; /**< Matriz de medidas mu de la secuencia */
+    QList<double> calculateVariances(const QList<double> & averages);
     
-    RowMatrix<double> fractalBackgroundMatrix; /**< Matriz de base fractal de 
-      la matriz de medidas mu*/
+    QList<double> calculateCovariances(const QList<double> & averages);
     
+    QList<double> calculateCorrelationCoefficients(const QList<double> & 
+                                                   variances,
+                                                   const QList<double> & 
+                                                   covariances);
     
-    
-    
+    QList<double> calculateDistances(const QList<double> & correlCoefficients);
     
 };
 

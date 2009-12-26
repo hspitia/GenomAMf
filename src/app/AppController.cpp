@@ -27,15 +27,15 @@
 AppController::AppController(int & argc, char ** argv) :
   QApplication(argc, argv), mainWindow(new MainWindow(this))
 {
-//  seqLoader = new SeqLoader();
   sequences             = new CustomSequencesContainer();
   cgrHash               = new QHash<int, ChaosGameRepresentation *>();
-//  mfaHash               = new QHash<int, MultifractalAnalysis *>();
   mfaHash               = new QHash<int, MultifractalAnalysis>();
   mfaResultSetHash      = new QHash<int, QList<int> >();
   cgrObjectsCounter     = 0;
   mfaObjectsCounter     = 0;
   mfaResultSetsCounter  = 0;
+  craHash               = 0;
+  creHash               = 0;
 }
 
 AppController::~AppController()
@@ -55,6 +55,18 @@ AppController::~AppController()
     mfaHash->clear();
     delete mfaHash;
     mfaHash = 0;
+  }
+  
+  if (craHash != 0) {
+    craHash->clear();
+    delete craHash;
+    craHash = 0;
+  }
+  
+  if (creHash != 0) {
+    creHash->clear();
+    delete creHash;
+    creHash = 0;
   }
 }
 
@@ -328,4 +340,10 @@ QHash<int, QList<int> > * AppController::getCraResultSetHash()
 {
   return mfaResultSetHash;
 }
- 
+
+
+QHash<int, CorrelationElement> * AppController::getCreHash()
+{
+  return creHash;
+}
+

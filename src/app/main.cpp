@@ -486,7 +486,7 @@ Plotter * multiRectSample()
 int appNormal(int argc, char *argv[])
 {
   AppController * app = new AppController(argc, argv);
-  //  app->getMainWindow()->showMaximized();
+//    app->getMainWindow()->showMaximized();
   app->getMainWindow()->show();
   return app->exec();
 }
@@ -683,13 +683,13 @@ int roundTest()
 
 int main(int argc, char *argv[])
 {
-//  appNormal(argc, argv);
+  appNormal(argc, argv);
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
 //  bppRaaTest();
 //  return roundTest();
-  // TODO Probar regresi�n lineal
+  // TODO Probar regresión lineal
   return 0;
 }
 

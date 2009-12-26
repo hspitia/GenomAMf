@@ -137,8 +137,8 @@ int Plotter::Draw(mglGraph *gr)
       return 0;
     case Dq_Plot:
     case Cq_Plot:
-//      plotNormalData(gr);
-      plotNormalData_(gr);
+      plotNormalData(gr);
+//      plotNormalData_(gr);
       return 0;
     case Measures_Plot:
       plotMeasures(gr);

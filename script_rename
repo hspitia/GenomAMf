@@ -12,7 +12,7 @@ do
    # mv $f $f.old
    # sed 's/NALISYS/NALYSIS/g' $f.old > $f
    # rm -f $f.old
-   sed -i 's/nalisys/nalysis/g' $f
-   sed -i 's/NALISYS/NALYSIS/g' $f
+   sed -i 's/DistanceInformation/CorrelationElement/g' $f
+   sed -i 's/DISTANCEINFORMATION/CORRELATIONELEMENT/g' $f
   fi
 done
