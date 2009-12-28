@@ -83,6 +83,7 @@ class SandBoxMethod
     void performContinousAnalysis();
     
     void performDiscreteAnalysis();
+    void performDiscreteAnalysis_();
     
     void performComparativeAnalysis();
 

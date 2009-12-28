@@ -1,6 +1,8 @@
 #include "CorrelationAnalysisResultsForm.h"
 
-CorrelationAnalysisResultsForm::CorrelationAnalysisResultsForm(QWidget *parent)
+CorrelationAnalysisResultsForm::
+CorrelationAnalysisResultsForm(const CorrelationAnalysis * craObject,
+                               QWidget *parent)
     : QWidget(parent),
     ui(new Ui::CorrelationAnalysisResultsFormClass())
 {

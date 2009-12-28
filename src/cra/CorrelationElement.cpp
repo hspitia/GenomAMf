@@ -18,8 +18,11 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
+//#define DEBUG_MODE
 
 #include "CorrelationElement.h"
+#include <utils/Trace.h>
+
 
 CorrelationElement::CorrelationElement()
 {
@@ -31,14 +34,15 @@ CorrelationElement::CorrelationElement()
 
 }
 CorrelationElement::CorrelationElement(const ChaosGameRepresentation * 
-                                         cgrObject,
-                                         const int & nMeshFrames)
+                                       cgrObject,
+                                       const int & nMeshFrames)
 {
   this->cgrObject         = cgrObject;
   this->distanceMatrix    = RowMatrix<int>();
   this->nMeshFrames       = nMeshFrames;
   this->symbolicSequence  = 0;
   this->distanceMatrixCalculated = false;
+  calculateDistanceMatrix();
 }
 CorrelationElement::CorrelationElement(const CorrelationElement & 
                                          correlationElementObject)
@@ -81,19 +85,38 @@ void CorrelationElement::calculateDistanceMatrix()
     symbolicSequence = generateSymbolicSequence();
     ChaosGameRepresentation * symbolicCgr = 
             new ChaosGameRepresentation(symbolicSequence);
+    symbolicCgr->performRepresentation(512, 512, true);
+//    symbolicCgr->performRepresentation(256, 20, true); // AppController::155
     
     RowMatrix<int> * measureMatrix     = calculateMuMeasures(cgrObject);
     RowMatrix<int> * fractalBackground = calculateMuMeasures(symbolicCgr);
+    int size = cgrObject->getMatrixOfPoints()->getNumberOfRows();
+     
+    MatrixOperations::normalize<int>(*measureMatrix);
+    MatrixOperations::normalize<int>(*fractalBackground);
     
+//    RowMatrix<int> * measureMatrix = new RowMatrix<int>(size, size);   
+//    MatrixOperations::normalize<int>(*(cgrObject->getMatrixOfPoints()),
+//                                     *measureMatrix);
+//    RowMatrix<int> * fractalBackground = new RowMatrix<int>(size, size);
+//    MatrixOperations::normalize<int>(*(symbolicCgr->getMatrixOfPoints()),
+//                                     *fractalBackground);
+    
+    distanceMatrix = RowMatrix<int>(size, size);
     MatrixOperations::sub<int>((*measureMatrix), (*fractalBackground),
                               distanceMatrix);
-    
+
+    TRACE(__LINE__ << "\n\t" << "distanceMatrix:");
+//    MatrixTools::print(distanceMatrix);
+    TRACE(__LINE__ << "\n\t" << "Sumatorias:");
+    DEBUG( "measureMatrix    : " << MatrixOperations::sum<int>(*measureMatrix) );
+    DEBUG( "fractalBackground: " << MatrixOperations::sum<int>(*fractalBackground) );
     distanceMatrixCalculated = true;
   }
 }
 
 
-Sequence * CorrelationElement::generateSymbolicSequence()
+Sequence * CorrelationElement::generateSymbolicSequence_()
 {
   Sequence * sequenceOut = 0;
   const Sequence * originalSequence = cgrObject->getSequence();
@@ -113,28 +136,73 @@ Sequence * CorrelationElement::generateSymbolicSequence()
   }
   
   if (sequenceType == GenomAMf::Proteic_Alphabet) {
-    sequenceOut = new Sequence("Symbolic Secuence", sequenceContent, 
+    sequenceOut = new Sequence("Symbolic Sequence", sequenceContent, 
                                new ProteicAlphabet());
     return sequenceOut;
   }
   
-  sequenceOut = new Sequence("Symbolic Secuence", sequenceContent, new DNA());
+  sequenceOut = new Sequence("Symbolic Sequence", sequenceContent, new DNA());
+  
+//  DEBUG(originalSequence->toString());
+//  DEBUG(sequenceOut->toString());
+  
+  return sequenceOut;
+}
+
+Sequence * CorrelationElement::generateSymbolicSequence()
+{
+  Sequence * sequenceOut = 0;
+  const Sequence * originalSequence = cgrObject->getSequence();
+  unsigned int sequenceLenght =  originalSequence->size();
+  
+  int sequenceType = utils::getAlphabetType(originalSequence->getAlphabet()->
+                                            getAlphabetType());
+  
+  int maxNumber = 4; // Por defecto: secuencia de nucleótidos
+  
+  if (sequenceType == GenomAMf::Proteic_Alphabet)
+    maxNumber = 21;
+  
+  vector<int> sequenceContent(sequenceLenght);
+  
+  int element  = 0;
+  int newIndex = 0;
+  
+  for (unsigned int i = 0; i < sequenceLenght; ++i) {
+    element = originalSequence->getValue(i);
+    newIndex = RandomTools::
+            giveIntRandomNumberBetweenZeroAndEntry(sequenceLenght);
+    sequenceContent.at(newIndex) = element; 
+  }
+  
+  if (sequenceType == GenomAMf::Proteic_Alphabet) {
+    sequenceOut = new Sequence("Symbolic Sequence", sequenceContent, 
+                               new ProteicAlphabet());
+    return sequenceOut;
+  }
+  
+  sequenceOut = new Sequence("Symbolic Sequence", sequenceContent, new DNA());
+  
+  DEBUG(originalSequence->toString());
+  DEBUG(sequenceOut->toString());
   
   return sequenceOut;
 }
 
 RowMatrix<int> * 
 CorrelationElement::calculateMuMeasures(const ChaosGameRepresentation * 
-                                         cgrObject)
+                                        cgrObject)
 {
   RowMatrix<int> * muMeasuresMatrix = 0;
   const RowMatrix<int> * cgrMatrix = cgrObject->getMatrixOfPoints();
   
+  int size = nMeshFrames + 1;
   int rows = static_cast<int>(cgrMatrix->getNumberOfRows());
   
-  if (nMeshFrames < rows) {
-    muMeasuresMatrix = new RowMatrix<int>(nMeshFrames, nMeshFrames);
-    int frameSize = static_cast<int>(rows / nMeshFrames);
+  if (size < rows) {
+    cout<< "\nENTRO A DIVISION EN MESH" << endl;
+    muMeasuresMatrix = new RowMatrix<int>(size, size);
+    int frameSize = static_cast<int>(rows / size);
     
     int initRow = 0;
     int endRow  = 0;
@@ -162,8 +230,8 @@ CorrelationElement::calculateMuMeasures(const ChaosGameRepresentation *
     }
   }
   else {
-    if (nMeshFrames > rows)
-      nMeshFrames = rows;
+    if (size > rows)
+      size = rows;
       
     muMeasuresMatrix = new RowMatrix<int>(*cgrMatrix);
   }
@@ -183,6 +251,9 @@ void CorrelationElement::setCgrObject(const ChaosGameRepresentation * cgrObject)
 
 const RowMatrix<int> * CorrelationElement::getDistanceMatrix() const
 {
+  if (!distanceMatrixCalculated)
+    const_cast<CorrelationElement *>(this)->calculateDistanceMatrix();
+  
   return &distanceMatrix;
 }
 

@@ -486,44 +486,6 @@ void MainWindow::makeCgr()
 
 void MainWindow::makeMultifractalAnalysis()
 {
- /* //    MfaParametersForm * mfaParametersForm = new MfaParametersForm(cgrListModel,
-  MfaParametersForm * mfaParametersForm = 
-          new MfaParametersForm(sequenceListModel, this);
-  if (mfaParametersForm->exec() == QDialog::Accepted) {
-    int minQ = mfaParametersForm->getMinQValue();
-    int maxQ = mfaParametersForm->getMaxQValue();
-    
-//     TODO - LLAMADO AL ANALISIS MULTIFRACTAL
-          QList<int> mfaKeysFromAnalysis = 
-                  parentApp->makeMultifractalAnalysis(mfaParametersForm->
-                                                      getSelectedSequencesKeys(),
-                                                      minQ,
-                                                      maxQ);
-//    int mfaResultSetKey = 
-//            parentApp->makeMultifractalAnalysis(mfaParametersForm->
-//                                                 getSelectedSequencesKeys(),
-//                                                 minQ,
-//                                                 maxQ);
-//    
-    //      displayMfaResults(mfaKeysFromAnalysis);
-    
-    
-    QMessageBox msgBox(this);
-    msgBox.setText(QString::fromUtf8("Análisis Multifractal"));
-    msgBox.setInformativeText(QString("Terminado "));
-    //      msgBox.setInformativeText(QString("Key cgr: %1\nq m�nimo: %2"
-    //                                        "\nq máximo: %3").arg(mfaKeysFromAnalysis.at(0))
-    //                                        .arg(mfaParametersForm->getMinQValue())
-    //                                        .arg(mfaParametersForm->getMaxQValue()));
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.exec();
-      
-    }
-    */
-  // TODO - Descomentar este bloque para poner en funcionamiento el análisis 
-  // multifractal de forma definitiva a través del MultifractalAnalyzer  
   QList<int> sequencesKeysList = QList<int>();
   int minQ = 0;
   int maxQ = 0;
@@ -535,65 +497,33 @@ void MainWindow::makeMultifractalAnalysis()
     maxQ     = mfaParametersForm->getMaxQValue();
     nCenters = mfaParametersForm->getNCenters();
     sequencesKeysList = mfaParametersForm->getSelectedSequencesKeys();
+    
+    int mfaResultSetKey = 
+            //          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
+            parentApp->makeMultifractalAnalysis(sequencesKeysList, 
+                                                minQ, 
+                                                maxQ,
+                                                nCenters);
+    
+    displayMfaResults(mfaResultSetKey);
   }
-  int mfaResultSetKey = 
-//          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
-          parentApp->makeMultifractalAnalysis_(sequencesKeysList, 
-                                               minQ, 
-                                               maxQ,
-                                               nCenters);
-  
-  displayMfaResults(mfaResultSetKey);
-  
 }
 
 void MainWindow::makeCorrelationAnalysis()
 {
-  /*if (cgrListModel->rowCount() == 0)
-  {
-    QMessageBox msgBox(this);
-    msgBox.setWindowTitle("GenomAMf - Análisis Multifractal");
-    msgBox.setWindowIcon(QIcon(":/icons/mfa.png"));
-    msgBox.setText("No existen Representaciones del Juego del Caos en la "
-            "aplicación.");
-    msgBox.setInformativeText("Debe realizar Representaciones del Juego del "
-            "Caos en la aplicación para ejecutar el Análisis Multifractal");
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Ok);
-    msgBox.setTextFormat(Qt::RichText);
-    msgBox.setIcon(QMessageBox::Warning);
-    msgBox.exec();
+//  int nMeshFrames = 0;
+  CorrelationAnalysisParametersForm * correlationParametersForm = 
+          new CorrelationAnalysisParametersForm(modelForDnaCra,
+                                                modelForProteinCra,
+                                                this);
+  
+  if (correlationParametersForm->exec() == QDialog::Accepted) {
+    QList<int> sequencesKeysList = 
+            correlationParametersForm->getSelectedSequencesKeys();
+//    int nMeshFrames = correlationParametersForm->getNMeshFrames();
+    int craKey = parentApp->makeCorrelationAnalysis(sequencesKeysList, 512);
+//    displayCraResults(craKey);
   }
-  else if (cgrListModel->rowCount() > 0)
-  {*/
-    CorrelationAnalysisParametersForm * correlationParametersForm = 
-            new CorrelationAnalysisParametersForm(modelForDnaCra,
-                                                  modelForProteinCra,
-                                                  this);
-    
-    if (correlationParametersForm->exec() == QDialog::Accepted) {
-      /*int minQ = mfaParametersForm->getMinQValue();
-      int maxQ = mfaParametersForm->getMaxQValue();
-      
-      QList<int> mfaKeysFromAnalysis = 
-              parentApp->makeMultifractalAnalysis(mfaParametersForm->
-                                                  getSelectedSequencesKeys(),
-                                                  minQ,
-                                                  maxQ);
-//      displayMfaResults(mfaKeysFromAnalysis);
-      
-      QMessageBox msgBox(this);
-      msgBox.setText("Análisis Multifractal");
-      msgBox.setInformativeText(QString("Key cgr: %1\nq mínimo: %2"
-                                        "\nq m�ximo: %3").arg(mfaKeysFromAnalysis.at(0))
-                                        .arg(mfaParametersForm->getMinQValue())
-                                        .arg(mfaParametersForm->getMaxQValue()));
-      msgBox.setStandardButtons(QMessageBox::Ok);
-      msgBox.setDefaultButton(QMessageBox::Ok);
-      msgBox.setTextFormat(Qt::RichText);
-      msgBox.exec();*/
-    }
-//  }
 }
 
 void MainWindow::displayResultForm(QModelIndex index)
@@ -611,7 +541,7 @@ void MainWindow::displayResultForm(QModelIndex index)
       return;
       
     case TreeItem::MfaResultItem:
-      
+      displayMfaResults(key);
       return;
       
     case TreeItem::CorrelResultItem:
@@ -619,7 +549,17 @@ void MainWindow::displayResultForm(QModelIndex index)
       return;
       
   }
-  
+}
+
+void MainWindow::displayCgrResults(const int & cgrKey)
+{
+  const ChaosGameRepresentation * cgr = parentApp->getCgrHash()->value(cgrKey);
+
+  if (cgr != 0) {
+    CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
+    ui->mdiArea->addSubWindow(cgrResultsForm);
+    cgrResultsForm->show();
+  }
 }
 
 void MainWindow::displayMfaResults(const int & mfaResultSetKey)
@@ -641,47 +581,17 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
           mfaResultsController->contructTheResultsForm();
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
-  
-  /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-  /*
-  QList<Plotter *> plots = mfaResultsController->plotResults();
-  
-  QDialog *Wnd = new QDialog(this);
-  MfaResultsForm * mfaResultsForm = new MfaResultsForm(this);
-  
-  Wnd->resize(800, 600); // for fill up the QMGL, menu and toolbars
-  Wnd->setWindowTitle("Ventana");
-  // here I allow to scroll QMathGL -- the case 
-  // then user want to prepare huge picture
-  QScrollArea *scroll = new QScrollArea(Wnd);
-  
-  // Create and setup QMathGL
-//  QMathGL *QMGL = new QMathGL(Wnd);
-  QMathGL *QMGL = new QMathGL(mfaResultsForm);
-//  QMGL->setSize(500, 500);
-  QMGL->autoResize = true;
-  QMGL->setDraw(plots.at(1));
-  QMGL->update();
-  scroll->setWidget(QMGL);
-  mfaResultsForm->getUi()->dqScrollArea->setWidget(QMGL);
-//  QLabel * label = new QLabel("Esto es una prueba");
-//  mfaResultsForm->getUi()->dqScrollArea->setWidget(label);
-  
-  ui->mdiArea->addSubWindow(Wnd);
-  ui->mdiArea->addSubWindow(mfaResultsForm);
-  mfaResultsForm->show();
-  Wnd->show();
-  */
 }
 
-void MainWindow::displayCgrResults(const int & cgrKey)
+void MainWindow::displayCraResults(const int & craKey)
 {
-  const ChaosGameRepresentation * cgr = parentApp->getCgrHash()->value(cgrKey);
-
-  if (cgr != 0) {
-    CgrResultsForm * cgrResultsForm = new CgrResultsForm(cgr, this);
-    ui->mdiArea->addSubWindow(cgrResultsForm);
-    cgrResultsForm->show();
+  CorrelationAnalysis craObject = parentApp->getCraHash()->value(craKey);
+  
+  if (!craObject.isEmpty()) {
+    CorrelationAnalysisResultsForm * craResultsForm = 
+            new CorrelationAnalysisResultsForm(&craObject, this);
+    ui->mdiArea->addSubWindow(craResultsForm);
+    craResultsForm->show();
   }
 }
 

@@ -407,8 +407,8 @@ Plotter * rectSample()
   QList<vector<double> *> data = QList<vector<double> *>();
   vector<double> * q  = new vector<double>(50);
   vector<double> * y1 = new vector<double>(50);
-  vector<double> * y2 = new vector<double>(50);
-  vector<double> * y3 = new vector<double>(50);
+//  vector<double> * y2 = new vector<double>(50);
+//  vector<double> * y3 = new vector<double>(50);
   
   int datum = -20;
   for (unsigned int i = 0; i < q->size(); ++i, datum++) {

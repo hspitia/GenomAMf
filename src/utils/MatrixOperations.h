@@ -22,8 +22,15 @@
 #ifndef MATRIXOPERATIONS_H_
 #define MATRIXOPERATIONS_H_
 
+//#define TEST_MODE
+
+#ifdef TEST_MODE
+#include <QtCore>
+#endif
+
 // STD 
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
@@ -37,8 +44,17 @@ using namespace bpp;
 /**
  * 
  */
+
+#ifdef TEST_MODE
+class MatrixOperations : public QObject
+#else 
 class MatrixOperations
+#endif
 {
+#ifdef TEST_MODE
+  Q_OBJECT
+#endif
+  
   public:
     MatrixOperations() {}
     virtual ~MatrixOperations() {}
@@ -94,46 +110,62 @@ class MatrixOperations
       unsigned int ncO = O.getNumberOfColumns();
       
       if (ncA != ncB)
-        throw DimensionException("MatrixOperations::sub(). A and B must "
+        throw DimensionException(" MatrixOperations::sub(). A and B must "
           "have the same number of columns.", ncB, ncA);
       if (nrA != nrB)
-        throw DimensionException("MatrixOperations::sub(). A and B must "
+        throw DimensionException(" MatrixOperations::sub(). A and B must "
           "have the same number of rows.", nrB, nrA);
       if (ncA != ncO)
-        throw DimensionException("MatrixOperations::sub(). A and O must "
+        throw DimensionException(" MatrixOperations::sub(). A and O must "
           "have the same number of columns.", ncO, ncA);
       if (nrA != nrO)
-        throw DimensionException("MatrixOperations::sub(). A and O must "
+        throw DimensionException(" MatrixOperations::sub(). A and O must "
           "have the same number of rows.", nrO, nrA);
        if (ncB != ncO)
-        throw DimensionException("MatrixOperations::sub(). B and O must "
+        throw DimensionException(" MatrixOperations::sub(). B and O must "
           "have the same number of columns.", ncO, ncA);
       if (nrB != nrO)
-        throw DimensionException("MatrixOperations::sub(). B and O must "
+        throw DimensionException(" MatrixOperations::sub(). B and O must "
           "have the same number of rows.", nrO, nrA);
       
       for (unsigned int i = 0; i < A.getNumberOfRows(); i++) {
         for (unsigned int j = 0; j < A.getNumberOfColumns(); j++) {
           O(i, j) = A(i, j) - B(i, j);
+//          cout << A(i,j) <<" - " <<B(i, j) << " = "<< O(i, j) << endl; 
         }
       }
     }
 
     template<class Scalar>
+    static double sum(const Matrix<Scalar>& A)
+    {
+      unsigned int nRows = A.getNumberOfRows();
+      unsigned int nCols = A.getNumberOfColumns();
+      Scalar sum = 0.0;
+      
+      for (unsigned int i = 0; i < nRows; i++) {
+        for (unsigned int j = 0; j < nCols; j++) {
+//          cout << "sum: " << sum;
+          sum += A(i, j);
+//          cout << " += " << A(i,j) << " = " << sum << endl;
+        }
+      }
+      return sum;
+    }
+    
+    template<class Scalar>
     static double average(const Matrix<Scalar>& A)
     {
       unsigned int nRows = A.getNumberOfRows();
       unsigned int nCols = A.getNumberOfColumns();
-      double sum = 0.0;
-      
-      for (unsigned int i = 0; i < nRows; i++) {
-        for (unsigned int j = 0; j < nCols; j++) {
-          sum += A(i, j);
-        }
-      }
-      
+      double sumatory = static_cast<double> (sum<Scalar> (A));
       double nElements = static_cast<double>(nRows * nCols);
-      double average = sum / nElements;
+      double average = sumatory / nElements;
+      
+      cout << " sumatory : " << sumatory 
+           << " nElements: " << nElements 
+           << " average: " <<  average 
+           << endl;
       
       return average;
     }
@@ -193,6 +225,42 @@ class MatrixOperations
       return covariance;
     }
     
+    template<class Scalar>
+    static void normalize(Matrix<Scalar>& A) throw (DimensionException) 
+    {
+      for (unsigned int i = 0; i < A.getNumberOfRows(); i++) {
+        for (unsigned int j = 0; j < A.getNumberOfColumns(); j++) {
+          if (A(i, j) > 0)
+            A(i, j) = 1;
+        }
+      }
+    }
+    
+    template<class Scalar>
+    static void normalize(const Matrix<Scalar>& A, 
+                          Matrix<Scalar>& O) throw (DimensionException) 
+    {
+      unsigned int ncA = A.getNumberOfColumns();
+      unsigned int nrA = A.getNumberOfRows();
+      unsigned int nrO = O.getNumberOfRows();
+      unsigned int ncO = O.getNumberOfColumns();
+      
+      if (ncA != ncO)
+        throw DimensionException(" MatrixOperations::normalize(). A and O must "
+          "have the same number of columns.", ncO, ncA);
+      if (nrA != nrO)
+        throw DimensionException(" MatrixOperations::normalize(). A and O must "
+          "have the same number of rows.", nrO, nrA);
+      
+      for (unsigned int i = 0; i < A.getNumberOfRows(); i++) {
+        for (unsigned int j = 0; j < A.getNumberOfColumns(); j++) {
+          if (A(i, j) > 0)
+            O(i, j) = 1;
+          else
+            O(i, j) = 0;
+        }
+      }
+    }
 };
 
 #endif /* MATRIXOPERATIONS_H_ */

@@ -90,7 +90,7 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->linearRegressionValues = QList<vector<double> *>();
   this->fractalPoints    = QList<QPointF>(fractalPoints);
   
-  generateRandomCenters();
+//  generateRandomCenters();
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
@@ -279,6 +279,45 @@ void SandBoxMethod::performContinousAnalysis()
 }
 
 void SandBoxMethod::performDiscreteAnalysis()
+{
+  int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
+  
+  DEBUG ("Coeficiente regresión;q;Dq");
+  
+  int repetitions = 300;
+  QList<vector<double> *> tmpDqList;
+  for (int i = 0; i < maxQ - minQ + 1; ++i) {
+    tmpDqList.append(new vector<double>(repetitions));
+  }
+  
+  vector<double> * xData = 0;
+  vector<double> * yData = 0;
+  int qIndex = 0;
+  double dqValue = 0.0;
+  for (int i = 0; i < repetitions; ++i) {
+    qIndex = 0;
+    generateRandomCenters();
+    for (int q = minQ; q <= maxQ; ++q) {
+      xData = new vector<double>(dataLenght);
+      yData = new vector<double>(dataLenght);
+      dqValue = calculateDiscreteDqValue((double) q, *xData, *yData);
+      tmpDqList.at(qIndex)->at(i) = dqValue;
+      ++qIndex;
+    }
+  }
+  
+  double average = 0.0;
+  for (int i = 0; i < tmpDqList.count(); ++i) {
+    average = VectorTools::mean<double, double>(*(tmpDqList.at(i)));
+    dqValues->push_back(average);
+  }
+  
+  linearRegressionValues.append(xData);
+  linearRegressionValues.append(yData);
+  
+}
+
+void SandBoxMethod::performDiscreteAnalysis_()
 {
   int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
   

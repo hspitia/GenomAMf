@@ -22,11 +22,12 @@
 #ifndef CORRELATIONELEMENT_H_
 #define CORRELATIONELEMENT_H_
 
+// STD
+#include <algorithm>
+
 // Bio++ libraries
 #include <NumCalc/Matrix.h>
 #include <Seq/Sequence.h>
-
-
 
 using namespace bpp;
 
@@ -52,7 +53,7 @@ class CorrelationElement
     virtual ~CorrelationElement();
     
     // Methods
-    void calculateDistanceMatrix();
+    
     
     // Access
     const ChaosGameRepresentation * getCgrObject() const;
@@ -80,12 +81,14 @@ class CorrelationElement
     Sequence * symbolicSequence;
 
     // Methods
+    void calculateDistanceMatrix();
     
-    
+    Sequence * generateSymbolicSequence_();
     Sequence * generateSymbolicSequence();
     
     RowMatrix<int> * calculateMuMeasures(const ChaosGameRepresentation * 
                                          cgrObject);
+    
     
 };
 

@@ -44,8 +44,6 @@ void CorrelationAnalysisParametersForm::changeTableModelToProtein(bool checked)
 
 void CorrelationAnalysisParametersForm::done(int result)
 {
-  // TODO Verificar validación de existencia de modelo o index
-  
   if (result == QDialog::Accepted) {
     QList<QModelIndex> selectedIndexes = ui->sequenceTableView->
             selectionModel()->selectedRows();
@@ -57,6 +55,8 @@ void CorrelationAnalysisParametersForm::done(int result)
         
         selectedSequencesKeys << model->data(index,Qt::UserRole).toInt();
       }
+      // TODO - Crear campo de entrada en el formulario para este parÃ¡metro
+      nMeshFrames = 512;
     }
   }
   QDialog::done(result);
@@ -66,4 +66,9 @@ void CorrelationAnalysisParametersForm::done(int result)
 QList<int> CorrelationAnalysisParametersForm::getSelectedSequencesKeys()
 {
   return selectedSequencesKeys;
+}
+    
+int CorrelationAnalysisParametersForm::getNMeshFrames()
+{
+  return nMeshFrames;
 }

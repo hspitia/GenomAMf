@@ -38,9 +38,12 @@ using namespace bpp;
 
 #include <app/AppController.h>
 #include <cgr/ChaosGameRepresentation.h>
+//#include <cra/CorrelationAnalysis.h>
+//#include <cra/CorrelationElement.h>
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
 #include <gui/CorrelationAnalysisParametersForm.h>
+#include <gui/CorrelationAnalysisResultsForm.h>
 #include <gui/MfaResultsController.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
@@ -167,10 +170,12 @@ class MainWindow : public QMainWindow
     void insertCgrToTreeView(const int & cgrKey, const int & sequenceKey);
     
     void insertCgrToCgrListModel(const int & cgrKey);
+    
+    void displayCgrResults( const int & cgrKey );
 
     void displayMfaResults(const int & mfaResultSetKey);
     
-    void displayCgrResults( const int & cgrKey );
+    void displayCraResults(const int & craKey);
     
     void updateActionsState();
 

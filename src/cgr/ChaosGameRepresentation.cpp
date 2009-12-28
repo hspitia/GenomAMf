@@ -216,7 +216,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        matrixOfPoints(row, col)++;
         TRACE (__LINE__ << "\n\t" << "(x, y): (" << x << ", " << y << ") "
                << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
-        matrixOfPoints(xMatrix, yMatrix)++;
+//        matrixOfPoints(xMatrix, yMatrix)++;
+        
+//        if (matrixOfPoints(xMatrix, yMatrix) == 0)
+          matrixOfPoints(xMatrix, yMatrix)++;
         
       }
     }

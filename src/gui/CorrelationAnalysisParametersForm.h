@@ -20,6 +20,8 @@ class CorrelationAnalysisParametersForm : public QDialog
 
     QList<int> getSelectedSequencesKeys();
     
+    int getNMeshFrames();
+    
     void done(int result);
 
   private:
@@ -31,6 +33,9 @@ class CorrelationAnalysisParametersForm : public QDialog
     
     QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
      seleccionadas por el usuario */
+    
+    int nMeshFrames; /**< Número de cuadros o subconjuntos para determinar las 
+      medidas mu de cada CGR del análisis. */
     
     void connectSignalsSlots();
     

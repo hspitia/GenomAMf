@@ -223,7 +223,6 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
   
   dqValues = new vector<double>(*(sandBoxObject->getDqValues()));
   
-  
   if (sandBoxObject != 0) 
     delete sandBoxObject;
   

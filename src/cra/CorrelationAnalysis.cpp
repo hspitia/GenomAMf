@@ -23,14 +23,15 @@
 
 CorrelationAnalysis::CorrelationAnalysis()
 {
-  this->correlationElements = QList<CorrelationElement *>();
+  this->correlationElements = QList<const CorrelationElement *>();
   this->nMeshFrames         = 0;
   this->distances           = QList<double>();
 }
 
-CorrelationAnalysis::CorrelationAnalysis(const QList<CorrelationElement *> & 
-                    correlationElements,
-                    const int & nMeshFrames)
+CorrelationAnalysis::CorrelationAnalysis(const 
+                                         QList<const CorrelationElement *> &
+                                         correlationElements,
+                                         const int & nMeshFrames)
 {
   this->correlationElements = correlationElements;
   this->nMeshFrames         = nMeshFrames;
@@ -64,11 +65,13 @@ QList<double> CorrelationAnalysis::performAnalysis()
 {
   if (distances.isEmpty()) {
     QList<double> averages  = calculateAverages();
-    QList<double> variances = calculateVariances(averages);
-    QList<double> covariances = calculateCovariances(averages);
-    QList<double> correlCoefficients = 
-            calculateCorrelationCoefficients(variances, covariances);
-    distances = calculateDistances(correlCoefficients);
+    
+    MatrixTools::print(averages.toVector().toStdVector());
+//    QList<double> variances = calculateVariances(averages);
+//    QList<double> covariances = calculateCovariances(averages);
+//    QList<double> correlCoefficients = 
+//            calculateCorrelationCoefficients(variances, covariances);
+//    distances = calculateDistances(correlCoefficients);
   }
   
   return distances;
@@ -190,13 +193,13 @@ void CorrelationAnalysis::setNumberOfMeshFrames(int nMeshFrames)
   this->nMeshFrames = nMeshFrames;
 }
 
-QList<CorrelationElement *> CorrelationAnalysis::getCorrelationElements()
+QList<const CorrelationElement *> CorrelationAnalysis::getCorrelationElements() const
 {
   return correlationElements;
 }
 
 void 
-CorrelationAnalysis::setCorrelationElements(const QList<CorrelationElement *> & 
+CorrelationAnalysis::setCorrelationElements(const QList<const CorrelationElement *> & 
                                             correlationElements)
 {
   this->correlationElements = correlationElements;
@@ -210,4 +213,13 @@ QList<double> CorrelationAnalysis::getDistances()
 void CorrelationAnalysis::setDistances(const QList<double> & distances)
 {
   this->distances = distances;
+}
+
+bool CorrelationAnalysis::isEmpty()
+{
+  bool isEmpty = correlationElements.isEmpty() && 
+                 nMeshFrames == 0 &&
+                 distances.isEmpty();
+          
+  return isEmpty;
 }

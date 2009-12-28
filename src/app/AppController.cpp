@@ -31,11 +31,13 @@ AppController::AppController(int & argc, char ** argv) :
   cgrHash               = new QHash<int, ChaosGameRepresentation *>();
   mfaHash               = new QHash<int, MultifractalAnalysis>();
   mfaResultSetHash      = new QHash<int, QList<int> >();
+  craHash               = new QHash<int, CorrelationAnalysis>();
+  creHash               = new QHash<int, CorrelationElement>();
   cgrObjectsCounter     = 0;
   mfaObjectsCounter     = 0;
   mfaResultSetsCounter  = 0;
-  craHash               = 0;
-  creHash               = 0;
+  creObjectsCounter     = 0;
+  craObjectsCounter     = 0;
 }
 
 AppController::~AppController()
@@ -140,17 +142,17 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
 {
   const Sequence * sequence = 0;
   ChaosGameRepresentation * cgrObject = 0;
-  QList<int> cgrKeys = QList<int>();
+  QList<int> cgrKeys = QList<int> ();
   
   for (int i = 0; i < sequenceKeys.count(); ++i) {
     int sequenceKey = sequenceKeys.at(i);
     int cgrKey = cgrObjectsCounter;
     
     sequence = sequences->getSequence(sequenceKey);
-    if(sequence){
+    if (sequence) {
       cgrObject = new ChaosGameRepresentation(sequence);
-      cgrObject->performRepresentation(512,512,true);
-      //    cgrObject->performRepresentation(512,20,true);
+      cgrObject->performRepresentation(512, 512, true);
+//          cgrObject->performRepresentation(256,20,true); // CorrelationElement::89
       cgrHash->insert(cgrKey, cgrObject);
       cgrKeys.append(cgrKey);
       mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);
@@ -162,9 +164,78 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
   return cgrKeys;
 }
 
+int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
+                                            const int & minQ,
+                                            const int & maxQ,
+                                            const int & nCenters)
+{
+  QList<int> mfaKeys;
+  QList<const ChaosGameRepresentation *> cgrList =
+          getCgrObjectsForAnalysis(sequenceKeys);
+  
+  int mfaKey = 0;
+  
+  for (int i = 0; i < cgrList.count(); ++i) {
+    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
+                                                          minQ, 
+                                                          maxQ,
+                                                          nCenters);
+    
+    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
+    
+    mfaKey = mfaObjectsCounter;
+    mfaHash->insert(mfaKey, mfaObject);
+    mfaKeys.append(mfaKey);
+    ++mfaObjectsCounter;
+  }
+  
+  int mfaResultSetKey = mfaResultSetsCounter;
+  mfaResultSetHash->insert(mfaResultSetKey, mfaKeys);
+  mainWindow->insertMfaResultSetTotreeView(mfaResultSetKey);
+  ++mfaResultSetsCounter;
+  
+  return mfaResultSetKey;
+}
+
+int AppController::makeCorrelationAnalysis(const QList<int> & sequenceKeys,
+                                           const int & nMeshFrames)
+{
+  QList<const CorrelationElement *> creList =
+          getCreObjectsForAnalysis(sequenceKeys, nMeshFrames);
+  
+  CorrelationAnalysis craObject = CorrelationAnalysis(creList, nMeshFrames);
+  
+  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
+  QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
+  while (i != creHash->constEnd()) {
+    QString name = 
+            QString::fromStdString(i->getCgrObject()->getSequence()->getName());
+    DEBUG ( "\t" << i.key() << "   -   " << qPrintable(name));
+    ++i;
+  }
+  
+  
+  TRACE (__LINE__ << "\n\t" << "Listado de CorrelationElement para análisis");
+  DEBUG ( "\t creList.count(): " <<  creList.count());
+  for (int i = 0; i < creList.count(); ++i) {
+    CorrelationElement * ce = const_cast<CorrelationElement *>(creList.at(i));
+    DEBUG ( "\t" << ce->getCgrObject()->getSequence()->getName());
+  }
+  
+  craObject.performAnalysis();
+  
+//  int craKey = craObjectsCounter;
+//  craHash->insert(craKey, craObject);
+//  ++craObjectsCounter;
+//  
+//  return craKey;
+  return 0;
+}
 
 QList<const ChaosGameRepresentation *>
-AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys) 
+AppController::getCgrObjectsForAnalysis(const QList<int> & sequenceKeys) 
 {
   QList<const ChaosGameRepresentation *> cgrListForAnalysis;
   QList<int> sequenceKeysForCgr;
@@ -202,71 +273,70 @@ AppController::getCgrObjectsForAnalysis(const QList<int> sequenceKeys)
   return cgrListForAnalysis;
 }
 
-//QList<int> AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
-//MfaResultsForm * AppController::makeMultifractalAnalysis_(const QList<int> & 
-int AppController::makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
-                                             const int & minQ,
-                                             const int & maxQ,
-                                             const int & nCenters)
+QList<const CorrelationElement *>
+AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
+                                        const int & nMeshFrames)
 {
-  QList<int> mfaKeys;
-  QList<const ChaosGameRepresentation *> cgrList =
-          getCgrObjectsForAnalysis(sequenceKeys);
+  QList<const CorrelationElement *> creListForAnalysis;
+  QList<int> sequenceKeysForCra;
+  QList<const ChaosGameRepresentation *> cgrObjectsForCra;
   
-  int mfaKey = 0;
-  
-  for (int i = 0; i < cgrList.count(); ++i) {
-    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
-                                                          minQ, 
-                                                          maxQ,
-                                                          nCenters);
+  // Búsqueda de objetos CorrelationElement existentes
+  for (int i = 0; i < sequenceKeys.count(); ++i) {
+    int sequenceKey = sequenceKeys.at(i);
+    QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
     
-    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
-//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
-//    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
+    DEBUG ("buscado: " << sequences->getSequence(sequenceKey));
+    DEBUG (" - " << sequences->getSequence(sequenceKey)->getName());
     
-    mfaKey = mfaObjectsCounter;
-    mfaHash->insert(mfaKey, mfaObject);
-    mfaKeys.append(mfaKey);
-    ++mfaObjectsCounter;
-  }
-    
-  int mfaResultSetKey = mfaResultSetsCounter;
-  mfaResultSetHash->insert(mfaResultSetKey, mfaKeys);
-  mainWindow->insertMfaResultSetTotreeView(mfaResultSetKey);
-  ++mfaResultSetsCounter;
-  
-  return mfaResultSetKey;
-}
-
-QList<int> AppController::makeMultifractalAnalysis(const QList<int> & cgrKeys,
-                                            const int & minQ,
-                                            const int & maxQ,
-                                            const int & nCenters)
-{
-  MultifractalAnalysis * mfaObject = 0;
-  QList<int> mfaKeys;
-  QList<const ChaosGameRepresentation * > cgrListForAnalysis;
-  
-  for (int i = 0; i < cgrKeys.count(); ++i) {
-    int cgrKey = cgrKeys.at(i);
-    if (cgrKey != -1) {
-      const ChaosGameRepresentation * cgrObject = cgrHash->value(cgrKey);
-      if (cgrObject)
-        cgrListForAnalysis.append(cgrObject);
+    bool creFound = false;
+    while (i != creHash->constEnd() && !creFound) {
+      creFound = sequences->getSequence(sequenceKey) == 
+                 i.value().getCgrObject()->getSequence();
+      
+      if (creFound)
+        creListForAnalysis.append(&(i.value())); // Adiciona apuntador al objeto 
+                                                 // CorrelationElement
+      ++i;
     }
-  }  
-  //    cout << "AppController::125 - " << qPrintable(QString::
-  //            fromStdString(sequence->getName())) << endl;
+    
+    // Obtención del objeto ChaosGameRepresentation que corresponda
+    // a la secuencia que no posee un objeto CorrelationElement relacionado
+    if (!creFound) {
+      TRACE (__LINE__ << "\n\t" << "NO ENCONTRADO - sequenceKey: " << sequenceKey );
+      QList<int> sequenceKeysForCgr;
+      sequenceKeysForCgr.append(sequenceKey);
+      cgrObjectsForCra.append(getCgrObjectsForAnalysis(sequenceKeysForCgr));
+    }
+  }
   
+  // Creación de los objetos CorrelationElement que no existen
+  QList<int> newCreKeys;
+  const ChaosGameRepresentation * cgrObject = 0;
+  int newCreKey = 0;
+//  newCre = 0;
   
-  mfaObject = new MultifractalAnalysis(cgrListForAnalysis.at(0), 
-                                       minQ, 
-                                       maxQ,
-                                       nCenters);
-  mfaObject->performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
-
-  return mfaKeys;
+  for (int i = 0; i < cgrObjectsForCra.count(); ++i) {
+    cgrObject = cgrObjectsForCra.at(i); 
+    
+    newCreKey = creObjectsCounter;
+    CorrelationElement * newCre = new CorrelationElement(cgrObject, nMeshFrames);
+    creHash->insert(newCreKey, *newCre);
+    
+    creListForAnalysis.append(newCre);
+    ++creObjectsCounter;
+  }/**/
+  
+  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
+  QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
+  while (i != creHash->constEnd()) {
+    QString name = 
+            QString::fromStdString(i->getCgrObject()->getSequence()->getName());
+    DEBUG ( "\t" << i.key() << "   -   " << qPrintable(name));
+    ++i;
+  }
+  DEBUG ("\t" << "creListForAnalysis.count(): " << creListForAnalysis.count());
+  return creListForAnalysis;
 }
 
 MainWindow * AppController::getMainWindow()
@@ -336,13 +406,13 @@ void AppController::setCraHash(QHash<int, CorrelationAnalysis> * craHash)
   this->craHash = craHash;
 }
 
-QHash<int, QList<int> > * AppController::getCraResultSetHash()
+const QHash<int, QList<int> > * AppController::getCraResultSetHash() const
 {
   return mfaResultSetHash;
 }
 
 
-QHash<int, CorrelationElement> * AppController::getCreHash()
+const QHash<int, CorrelationElement> * AppController::getCreHash() const
 {
   return creHash;
 }

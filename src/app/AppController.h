@@ -90,19 +90,16 @@ class AppController : public QApplication
 //    int loadSequences(const string & fileName, int & seqLoadedType);
     QVector<int> loadSequences(const QStringList & fileName);
     
-//    int  makeCgr(const int & sequenceKey);
-    
     QList<int> makeCgr(const QList<int> & sequenceKeys);
     
-    QList<int> makeMultifractalAnalysis(const QList<int> & cgrKeys,
-                                        const int & minQ,
-                                        const int & maxQ,
-                                        const int & nCenters);
-    
-    int makeMultifractalAnalysis_(const QList<int> & sequenceKeys,
+    int makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                   const int & minQ,
                                   const int & maxQ,
                                   const int & nCenters);
+    
+    int makeCorrelationAnalysis(const QList<int> & sequenceKeys, 
+                                const int & nMeshFrames);
+    
     // Access
     MainWindow * getMainWindow();
 
@@ -141,9 +138,9 @@ class AppController : public QApplication
     
     void setCraHash(QHash<int, CorrelationAnalysis> * craHash);
     
-    QHash<int, QList<int> > * getCraResultSetHash();
+    const QHash<int, QList<int> > * getCraResultSetHash() const;
     
-    QHash<int, CorrelationElement> * getCreHash();
+    const QHash<int, CorrelationElement> * getCreHash() const;
     
   private:
     MainWindow * mainWindow; /**< Ventana principal de la aplicación. */
@@ -162,6 +159,14 @@ class AppController : public QApplication
     int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de análisis 
       multifractal creados en la aplicación para asignar valor clave al hash 
       contenedor */
+
+    int creObjectsCounter; /**< Contador de objetos de elementos de correlación
+      (CorrelationElement) creados en la aplicación para asignar valor clave al 
+      hash contenedor */
+    
+    int craObjectsCounter; /**< Contador de objetos de análisis de correlación
+      (CorrelationAnalysis) creados en la aplicación para asignar valor clave al 
+      hash contenedor */
     
     QHash<int, ChaosGameRepresentation *> * cgrHash; /**< Hash de 
       apuntadores a los objetos CGR creados en la aplicación. La clave 
@@ -192,7 +197,11 @@ class AppController : public QApplication
     
     
     QList<const ChaosGameRepresentation *>
-    getCgrObjectsForAnalysis(const QList<int> sequenceKeys);
+    getCgrObjectsForAnalysis(const QList<int> & sequenceKeys);
+    
+    QList<const CorrelationElement *>
+    getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
+                             const int & nMeshFrames);
     
 };
 

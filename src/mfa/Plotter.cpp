@@ -245,20 +245,21 @@ void Plotter::plotNormalData(mglGraph *gr)
   setTitle(gr);
   gr->SetFontSizePT(9);
   
-  gr->SetRanges(minX, minValue, maxX * 1.2, maxValue * 1.2);
-  gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX * 1.2, maxValue * 1.2,
-                                                    maxValue * 1.2));
+  gr->SetRanges(minX, minValue * 0.98, maxX * 1.2, maxValue * 1.2);
+  gr->Axis(mglPoint(minX, minValue * 0.98, minX), 
+           mglPoint(maxX * 1.2, maxValue * 1.2, maxValue * 1.2));
+  
   gr->Grid("xy", "W");
   gr->Axis();
   gr->Box();
   gr->Plot(y, "2");
-  setLabels(gr);
-  gr->AddLegend("Leyenda 1", "-");
-  gr->AddLegend("Leyenda 2", "-");
-  gr->AddLegend("Leyenda 3", "-");
+//  setLabels(gr);
+//  gr->AddLegend("Leyenda 1", "-");
+//  gr->AddLegend("Leyenda 2", "-");
+//  gr->AddLegend("Leyenda 3", "-");
   
-  gr->Puts(mglPoint(maxX * 1.28, 10, 10), "texto");
-  gr->Legend();
+//  gr->Puts(mglPoint(maxX * 1.28, 10, 10), "texto");
+//  gr->Legend();
 }
 
 void Plotter::plotNormalData_(mglGraph *gr)
@@ -312,11 +313,13 @@ void Plotter::plotNormalData_(mglGraph *gr)
   setTitle(gr);
   gr->SetFontSizePT(9);
   
-//  gr->SetRanges(minX, minValue, maxX * 1.2, maxValue * 1.2);
-  gr->SetRanges(minX, minValue, maxX, maxValue);
-//  gr->Axis(mglPoint(minX, minValue, minX), mglPoint(maxX * 1.2, maxValue * 1.2,
-//                                                    maxValue * 1.2));
-  gr->Axis(mglPoint(minX, minValue), mglPoint(maxX , maxValue));
+//  gr->SetRanges(minX, minValue, maxX, maxValue);
+//  gr->Axis(mglPoint(minX, minValue), mglPoint(maxX , maxValue));
+  
+  gr->SetRanges(minX, minValue * 0.99, maxX * 1.01, maxValue * 1.01);
+  gr->Axis(mglPoint(minX, minValue * 0.99, minX), 
+           mglPoint(maxX * 1.01, maxValue * 1.01, maxValue * 1.01));
+  
   gr->Grid("xy", "W");
   gr->Axis();
 //  gr->Box();

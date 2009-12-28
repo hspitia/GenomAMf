@@ -40,7 +40,7 @@ class CorrelationAnalysis
 {
   public:
     CorrelationAnalysis();
-    CorrelationAnalysis(const QList<CorrelationElement *> & 
+    CorrelationAnalysis(const QList<const CorrelationElement *> & 
                         correlationElements,
                         const int & nMeshFrames);
     CorrelationAnalysis(const CorrelationAnalysis & correlationAnalysisObject);
@@ -51,21 +51,23 @@ class CorrelationAnalysis
     
     QList<double> performAnalysis();
     
-    QList<CorrelationElement *> getCorrelationElements();
+    QList<const CorrelationElement *> getCorrelationElements() const;
+    
+    void setCorrelationElements(const QList<const CorrelationElement *> & 
+                                correlationElements);
     
     int getNumberOfMeshFrames();
     
     void setNumberOfMeshFrames(int nMeshFrames);
     
-    void setCorrelationElements(const QList<CorrelationElement *> & 
-                                correlationElements);
-    
     QList<double> getDistances();
     
     void setDistances(const QList<double> & distances);
     
+    bool isEmpty();
+    
   private:
-    QList<CorrelationElement *> correlationElements;
+    QList<const CorrelationElement *> correlationElements;
     
     int nMeshFrames; /**< Número de cuadros de la malla por fila (o columna).  
       La malla tendrá tamaño nMeshframes x nMeshFrames */
