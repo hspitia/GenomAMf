@@ -158,14 +158,9 @@ class MatrixOperations
     {
       unsigned int nRows = A.getNumberOfRows();
       unsigned int nCols = A.getNumberOfColumns();
-      double sumatory = static_cast<double> (sum<Scalar> (A));
+      double sumation = static_cast<double> (sum<Scalar> (A));
       double nElements = static_cast<double>(nRows * nCols);
-      double average = sumatory / nElements;
-      
-      cout << " sumatory : " << sumatory 
-           << " nElements: " << nElements 
-           << " average: " <<  average 
-           << endl;
+      double average = sumation / nElements;
       
       return average;
     }

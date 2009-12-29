@@ -62,12 +62,14 @@ class SandBoxMethod
     SandBoxMethod(const SandBoxMethod & sandBoxObject);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                  const RowMatrix<int> * cumulativeFrequencyMatrix,
                   const int & totalPoints,
                   const int & minQ         = -20,
                   const int & maxQ         =  20,
                   const int & nCenters     = 300);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                  const RowMatrix<int> * cumulativeFrequencyMatrix,
                   const QList<QPointF> & fractalPoints,
                   const int & minQ     = -20,
                   const int & maxQ     =  20,
@@ -180,6 +182,10 @@ class SandBoxMethod
 
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
+    
+    const RowMatrix<int> * cumulativeFrequencyMatrix; /**< Apuntador a la matriz 
+      de frecuencias acumuladas de puntos obtenida de la representación de 
+      juego del caos*/
 
     QList<QPointF> fractalPoints; /**< Lista de coordenadas de puntos 
       obtenida de la representación de juego del caos*/

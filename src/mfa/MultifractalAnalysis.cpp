@@ -196,6 +196,7 @@ void MultifractalAnalysis::performComparativeAnalysis()
 {
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
+                            cgrObject->getCumulativeFrequencyMatrix(),
                             *(cgrObject->getCoordinatesOfPoints()),
                             minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1, // Dato adicional necesario para calcular Cq
@@ -208,6 +209,7 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
 {
   SandBoxMethod * sandBoxObject = 
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
+                            cgrObject->getCumulativeFrequencyMatrix(),
                             *(cgrObject->getCoordinatesOfPoints()),
                             minQ - 1, // Dato adicional necesario para calcular Cq
                             maxQ + 1, // Dato adicional necesario para calcular Cq

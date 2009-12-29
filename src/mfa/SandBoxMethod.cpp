@@ -25,87 +25,94 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ                   =  -70;
-  this->maxQ                   =   70;
-  this->minR                   =    1;
-  this->maxR                   =  256;
-  this->totalPoints            =    0;                 
-  this->cgrMatrix              =    0;
-  this->nCenters               = 1000;
-  this->indexesOfCenters       = QList<int>();
-  this->dqValues               = new vector<double>();
-  this->linearRegressionValues = QList<vector<double> *>();
-  this->fractalPoints          = QList<QPointF>();
+  this->minQ                      =  -70;
+  this->maxQ                      =   70;
+  this->minR                      =    1;
+  this->maxR                      =  256;
+  this->totalPoints               =    0;                 
+  this->cgrMatrix                 =    0;
+  this->cumulativeFrequencyMatrix =    0;                                 
+  this->nCenters                  = 1000;
+  this->indexesOfCenters          = QList<int>();
+  this->dqValues                  = new vector<double>();
+  this->linearRegressionValues    = QList<vector<double> *>();
+  this->fractalPoints             = QList<QPointF>();
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 {
-  this->minQ                   = sandBoxObject.minQ;
-  this->maxQ                   = sandBoxObject.maxQ;
-  this->minR                   = sandBoxObject.minR;
-  this->maxR                   = sandBoxObject.maxR;
-  this->totalPoints            = sandBoxObject.totalPoints;
-  this->cgrMatrix              = sandBoxObject.cgrMatrix;
-  this->nCenters               = sandBoxObject.nCenters;
-  this->indexesOfCenters       = sandBoxObject.indexesOfCenters;
-  this->dqValues               = new vector<double>(*sandBoxObject.dqValues);
-  this->linearRegressionValues = sandBoxObject.linearRegressionValues;
-  this->fractalPoints          = sandBoxObject.fractalPoints; 
+  this->minQ                      = sandBoxObject.minQ;
+  this->maxQ                      = sandBoxObject.maxQ;
+  this->minR                      = sandBoxObject.minR;
+  this->maxR                      = sandBoxObject.maxR;
+  this->totalPoints               = sandBoxObject.totalPoints;
+  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
+  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
+  this->nCenters                  = sandBoxObject.nCenters;
+  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
+  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
+  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
+  this->fractalPoints             = sandBoxObject.fractalPoints; 
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                             const RowMatrix<int> * cumulativeFrequencyMatrix,
                              const int & totalPoints,
                              const int & minQ,
                              const int & maxQ,
                              const int & nCenters)
 {
-  this->minQ                   = minQ;
-  this->maxQ                   = maxQ;
-  this->minR                   = 1;
-  this->maxR                   = 256;
-  this->totalPoints            = totalPoints;
-  this->cgrMatrix              = cgrMatrix;
-  this->nCenters               = nCenters;
-  this->indexesOfCenters       = QList<int>();
-  this->dqValues               = new vector<double>();
-  this->linearRegressionValues = QList<vector<double> *>();
-  this->fractalPoints    = QList<QPointF>();
+  this->minQ                      = minQ;
+  this->maxQ                      = maxQ;
+  this->minR                      = 1;
+  this->maxR                      = 256;
+  this->totalPoints               = totalPoints;
+  this->cgrMatrix                 = cgrMatrix;
+  this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
+  this->nCenters                  = nCenters;
+  this->indexesOfCenters          = QList<int>();
+  this->dqValues                  = new vector<double>();
+  this->linearRegressionValues    = QList<vector<double> *>();
+  this->fractalPoints             = QList<QPointF>();
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                             const RowMatrix<int> * cumulativeFrequencyMatrix,
                              const QList<QPointF> & fractalPoints,
                              const int & minQ,
                              const int & maxQ,
                              const int & nCenters)
 {
-  this->minQ                   = minQ;
-  this->maxQ                   = maxQ;
-  this->minR                   = 1;
-  this->maxR                   = 10;
-  this->totalPoints            = fractalPoints.count();
-  this->cgrMatrix              = cgrMatrix;
-  this->nCenters               = nCenters;
-  this->indexesOfCenters       = QList<int>();
-  this->dqValues               = new vector<double>();
-  this->linearRegressionValues = QList<vector<double> *>();
-  this->fractalPoints    = QList<QPointF>(fractalPoints);
+  this->minQ                      = minQ;
+  this->maxQ                      = maxQ;
+  this->minR                      = 10;
+  this->maxR                      = 256;
+  this->totalPoints               = fractalPoints.count();
+  this->cgrMatrix                 = cgrMatrix;
+  this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
+  this->nCenters                  = nCenters;
+  this->indexesOfCenters          = QList<int>();
+  this->dqValues                  = new vector<double>();
+  this->linearRegressionValues    = QList<vector<double> *>();
+  this->fractalPoints             = QList<QPointF>(fractalPoints);
   
 //  generateRandomCenters();
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
 {
-  this->minQ                   = sandBoxObject.minQ;
-  this->maxQ                   = sandBoxObject.maxQ;
-  this->minR                   = sandBoxObject.minR;
-  this->maxR                   = sandBoxObject.maxR;
-  this->totalPoints            = sandBoxObject.totalPoints;
-  this->cgrMatrix              = sandBoxObject.cgrMatrix;
-  this->nCenters               = sandBoxObject.nCenters;
-  this->indexesOfCenters       = sandBoxObject.indexesOfCenters;
-  this->dqValues               = new vector<double>(*sandBoxObject.dqValues);
-  this->linearRegressionValues = sandBoxObject.linearRegressionValues;
-  this->fractalPoints    = sandBoxObject.fractalPoints;
+  this->minQ                      = sandBoxObject.minQ;
+  this->maxQ                      = sandBoxObject.maxQ;
+  this->minR                      = sandBoxObject.minR;
+  this->maxR                      = sandBoxObject.maxR;
+  this->totalPoints               = sandBoxObject.totalPoints;
+  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
+  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
+  this->nCenters                  = sandBoxObject.nCenters;
+  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
+  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
+  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
+  this->fractalPoints             = sandBoxObject.fractalPoints;
   
   return *this;
 }
@@ -284,7 +291,8 @@ void SandBoxMethod::performDiscreteAnalysis()
   
   DEBUG ("Coeficiente regresión;q;Dq");
   
-  int repetitions = 300;
+//  int repetitions = 1;
+  int repetitions = 50;
   QList<vector<double> *> tmpDqList;
   for (int i = 0; i < maxQ - minQ + 1; ++i) {
     tmpDqList.append(new vector<double>(repetitions));
@@ -402,11 +410,9 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     double probabilityDistribution = 0.0;
     double count = 0.0;
     
-    /*// Sandbox centers coordinates
-    vector<int> xCoordinates(nCenters);
-    vector<int> yCoordinates(nCenters);
-    generateRandomCenters(&xCoordinates, &yCoordinates);*/
-    for (int radius = minR; radius <= maxR; ++radius) {
+  
+//    for (int radius = minR; radius <= maxR; ++radius) {
+    for (int radius = minR; radius <= maxR; radius += 2) {
       vector <double> masses(nCenters);
       for (int i = 0; i < nCenters; ++i) {
         QPointF center = fractalPoints.at(indexesOfCenters.at(i));
@@ -580,46 +586,7 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
                                                             const int & y, 
                                                             const int & radius)
 {
-  /*double sum   = 0.0;
-   
-  if (radius > 0) {
-    int minIndex = 0;
-    int maxIndex = cgrMatrix->getNumberOfRows() - 1;
-    int initRow  = maxIndex - (y + radius);
-    int initCol  = x - radius;
-//    int endRow   = maxIndex - (y - radius);
-    int endRow   = maxIndex - (y - radius) - 1;
-//    int endCol   = x + radius;
-    int endCol   = x + radius - 1;
-    
-    if (initRow < minIndex)
-      initRow = 0;
-    
-    if (initCol < minIndex)
-      initCol = 0;
-    
-    if (endCol > maxIndex)
-      endCol = maxIndex;
-    
-    if (endRow > maxIndex)
-      endRow = maxIndex;
-    
-    
-    cout << "\n\nDEBUG -- SandBoxMethod::605" << endl;
-    cout << "centro:  (" << x << ", " << y << ") " << "(" << maxRow - y << ", " << x << ")  "<< endl;
-    cout << "inicial: (" << initRow << ", " << initCol << ")  "<< endl;
-    cout << "final:   (" << endRow << ", " << endCol << ")  "<< endl;
-    
-    for (int row = initRow; row <= endRow; ++row) {
-      for (int col = initCol; col <= endCol; ++col) {
-        sum = sum + (*cgrMatrix)(row, col);
-      }
-    }
-  }
-  else if (radius == 0) {
-    sum += (*cgrMatrix)(y, x);
-  }*/
-  
+  /*
   double sum = 0.0;
 //  TRACE (__LINE__ << "\n\t" << "cgrMatrix(x, y): (" << x << ", " << y << ") " << (*cgrMatrix)(x, y));
   if (radius > 0) {
@@ -645,6 +612,46 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
       for (int j = initY; j <= endY; ++j) {
         sum = sum + (*cgrMatrix)(i, j);
       }
+    }
+    
+    double sum2 = 0.0;
+    for (int j = initY; j <= endY; ++j) {
+      sum2 += (*cumulativeFrequencyMatrix)(endX + 1, j) - 
+              (*cumulativeFrequencyMatrix)(initX   , j);
+    }
+    
+    cout << "Iguales ? "<< "(sum == sum2): (" << sum << " == " << sum2 << ") " 
+         << boolalpha << (sum == sum2) << endl;
+  }
+  else if (radius == 0) {
+    sum += (*cgrMatrix)(x, y);
+  }
+  */
+  
+  double sum = 0.0;
+  if (radius > 0) {
+    int minIndex = 0;
+    int maxIndex = cgrMatrix->getNumberOfRows() - 1;
+    int initX = x - radius;
+    int initY = y - radius;
+    int endX  = x + radius - 1; 
+    int endY  = y + radius - 1;
+    
+    if (initX < minIndex)
+      initX = 0;
+    
+    if (initY < minIndex)
+      initY = 0;
+    
+    if (endX > maxIndex)
+      endX = maxIndex;
+    
+    if (endY > maxIndex)
+      endY = maxIndex;
+    
+    for (int j = initY; j <= endY; ++j) {
+      sum += (*cumulativeFrequencyMatrix)(endX + 1, j) - 
+             (*cumulativeFrequencyMatrix)(initX   , j);
     }
   }
   else if (radius == 0) {

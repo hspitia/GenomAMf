@@ -68,6 +68,10 @@ class CorrelationElement
     
     const Sequence * getSymbolicSequence() const;
     
+    double getAverage() const;
+    
+    double getVariance() const;
+    
   private:
     const ChaosGameRepresentation * cgrObject;
     
@@ -79,7 +83,11 @@ class CorrelationElement
     bool distanceMatrixCalculated;
     
     Sequence * symbolicSequence;
-
+    
+    double average; /**< Promedio de la matriz de distancia */
+    
+    double variance; /**< Varianza de la matriz de distancia */
+    
     // Methods
     void calculateDistanceMatrix();
     
@@ -88,6 +96,10 @@ class CorrelationElement
     
     RowMatrix<int> * calculateMuMeasures(const ChaosGameRepresentation * 
                                          cgrObject);
+    
+    void calculateAverage();
+    void calculateVariance();
+    
     
     
 };

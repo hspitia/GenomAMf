@@ -48,7 +48,8 @@ void CorrelationAnalysisParametersForm::done(int result)
     QList<QModelIndex> selectedIndexes = ui->sequenceTableView->
             selectionModel()->selectedRows();
     
-    if (!selectedIndexes.isEmpty()) {
+    if (!selectedIndexes.isEmpty() && selectedIndexes.count() >= 2) {
+      
       for (int i = 0; i < selectedIndexes.count(); ++i) {
         QModelIndex index = selectedIndexes.at(i);
         QAbstractItemModel *model = ui->sequenceTableView->model();
@@ -57,10 +58,17 @@ void CorrelationAnalysisParametersForm::done(int result)
       }
       // TODO - Crear campo de entrada en el formulario para este parámetro
       nMeshFrames = 512;
+      QDialog::done(result);
+    }
+    else {
+      QMessageBox::warning(this, tr("GenomAMf"),
+                           QString::fromUtf8("Debe seleccionar como mínimo "
+                                   "2 secuencias.\n"),
+                           QMessageBox::Ok);
     }
   }
-  QDialog::done(result);
-  
+  else 
+    QDialog::done(result);
 }
 
 QList<int> CorrelationAnalysisParametersForm::getSelectedSequencesKeys()

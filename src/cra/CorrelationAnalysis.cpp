@@ -18,6 +18,9 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
+//#define DEBUG_MODE
+
+#include <utils/Trace.h>
 
 #include "CorrelationAnalysis.h"
 
@@ -64,13 +67,19 @@ CorrelationAnalysis::~CorrelationAnalysis()
 QList<double> CorrelationAnalysis::performAnalysis()
 {
   if (distances.isEmpty()) {
-    QList<double> averages  = calculateAverages();
+//    QList<double> averages  = calculateAverages();
     
-    MatrixTools::print(averages.toVector().toStdVector());
+//    MatrixTools::print(averages.toVector().toStdVector());
 //    QList<double> variances = calculateVariances(averages);
 //    QList<double> covariances = calculateCovariances(averages);
-//    QList<double> correlCoefficients = 
-//            calculateCorrelationCoefficients(variances, covariances);
+    QList<double> covariances = calculateCovariances();
+    
+    TRACE (__LINE__ << "\n\t" << "ANTES");
+    QList<double> correlCoefficients = 
+            calculateCorrelationCoefficients(/*variances,*/ covariances);
+    MatrixTools::print(correlCoefficients.toVector().toStdVector());
+    
+    TRACE (__LINE__ << "\n\t" << "Covarianzas calculadas");
 //    distances = calculateDistances(correlCoefficients);
   }
   
@@ -97,12 +106,12 @@ CorrelationAnalysis::calculateVariances(const QList<double> & averages)
   QList<double> variances;
   const RowMatrix<int> * matrix = 0;
   double average = 0.0;
-  
   for (int i = 0; i < averages.count(); ++i) {
     matrix = correlationElements.at(i)->getDistanceMatrix();
     average = averages.at(i);
     double variance = MatrixOperations::variance<int>(*matrix, average);
     variances.append(variance);
+//    cout << correlationElements.at(i)->getVariance() << " "; 
     matrix = 0;
   }
   
@@ -110,7 +119,8 @@ CorrelationAnalysis::calculateVariances(const QList<double> & averages)
 }
 
 QList<double> 
-CorrelationAnalysis::calculateCovariances(const QList<double> & averages)
+//CorrelationAnalysis::calculateCovariances(const QList<double> & averages)
+CorrelationAnalysis::calculateCovariances()
 {
   QList<double> covariances;
   int nElements = correlationElements.count();
@@ -121,11 +131,11 @@ CorrelationAnalysis::calculateCovariances(const QList<double> & averages)
   
   for (int i = 0; i < nElements; ++i) {
     matrixA  = correlationElements.at(i)->getDistanceMatrix();
-    averageA = averages.at(i);
+    averageA = correlationElements.at(i)->getAverage();
     
     for (int j = i + 1; j < nElements; ++j) {
       matrixB  = correlationElements.at(j)->getDistanceMatrix();
-      averageB = averages.at(j);
+      averageB = correlationElements.at(j)->getAverage();
       double covariance = 
               MatrixOperations::covariance<int>(*matrixA, *matrixB,
                                                 averageA, averageB);
@@ -134,14 +144,13 @@ CorrelationAnalysis::calculateCovariances(const QList<double> & averages)
     matrixA = 0;
     matrixB = 0;
   }
-  
   return covariances;
 }
 
 
 QList<double> 
-CorrelationAnalysis::calculateCorrelationCoefficients(const QList<double> & 
-                                                      variances,
+CorrelationAnalysis::calculateCorrelationCoefficients(/*const QList<double> & 
+                                                      variances,*/
                                                       const QList<double> & 
                                                       covariances)
 {
@@ -153,10 +162,12 @@ CorrelationAnalysis::calculateCorrelationCoefficients(const QList<double> &
   int index = 0;
   
   for (int i = 0; i < nElements; ++i) {
-    varianceA  = variances.at(i);
+//    varianceA  = variances.at(i);
+    varianceA  = correlationElements.at(i)->getVariance();
     
     for (int j = i + 1; j < nElements; ++j) {
-      varianceB = variances.at(j);
+//      varianceB = variances.at(j);
+      varianceB  = correlationElements.at(j)->getVariance();
       covarianceAB = covariances.at(index);
       double correlCoefficient = covarianceAB / (varianceA * varianceB);
       correlCoefficients.append(correlCoefficient);

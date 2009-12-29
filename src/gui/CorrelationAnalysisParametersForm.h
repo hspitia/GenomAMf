@@ -3,6 +3,8 @@
 
 //#include <QtGui/QWidget>
 #include <QtGui/QDialog>
+#include <QtGui/QMessageBox>
+
 #include "ui_CorrelationAnalysisParametersForm.h"
 #include <gui/SequenceListModel.h>
 

@@ -78,10 +78,11 @@ class CorrelationAnalysis
     
     QList<double> calculateVariances(const QList<double> & averages);
     
-    QList<double> calculateCovariances(const QList<double> & averages);
+//    QList<double> calculateCovariances(const QList<double> & averages);
+    QList<double> calculateCovariances();
     
-    QList<double> calculateCorrelationCoefficients(const QList<double> & 
-                                                   variances,
+    QList<double> calculateCorrelationCoefficients(/*const QList<double> & 
+                                                   variances,*/
                                                    const QList<double> & 
                                                    covariances);
     

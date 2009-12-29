@@ -26,6 +26,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QStringList>
+#include <QTime>
 
 
 // Seqlib library 

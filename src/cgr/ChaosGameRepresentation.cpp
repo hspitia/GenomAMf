@@ -27,32 +27,35 @@
 
 ChaosGameRepresentation::ChaosGameRepresentation()
 {
-  this->sequence = 0;
-  this->matrixOfPoints = RowMatrix<int> ();
-  this->imagefilePath = "";
-  this->translatedSequence = vector<int> ();
-  this->coordinatesOfPoints = new QList<QPointF> ();
+  this->sequence                  = 0;
+  this->matrixOfPoints            = RowMatrix<int> ();
+  this->imagefilePath             = "";
+  this->translatedSequence        = vector<int> ();
+  this->coordinatesOfPoints       = new QList<QPointF> ();
+  this->cumulativeFrequencyMatrix = RowMatrix<int>();
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const 
                                                  ChaosGameRepresentation & 
                                                  cgrObject) 
 {
-//  sequence = new Sequence(*cgrObject.getSequence());
-  sequence = cgrObject.getSequence();
-  matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
-  imagefilePath = cgrObject.imagefilePath;
-  translatedSequence = vector<int>(cgrObject.translatedSequence);
+  sequence            = cgrObject.getSequence();
+  matrixOfPoints      = RowMatrix<int>(cgrObject.matrixOfPoints);
+  imagefilePath       = cgrObject.imagefilePath;
+  translatedSequence  = vector<int>(cgrObject.translatedSequence);
   coordinatesOfPoints = new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
+  this->cumulativeFrequencyMatrix = 
+          RowMatrix<int>(cgrObject.cumulativeFrequencyMatrix);
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
 {
-  this->sequence = sequence;
-  this->matrixOfPoints = RowMatrix<int> ();
-  this->imagefilePath = "";
-  this->translatedSequence = vector<int> ();
-  this->coordinatesOfPoints = new QList<QPointF> ();
+  this->sequence                  = sequence;
+  this->matrixOfPoints            = RowMatrix<int>();
+  this->imagefilePath             = "";
+  this->translatedSequence        = vector<int>();
+  this->coordinatesOfPoints       = new QList<QPointF>();
+  this->cumulativeFrequencyMatrix = RowMatrix<int>();
 }
 
 ChaosGameRepresentation::~ChaosGameRepresentation()
@@ -68,7 +71,6 @@ ChaosGameRepresentation::~ChaosGameRepresentation()
   coordinatesOfPoints = 0;
 
   translatedSequence.clear();
-//  matrixOfPoints.clear();
   
 }
 
@@ -103,7 +105,7 @@ void ChaosGameRepresentation::translateSequence()
       else if (element == 1 || element == 8 || element == 11) {
         newElement = 3;
       }
-      // N. C, Q, G, S, T, Y, Polar no cargado
+      // N, C, Q, G, S, T, Y -> Polar no cargado
       else if (element == 2 || element == 4 || element == 5 || element == 7 ||
                element == 15 || element == 16 || element == 18) {
         newElement = 2;
@@ -115,6 +117,23 @@ void ChaosGameRepresentation::translateSequence()
       translatedSequence[i] = newElement;
     }
   }
+}
+
+void ChaosGameRepresentation::calculateCumulativeFrequency()
+{
+  int size = matrixOfPoints.getNumberOfRows();
+  cumulativeFrequencyMatrix = RowMatrix<int>(size + 1, size);
+
+  for (int i = 0; i < size; ++i) {
+    for (int j = 0; j < size; ++j) {
+      cumulativeFrequencyMatrix(i + 1, j) = cumulativeFrequencyMatrix(i, j) + 
+                                            matrixOfPoints(i, j);
+    }
+  }
+  
+//  MatrixTools::print(matrixOfPoints);
+//  cout << endl;
+//  MatrixTools::print(cumulativeFrequencyMatrix);
 }
 
 void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
@@ -153,21 +172,18 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   
   int xImage = utils::round((double)cgrSize/2);
   int yImage = xImage;
-/*
-  int xMatrix =  utils::round((double)matrixSize/2);
-  int yMatrix = xMatrix;
-*/
-//  int xMatrix = matrixSize / 2;
-//  int yMatrix = xMatrix;
+
   int xMatrix = 0;
   int yMatrix = 0;
   
   double x = matrixSize / 2;
   double y = x;
   
-  if(generateImage){
-    QImage * cgrImage = new QImage(cgrSize + (margin * 2), cgrSize + (margin
-            * 3), QImage::Format_RGB32);
+  if (generateImage) {
+    QImage * cgrImage = new QImage(cgrSize + (margin * 2),
+                                   cgrSize + (margin * 3), 
+                                   QImage::Format_RGB32);
+    
     QRgb backgroundColor = qRgb(255, 255, 255);
     cgrImage->fill(backgroundColor);
     
@@ -214,8 +230,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        int col = xMatrix;
 
 //        matrixOfPoints(row, col)++;
-        TRACE (__LINE__ << "\n\t" << "(x, y): (" << x << ", " << y << ") "
-               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
+//        TRACE (__LINE__ << "\n\t" << "(x, y): (" << x << ", " << y << ") "
+//               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
 //        matrixOfPoints(xMatrix, yMatrix)++;
         
 //        if (matrixOfPoints(xMatrix, yMatrix) == 0)
@@ -243,35 +259,23 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   else {
     for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
-      if (element > -1) {
-//        TODO - Implementar de igual forma al de la generación de la imagen
-//        x = (xPoints[element] + x) / 2;
-//        y = (yPoints[element] + y) / 2;
-//        matrixOfPoints(floor(x), floor(y))++;
-//        xMatrix = floor((xMatrixPoints[element] + xMatrix) / 2);
-//        yMatrix = floor((yMatrixPoints[element] + yMatrix) / 2);
-        xMatrix = utils::round((xMatrixPoints[element] + xMatrix) / 2);
-        yMatrix = utils::round((yMatrixPoints[element] + yMatrix) / 2);
-        matrixOfPoints(xMatrix, yMatrix)++;
-        
+      // Los gaps y bases/aminoácidos no resueltos son ignorados
+      if (element > -1 && element < 4) {
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
         coordinatesOfPoints->append(QPointF(x, y));
+        
+        // Redondeo a Piso
+        xMatrix = utils::roundToInt(x);
+        yMatrix = utils::roundToInt(y);
+        
+//        if (matrixOfPoints(xMatrix, yMatrix) == 0)
+        matrixOfPoints(xMatrix, yMatrix)++;
       }
     }
   }
   
-  /*
-  MatrixTools::print(matrixOfPoints);
-  cout << endl;
-  
-  foreach(QPointF p, *coordinatesOfPoints){
-    int xcoor = floor(p.x()); 
-    int ycoor = floor(p.y()); 
-    cout << " (" << p.x() << ", " << p.y() << ");" << "(" << xcoor << ", " << ycoor << ");"<<"(" << matrixSize - 1 - ycoor << ", " << xcoor << ")" <<endl;
-  }
-  
-  cout << endl;*/
+  calculateCumulativeFrequency();
 }
 
 void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter, 
@@ -439,4 +443,11 @@ void ChaosGameRepresentation::setTranslatedSequence(vector<int>
 const QList<QPointF> * ChaosGameRepresentation::getCoordinatesOfPoints() const 
 {
   return coordinatesOfPoints;
+}
+
+
+const RowMatrix<int> * 
+ChaosGameRepresentation::getCumulativeFrequencyMatrix() const
+{
+  return &cumulativeFrequencyMatrix;
 }

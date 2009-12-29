@@ -498,14 +498,21 @@ void MainWindow::makeMultifractalAnalysis()
     nCenters = mfaParametersForm->getNCenters();
     sequencesKeysList = mfaParametersForm->getSelectedSequencesKeys();
     
+    QTime timer;
+    timer.restart();
     int mfaResultSetKey = 
             //          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
             parentApp->makeMultifractalAnalysis(sequencesKeysList, 
                                                 minQ, 
                                                 maxQ,
                                                 nCenters);
-    
+    int timeElapsed = timer.elapsed();
+    cerr << utils::getTimeElapsed(timeElapsed);
     displayMfaResults(mfaResultSetKey);
+    
+    QMessageBox::information(this, tr("Análisis multifractal"),
+                                tr("Tiempo: ") + QString::fromStdString(utils::getTimeElapsed(timeElapsed)),
+                                QMessageBox::Ok);
   }
 }
 

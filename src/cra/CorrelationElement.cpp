@@ -26,44 +26,50 @@
 
 CorrelationElement::CorrelationElement()
 {
-  this->cgrObject         = 0;
-  this->distanceMatrix    = RowMatrix<int>();
-  this->nMeshFrames       = 0;
-  this->symbolicSequence  = 0;
+  this->cgrObject                = 0;
+  this->distanceMatrix           = RowMatrix<int>();
+  this->nMeshFrames              = 0;
+  this->symbolicSequence         = 0;
   this->distanceMatrixCalculated = false;
+  this->average                  = 0.0;
 
 }
 CorrelationElement::CorrelationElement(const ChaosGameRepresentation * 
                                        cgrObject,
                                        const int & nMeshFrames)
 {
-  this->cgrObject         = cgrObject;
-  this->distanceMatrix    = RowMatrix<int>();
-  this->nMeshFrames       = nMeshFrames;
-  this->symbolicSequence  = 0;
+  this->cgrObject                = cgrObject;
+  this->distanceMatrix           = RowMatrix<int>();
+  this->nMeshFrames              = nMeshFrames;
+  this->symbolicSequence         = 0;
   this->distanceMatrixCalculated = false;
+  this->average                  = 0.0;
   calculateDistanceMatrix();
+  calculateAverage();
+  calculateVariance();
 }
 CorrelationElement::CorrelationElement(const CorrelationElement & 
-                                         correlationElementObject)
+                                       correlationElementObject)
 {
-  this->cgrObject         = correlationElementObject.cgrObject;
-  this->distanceMatrix    = correlationElementObject.distanceMatrix;
-  this->nMeshFrames       = correlationElementObject.nMeshFrames;
-  this->symbolicSequence  = correlationElementObject.symbolicSequence;
+  this->cgrObject                = correlationElementObject.cgrObject;
+  this->distanceMatrix           = correlationElementObject.distanceMatrix;
+  this->nMeshFrames              = correlationElementObject.nMeshFrames;
+  this->symbolicSequence         = correlationElementObject.symbolicSequence;
   this->distanceMatrixCalculated = 
           correlationElementObject.distanceMatrixCalculated;
+  this->average                  = correlationElementObject.average;
 }
 
 CorrelationElement & CorrelationElement::operator=(const CorrelationElement & 
                                                      correlationElementObject)
 {
-  this->cgrObject         = correlationElementObject.cgrObject;
-  this->distanceMatrix    = correlationElementObject.distanceMatrix;
-  this->nMeshFrames       = correlationElementObject.nMeshFrames;
-  this->symbolicSequence  = correlationElementObject.symbolicSequence;
+  this->cgrObject                = correlationElementObject.cgrObject;
+  this->distanceMatrix           = correlationElementObject.distanceMatrix;
+  this->nMeshFrames              = correlationElementObject.nMeshFrames;
+  this->symbolicSequence         = correlationElementObject.symbolicSequence;
   this->distanceMatrixCalculated = 
           correlationElementObject.distanceMatrixCalculated;
+  this->average                  = correlationElementObject.average;
   
   return *this;
 }
@@ -239,6 +245,18 @@ CorrelationElement::calculateMuMeasures(const ChaosGameRepresentation *
   return muMeasuresMatrix;
 }
 
+void CorrelationElement::calculateAverage()
+{
+  if (distanceMatrixCalculated)
+    average = MatrixOperations::average<int>(distanceMatrix);
+}
+
+void CorrelationElement::calculateVariance()
+{
+  if (distanceMatrixCalculated && average != 0.0)
+    variance = MatrixOperations::variance<int>(distanceMatrix, average);
+}
+
 const ChaosGameRepresentation * CorrelationElement::getCgrObject() const
 {
   return cgrObject;
@@ -270,4 +288,14 @@ void CorrelationElement::setNumberOfMeshFrames(int nMeshFrames)
 const Sequence * CorrelationElement::getSymbolicSequence() const
 {
   return symbolicSequence;
+}
+
+double CorrelationElement::getAverage() const
+{
+  return average;
+}
+
+double CorrelationElement::getVariance() const
+{
+  return variance;
 }

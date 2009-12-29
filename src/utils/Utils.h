@@ -21,6 +21,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+// Qt
+#include <QString>
+
 // SYSTEM INCLUDES
 #include <string>
 #include <cmath>
@@ -72,5 +75,26 @@ namespace utils
 //    return static_cast<int> (floor(number));
   }
   
+//  QString ApplicationController::getTimeElapsed(const int & milliseconds)
+  inline string getTimeElapsed(const int & milliseconds)
+  {
+    QString outText = "";
+    double min  = 0;
+    double sec  = 0;
+    
+    if (milliseconds >= 1000) {
+      sec  = ((double)milliseconds) / 1000.0;
+      if(sec >= 60.0){
+        min = sec / 60.0;
+        sec = min / 60.0;
+        outText += QString("%1 min, ").arg((int)floor(min));
+      }
+      outText += QString("%1 seg\n").arg(sec);
+    }
+    else 
+      outText += QString("%1 ms\n").arg(milliseconds);
+    
+    return outText.toStdString();
+  }
 }
 #endif /* UTILS_H_ */

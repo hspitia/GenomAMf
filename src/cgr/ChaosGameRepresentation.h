@@ -133,33 +133,32 @@ class ChaosGameRepresentation
      */
     const QList<QPointF> * getCoordinatesOfPoints() const;
     
+    const RowMatrix<int> * getCumulativeFrequencyMatrix() const;
+    
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se 
       obtendrá la GRC */
     
     RowMatrix<int> matrixOfPoints; /**< Matriz de enteros que almacena los 
       puntos de la CGR */
+    
     string imagefilePath; /**< Ruta del archivo de imagen generado de la CGR */
     
-    vector<int> translatedSequence; /**< Secuencia traducida al alfabeto {0,1,
-      2,3} de acuerdo al modelo HP extendido para lograr la CGR. Aplica solo
-      para secuencias de proteínas. */
+    vector<int> translatedSequence; /**< Secuencia traducida al alfabeto 
+      {0, 1, 2, 3} de acuerdo al modelo HP extendido para lograr la CGR. 
+      Aplica solo para secuencias de proteínas. */
     
     QList<QPointF> * coordinatesOfPoints; /**< Lista de coordenadas de los 
       puntos de la CGR */
     
-    /**
-     * 
-     */
+    RowMatrix<int> cumulativeFrequencyMatrix; /**< Matriz de frecuencias acumuladas de puntos de la CGR */
+
     void translateSequence();
     
-    /**
-     * 
-     */
-//    void drawBoxAndLabels(QImage * image, const int & cgrSize,
-//                         const int & margin);
     void drawBoxAndLabels(QPainter * painter, const int & cgrSize,
                          int alphabetType);
+    
+    void calculateCumulativeFrequency();
 };
 
 #endif /* CHAOSGAMEREPRESENTATION_H_ */
