@@ -25,7 +25,7 @@ Plotter::Plotter(plotType type)
 {
   this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix    = QList<RowMatrix<int> *>();
+  this->dataListMatrix    = QList<const RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -41,7 +41,7 @@ Plotter::Plotter(const QList<vector<double> *> & dataListNormal, plotType type) 
 {
   this->dataListNormal    = dataListNormal;
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix    = QList<RowMatrix<int> *>();
+  this->dataListMatrix    = QList<const RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -58,7 +58,7 @@ Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
 {
   this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = dataListLinearReg;
-  this->dataListMatrix    = QList<RowMatrix<int> *>();
+  this->dataListMatrix    = QList<const RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -68,7 +68,7 @@ Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
   this->rowsOfPlot        = 1;
 }
 
-Plotter::Plotter(const QList<RowMatrix<int> * > & dataListMatrix, 
+Plotter::Plotter(const QList<const RowMatrix<int> * > & dataListMatrix, 
                  plotType type) : mglDraw()
 {
   this->dataListNormal    = QList<vector<double> *>();

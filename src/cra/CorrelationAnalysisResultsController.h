@@ -31,11 +31,13 @@
 
 using namespace bpp;
 
-
 // Project
 #include <cra/CorrelationAnalysis.h>
 #include <cra/CorrelationElement.h>
+#include <cra/DistancesModel.h>
 #include <gui/CorrelationAnalysisResultsForm.h>
+#include <mfa/Plotter.h>
+
 
 /**
  * 
@@ -44,7 +46,7 @@ class CorrelationAnalysisResultsController
 {
   public:
     CorrelationAnalysisResultsController();
-    CorrelationAnalysisResultsController(const CorrelationAnalysis & craObject); 
+    CorrelationAnalysisResultsController(const CorrelationAnalysis * craObject); 
     CorrelationAnalysisResultsController(const 
                                          CorrelationAnalysisResultsController &
                                          creResultsControllerObject);
@@ -54,6 +56,7 @@ class CorrelationAnalysisResultsController
     
     virtual ~CorrelationAnalysisResultsController();
     
+    CorrelationAnalysisResultsForm * contructTheResultsForm();
     // Access
     const CorrelationAnalysis * getCraObject();
     
@@ -63,9 +66,9 @@ class CorrelationAnalysisResultsController
     const CorrelationAnalysis * craObject;
     
     // Methods
-    QList<RowMatrix<int> *> plotMuMeasures();
+    Plotter * plotMuMeasures();
     QList<QStringList> prepareContentSequenceTable();
-    
+    DistancesModel * prepareDistancesModel();
 };
 
 #endif /* CORRELATIONANALYSISRESULTSCONTROLLER_H_ */

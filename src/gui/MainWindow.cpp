@@ -594,12 +594,14 @@ void MainWindow::displayCraResults(const int & craKey)
 {
   CorrelationAnalysis craObject = parentApp->getCraHash()->value(craKey);
   
-  if (!craObject.isEmpty()) {
-    CorrelationAnalysisResultsForm * craResultsForm = 
-            new CorrelationAnalysisResultsForm(&craObject, this);
-    ui->mdiArea->addSubWindow(craResultsForm);
-    craResultsForm->show();
-  }
+  CorrelationAnalysisResultsController * craResultsController =
+          new CorrelationAnalysisResultsController(&craObject);
+  
+  CorrelationAnalysisResultsForm * craResultsForm =
+          craResultsController->contructTheResultsForm();
+  
+  ui->mdiArea->addSubWindow(craResultsForm);
+  craResultsForm->show();
 }
 
 void MainWindow::updateActionsState()

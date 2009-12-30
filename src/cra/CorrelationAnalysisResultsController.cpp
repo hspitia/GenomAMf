@@ -23,14 +23,13 @@
 
 CorrelationAnalysisResultsController::CorrelationAnalysisResultsController()
 {
-  
-
+  this->craObject = 0;
 }
 
 CorrelationAnalysisResultsController::
-CorrelationAnalysisResultsController(const CorrelationAnalysis & craObject)
+CorrelationAnalysisResultsController(const CorrelationAnalysis * craObject)
 {
-  
+  this->craObject = craObject;
 }
 
 CorrelationAnalysisResultsController::
@@ -38,29 +37,71 @@ CorrelationAnalysisResultsController(const
                                      CorrelationAnalysisResultsController &
                                      creResultsControllerObject)
 {
-  
+  this->craObject = creResultsControllerObject.craObject;
 }
 
 CorrelationAnalysisResultsController &
 CorrelationAnalysisResultsController::
 operator=(const CorrelationAnalysisResultsController & 
           craResultsControllerObject)
-          
 {
-  
+  this->craObject = craResultsControllerObject.craObject;
+  return *this;
 }
 
 CorrelationAnalysisResultsController::~CorrelationAnalysisResultsController()
 {
-  // TODO Auto-generated destructor stub
+  craObject = 0;
 }
 
-QList<RowMatrix<int> *> CorrelationAnalysisResultsController::plotMuMeasures()
+CorrelationAnalysisResultsForm * 
+CorrelationAnalysisResultsController::contructTheResultsForm()
 {
-  QList<RowMatrix<int> *> list;
-  return list;
-} 
+  QList<QStringList> sequenceContent = prepareContentSequenceTable();
+  DistancesModel * model = prepareDistancesModel();
+  
+  CorrelationAnalysisResultsForm * creResultsForm = 
+          new CorrelationAnalysisResultsForm(model, sequenceContent);
+//  Plotter * plotter = plotMuMeasures();
+  
+   
+  return creResultsForm;
+}
 
+DistancesModel * CorrelationAnalysisResultsController::prepareDistancesModel()
+{
+  QList<double> distances = craObject->getDistances();
+  QStringList sequenceCodeList;
+  int nElements = craObject->getCorrelationElements().count();
+  
+  for (int i = 0; i < nElements; ++i) {
+    QString code = QString("Seq_%1").arg(i + 1);
+    sequenceCodeList.append(code);
+  }
+  
+  DistancesModel * model = new DistancesModel(sequenceCodeList,
+                                              distances);
+  
+  return  model;
+}
+
+Plotter * CorrelationAnalysisResultsController::plotMuMeasures()
+{
+  QList<const RowMatrix<int> *> dataList = QList<const RowMatrix<int> *>();
+  
+  for (int i = 0; i < craObject->getCorrelationElements().count(); ++i) {
+    const CorrelationElement * creObject = 
+            craObject->getCorrelationElements().at(i);
+    dataList.append(creObject->getCgrObject()->getMatrixOfPoints());
+  }
+  
+  Plotter * plotter = new Plotter(dataList, Plotter::Measures_Plot);
+  plotter->setTitle("Medidas \\mu");
+  plotter->setXLabel("x");
+  plotter->setYLabel("y");
+  plotter->setZLabel("z");
+  return plotter;
+} 
 
 QList<QStringList> 
 CorrelationAnalysisResultsController::prepareContentSequenceTable()
@@ -88,10 +129,7 @@ CorrelationAnalysisResultsController::prepareContentSequenceTable()
   }
   
   return contentList;
-  
 }
-
-
 
 const CorrelationAnalysis * CorrelationAnalysisResultsController::getCraObject()
 {

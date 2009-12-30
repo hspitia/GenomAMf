@@ -39,8 +39,10 @@ using namespace bpp;
 
 #include <app/AppController.h>
 #include <cgr/ChaosGameRepresentation.h>
-//#include <cra/CorrelationAnalysis.h>
+#include <cra/CorrelationAnalysis.h>
 //#include <cra/CorrelationElement.h>
+#include <cra/CorrelationAnalysisResultsController.h>
+#include <gui/CorrelationAnalysisResultsForm.h>
 #include <gui/CgrParametersForm.h>
 #include <gui/CgrResultsForm.h>
 #include <gui/CorrelationAnalysisParametersForm.h>

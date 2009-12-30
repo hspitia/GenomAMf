@@ -2,7 +2,11 @@
 #define CORRELATIONANALYSISRESULTSFORM_H
 
 #include <QtGui/QWidget>
+
+// Project
 #include <cra/CorrelationAnalysis.h>
+#include <cra/DistancesModel.h>
+#include <gui/TreeItem.h>
 #include "ui_CorrelationAnalysisResultsForm.h"
 
 class CorrelationAnalysisResultsForm : public QWidget
@@ -10,7 +14,8 @@ class CorrelationAnalysisResultsForm : public QWidget
     Q_OBJECT
 
 public:
-    CorrelationAnalysisResultsForm(const CorrelationAnalysis * craObject,
+    CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
+                                   const QList<QStringList> & sequenceCodeList,
                                    QWidget *parent = 0);
     ~CorrelationAnalysisResultsForm();
 

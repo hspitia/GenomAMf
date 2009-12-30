@@ -65,7 +65,7 @@ class Plotter : public mglDraw
     Plotter(const QList<vector<double> *> & dataList, plotType type);
     Plotter(const QList<QList<vector<double> *> > & dataList, 
             plotType type = Linear_Plot);
-    Plotter(const QList<RowMatrix<int> * > & dataListMatrix, 
+    Plotter(const QList<const RowMatrix<int> * > & dataListMatrix, 
             plotType type = Measures_Plot);
     
     virtual ~Plotter();
@@ -117,7 +117,7 @@ class Plotter : public mglDraw
     */
     QList<vector<double> *> dataListNormal;
     QList<QList<vector<double> *> > dataListLinearReg;
-    QList<RowMatrix<int> * >  dataListMatrix;
+    QList<const RowMatrix<int> * >  dataListMatrix;
     
     plotType type;
     QString title; /**< Título del gráfico */

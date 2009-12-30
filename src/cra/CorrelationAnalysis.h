@@ -56,11 +56,11 @@ class CorrelationAnalysis
     void setCorrelationElements(const QList<const CorrelationElement *> & 
                                 correlationElements);
     
-    int getNumberOfMeshFrames();
+    int getNumberOfMeshFrames() const;
     
     void setNumberOfMeshFrames(int nMeshFrames);
     
-    QList<double> getDistances();
+    QList<double> getDistances() const;
     
     void setDistances(const QList<double> & distances);
     

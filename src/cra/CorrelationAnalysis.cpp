@@ -207,7 +207,7 @@ QList<double> CorrelationAnalysis::calculateDistances(const QList<double> &
   return dists;
 }
 
-int CorrelationAnalysis::getNumberOfMeshFrames()
+int CorrelationAnalysis::getNumberOfMeshFrames() const
 {
   return nMeshFrames;
 }
@@ -231,7 +231,7 @@ CorrelationAnalysis::setCorrelationElements(const
   this->correlationElements = correlationElements;
 }
 
-QList<double> CorrelationAnalysis::getDistances()
+QList<double> CorrelationAnalysis::getDistances() const
 {
   return distances;
 }

@@ -375,7 +375,7 @@ int freqSample(mglGraph *gr, void *)
 
 Plotter * measuresSample()
 {
-  QList<RowMatrix<int> *> dataList = QList<RowMatrix<int> *>();
+  QList<const RowMatrix<int> *> dataList = QList<const RowMatrix<int> *>();
   for (int mainIndex = 0; mainIndex < 5; ++mainIndex) {
     int maxX = 60;
     int maxY = 60;
@@ -391,7 +391,9 @@ Plotter * measuresSample()
       }
     }
     
-    dataList.append(matrix);
+    const RowMatrix<int> * mat = matrix;
+    
+    dataList.append(mat);
     
   }
   Plotter * plotter = new Plotter(dataList, Plotter::Measures_Plot);

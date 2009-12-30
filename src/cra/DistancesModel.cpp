@@ -26,7 +26,7 @@ DistancesModel::DistancesModel(const QStringList & sequenceCodes,
                                QObject *parent)
     : QAbstractTableModel(parent)
 {
-  this->sequences = sequenceCodes;
+  this->sequenceCodes = sequenceCodes;
   this->distances = distances; 
 }
 
@@ -45,12 +45,12 @@ DistancesModel::~DistancesModel()
 
 int DistancesModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return sequences.count();
+    return sequenceCodes.count();
 }
 
 int DistancesModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return sequences.count();
+    return sequenceCodes.count();
 }
 
 QVariant DistancesModel::data(const QModelIndex &index, int role) const
@@ -91,7 +91,7 @@ QVariant DistancesModel::headerData(int section,
                                int role) const
 {
     if (role == Qt::DisplayRole)
-        return sequences.at(section);
+        return sequenceCodes.at(section);
     return QVariant();
 }
 

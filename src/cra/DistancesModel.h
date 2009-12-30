@@ -52,7 +52,7 @@ class DistancesModel : public QAbstractTableModel
   private:
     int offsetOf(int row, int column) const;
 
-    QStringList sequences;
+    QStringList sequenceCodes;
     QList<double> distances;
 };
 
