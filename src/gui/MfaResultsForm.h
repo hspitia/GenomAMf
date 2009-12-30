@@ -24,6 +24,9 @@
 // QT Library
 #include <QtGui/QWidget>
 #include <QtGui/QMdiSubWindow>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
+#include <QtCore/QTextStream>
 
 // Project
 #include "ui_MfaResultsForm.h"
@@ -47,14 +50,16 @@ class MfaResultsForm : public QWidget
   Q_OBJECT
 
   public:
-    MfaResultsForm(QWidget *parent = 0);
+    MfaResultsForm(const QList<QStringList> & dqTableContent,
+                   const QList<QStringList> & contentList,
+                   QWidget *parent = 0);
     ~MfaResultsForm();
     
     void setUpDqGraphic(Plotter * plotter);
     void setUpCqGraphic(Plotter * plotter);
     void setUpLinearRegressionGraphic(Plotter * plotter);
-    void setUpSequenceTable(const QList<QStringList> & contentList);
-    void setUpDqValuesTable(const QList<QStringList> & contentList);
+    void setUpSequenceTable(/*const QList<QStringList> & contentList*/);
+    void setUpDqValuesTable(/*const QList<QStringList> & contentList*/);
     
     Ui::MfaResultsForm * getUi();
     
@@ -76,6 +81,8 @@ class MfaResultsForm : public QWidget
     QMathGL * dqGraphicWidget;
     QMathGL * cqGraphicWidget;
     QMathGL * linearRegressionGraphicWidget;
+    QList<QStringList> dqTableContent;
+    QList<QStringList> sequenceList;
     
     
     /**
@@ -83,10 +90,13 @@ class MfaResultsForm : public QWidget
      */
     void connectSignalsSlots();
     void setupGraphicWidgets();
+    bool prepareAndExportDqValues(const QString & fileName);
+    QString getSequenceCodeAndNames();  
     QIcon getIcon(const int & type) const;
     
   private slots:
     void exportImage();
+    void exportDqValuesTableToCsv();
     
 };
 

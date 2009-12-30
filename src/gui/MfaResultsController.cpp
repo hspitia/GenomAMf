@@ -19,7 +19,7 @@
  *  Description:  
  */
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
  
 #include "MfaResultsController.h"
 
@@ -52,14 +52,18 @@ MfaResultsController::~MfaResultsController()
 
 MfaResultsForm * MfaResultsController::contructTheResultsForm()
 {
-  MfaResultsForm * mfaResultsForm = new MfaResultsForm(0);
+  QList<QStringList> dqValuesContent = prepareContentDqValuesTable();
+  QList<QStringList> sequenceList = prepareContentSequenceTable();
+  
+  MfaResultsForm * mfaResultsForm = new MfaResultsForm(dqValuesContent, 
+                                                       sequenceList, 0);
   QList<Plotter *> plots = plotResults();
   
   mfaResultsForm->setUpDqGraphic(plots.at(0)); // Dq graphic
   mfaResultsForm->setUpCqGraphic(plots.at(1)); // Cq graphic
   mfaResultsForm->setUpLinearRegressionGraphic(plots.at(2)); // Linear reg.
-  mfaResultsForm->setUpSequenceTable(prepareContentSequenceTable());
-  mfaResultsForm->setUpDqValuesTable(prepareContentDqValuesTable());
+  mfaResultsForm->setUpSequenceTable();
+  mfaResultsForm->setUpDqValuesTable();
 //  prepareContentSequenceTable();
   TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
   
@@ -135,15 +139,16 @@ QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
   int i = 0;
   
   for (int q = minQ; q <= maxQ; ++q) {
+    QStringList row;
+    row << QString::number(q);
+    cout << q;
     for (int j = 0; j < mfaObjects.count(); ++j) {
       double dqValue = mfaObjects.at(j).getDqValues()->at(i);
       
-      QStringList row;
-      row << QString::number(q)
-          << QString::number(dqValue);
+      row << QString::number(dqValue);
            
       contentList << row;
-      DEBUG(q << " " << dqValue);
+      cout << " " << dqValue << "  ";
     }
     ++i;
   }

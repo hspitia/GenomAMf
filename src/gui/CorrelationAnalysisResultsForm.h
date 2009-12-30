@@ -16,6 +16,8 @@ public:
 
 private:
     Ui::CorrelationAnalysisResultsFormClass *ui;
+    
+    QIcon getIcon(const int & type) const;
 };
 
 #endif // CORRELATIONANALYSISRESULTSFORM_H

@@ -32,6 +32,7 @@ CorrelationElement::CorrelationElement()
   this->symbolicSequence         = 0;
   this->distanceMatrixCalculated = false;
   this->average                  = 0.0;
+  this->variance                 = 0.0;
 
 }
 CorrelationElement::CorrelationElement(const ChaosGameRepresentation * 
@@ -44,6 +45,7 @@ CorrelationElement::CorrelationElement(const ChaosGameRepresentation *
   this->symbolicSequence         = 0;
   this->distanceMatrixCalculated = false;
   this->average                  = 0.0;
+  this->variance                 = 0.0;
   calculateDistanceMatrix();
   calculateAverage();
   calculateVariance();
@@ -58,6 +60,7 @@ CorrelationElement::CorrelationElement(const CorrelationElement &
   this->distanceMatrixCalculated = 
           correlationElementObject.distanceMatrixCalculated;
   this->average                  = correlationElementObject.average;
+  this->variance                 = correlationElementObject.variance;
 }
 
 CorrelationElement & CorrelationElement::operator=(const CorrelationElement & 
@@ -70,6 +73,7 @@ CorrelationElement & CorrelationElement::operator=(const CorrelationElement &
   this->distanceMatrixCalculated = 
           correlationElementObject.distanceMatrixCalculated;
   this->average                  = correlationElementObject.average;
+  this->variance                 = correlationElementObject.variance;
   
   return *this;
 }

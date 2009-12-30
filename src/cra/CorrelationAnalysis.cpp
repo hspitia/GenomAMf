@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -73,14 +73,17 @@ QList<double> CorrelationAnalysis::performAnalysis()
 //    QList<double> variances = calculateVariances(averages);
 //    QList<double> covariances = calculateCovariances(averages);
     QList<double> covariances = calculateCovariances();
-    
-    TRACE (__LINE__ << "\n\t" << "ANTES");
     QList<double> correlCoefficients = 
             calculateCorrelationCoefficients(/*variances,*/ covariances);
+    TRACE (__LINE__ << "\n\t" << "Coeficientes de correlaciOn: ");
     MatrixTools::print(correlCoefficients.toVector().toStdVector());
     
-    TRACE (__LINE__ << "\n\t" << "Covarianzas calculadas");
-//    distances = calculateDistances(correlCoefficients);
+    TRACE (__LINE__ << "\n\t" << "ANTES");
+    distances = calculateDistances(correlCoefficients);
+    TRACE (__LINE__ << "\n\t" << "Distancias de correlaciOn: ");
+    MatrixTools::print(distances.toVector().toStdVector());
+    TRACE (__LINE__ << "\n\t" << "Distancias calculadas");
+    cout << "FIN" << endl;
   }
   
   return distances;
@@ -132,14 +135,16 @@ CorrelationAnalysis::calculateCovariances()
   for (int i = 0; i < nElements; ++i) {
     matrixA  = correlationElements.at(i)->getDistanceMatrix();
     averageA = correlationElements.at(i)->getAverage();
-    
+//    cout << "averageA: " << averageA ;
     for (int j = i + 1; j < nElements; ++j) {
       matrixB  = correlationElements.at(j)->getDistanceMatrix();
       averageB = correlationElements.at(j)->getAverage();
+//      cout << "  averageB: " <<   averageB<< endl;
       double covariance = 
               MatrixOperations::covariance<int>(*matrixA, *matrixB,
                                                 averageA, averageB);
       covariances.append(covariance);
+//      cout << "covariance : " << covariance << endl;
     }
     matrixA = 0;
     matrixB = 0;
@@ -161,6 +166,12 @@ CorrelationAnalysis::calculateCorrelationCoefficients(/*const QList<double> &
   double covarianceAB = 0.0;
   int index = 0;
   
+  /*for (int i = 0; i < correlationElements.count(); ++i) {
+    cout << correlationElements.at(i)->getCgrObject()->getSequence()->getName() << endl 
+            << " average  : " << correlationElements.at(i)->getAverage() << endl
+            << " variance : " << correlationElements.at(i)->getVariance() << endl; 
+  }*/
+  
   for (int i = 0; i < nElements; ++i) {
 //    varianceA  = variances.at(i);
     varianceA  = correlationElements.at(i)->getVariance();
@@ -169,6 +180,8 @@ CorrelationAnalysis::calculateCorrelationCoefficients(/*const QList<double> &
 //      varianceB = variances.at(j);
       varianceB  = correlationElements.at(j)->getVariance();
       covarianceAB = covariances.at(index);
+//      cout << " varianceA: " << varianceA << " varianceB: " << varianceB;
+//      cout << " covarianceAB: " << covarianceAB;
       double correlCoefficient = covarianceAB / (varianceA * varianceB);
       correlCoefficients.append(correlCoefficient);
       ++index;
@@ -204,13 +217,15 @@ void CorrelationAnalysis::setNumberOfMeshFrames(int nMeshFrames)
   this->nMeshFrames = nMeshFrames;
 }
 
-QList<const CorrelationElement *> CorrelationAnalysis::getCorrelationElements() const
+QList<const CorrelationElement *> 
+CorrelationAnalysis::getCorrelationElements() const
 {
   return correlationElements;
 }
 
 void 
-CorrelationAnalysis::setCorrelationElements(const QList<const CorrelationElement *> & 
+CorrelationAnalysis::setCorrelationElements(const 
+                                            QList<const CorrelationElement *> & 
                                             correlationElements)
 {
   this->correlationElements = correlationElements;

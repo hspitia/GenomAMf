@@ -24,9 +24,13 @@
 #include "MfaResultsForm.h"
 #include "utils/Trace.h"
 
-MfaResultsForm::MfaResultsForm(QWidget *parent) :
+MfaResultsForm::MfaResultsForm(const QList<QStringList> & dqTableContent,
+                               const QList<QStringList> & sequenceList,
+                               QWidget *parent) :
   QWidget(parent), ui(new Ui::MfaResultsForm)
 {
+  this->dqTableContent = dqTableContent;
+  this->sequenceList = sequenceList;
   ui->setupUi(this);
   setupGraphicWidgets();
   connectSignalsSlots();
@@ -42,7 +46,10 @@ void MfaResultsForm::connectSignalsSlots()
   connect(ui->buttonBox, SIGNAL(rejected()), this, 
           SLOT(close()));
   
-  connect(ui->buttonBox, SIGNAL(rejected()), this, SLOT(exportImage()));
+  connect(ui->exportDqValuesButton, SIGNAL(released()), this, 
+          SLOT(exportDqValuesTableToCsv()));
+  
+  
 }
 
 void MfaResultsForm::setupGraphicWidgets()
@@ -78,19 +85,19 @@ void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
   linearRegressionGraphicWidget->update();
 }
 
-void MfaResultsForm::setUpSequenceTable(const QList<QStringList> & contentList)
+void MfaResultsForm::setUpSequenceTable()
 {
   QTableWidget * table =  ui->sequenceTable;
   table->setColumnCount(2);
-  table->setRowCount(contentList.count()); 
+  table->setRowCount(sequenceList.count()); 
   QStringList headers;
   headers << QString::fromUtf8("Código")
           << QString::fromUtf8("Secuencia");
   
   table->setHorizontalHeaderLabels(headers);
   
-  for (int row = 0; row < contentList.count(); ++row) {
-    QStringList contentRow = contentList.at(row);
+  for (int row = 0; row < sequenceList.count(); ++row) {
+    QStringList contentRow = sequenceList.at(row);
     QTableWidgetItem * codeItem = new QTableWidgetItem(contentRow.at(1));
     QTableWidgetItem * nameItem = new QTableWidgetItem(contentRow.at(2));
     table->setItem(row, 0, codeItem);
@@ -107,18 +114,18 @@ void MfaResultsForm::setUpSequenceTable(const QList<QStringList> & contentList)
   
 }
 
-void MfaResultsForm::setUpDqValuesTable(const QList<QStringList> & contentList)
+void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList*/)
 {
   QTableWidget * table =  ui->dqValuesTable;
-  int nCols = contentList.at(0).count();
-  int nRows = contentList.count();
+  int nCols = dqTableContent.at(0).count();
+  int nRows = dqTableContent.count();
   table->setColumnCount(nCols);
   table->setRowCount(nRows); 
   QStringList headers;
   headers << QString::fromUtf8("q");
   
   for (int row = 0; row < nRows; ++row) {
-    QStringList contentRow = contentList.at(row);
+    QStringList contentRow = dqTableContent.at(row);
     QTableWidgetItem * qItem = new QTableWidgetItem(contentRow.at(0));
     table->setItem(row, 0, qItem);
 
@@ -135,6 +142,127 @@ void MfaResultsForm::setUpDqValuesTable(const QList<QStringList> & contentList)
 void MfaResultsForm::exportImage()
 {
   
+}
+
+void MfaResultsForm::exportDqValuesTableToCsv()
+{
+  QString fileName = "DqValues";
+  QStringList filters;
+  filters << "Comma separated values (*.csv)";
+  
+  QFileDialog * fileDialog = new QFileDialog(this);
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+  fileDialog->setDirectory(".");
+  fileDialog->selectFile(fileName);
+  fileDialog->setDefaultSuffix("csv");
+  
+  if(fileDialog->exec()){
+    QStringList list = fileDialog->selectedFiles();
+    if(!list.isEmpty()){
+      fileName = list.at(0);
+      
+      bool succes = prepareAndExportDqValues(fileName);
+      if (!succes)
+        QMessageBox::critical(this, "GenomAMf - Error", 
+                              QString::fromUtf8("Ha ocurrido un error al "
+                                      "tratar de guardar el archivo:\n %1\n\n"
+                                      "Verifique los permisos del directorio "
+                                      "destino e intente guardar el archivo"
+                                      "nuevamente.").arg(fileName),
+                                      QMessageBox::Ok);
+    }
+  }
+  delete fileDialog;
+}
+
+bool MfaResultsForm::prepareAndExportDqValues(const QString & fileName)
+{
+  int nCols = dqTableContent.at(0).count();
+  int nRows = dqTableContent.count();
+  
+  QString informationBlock = getSequenceCodeAndNames();
+  
+  QString headers;
+  QString outString;
+  QString rows;
+  QString separator = ";";
+  QString lineFeed  = "\n";
+  headers += "q";
+  headers += separator;
+  
+  for (int i = 1; i < nCols; ++i) {
+    headers += QString::fromUtf8("Dq Seq_%1").arg(i);
+    if (i < nCols - 1) 
+        headers += separator;
+  }
+  
+  for (int row = 0; row < nRows; ++row) {
+    QStringList contentRow = dqTableContent.at(row);
+    rows += contentRow.at(0); // q value
+    rows += separator;
+    for (int j = 1; j < nCols; ++j) {
+      rows += contentRow.at(j); // Dq value
+      
+      if (j < nCols - 1) 
+        rows += separator;
+    }
+    rows += lineFeed;
+  }
+  headers += lineFeed;
+  outString = informationBlock + lineFeed + headers + rows;
+  
+  QFile file(fileName);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return false;
+  
+  QTextStream out(&file);
+  out << outString;
+  
+  return true;
+}
+
+QString MfaResultsForm::getSequenceCodeAndNames()
+{
+  QTableWidget * table =  ui->sequenceTable;
+  table->setColumnCount(2);
+  table->setRowCount(sequenceList.count()); 
+  QString outString;
+  QString headers;
+  QString separator = ";";
+  QString lineFeed = "\n";
+  headers += QString::fromUtf8("No.");
+  headers += separator;
+  headers += QString::fromUtf8("Tipo");
+  headers += separator;
+  headers += QString::fromUtf8("Código");
+  headers += separator;
+  headers += QString::fromUtf8("Secuencia");
+  headers += lineFeed;
+  
+  QString rows;
+  
+  QStringList types;
+  types << QString::fromUtf8("ADN")
+        << QString::fromUtf8("Proteína")
+        << QString::fromUtf8("No definido");
+  
+  for (int row = 0; row < sequenceList.count(); ++row) {
+    QStringList contentRow = sequenceList.at(row);
+    rows += QString::number(row + 1); // No.
+    rows += separator;
+
+    int type = contentRow.at(0).toInt();
+    rows += types.at(type);  // Tipo
+    rows += separator;
+    rows += contentRow.at(1); // Código
+    rows += separator;
+    rows += contentRow.at(2); // Nombre
+    rows += lineFeed;
+  }
+  
+  outString += headers + rows;
+  return outString;
 }
 
 Ui::MfaResultsForm * MfaResultsForm::getUi()

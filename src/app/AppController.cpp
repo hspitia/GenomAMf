@@ -207,22 +207,22 @@ int AppController::makeCorrelationAnalysis(const QList<int> & sequenceKeys,
   
   CorrelationAnalysis craObject = CorrelationAnalysis(creList, nMeshFrames);
   
-  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
-  QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
-  while (i != creHash->constEnd()) {
-    QString name = 
-            QString::fromStdString(i->getCgrObject()->getSequence()->getName());
-    DEBUG ( "\t" << i.key() << "   -   " << qPrintable(name));
-    ++i;
-  }
+//  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
+//  QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
+//  while (i != creHash->constEnd()) {
+//    QString name = 
+//            QString::fromStdString(i->getCgrObject()->getSequence()->getName());
+//    DEBUG ( "\t" << i.key() << "   -   " << qPrintable(name));
+//    ++i;
+//  }
   
   
-  TRACE (__LINE__ << "\n\t" << "Listado de CorrelationElement para análisis");
-  DEBUG ( "\t creList.count(): " <<  creList.count());
-  for (int i = 0; i < creList.count(); ++i) {
-    CorrelationElement * ce = const_cast<CorrelationElement *>(creList.at(i));
-    DEBUG ( "\t" << ce->getCgrObject()->getSequence()->getName());
-  }
+//  TRACE (__LINE__ << "\n\t" << "Listado de CorrelationElement para análisis");
+//  DEBUG ( "\t creList.count(): " <<  creList.count());
+//  for (int i = 0; i < creList.count(); ++i) {
+//    CorrelationElement * ce = const_cast<CorrelationElement *>(creList.at(i));
+//    DEBUG ( "\t" << ce->getCgrObject()->getSequence()->getName());
+//  }
   
   craObject.performAnalysis();
   
@@ -286,24 +286,29 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
     int sequenceKey = sequenceKeys.at(i);
     QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
     
-    DEBUG ("buscado: " << sequences->getSequence(sequenceKey));
-    DEBUG (" - " << sequences->getSequence(sequenceKey)->getName());
+    TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado:");
+    DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
+           " - " << sequences->getSequence(sequenceKey)->getName());
     
     bool creFound = false;
     while (i != creHash->constEnd() && !creFound) {
       creFound = sequences->getSequence(sequenceKey) == 
                  i.value().getCgrObject()->getSequence();
       
-      if (creFound)
-        creListForAnalysis.append(&(i.value())); // Adiciona apuntador al objeto 
-                                                 // CorrelationElement
+      if (creFound) {
+        creListForAnalysis.append(&(i.value())); // Adiciona apuntador al objeto
+        TRACE (__LINE__ << "\n\t" << "CorrelationElement encontrado");
+        DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
+               " - " << sequences->getSequence(sequenceKey)->getName());
+        // CorrelationElement
+      }
       ++i;
     }
     
     // Obtención del objeto ChaosGameRepresentation que corresponda
     // a la secuencia que no posee un objeto CorrelationElement relacionado
     if (!creFound) {
-      TRACE (__LINE__ << "\n\t" << "NO ENCONTRADO - sequenceKey: " << sequenceKey );
+      TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado NO ENCONTRADO \n\t sequenceKey: " << sequenceKey );
       QList<int> sequenceKeysForCgr;
       sequenceKeysForCgr.append(sequenceKey);
       cgrObjectsForCra.append(getCgrObjectsForAnalysis(sequenceKeysForCgr));
@@ -328,12 +333,8 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
   }/**/
   
   TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
-  QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
-  while (i != creHash->constEnd()) {
-    QString name = 
-            QString::fromStdString(i->getCgrObject()->getSequence()->getName());
-    DEBUG ( "\t" << i.key() << "   -   " << qPrintable(name));
-    ++i;
+  for (int i = 0; i < creListForAnalysis.count(); ++i) {
+    DEBUG( creListForAnalysis.at(i)->getCgrObject()->getSequence()->getName());
   }
   DEBUG ("\t" << "creListForAnalysis.count(): " << creListForAnalysis.count());
   return creListForAnalysis;

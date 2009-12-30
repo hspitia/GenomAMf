@@ -25,7 +25,7 @@ Plotter::Plotter(plotType type)
 {
   this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix    = 0;
+  this->dataListMatrix    = QList<RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -41,7 +41,7 @@ Plotter::Plotter(const QList<vector<double> *> & dataListNormal, plotType type) 
 {
   this->dataListNormal    = dataListNormal;
   this->dataListLinearReg = QList<QList<vector<double> *> >();
-  this->dataListMatrix    = 0;
+  this->dataListMatrix    = QList<RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -58,7 +58,7 @@ Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
 {
   this->dataListNormal    = QList<vector<double> *>();
   this->dataListLinearReg = dataListLinearReg;
-  this->dataListMatrix    = 0;
+  this->dataListMatrix    = QList<RowMatrix<int> *>();
   this->type              = type;
   this->title             = "";
   this->xLabel            = "";
@@ -68,7 +68,7 @@ Plotter::Plotter(const QList<QList<vector<double> *> > & dataListLinearReg,
   this->rowsOfPlot        = 1;
 }
 
-Plotter::Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
+Plotter::Plotter(const QList<RowMatrix<int> * > & dataListMatrix, 
                  plotType type) : mglDraw()
 {
   this->dataListNormal    = QList<vector<double> *>();
@@ -344,7 +344,7 @@ void Plotter::plotNormalData_(mglGraph *gr)
 
 void Plotter::plotMeasures(mglGraph * gr)
 {
-  int nSubPlots = dataListMatrix->count();
+  int nSubPlots = dataListMatrix.count();
   int plotsPerRow = 2;
   int nPlotRows = utils::round(((double) nSubPlots) / plotsPerRow);
   
@@ -352,9 +352,9 @@ void Plotter::plotMeasures(mglGraph * gr)
   
   for (int mainIndex = 0; mainIndex < nSubPlots; ++mainIndex) {
     //    int rows = dataListMatrix->at(mainIndex)->nRows();
-    int rows = dataListMatrix->at(mainIndex)->getNumberOfRows();
+    int rows = dataListMatrix.at(mainIndex)->getNumberOfRows();
     //    int cols = dataListMatrix->at(mainIndex)->nCols();
-    int cols = dataListMatrix->at(mainIndex)->getNumberOfColumns();
+    int cols = dataListMatrix.at(mainIndex)->getNumberOfColumns();
     
     mglData a(cols, rows);
     
@@ -365,7 +365,7 @@ void Plotter::plotMeasures(mglGraph * gr)
       for (int j = 0; j < cols; ++j)
       {
         int index = i + (rows * j);
-        a.a[index] = (*(dataListMatrix->at(mainIndex)))(i,j);
+        a.a[index] = (*(dataListMatrix.at(mainIndex)))(i,j);
         if(maxValue < a.a[index]) maxValue = a.a[index];
       }
     }

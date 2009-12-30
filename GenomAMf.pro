@@ -9,7 +9,9 @@ QT += core \
 WIN_USER_ENV_PATH = e:/programming
 
 # Input
-HEADERS += src/cra/CorrelationElement.h \
+HEADERS += src/cra/DistancesModel.h \
+    src/cra/CorrelationAnalysisResultsController.h \
+    src/cra/CorrelationElement.h \
     src/utils/Trace.h \
     src/script/ScriptBuilder.h \
     src/gui/PreprocessingScriptParametersForm.h \
@@ -38,13 +40,15 @@ HEADERS += src/cra/CorrelationElement.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/cra/CorrelationElement.cpp \
+SOURCES += src/cra/DistancesModel.cpp \
+    src/gui/CorrelationAnalysisResultsForm.cpp \
+    src/cra/CorrelationAnalysisResultsController.cpp \
+    src/cra/CorrelationElement.cpp \
     src/script/ScriptBuilder.cpp \
     src/gui/PreprocessingScriptParametersForm.cpp \
     src/mfa/MultifractalAnalysis.cpp \
     src/cra/CorrelationAnalysis.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
-    src/gui/CorrelationAnalysisResultsForm.cpp \
     src/gui/MfaResultsController.cpp \
     src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
