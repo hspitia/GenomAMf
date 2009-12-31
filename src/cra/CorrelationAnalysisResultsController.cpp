@@ -82,6 +82,10 @@ DistancesModel * CorrelationAnalysisResultsController::prepareDistancesModel()
   DistancesModel * model = new DistancesModel(sequenceCodeList,
                                               distances);
   
+  for (int i = 0; i < distances.count(); ++i) {
+    cout << distances.at(i) << " " << endl;
+  }
+  
   return  model;
 }
 

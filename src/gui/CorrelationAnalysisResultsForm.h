@@ -22,6 +22,7 @@ public:
 private:
     Ui::CorrelationAnalysisResultsFormClass *ui;
     
+    void setUpSequenceTable(const QList<QStringList> & sequenceCodeList);
     QIcon getIcon(const int & type) const;
 };
 

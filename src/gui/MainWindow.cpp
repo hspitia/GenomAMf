@@ -529,7 +529,7 @@ void MainWindow::makeCorrelationAnalysis()
             correlationParametersForm->getSelectedSequencesKeys();
 //    int nMeshFrames = correlationParametersForm->getNMeshFrames();
     int craKey = parentApp->makeCorrelationAnalysis(sequencesKeysList, 512);
-//    displayCraResults(craKey);
+    displayCraResults(craKey);
   }
 }
 
