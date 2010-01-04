@@ -391,12 +391,52 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
            setCurrentIndex(model->index(row, 0,parentIndex),
                            QItemSelectionModel::ClearAndSelect);
  }
- /* 
- void insertCorrelationToTreeView(const CorrelationAnalysis * correl)
+  
+ void 
+ MainWindow::insertCorrelationToTreeView(const int & craKey)
  {
- 
+   QAbstractItemModel *model = treeModel;
+   QModelIndex mainCraElementIndex = model->index(2, 0);
+   int count = treeModel->getItem(mainCraElementIndex)->childCount();
+   int row = 0;
+   QModelIndex index;
+   QModelIndex parentIndex;
+   
+   if (count == 0) {
+     index = mainCraElementIndex;
+     parentIndex = index;
+     if (!model->insertRow(0, mainCraElementIndex))
+       return;
+   }
+   else {
+     row = count;
+     index = model->index(row - 1, 0, mainCraElementIndex);
+     parentIndex = mainCraElementIndex;
+     if (!model->insertRow(row, mainCraElementIndex))
+       return;
+   }
+   
+   QVector<QVariant> data;
+   // Nombre
+   data << QString("Resultado %1").arg(count + 1);
+   // Tipo
+   data << TreeItem::CorrelResultItem;
+   // Key de Hash contenedor
+   data << craKey;
+   
+   for (int column = 0; column < model->columnCount(index); ++column) {
+     QModelIndex child = model->index(row, column, parentIndex);
+     model->setData(child, data.at(column), Qt::EditRole);
+     if (!model->headerData(column, Qt::Horizontal).isValid())
+       model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+                            Qt::EditRole);
+   }
+   
+   ui->explorerTreeView->selectionModel()->
+           setCurrentIndex(model->index(row, 0,parentIndex),
+                           QItemSelectionModel::ClearAndSelect);
  }
- */
+ 
 
 void MainWindow::loadSequences()
 {
@@ -552,7 +592,7 @@ void MainWindow::displayResultForm(QModelIndex index)
       return;
       
     case TreeItem::CorrelResultItem:
-      
+      displayCraResults(key);
       return;
       
   }
@@ -593,6 +633,13 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 void MainWindow::displayCraResults(const int & craKey)
 {
   CorrelationAnalysis craObject = parentApp->getCraHash()->value(craKey);
+  
+//  TRACE (__LINE__ << "\n\t" << "Names from craObject");
+//  for (int i = 0; i < craObject.getCorrelationElements().count(); ++i) {
+//    cout << craObject.getCorrelationElements().at(i)->
+//            getCgrObject()->getSequence()->getName()
+//    << " " << endl;
+//  }
   
   CorrelationAnalysisResultsController * craResultsController =
           new CorrelationAnalysisResultsController(&craObject);

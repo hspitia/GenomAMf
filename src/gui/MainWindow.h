@@ -115,8 +115,7 @@ class MainWindow : public QMainWindow
     SequenceListModel * getModelForProteinCra();
      
     void insertMfaResultSetTotreeView(const int & resultSetKey);
-     /*void insertCorrelationToTreeView();
-     */
+    void insertCorrelationToTreeView(const int & craKey);
     
   private:
     // Atributos

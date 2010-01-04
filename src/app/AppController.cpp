@@ -226,12 +226,13 @@ int AppController::makeCorrelationAnalysis(const QList<int> & sequenceKeys,
   
   craObject.performAnalysis();
   
-//  int craKey = craObjectsCounter;
-//  craHash->insert(craKey, craObject);
-//  ++craObjectsCounter;
-//  
-//  return craKey;
-  return 0;
+  int craKey = craObjectsCounter;
+  craHash->insert(craKey, craObject);
+  mainWindow->insertCorrelationToTreeView(craKey);
+  ++craObjectsCounter;
+  
+  return craKey;
+//  return 0;
 }
 
 QList<const ChaosGameRepresentation *>
@@ -286,9 +287,9 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
     int sequenceKey = sequenceKeys.at(i);
     QHash<int, CorrelationElement>::const_iterator i = creHash->constBegin();
     
-    TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado:");
-    DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
-           " - " << sequences->getSequence(sequenceKey)->getName());
+//    TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado:");
+//    DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
+//           " - " << sequences->getSequence(sequenceKey)->getName());
     
     bool creFound = false;
     while (i != creHash->constEnd() && !creFound) {
@@ -297,9 +298,9 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
       
       if (creFound) {
         creListForAnalysis.append(&(i.value())); // Adiciona apuntador al objeto
-        TRACE (__LINE__ << "\n\t" << "CorrelationElement encontrado");
-        DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
-               " - " << sequences->getSequence(sequenceKey)->getName());
+//        TRACE (__LINE__ << "\n\t" << "CorrelationElement encontrado");
+//        DEBUG ("\t" << sequences->getSequence(sequenceKey) << 
+//               " - " << sequences->getSequence(sequenceKey)->getName());
         // CorrelationElement
       }
       ++i;
@@ -308,7 +309,7 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
     // Obtención del objeto ChaosGameRepresentation que corresponda
     // a la secuencia que no posee un objeto CorrelationElement relacionado
     if (!creFound) {
-      TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado NO ENCONTRADO \n\t sequenceKey: " << sequenceKey );
+//      TRACE (__LINE__ << "\n\t" << "CorrelationElement buscado NO ENCONTRADO \n\t sequenceKey: " << sequenceKey );
       QList<int> sequenceKeysForCgr;
       sequenceKeysForCgr.append(sequenceKey);
       cgrObjectsForCra.append(getCgrObjectsForAnalysis(sequenceKeysForCgr));
@@ -330,13 +331,13 @@ AppController::getCreObjectsForAnalysis(const QList<int> & sequenceKeys,
     
     creListForAnalysis.append(newCre);
     ++creObjectsCounter;
-  }/**/
-  
-  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
-  for (int i = 0; i < creListForAnalysis.count(); ++i) {
-    DEBUG( creListForAnalysis.at(i)->getCgrObject()->getSequence()->getName());
   }
-  DEBUG ("\t" << "creListForAnalysis.count(): " << creListForAnalysis.count());
+  
+//  TRACE (__LINE__ << "\n\t" << "CorrelationElement objects: ");
+//  for (int i = 0; i < creListForAnalysis.count(); ++i) {
+//    DEBUG( creListForAnalysis.at(i)->getCgrObject()->getSequence()->getName());
+//  }
+//  DEBUG ("\t" << "creListForAnalysis.count(): " << creListForAnalysis.count());
   return creListForAnalysis;
 }
 

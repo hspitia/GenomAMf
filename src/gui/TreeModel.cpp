@@ -49,20 +49,21 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
         switch (item->data(1).toInt()){
           case TreeItem::MainSequenceItem:
             return tr("Secuencias");
+            
           case TreeItem::MainMfaItem:
-            return tr("Análisis Multifractal");
+            return tr("AnÃ¡lisis Multifractal");
+            
           case TreeItem::MainCorrelationItem:
-            return tr("Análisis de Correlación");
+            return tr("AnÃ¡lisis de CorrelaciÃ³n");
+            
           case TreeItem::DnaSequenceItem: 
           case TreeItem::ProteinSequenceItem:
-            return item->data(index.column());
           case TreeItem::CgrItem:
-            return tr("Rep. Juego del Caos");
           case TreeItem::MfaResultItem:
-//            return tr("Análisis Multifractal");
-            return item->data(index.column());
           case TreeItem::CorrelResultItem:
-            return tr("Análisis de Correlación");
+            return item->data(index.column());
+//            return tr("Rep. Juego del Caos");
+//            return item->data(index.column());
           default:
             return tr("Desconocido");
         }
@@ -91,9 +92,9 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
         case TreeItem::CgrItem:
           return tr("Rep. Juego del Caos");
         case TreeItem::MfaItem:
-          return tr("Análisis Multifractal");
+          return tr("Anï¿½lisis Multifractal");
         case TreeItem::CorrelItem:
-          return tr("Análisis de Correlación");*/
+          return tr("Anï¿½lisis de Correlaciï¿½n");*/
         default:
           return QVariant();
       }

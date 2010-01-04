@@ -96,5 +96,12 @@ namespace utils
     
     return outText.toStdString();
   }
+  
+  inline int offsetOf(int row, int column)
+  {
+    if (row < column)
+      qSwap(row, column);
+    return (row * (row - 1) / 2) + column;
+  }
 }
 #endif /* UTILS_H_ */

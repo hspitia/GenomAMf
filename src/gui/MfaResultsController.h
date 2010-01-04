@@ -22,10 +22,14 @@
 #ifndef MFARESULTSCONTROLLER_H_
 #define MFARESULTSCONTROLLER_H_
 
+
+
+
 //#include <app/AppController.h>
 #include <gui/MfaResultsForm.h>
 #include <mfa/MultifractalAnalysis.h>
 #include <mfa/Plotter.h>
+
 
 
 class MfaResultsController
@@ -47,10 +51,7 @@ class MfaResultsController
     MfaResultsForm * contructTheResultsForm();
     
     QList<Plotter *> plotResults();
-    
-    QList<QStringList > prepareContentSequenceTable();
-    
-    QList<QStringList > prepareContentDqValuesTable();
+   
     
   private:
 //    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
@@ -59,6 +60,11 @@ class MfaResultsController
     
     MfaResultsForm * mfaResultsForm; /**< Ventana para desplegar resultados 
       de los objetos Mfa*/
+    
+    QList<QStringList > prepareContentSequenceTable();
+    
+    QList<QStringList > prepareContentDqValuesTable();
+    
     
 };
 

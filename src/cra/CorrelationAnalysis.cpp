@@ -29,6 +29,7 @@ CorrelationAnalysis::CorrelationAnalysis()
   this->correlationElements = QList<const CorrelationElement *>();
   this->nMeshFrames         = 0;
   this->distances           = QList<double>();
+  this->tree                = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const 
@@ -39,6 +40,7 @@ CorrelationAnalysis::CorrelationAnalysis(const
   this->correlationElements = correlationElements;
   this->nMeshFrames         = nMeshFrames;
   this->distances           = QList<double>();
+  this->tree                = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis & 
@@ -47,6 +49,7 @@ CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis &
   this->correlationElements = correlationAnalysisObject.correlationElements;
   this->nMeshFrames         = correlationAnalysisObject.nMeshFrames;
   this->distances           = correlationAnalysisObject.distances;
+  this->tree                = correlationAnalysisObject.tree;
 }
 
 CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis & 
@@ -55,6 +58,7 @@ CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis &
   this->correlationElements = correlationAnalysisObject.correlationElements;
   this->nMeshFrames         = correlationAnalysisObject.nMeshFrames;
   this->distances           = correlationAnalysisObject.distances;
+  this->tree                = correlationAnalysisObject.tree;
   
   return *this;
 }
@@ -67,23 +71,11 @@ CorrelationAnalysis::~CorrelationAnalysis()
 QList<double> CorrelationAnalysis::performAnalysis()
 {
   if (distances.isEmpty()) {
-//    QList<double> averages  = calculateAverages();
-    
-//    MatrixTools::print(averages.toVector().toStdVector());
-//    QList<double> variances = calculateVariances(averages);
-//    QList<double> covariances = calculateCovariances(averages);
     QList<double> covariances = calculateCovariances();
     QList<double> correlCoefficients = 
             calculateCorrelationCoefficients(/*variances,*/ covariances);
-    TRACE (__LINE__ << "\n\t" << "Coeficientes de correlaciOn: ");
-    MatrixTools::print(correlCoefficients.toVector().toStdVector());
-    
-    TRACE (__LINE__ << "\n\t" << "ANTES");
     distances = calculateDistances(correlCoefficients);
-    TRACE (__LINE__ << "\n\t" << "Distancias de correlaciOn: ");
-    MatrixTools::print(distances.toVector().toStdVector());
-    TRACE (__LINE__ << "\n\t" << "Distancias calculadas");
-    cout << "FIN" << endl;
+    makePhylogeneticTree();
   }
   
   return distances;
@@ -121,9 +113,7 @@ CorrelationAnalysis::calculateVariances(const QList<double> & averages)
   return variances;
 }
 
-QList<double> 
-//CorrelationAnalysis::calculateCovariances(const QList<double> & averages)
-CorrelationAnalysis::calculateCovariances()
+QList<double> CorrelationAnalysis::calculateCovariances()
 {
   QList<double> covariances;
   int nElements = correlationElements.count();
@@ -135,16 +125,14 @@ CorrelationAnalysis::calculateCovariances()
   for (int i = 0; i < nElements; ++i) {
     matrixA  = correlationElements.at(i)->getDistanceMatrix();
     averageA = correlationElements.at(i)->getAverage();
-//    cout << "averageA: " << averageA ;
+    
     for (int j = i + 1; j < nElements; ++j) {
       matrixB  = correlationElements.at(j)->getDistanceMatrix();
       averageB = correlationElements.at(j)->getAverage();
-//      cout << "  averageB: " <<   averageB<< endl;
       double covariance = 
               MatrixOperations::covariance<int>(*matrixA, *matrixB,
                                                 averageA, averageB);
       covariances.append(covariance);
-//      cout << "covariance : " << covariance << endl;
     }
     matrixA = 0;
     matrixB = 0;
@@ -154,9 +142,7 @@ CorrelationAnalysis::calculateCovariances()
 
 
 QList<double> 
-CorrelationAnalysis::calculateCorrelationCoefficients(/*const QList<double> & 
-                                                      variances,*/
-                                                      const QList<double> & 
+CorrelationAnalysis::calculateCorrelationCoefficients(const QList<double> & 
                                                       covariances)
 {
   QList<double> correlCoefficients;
@@ -166,22 +152,12 @@ CorrelationAnalysis::calculateCorrelationCoefficients(/*const QList<double> &
   double covarianceAB = 0.0;
   int index = 0;
   
-  /*for (int i = 0; i < correlationElements.count(); ++i) {
-    cout << correlationElements.at(i)->getCgrObject()->getSequence()->getName() << endl 
-            << " average  : " << correlationElements.at(i)->getAverage() << endl
-            << " variance : " << correlationElements.at(i)->getVariance() << endl; 
-  }*/
-  
   for (int i = 0; i < nElements; ++i) {
-//    varianceA  = variances.at(i);
     varianceA  = correlationElements.at(i)->getVariance();
     
     for (int j = i + 1; j < nElements; ++j) {
-//      varianceB = variances.at(j);
       varianceB  = correlationElements.at(j)->getVariance();
       covarianceAB = covariances.at(index);
-//      cout << " varianceA: " << varianceA << " varianceB: " << varianceB;
-//      cout << " covarianceAB: " << covarianceAB;
       double correlCoefficient = covarianceAB / (varianceA * varianceB);
       correlCoefficients.append(correlCoefficient);
       ++index;
@@ -205,6 +181,47 @@ QList<double> CorrelationAnalysis::calculateDistances(const QList<double> &
   }
   
   return dists;
+}
+
+void CorrelationAnalysis::makePhylogeneticTree()
+{
+  int nElements = correlationElements.count();
+  vector<string> names(nElements);
+  
+  for (int i = 0; i < nElements; ++i) {
+    names.at(i) = QString("Seq_%1").arg(i+1).toStdString();  
+  }
+  
+  DistanceMatrix * matrix = new DistanceMatrix(names);
+  
+//  int nDistances = (nElements * (nElements - 1)) / 2;
+  int index = 0; 
+  double distance = 0.0;
+  
+  for (int i = 0; i < nElements; ++i) {
+    for (int j = 0; j < nElements; ++j) {
+      index = offsetOf(i,j);
+      distance = 0.0;
+      
+      if (i != j) 
+        distance = distances.at(index);
+      
+      (*matrix)(i, j) = distance;
+    }
+  }
+  
+  MatrixTools::print(*matrix);
+  
+//  NeighborJoining nj(*matrix, false, true);
+  NeighborJoining nj(*matrix, false, false);
+  
+  Tree * tree = nj.getTree();
+  
+  Newick newick;
+  newick.write(*tree,"tmp/tree.dnd");
+  
+  delete tree;
+  delete matrix;
 }
 
 int CorrelationAnalysis::getNumberOfMeshFrames() const
@@ -248,4 +265,9 @@ bool CorrelationAnalysis::isEmpty()
                  distances.isEmpty();
           
   return isEmpty;
+}
+
+const Tree * CorrelationAnalysis::getTree() const
+{
+  return tree;
 }

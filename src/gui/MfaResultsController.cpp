@@ -65,7 +65,7 @@ MfaResultsForm * MfaResultsController::contructTheResultsForm()
   mfaResultsForm->setUpSequenceTable();
   mfaResultsForm->setUpDqValuesTable();
 //  prepareContentSequenceTable();
-  TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
+//  TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
   
    
   return mfaResultsForm;
@@ -110,7 +110,6 @@ QList<Plotter *> MfaResultsController::plotResults()
 QList<QStringList > MfaResultsController::prepareContentSequenceTable()
 {
   QList<QStringList > contentList;
-  QStringList row;
   
   for (int i = 0; i < mfaObjects.count(); ++i) {
     const Sequence * sequence = mfaObjects.at(i).getCgrObject()->getSequence();
@@ -122,6 +121,7 @@ QList<QStringList > MfaResultsController::prepareContentSequenceTable()
     
     QString name = QString::fromStdString(sequence->getName());
     
+    QStringList row;
     row << QString::number(type)
         << code
         << name;
@@ -148,7 +148,7 @@ QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
       row << QString::number(dqValue);
            
       contentList << row;
-      cout << " " << dqValue << "  ";
+//      cout << " " << dqValue << "  ";
     }
     ++i;
   }

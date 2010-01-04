@@ -25,13 +25,17 @@
 // Bio++ libraries
 #include <NumCalc/Matrix.h>
 #include <Seq/Sequence.h>
+#include <Seq/DistanceMatrix.h>
+#include <Phyl/NeighborJoining.h>
+#include <Phyl/Tree.h>
+#include <Phyl/Newick.h>
 
 using namespace bpp;
 
 // Project
 #include <utils/MatrixOperations.h>
 #include <cra/CorrelationElement.h>
-
+#include <utils/Utils.h>
 
 /**
  * 
@@ -66,6 +70,8 @@ class CorrelationAnalysis
     
     bool isEmpty();
     
+    const Tree * getTree() const;
+    
   private:
     QList<const CorrelationElement *> correlationElements;
     
@@ -73,6 +79,9 @@ class CorrelationAnalysis
       La malla tendrá tamaño nMeshframes x nMeshFrames */
      
     QList<double> distances;
+    
+    Tree * tree; /**< Árbol filogenético creado a partir de la matriz de 
+      distancias */
     
     QList<double> calculateAverages();
     
@@ -88,6 +97,7 @@ class CorrelationAnalysis
     
     QList<double> calculateDistances(const QList<double> & correlCoefficients);
     
+    void makePhylogeneticTree();
 };
 
 #endif /* CORRELATIONANALYSIS_H_ */

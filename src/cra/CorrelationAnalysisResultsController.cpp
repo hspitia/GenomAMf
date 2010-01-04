@@ -19,6 +19,10 @@
  *  Description:  
  */
 
+#define DEBUG_MODE
+
+#include <utils/Trace.h>
+
 #include "CorrelationAnalysisResultsController.h"
 
 CorrelationAnalysisResultsController::CorrelationAnalysisResultsController()
@@ -64,7 +68,6 @@ CorrelationAnalysisResultsController::contructTheResultsForm()
           new CorrelationAnalysisResultsForm(model, sequenceContent);
 //  Plotter * plotter = plotMuMeasures();
   
-   
   return creResultsForm;
 }
 
@@ -81,10 +84,6 @@ DistancesModel * CorrelationAnalysisResultsController::prepareDistancesModel()
   
   DistancesModel * model = new DistancesModel(sequenceCodeList,
                                               distances);
-  
-  for (int i = 0; i < distances.count(); ++i) {
-    cout << distances.at(i) << " " << endl;
-  }
   
   return  model;
 }
@@ -111,7 +110,7 @@ QList<QStringList>
 CorrelationAnalysisResultsController::prepareContentSequenceTable()
 {
   QList<QStringList > contentList;
-  QStringList row;
+  
   int nElements = craObject->getCorrelationElements().count();
   
   for (int i = 0; i < nElements; ++i) {
@@ -124,6 +123,8 @@ CorrelationAnalysisResultsController::prepareContentSequenceTable()
     QString code = QString("Seq_%1").arg(i + 1);
     
     QString name = QString::fromStdString(sequence->getName());
+    
+    QStringList row;
     
     row << QString::number(type)
         << code

@@ -34,15 +34,16 @@
 #include <Seq/Alphabet.h>
 #include <Seq/AlphabetTools.h>
 #include <Seq/DNA.h>
+#include <Seq/DistanceMatrix.h>
 #include <Seq/Sequence.h>
 #include <Seq/VectorSequenceContainer.h>
 #include <NumCalc/RandomTools.h>
 //#include <Bpp/Raa/RAA.h>
-
-
 #include <NumCalc/VectorTools.h>
 #include <NumCalc/Matrix.h>
 #include <NumCalc/MatrixTools.h>
+#include <Phyl/NeighborJoining.h>
+#include <Phyl/Newick.h>
 
 //STL library
 #include <vector>
@@ -57,6 +58,66 @@ using namespace std;
 #include <mgl/mgl_qt.h>
 
 using namespace utils;
+
+//int offsetOf(int row, int column)
+//{
+//    if (row < column)
+//        qSwap(row, column);
+//    return (row * (row - 1) / 2) + column;
+//}
+
+void treeTest()
+{
+  int nElements = 5;
+  vector<string> names(nElements);
+  
+  for (int i = 0; i < nElements; ++i) {
+    names.at(i) = QString("Seq_%1").arg(i+1).toStdString();  
+  }
+  
+  DistanceMatrix * matrix = new DistanceMatrix(names);
+  
+  int nDistances = (nElements * (nElements - 1)) / 2;
+  
+  vector<double> distances(nDistances);
+  
+  distances.at(0) = 0.23548;
+  distances.at(1) = 0.1865;
+  distances.at(2) = 0.87645;
+  distances.at(3) = 0.063;
+  distances.at(4) = 0.00122;
+  distances.at(5) = 0.349;
+  distances.at(6) = 0.21212;
+  distances.at(7) = 0.9865;
+  distances.at(8) = 1.87645;
+  distances.at(9) = 3.87645;
+  
+  for (int i = 0; i < nElements; ++i) {
+    for (int j = 0; j < nElements; ++j) {
+      int index = offsetOf(i,j);
+      double distance = 0.0;
+      
+      if (i != j) 
+        distance = distances.at(index);
+      
+      (*matrix)(i, j) = distance;
+    }
+    cout << endl;
+  }
+  cout << endl;
+  
+  MatrixTools::print(*matrix);
+  
+  NeighborJoining nj(*matrix, false, true);
+  
+  Tree * tree = nj.getTree();
+  
+  Newick newick;
+  newick.write(*tree,"tree.dnd");
+  
+  delete tree;
+  delete matrix;
+}
 
 void pruebaSequences()
 {
@@ -686,6 +747,7 @@ int roundTest()
 int main(int argc, char *argv[])
 {
   appNormal(argc, argv);
+//  treeTest();
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
 //  return otherTests();
