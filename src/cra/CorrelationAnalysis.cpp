@@ -210,7 +210,7 @@ void CorrelationAnalysis::makePhylogeneticTree()
     }
   }
   
-  MatrixTools::print(*matrix);
+//  MatrixTools::print(*matrix);
   
 //  NeighborJoining nj(*matrix, false, true);
   NeighborJoining nj(*matrix, false, false);

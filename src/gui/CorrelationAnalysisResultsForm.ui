@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
+    <width>718</width>
     <height>590</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CorrelationAnalysisResultsForm</string>
+   <string>Análisis de Correación - Resultados</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -62,11 +62,11 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset>
         <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
       </attribute>
       <attribute name="title">
@@ -96,22 +96,13 @@
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>24</number>
          </attribute>
-         <attribute name="verticalHeaderDefaultSectionSize">
-          <number>24</number>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>62</number>
-         </attribute>
         </widget>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset>
         <normaloff>:/icons/graph_measures.png</normaloff>:/icons/graph_measures.png</iconset>
       </attribute>
       <attribute name="title">
@@ -120,7 +111,7 @@
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset>
         <normaloff>:/icons/table.png</normaloff>:/icons/table.png</iconset>
       </attribute>
       <attribute name="title">
@@ -146,12 +137,6 @@
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>24</number>
-         </attribute>
-         <attribute name="verticalHeaderDefaultSectionSize">
-          <number>24</number>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
          </attribute>
         </widget>
        </item>
@@ -183,12 +168,35 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="icon">
-       <iconset resource="../../resources/resources.qrc">
+       <iconset>
         <normaloff>:/icons/phylogenetic_tree.png</normaloff>:/icons/phylogenetic_tree.png</iconset>
       </attribute>
       <attribute name="title">
        <string>Árbol filogenético</string>
       </attribute>
+      <widget class="QScrollArea" name="treePanelScrollArea">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>491</width>
+         <height>451</height>
+        </rect>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>489</width>
+          <height>449</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </item>

@@ -34,6 +34,7 @@ MfaResultsForm::MfaResultsForm(const QList<QStringList> & dqTableContent,
   ui->setupUi(this);
   setupGraphicWidgets();
   connectSignalsSlots();
+  setAttribute(Qt::WA_DeleteOnClose);
 }
 
 MfaResultsForm::~MfaResultsForm()

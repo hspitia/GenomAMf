@@ -2,20 +2,30 @@
 
 CorrelationAnalysisResultsForm::
 CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
+                               Tree * tree,
                                const QList<QStringList> & sequenceCodeList,
                                QWidget *parent)
     : QWidget(parent),
     ui(new Ui::CorrelationAnalysisResultsFormClass())
 {
 	ui->setupUi(this);
+	this->tree = tree;
 	setUpSequenceTable(sequenceCodeList);
 	ui->distanceTable->setModel(distancesModel);
-	
+	setUpTree();
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 CorrelationAnalysisResultsForm::~CorrelationAnalysisResultsForm()
 {
-  
+  if (tree)
+    tree = 0;
+}
+
+void CorrelationAnalysisResultsForm::connectSignalsSlots()
+{
+  connect(ui->buttonBox, SIGNAL(rejected()), this,
+          SLOT(close()));
 }
 
 void CorrelationAnalysisResultsForm::
@@ -47,6 +57,19 @@ setUpSequenceTable(const QList<QStringList> & sequenceCodeList)
   }
 }
 
+void CorrelationAnalysisResultsForm::setUpTree()
+{
+  
+//  setWindowFilePath(filePath);
+  treeCanvas.setTree(tree);
+//  treeCanvas.setTreeDrawing(*td);
+//  treeCanvas.setMinimumSize(400,400);
+//  setMinimumSize(400,400);
+//  QScrollArea* treePanelScrollArea = new QScrollArea;
+  ui->treePanelScrollArea->setWidget(&treeCanvas);
+//  setWidget(treePanelScrollArea);
+}
+
 QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const
 {
   QIcon icon;
@@ -59,4 +82,19 @@ QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const
     icon = QIcon(":/icons/cgr.png");
   
   return icon;
+}
+
+Tree * CorrelationAnalysisResultsForm::getTree()
+{
+  return tree;
+}
+
+void CorrelationAnalysisResultsForm::setTree(Tree * tree)
+{
+  this->tree = tree;
+}
+
+TreeCanvas & CorrelationAnalysisResultsForm::getTreeCanvas()
+{
+  return treeCanvas;
 }
