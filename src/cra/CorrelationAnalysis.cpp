@@ -215,12 +215,11 @@ void CorrelationAnalysis::makePhylogeneticTree()
 //  NeighborJoining nj(*matrix, false, true);
   NeighborJoining nj(*matrix, false, false);
   
-  Tree * tree = nj.getTree();
+  tree = nj.getTree();
   
   Newick newick;
   newick.write(*tree,"tmp/tree.dnd");
   
-  delete tree;
   delete matrix;
 }
 
@@ -267,7 +266,7 @@ bool CorrelationAnalysis::isEmpty()
   return isEmpty;
 }
 
-const Tree * CorrelationAnalysis::getTree() const
+Tree * CorrelationAnalysis::getTree() const
 {
   return tree;
 }

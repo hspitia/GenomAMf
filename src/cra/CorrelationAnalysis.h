@@ -70,7 +70,7 @@ class CorrelationAnalysis
     
     bool isEmpty();
     
-    const Tree * getTree() const;
+    Tree * getTree() const;
     
   private:
     QList<const CorrelationElement *> correlationElements;

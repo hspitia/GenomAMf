@@ -63,13 +63,15 @@ CorrelationAnalysisResultsController::contructTheResultsForm()
 {
   QList<QStringList> sequenceContent = prepareContentSequenceTable();
   DistancesModel * model = prepareDistancesModel();
-  Tree * tree = const_cast<Tree *>(craObject->getTree());
+  Tree * tree = craObject->getTree();
   
   
+  TRACE (__LINE__ << "\n\t" << "Antes de construir el formulario");
   CorrelationAnalysisResultsForm * creResultsForm = 
           new CorrelationAnalysisResultsForm(model,
                                              tree,
                                              sequenceContent);
+  TRACE (__LINE__ << "\n\t" << "Despues de construir el formulario");
 //  Plotter * plotter = plotMuMeasures();
   
   return creResultsForm;

@@ -644,8 +644,10 @@ void MainWindow::displayCraResults(const int & craKey)
   CorrelationAnalysisResultsController * craResultsController =
           new CorrelationAnalysisResultsController(&craObject);
   
+  TRACE (__LINE__ << "\n\t" << "Antes de construir formulario");
   CorrelationAnalysisResultsForm * craResultsForm =
           craResultsController->contructTheResultsForm();
+  TRACE (__LINE__ << "\n\t" << "Despues de construir formulario");
   
   ui->mdiArea->addSubWindow(craResultsForm);
   craResultsForm->show();
