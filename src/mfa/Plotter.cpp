@@ -237,23 +237,28 @@ void Plotter::plotNormalData(mglGraph *gr)
       
     }
   }
-//  int minX = dataListNormal.at(0).at(0);
   int minX = static_cast<int> (dataListNormal.at(0)->at(0));
-//  int maxX = dataListNormal.at(0).at(nData - 1);
   int maxX = static_cast<int> (dataListNormal.at(0)->at(nData - 1));
   
   setTitle(gr);
   gr->SetFontSizePT(9);
   
-  gr->SetRanges(minX, minValue * 0.98, maxX * 1.2, maxValue * 1.2);
-  gr->Axis(mglPoint(minX, minValue * 0.98, minX), 
-           mglPoint(maxX * 1.2, maxValue * 1.2, maxValue * 1.2));
+  gr->SetRanges(minX, minValue, maxX, maxValue);
   
-  gr->Grid("xy", "W");
-  gr->Axis();
+  gr->Axis(mglPoint(minX, minValue), 
+           mglPoint(maxX, maxValue * 1.005));
+  
   gr->Box();
+  gr->SetTicks('x', 2, 1);
+  gr->Axis("xy");
+  gr->Grid("xy", "W");
   gr->Plot(y, "2");
-//  setLabels(gr);
+  
+  
+  setLabels(gr);
+  
+  
+  
 //  gr->AddLegend("Leyenda 1", "-");
 //  gr->AddLegend("Leyenda 2", "-");
 //  gr->AddLegend("Leyenda 3", "-");
@@ -391,6 +396,42 @@ void Plotter::plotMeasures(mglGraph * gr)
   }
 }
 
+//bool Plotter::exportToImage(const QString & fileName, 
+//                            GenomAMf::ImageFormat imageFormat,
+//                            mglGraph * gr)
+//{
+//  switch (imageFormat)
+//  {
+//    case GenomAMf::PNG:
+//      gr->WritePNG(fileName.toLatin1().data());
+//      break;
+//    
+//    case GenomAMf::JPEG:
+//      gr->WriteJPEG(fileName.toLatin1().data());
+//      break;
+//      
+//    case GenomAMf::GIF:
+//      gr->WriteGIF(fileName.toLatin1().data());
+//      break;
+//    case GenomAMf::BMP:
+//      gr->WriteBMP(fileName.toLatin1().data());
+//      break;
+//    
+//    case GenomAMf::EPS:
+//      gr->WriteEPS(fileName.toLatin1().data());
+//      break;
+//      
+//    case GenomAMf::SVG:
+//      gr->WriteSVG(fileName.toLatin1().data());
+//      break;
+//      
+//    default:
+//      return false;
+//  }
+//  
+//  return true;
+//}
+
 void Plotter::plot0(mglGraph *gr)
 {
   mglData x(100);
@@ -426,6 +467,7 @@ void Plotter::plot0(mglGraph *gr)
   gr->Legend();
   
 }
+
 
 void Plotter::setTitle(QString title)
 {

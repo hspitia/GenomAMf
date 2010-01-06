@@ -40,6 +40,7 @@ public:
     
     
 private:
+    
     Ui::CorrelationAnalysisResultsFormClass *ui;
     Tree * tree;
     TreeCanvas treeCanvas;

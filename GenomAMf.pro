@@ -9,7 +9,8 @@ QT += core \
 WIN_USER_ENV_PATH = e:/programming
 
 # Input
-HEADERS += src/cra/DistancesModel.h \
+HEADERS += src/mfa/MfaResultsController.h \
+    src/cra/DistancesModel.h \
     src/cra/CorrelationAnalysisResultsController.h \
     src/cra/CorrelationElement.h \
     src/utils/Trace.h \
@@ -20,7 +21,6 @@ HEADERS += src/cra/DistancesModel.h \
     src/cra/CorrelationAnalysis.h \
     src/gui/CorrelationAnalysisParametersForm.h \
     src/gui/CorrelationAnalysisResultsForm.h \
-    src/gui/MfaResultsController.h \
     src/mfa/Plotter.h \
     src/utils/Linear.h \
     src/mfa/SandBoxMethod.h \
@@ -40,7 +40,8 @@ HEADERS += src/cra/DistancesModel.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/cra/DistancesModel.cpp \
+SOURCES += src/mfa/MfaResultsController.cpp \
+    src/cra/DistancesModel.cpp \
     src/gui/CorrelationAnalysisResultsForm.cpp \
     src/cra/CorrelationAnalysisResultsController.cpp \
     src/cra/CorrelationElement.cpp \
@@ -49,7 +50,6 @@ SOURCES += src/cra/DistancesModel.cpp \
     src/mfa/MultifractalAnalysis.cpp \
     src/cra/CorrelationAnalysis.cpp \
     src/gui/CorrelationAnalysisParametersForm.cpp \
-    src/gui/MfaResultsController.cpp \
     src/mfa/Plotter.cpp \
     src/mfa/SandBoxMethod.cpp \
     src/utils/SeqLoader.cpp \

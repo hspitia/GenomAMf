@@ -28,10 +28,17 @@ namespace GenomAMf
       DNA_Alphabet, Proteic_Alphabet, Undefined_Alphabet
   };  
   
+  enum ImageFormat
+  {
+      PNG, JPEG, GIF, BMP, EPS, SVG 
+  };
+  
   typedef enum
   {
     Information, Warning, Error, Undefined
   } MessageType;
+  
+  
 }
 
 #endif /* DEFINITIONS_H_ */

@@ -47,7 +47,7 @@ using namespace bpp;
 #include <gui/CgrResultsForm.h>
 #include <gui/CorrelationAnalysisParametersForm.h>
 #include <gui/CorrelationAnalysisResultsForm.h>
-#include <gui/MfaResultsController.h>
+#include <mfa/MfaResultsController.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
 #include <gui/SequenceListModel.h>

@@ -92,14 +92,14 @@ void MainWindow::connectSignalsSlots()
 void MainWindow::setUpExplorerTreeView()
 {
   QStringList headers;
-  headers << "Elementos" << "ItemType" << "Key";
+  headers << trUtf8("Elementos") << trUtf8("ItemType") << trUtf8("Key");
   treeModel = new TreeModel(headers, QString(""));
   
   ui->explorerTreeView->setModel(treeModel);
   for (int column = 0; column < treeModel->columnCount(); ++column)
     ui->explorerTreeView->resizeColumnToContents(column);
   
-  bool isHidden = false;
+  bool isHidden = true;
   ui->explorerTreeView->setColumnHidden(1, isHidden);
   ui->explorerTreeView->setColumnHidden(2, isHidden);
   
@@ -114,13 +114,13 @@ void MainWindow::insertTreeMainElements()
   QVector<QVariant> mainMfaElementData;
   QVector<QVariant> mainCorrelElementData;
   
-  mainSeqElementData << "Secuencias";
+  mainSeqElementData << trUtf8("Secuencias");
   mainSeqElementData << TreeItem::MainSequenceItem;
   mainSeqElementData << -1;
-  mainMfaElementData << "Análisis Multifractal";
+  mainMfaElementData << trUtf8("Análisis Multifractal");
   mainMfaElementData << TreeItem::MainMfaItem;
   mainMfaElementData << -1;
-  mainCorrelElementData << "Análisis de Correlación";
+  mainCorrelElementData << trUtf8("Análisis de Correlación");
   mainCorrelElementData << TreeItem::MainCorrelationItem;
   mainCorrelElementData << -1;
   
@@ -158,7 +158,7 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
   QVector<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
   
-  // Tipo de item seg�n el tipo de secuencia
+  // Tipo de item según el tipo de secuencia
   int type = utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
   if (type == GenomAMf::DNA_Alphabet) data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) data
@@ -192,7 +192,8 @@ void MainWindow::insertSequenceToTreeView(const Sequence * sequence,
     QModelIndex child = model->index(row, column, parentIndex);
     model->setData(child, data.at(column), Qt::EditRole);
     if (!model->headerData(column, Qt::Horizontal).isValid())
-      model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+      model->setHeaderData(column, Qt::Horizontal, 
+                           QVariant(trUtf8("[No header]")),
                            Qt::EditRole);
   }
   
@@ -212,7 +213,7 @@ void MainWindow::insertSequenceToSequenceListModel(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item seg�n tipo de secuencia 
+  // Tipo de item según tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet) 
     data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) 
@@ -231,7 +232,7 @@ void MainWindow::insertSequenceToModelsForCra(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item seg�n tipo de secuencia 
+  // Tipo de item según tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet){ 
     data << TreeItem::DnaSequenceItem;
     data << key; // Key en hash
@@ -314,7 +315,7 @@ void MainWindow::insertCgrToTreeView(const int & cgrKey,
   if (!model->insertRow(0, index)) return;
 
   QVector<QVariant> data;
-  data << "Representación Juego del Caos";
+  data << trUtf8("Representación Juego del Caos");
   data << TreeItem::CgrItem;
   data << cgrKey;
   
@@ -373,7 +374,7 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
    
    QVector<QVariant> data;
    // Nombre
-   data << QString("Resultado %1").arg(count + 1);
+   data << QString(trUtf8("Resultado %1")).arg(count + 1);
    // Tipo
    data << TreeItem::MfaResultItem;
    // Key de Hash contenedor
@@ -383,7 +384,8 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
      QModelIndex child = model->index(row, column, parentIndex);
      model->setData(child, data.at(column), Qt::EditRole);
      if (!model->headerData(column, Qt::Horizontal).isValid())
-       model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+       model->setHeaderData(column, Qt::Horizontal, 
+                            QVariant(trUtf8("[No header]")),
                             Qt::EditRole);
    }
    
@@ -418,7 +420,7 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
    
    QVector<QVariant> data;
    // Nombre
-   data << QString("Resultado %1").arg(count + 1);
+   data << QString(trUtf8("Resultado %1")).arg(count + 1);
    // Tipo
    data << TreeItem::CorrelResultItem;
    // Key de Hash contenedor
@@ -428,7 +430,8 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
      QModelIndex child = model->index(row, column, parentIndex);
      model->setData(child, data.at(column), Qt::EditRole);
      if (!model->headerData(column, Qt::Horizontal).isValid())
-       model->setHeaderData(column, Qt::Horizontal, QVariant("[No header]"),
+       model->setHeaderData(column, Qt::Horizontal, 
+                            QVariant(trUtf8("[No header]")),
                             Qt::EditRole);
    }
    
@@ -443,7 +446,7 @@ void MainWindow::loadSequences()
   QVector<int> loadedSequences;
   QFileDialog * fileDialog = new QFileDialog(this);
   QStringList filters;
-  filters << tr("Archivos en formato FASTA (*.fna *.fas *.fasta)");
+  filters << trUtf8("Archivos en formato FASTA (*.fna *.fas *.fasta)");
   
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
@@ -461,17 +464,18 @@ void MainWindow::loadSequences()
       QMessageBox::Icon icon = QMessageBox::NoIcon;
       
       if (totalSequences <= 0) {
-        text = "No se cargaron nuevas secuencias.";
-        infoText = "Esto se debe a una de las siguientes razones:\n - "
+        text = trUtf8("No se cargaron nuevas secuencias.");
+        infoText = trUtf8("Esto se debe a una de las siguientes razones:\n - "
           "Las secuencias contenidas en los archivos ya fueron cargadas,"
-          " o bien,\n - El formato de los archivos es incorrecto";
+          " o bien,\n - El formato de los archivos es incorrecto");
         icon = QMessageBox::Warning;
       }
       else {
-        text = QString("Secuencias cargadas correctamente.");
-        infoText = QString("Nuevas secuencias de ADN: %1\n"
-                  "Nuevas secuencias de proteínas: %2") .arg(
-                        loadedSequences.at(0)) .arg(loadedSequences.at(1));
+        text = trUtf8("Secuencias cargadas correctamente.");
+        infoText = trUtf8("ADN      : %1\n"
+                          "Proteínas: %2").
+                          arg(loadedSequences.at(0)).
+                          arg(loadedSequences.at(1));
         icon = QMessageBox::Information;
         updateActionsState();
       }
@@ -547,11 +551,14 @@ void MainWindow::makeMultifractalAnalysis()
                                                 maxQ,
                                                 nCenters);
     int timeElapsed = timer.elapsed();
-    cerr << utils::getTimeElapsed(timeElapsed);
+    cerr << __FILE__ << " " << __LINE__ << endl;
+    cerr << utils::getTimeElapsed(timeElapsed) << endl;
     displayMfaResults(mfaResultSetKey);
     
-    QMessageBox::information(this, tr("Análisis multifractal"),
-                                tr("Tiempo: ") + QString::fromStdString(utils::getTimeElapsed(timeElapsed)),
+    QMessageBox::information(this, trUtf8("Análisis multifractal"),
+                                trUtf8("Tiempo: ") + 
+                                QString::fromStdString(
+                                        utils::getTimeElapsed(timeElapsed)),
                                 QMessageBox::Ok);
   }
 }

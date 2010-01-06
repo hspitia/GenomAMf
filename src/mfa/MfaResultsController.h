@@ -22,15 +22,16 @@
 #ifndef MFARESULTSCONTROLLER_H_
 #define MFARESULTSCONTROLLER_H_
 
-
-
+// Qt
+#include <QtCore/QObject>
 
 //#include <app/AppController.h>
 #include <gui/MfaResultsForm.h>
 #include <mfa/MultifractalAnalysis.h>
 #include <mfa/Plotter.h>
+#include <utils/Definitions.h>
 
-
+class MfaResultsForm;
 
 class MfaResultsController
 {
@@ -51,7 +52,18 @@ class MfaResultsController
     MfaResultsForm * contructTheResultsForm();
     
     QList<Plotter *> plotResults();
-   
+    
+    QString convertDqValuesToCsv();
+    bool exportDqValuesToCsv(const QString & fileName);
+//    bool exportPlotToImageFile(Plotter::plotType,
+//                               const QString & filename,
+//                               GenomAMf::ImageFormat imageFormat);
+    
+    Plotter * getDqPlot();
+    
+    Plotter * getCqPlot();
+    
+    Plotter * getLinearRegressionPlot();
     
   private:
 //    QList<MultifractalAnalysis * > mfaObjects; /**< Lista de apuntadores a los 
@@ -61,9 +73,20 @@ class MfaResultsController
     MfaResultsForm * mfaResultsForm; /**< Ventana para desplegar resultados 
       de los objetos Mfa*/
     
+    Plotter * dqPlot;
+    
+    Plotter * cqPlot; 
+    
+    Plotter * linearRegressionPlot; 
+    
+    QString separator;
+    QString lineFeed;
+    
     QList<QStringList > prepareContentSequenceTable();
     
     QList<QStringList > prepareContentDqValuesTable();
+    
+    QString getSequenceCodeAndNames();
     
     
 };

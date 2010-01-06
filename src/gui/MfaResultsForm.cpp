@@ -19,18 +19,20 @@
  *  Description:  Archivo de implementacio-.n para la clase MfaResultsForm
  */
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include "MfaResultsForm.h"
 #include "utils/Trace.h"
 
 MfaResultsForm::MfaResultsForm(const QList<QStringList> & dqTableContent,
                                const QList<QStringList> & sequenceList,
+                               MfaResultsController * parentController,
                                QWidget *parent) :
   QWidget(parent), ui(new Ui::MfaResultsForm)
 {
   this->dqTableContent = dqTableContent;
   this->sequenceList = sequenceList;
+  this->parentController = parentController;
   ui->setupUi(this);
   setupGraphicWidgets();
   connectSignalsSlots();
@@ -44,6 +46,21 @@ MfaResultsForm::~MfaResultsForm()
 
 void MfaResultsForm::connectSignalsSlots()
 {
+  QSignalMapper * signalMapper = new QSignalMapper(this);
+  signalMapper->setMapping(ui->exportDqPlotPushButton, Plotter::Dq_Plot);
+  signalMapper->setMapping(ui->exportCqPlotPushButton, Plotter::Cq_Plot);
+  signalMapper->setMapping(ui->exportLinearPlotPushButton, Plotter::Linear_Plot);
+  
+  connect(ui->exportDqPlotPushButton, SIGNAL(clicked()),
+          signalMapper, SLOT (map()));
+  connect(ui->exportCqPlotPushButton, SIGNAL(clicked()),
+          signalMapper, SLOT (map()));
+  connect(ui->exportLinearPlotPushButton, SIGNAL(clicked()),
+          signalMapper, SLOT (map()));
+  
+  connect(signalMapper, SIGNAL(mapped(int /*plotType*/)),
+         this, SLOT(exportImage(int /*plotType*/)));
+  
   connect(ui->buttonBox, SIGNAL(rejected()), this, 
           SLOT(close()));
   
@@ -57,10 +74,12 @@ void MfaResultsForm::setupGraphicWidgets()
 {
   dqGraphicWidget = new QMathGL(this);
   dqGraphicWidget->autoResize = true;
+  dqGraphicWidget->setSize(609, 432);
   ui->dqScrollArea->setWidget(dqGraphicWidget);
   
   cqGraphicWidget = new QMathGL(this);
   cqGraphicWidget->autoResize = true;
+  cqGraphicWidget->setSize(609, 432);
   ui->cqScrollArea->setWidget(cqGraphicWidget);
   
   linearRegressionGraphicWidget = new QMathGL(this);
@@ -122,6 +141,7 @@ void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList
   int nRows = dqTableContent.count();
   table->setColumnCount(nCols);
   table->setRowCount(nRows); 
+  
   QStringList headers;
   headers << QString::fromUtf8("q");
   
@@ -140,16 +160,105 @@ void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList
   
 }
 
-void MfaResultsForm::exportImage()
+void MfaResultsForm::exportImage(int plotType)
 {
+  
+//  int tabIndex = ui->resultsTabWidget->currentIndex();
+  
+  QMathGL * currentGraphicWidget = 0;
+  QString filename = "Grafico";
+   
+  switch (plotType) {
+    case Plotter::Dq_Plot:
+      currentGraphicWidget = dqGraphicWidget;
+      filename = trUtf8("espectro_Dq");
+      break;
+      
+    case Plotter::Cq_Plot:
+      currentGraphicWidget = cqGraphicWidget;
+      filename = trUtf8("calor_especifico_analogo_Cq");
+      break;
+    
+    case Plotter::Linear_Plot:
+      currentGraphicWidget = linearRegressionGraphicWidget;
+      filename = trUtf8("regresión_lineal");
+      break;
+    
+    default:
+      return;
+  }
+  
+  QStringList formats;
+  formats << "png" << "jpg" << "eps" << "svg"; 
+  
+  QStringList filters;
+  filters << "Imagen PNG (*.png)";
+  filters << "Imagen JPEG (*.jpg)";
+  filters << "Imagen EPS (*.eps)";
+  filters << "Imagen SVG (*.svg)";
+  
+  QFileDialog * fileDialog = new QFileDialog(this);
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+  fileDialog->setDirectory(".");
+  fileDialog->selectFile(filename);
+//  fileDialog->setDefaultSuffix("png");
+  
+  if(fileDialog->exec()){
+    QStringList list = fileDialog->selectedFiles();
+    if(!list.isEmpty()){
+      filename = list.at(0);
+      
+//      QString formatExtension = "";
+      int format = 0;
+      for (int i = 0; i < filters.count(); ++i) {
+        if (fileDialog->selectedFilter().compare(filters.at(i)) == 0) {
+//          formatExtension = formats.at(i);
+          format = i;
+          break;
+        }
+      }
+      
+      switch (format) {
+        case 0:
+          currentGraphicWidget->exportPNG(filename);
+          break;
+        
+        case 1:
+          currentGraphicWidget->exportJPG(filename);
+          break;
+        
+        case 2:
+          currentGraphicWidget->exportBPS(filename);
+          break;
+        
+        case 3:
+          currentGraphicWidget->exportSVG(filename);
+          break;
+          
+        default:
+          cout << "Ooopps";
+          return;
+      }
+      
+      /*if(!false){
+        QMessageBox::information(this,"Error",QString::fromUtf8("Ocurrió un "
+                "error mientras se trataba de guardar la imagen.\n "
+                "Verifique los permisos del directorio destino e intente "
+                "guardar la imagen nuevamente."),
+                QMessageBox::Ok);
+      }*/
+      currentGraphicWidget = 0;
+    }
+  }
   
 }
 
 void MfaResultsForm::exportDqValuesTableToCsv()
 {
-  QString fileName = "DqValues";
+  QString fileName = trUtf8("DqValues");
   QStringList filters;
-  filters << "Comma separated values (*.csv)";
+  filters << trUtf8("Comma separated values (*.csv)");
   
   QFileDialog * fileDialog = new QFileDialog(this);
   fileDialog->setNameFilters(filters);
@@ -163,10 +272,10 @@ void MfaResultsForm::exportDqValuesTableToCsv()
     if(!list.isEmpty()){
       fileName = list.at(0);
       
-      bool succes = prepareAndExportDqValues(fileName);
+      bool succes = parentController->exportDqValuesToCsv(fileName);
       if (!succes)
-        QMessageBox::critical(this, "GenomAMf - Error", 
-                              QString::fromUtf8("Ha ocurrido un error al "
+        QMessageBox::critical(this, trUtf8("GenomAMf - Error"), 
+                              trUtf8("Ha ocurrido un error al "
                                       "tratar de guardar el archivo:\n %1\n\n"
                                       "Verifique los permisos del directorio "
                                       "destino e intente guardar el archivo"
@@ -175,95 +284,6 @@ void MfaResultsForm::exportDqValuesTableToCsv()
     }
   }
   delete fileDialog;
-}
-
-bool MfaResultsForm::prepareAndExportDqValues(const QString & fileName)
-{
-  int nCols = dqTableContent.at(0).count();
-  int nRows = dqTableContent.count();
-  
-  QString informationBlock = getSequenceCodeAndNames();
-  
-  QString headers;
-  QString outString;
-  QString rows;
-  QString separator = ";";
-  QString lineFeed  = "\n";
-  headers += "q";
-  headers += separator;
-  
-  for (int i = 1; i < nCols; ++i) {
-    headers += QString::fromUtf8("Dq Seq_%1").arg(i);
-    if (i < nCols - 1) 
-        headers += separator;
-  }
-  
-  for (int row = 0; row < nRows; ++row) {
-    QStringList contentRow = dqTableContent.at(row);
-    rows += contentRow.at(0); // q value
-    rows += separator;
-    for (int j = 1; j < nCols; ++j) {
-      rows += contentRow.at(j); // Dq value
-      
-      if (j < nCols - 1) 
-        rows += separator;
-    }
-    rows += lineFeed;
-  }
-  headers += lineFeed;
-  outString = informationBlock + lineFeed + headers + rows;
-  
-  QFile file(fileName);
-  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-    return false;
-  
-  QTextStream out(&file);
-  out << outString;
-  
-  return true;
-}
-
-QString MfaResultsForm::getSequenceCodeAndNames()
-{
-  QTableWidget * table =  ui->sequenceTable;
-  table->setColumnCount(2);
-  table->setRowCount(sequenceList.count()); 
-  QString outString;
-  QString headers;
-  QString separator = ";";
-  QString lineFeed = "\n";
-  headers += QString::fromUtf8("No.");
-  headers += separator;
-  headers += QString::fromUtf8("Tipo");
-  headers += separator;
-  headers += QString::fromUtf8("Código");
-  headers += separator;
-  headers += QString::fromUtf8("Secuencia");
-  headers += lineFeed;
-  
-  QString rows;
-  
-  QStringList types;
-  types << QString::fromUtf8("ADN")
-        << QString::fromUtf8("Proteína")
-        << QString::fromUtf8("No definido");
-  
-  for (int row = 0; row < sequenceList.count(); ++row) {
-    QStringList contentRow = sequenceList.at(row);
-    rows += QString::number(row + 1); // No.
-    rows += separator;
-
-    int type = contentRow.at(0).toInt();
-    rows += types.at(type);  // Tipo
-    rows += separator;
-    rows += contentRow.at(1); // Código
-    rows += separator;
-    rows += contentRow.at(2); // Nombre
-    rows += lineFeed;
-  }
-  
-  outString += headers + rows;
-  return outString;
 }
 
 Ui::MfaResultsForm * MfaResultsForm::getUi()
@@ -313,4 +333,10 @@ QIcon MfaResultsForm::getIcon(const int & type) const
   else if(type == TreeItem::CgrItem)
     icon = QIcon(":/icons/cgr.png");
   return icon;
+}
+
+
+MfaResultsController * MfaResultsForm::getParentController()
+{
+  return parentController;
 }

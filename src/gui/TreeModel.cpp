@@ -48,13 +48,13 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
       if(index.column() == 0){
         switch (item->data(1).toInt()){
           case TreeItem::MainSequenceItem:
-            return tr("Secuencias");
+            return trUtf8("Secuencias");
             
           case TreeItem::MainMfaItem:
-            return tr("Análisis Multifractal");
+            return trUtf8("Análisis Multifractal");
             
           case TreeItem::MainCorrelationItem:
-            return tr("Análisis de Correlación");
+            return trUtf8("Análisis de Correlación");
             
           case TreeItem::DnaSequenceItem: 
           case TreeItem::ProteinSequenceItem:

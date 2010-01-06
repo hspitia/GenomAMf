@@ -550,6 +550,7 @@ int appNormal(int argc, char *argv[])
 {
   AppController * app = new AppController(argc, argv);
 //    app->getMainWindow()->showMaximized();
+  app->getMainWindow()->resize(1024, 762);
   app->getMainWindow()->show();
   return app->exec();
 }

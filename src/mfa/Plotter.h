@@ -46,6 +46,8 @@ using namespace bpp;
 
 // Project library
 #include <utils/Utils.h>
+#include <utils/Definitions.h>
+
 
 /**
  * 
@@ -61,6 +63,7 @@ class Plotter : public mglDraw
     Plotter(const QList<RowMatrix<int> * > * dataListMatrix, 
             plotType type = Measures_Plot);
     */
+    
     Plotter(plotType type);
     Plotter(const QList<vector<double> *> & dataList, plotType type);
     Plotter(const QList<QList<vector<double> *> > & dataList, 
@@ -71,6 +74,10 @@ class Plotter : public mglDraw
     virtual ~Plotter();
     
     int Draw(mglGraph * gr);
+//    bool exportToImage(const QString & fileName, 
+//                            GenomAMf::ImageFormat imageFormat,
+//                            mglGraph * gr);
+    
     void plot0(mglGraph * gr);
 //    void plot1(mglGraph * gr);
     
@@ -108,6 +115,7 @@ class Plotter : public mglDraw
     int getRowsOfPlot();
     
     void setRowsOfPlot(const int & rowsOfPlot);
+    
     
   private:
     /*
