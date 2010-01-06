@@ -132,7 +132,9 @@ void CorrelationAnalysisResultsForm::setUpTree()
 {
   treeCanvas.setTree(tree);
   treeCanvas.setTreeDrawing(*(treeControlers_->getSelectedTreeDrawing()));
-  treeCanvas.setMinimumSize(600,600);
+  treeCanvas.setMinimumSize(300,300);
+  treeCanvas.setMaximumSize(1200,1200);
+  treeCanvas.resize(400, 400);
   treeControlers_->applyOptions(&treeCanvas);
   ui->treePanelScrollArea->setWidget(&treeCanvas);
   updateTreeControls();
