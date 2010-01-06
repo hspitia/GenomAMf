@@ -14,12 +14,13 @@ CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
 {
 	ui->setupUi(this);
 	this->tree = tree;
+	connectSignalsSlots();
 	setUpSequenceTable(sequenceCodeList);
 	ui->distanceTable->setModel(distancesModel);
 	initControls();
 	setUpTree();
 	setAttribute(Qt::WA_DeleteOnClose);
-	setAttribute(Qt::WA_QuitOnClose);
+//	setAttribute(Qt::WA_QuitOnClose);
 }
 
 CorrelationAnalysisResultsForm::~CorrelationAnalysisResultsForm()
@@ -36,13 +37,6 @@ void CorrelationAnalysisResultsForm::connectSignalsSlots()
 
 void CorrelationAnalysisResultsForm::initControls()
 {
-  //treePanel_ = new TreeCanvas;
-  //treePanel_->setTreeDrawing(new PhylogramPlot());
-  //treePanel_->setMinimumSize(400,400);
-  //treePanelScrollArea_ = new QScrollArea;
-  //treePanelScrollArea_->setWidget(treePanel_);
-
-//  controlPanel_ = new QWidget(this);
   controlPanel_ = new QWidget(ui->controlsFrame);
   treeControlers_ = new TreeCanvasControlers();
   
@@ -63,10 +57,6 @@ void CorrelationAnalysisResultsForm::initControls()
                                                           ID_HEIGHT_CTRL));
   drawingOptions->setLayout(drawingLayout);
   
-//  treeControlers_->
-//    getControlerById(TreeCanvasControlers::ID_ORIENTATION_CTRL)->
-//    setMaximumWidth(120); 
-  
   treeControlers_->
     getControlerById(TreeCanvasControlers::ID_WIDTH_CTRL)->
     setMaximumWidth(120);
@@ -86,7 +76,7 @@ void CorrelationAnalysisResultsForm::initControls()
   QVBoxLayout* displayLayout = new QVBoxLayout;
   displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_NODES_ID_CTRL));
   displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_BRLEN_VALUES_CTRL));
-  displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_BOOTSTRAP_VALUES_CTRL));
+//  displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_BOOTSTRAP_VALUES_CTRL));
   displayOptions->setLayout(displayLayout);
   
   QVBoxLayout* layout = new QVBoxLayout;

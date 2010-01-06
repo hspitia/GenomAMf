@@ -56,7 +56,7 @@ class CorrelationAnalysisResultsController
     
     virtual ~CorrelationAnalysisResultsController();
     
-    CorrelationAnalysisResultsForm * contructTheResultsForm();
+    CorrelationAnalysisResultsForm * contructTheResultsForm(QWidget *parent);
     // Access
     const CorrelationAnalysis * getCraObject();
     

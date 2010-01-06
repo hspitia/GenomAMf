@@ -31,6 +31,10 @@
 class ScriptBuilder
 {
   public:
+    enum OriginType{
+      Local_Type, Remote_Type
+    };
+    
     ScriptBuilder();
     ScriptBuilder(const QString & destinationDirectory,
                                  const QStringList & sequences,

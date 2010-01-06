@@ -100,6 +100,7 @@ QDockWidget::title {
     </property>
     <addaction name="makeMultifractalAnalysisAction"/>
     <addaction name="makeCorrelationAnalysisAction"/>
+    <addaction name="makePreprocessingScriptAction"/>
    </widget>
    <widget class="QMenu" name="menuJuego_del_Caos">
     <property name="title">
@@ -301,6 +302,15 @@ QDockWidget::title {
    </property>
    <property name="text">
     <string>&amp;Test Action</string>
+   </property>
+  </action>
+  <action name="makePreprocessingScriptAction">
+   <property name="icon">
+    <iconset resource="../../resources/resources.qrc">
+     <normaloff>:/icons/tool.png</normaloff>:/icons/tool.png</iconset>
+   </property>
+   <property name="text">
+    <string>Script de Preprocesamiento ...</string>
    </property>
   </action>
  </widget>

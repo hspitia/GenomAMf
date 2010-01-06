@@ -83,9 +83,11 @@ void MainWindow::connectSignalsSlots()
           SLOT(makeMultifractalAnalysis()));
   connect(ui->makeCorrelationAnalysisAction, SIGNAL(triggered()), this,
           SLOT(makeCorrelationAnalysis()));
-  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
+  connect(ui->makePreprocessingScriptAction, SIGNAL(triggered()), this,
+          SLOT(makePreprocessScript()));
   connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex /*index*/)), 
           this, SLOT(displayResultForm(QModelIndex /*index*/)));
+  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
   
 }
 
@@ -105,7 +107,6 @@ void MainWindow::setUpExplorerTreeView()
   
   // Insert main elements
   insertTreeMainElements();
-  
 }
 
 void MainWindow::insertTreeMainElements()
@@ -142,6 +143,7 @@ void MainWindow::insertTreeMainElements()
       treeModel->setData(child, dataList.at(i).at(column), Qt::EditRole);
     }
   }
+  
 }
 
 void MainWindow::addSequenceToModels(const Sequence * sequence, const int & key)
@@ -265,7 +267,7 @@ MainWindow::insertSequenceToSequenceListModelForCgr(const Sequence * sequence,
   QList<QVariant> data;
   data << QString::fromStdString(sequence->getName()); // Nombre secuencia
 
-  // Tipo de item seg�n tipo de secuencia 
+  // Tipo de item según tipo de secuencia 
   if (type == GenomAMf::DNA_Alphabet) 
     data << TreeItem::DnaSequenceItem;
   else if (type == GenomAMf::Proteic_Alphabet) 
@@ -439,7 +441,7 @@ void MainWindow::insertCgrToCgrListModel(const int & cgrKey)
            setCurrentIndex(model->index(row, 0,parentIndex),
                            QItemSelectionModel::ClearAndSelect);
  }
- 
+
 
 void MainWindow::loadSequences()
 {
@@ -451,7 +453,7 @@ void MainWindow::loadSequences()
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
   fileDialog->setFileMode(QFileDialog::ExistingFiles);
-  fileDialog->setDirectory("./data/sequences");
+  fileDialog->setDirectory("/home/hspitia/C_Elegans_Info/");
   
   if (fileDialog->exec()) {
     QStringList filesList = fileDialog->selectedFiles();
@@ -489,18 +491,6 @@ void MainWindow::loadSequences()
       msgBox.setTextFormat(Qt::RichText);
       msgBox.exec();
       
-      //    QHashIterator<int, const Sequence *> i(parentApp->getSequences()->getSequences());
-      //    cout <<"MainWindow::232: Contenido CustomSecuenceContainer: " << endl;;
-      //    while (i.hasNext()) {
-      //        i.next();
-      //        cout << i.key() << " : "
-      //              << qPrintable(QString::fromStdString(i.value()->getName()))
-      //              << " key: "
-      //              << parentApp->getSequences()->getSequences().key(i.value())
-      //              << endl;
-      //    }
-      
-
     }
   }
 }
@@ -545,7 +535,7 @@ void MainWindow::makeMultifractalAnalysis()
     QTime timer;
     timer.restart();
     int mfaResultSetKey = 
-            //          parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
+//            parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
             parentApp->makeMultifractalAnalysis(sequencesKeysList, 
                                                 minQ, 
                                                 maxQ,
@@ -561,6 +551,17 @@ void MainWindow::makeMultifractalAnalysis()
                                         utils::getTimeElapsed(timeElapsed)),
                                 QMessageBox::Ok);
   }
+}
+
+void MainWindow::makePreprocessScript()
+{
+  PreprocessingScriptParametersForm * scriptForm =
+          new PreprocessingScriptParametersForm(this);
+ 
+  if (scriptForm->exec() == QDialog::Accepted) {
+    
+  }
+  
 }
 
 void MainWindow::makeCorrelationAnalysis()
@@ -632,7 +633,9 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
   MfaResultsController * mfaResultsController = 
           new MfaResultsController(mfaListFromAnalysis);
   MfaResultsForm * mfaResultsForm = 
-          mfaResultsController->contructTheResultsForm();
+          mfaResultsController->contructTheResultsForm(this);
+  
+  
   ui->mdiArea->addSubWindow(mfaResultsForm);
   mfaResultsForm->show();
 }
@@ -653,7 +656,7 @@ void MainWindow::displayCraResults(const int & craKey)
   
   TRACE (__LINE__ << "\n\t" << "Antes de construir formulario");
   CorrelationAnalysisResultsForm * craResultsForm =
-          craResultsController->contructTheResultsForm();
+          craResultsController->contructTheResultsForm(this);
   TRACE (__LINE__ << "\n\t" << "Despues de construir formulario");
   
   ui->mdiArea->addSubWindow(craResultsForm);

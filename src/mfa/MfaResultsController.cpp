@@ -76,13 +76,14 @@ MfaResultsController::~MfaResultsController()
 }
 
 
-MfaResultsForm * MfaResultsController::contructTheResultsForm()
+MfaResultsForm * MfaResultsController::contructTheResultsForm(QWidget *parent)
 {
   QList<QStringList> dqValuesContent = prepareContentDqValuesTable();
   QList<QStringList> sequenceList = prepareContentSequenceTable();
   
   MfaResultsForm * mfaResultsForm = new MfaResultsForm(dqValuesContent,
-                                                       sequenceList, this, 0);
+                                                       sequenceList, this, 
+                                                       parent);
   QList<Plotter *> plots = plotResults();
   
   mfaResultsForm->setUpDqGraphic(dqPlot); // Dq graphic

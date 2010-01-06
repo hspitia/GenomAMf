@@ -61,8 +61,8 @@ void MfaResultsForm::connectSignalsSlots()
   connect(signalMapper, SIGNAL(mapped(int /*plotType*/)),
          this, SLOT(exportImage(int /*plotType*/)));
   
-  connect(ui->buttonBox, SIGNAL(rejected()), this, 
-          SLOT(close()));
+  connect(ui->buttonBox, SIGNAL(rejected()), this->parent(),
+            SLOT(closeSubWindow()));
   
   connect(ui->exportDqValuesButton, SIGNAL(released()), this, 
           SLOT(exportDqValuesTableToCsv()));
@@ -200,7 +200,7 @@ void MfaResultsForm::exportImage(int plotType)
   QFileDialog * fileDialog = new QFileDialog(this);
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-  fileDialog->setDirectory(".");
+  fileDialog->setDirectory("data/results/");
   fileDialog->selectFile(filename);
 //  fileDialog->setDefaultSuffix("png");
   
@@ -218,6 +218,19 @@ void MfaResultsForm::exportImage(int plotType)
           break;
         }
       }
+      
+      QStringList tokens = filename.split(".", QString::SkipEmptyParts);
+      QString tmpName = "";
+      int limit = tokens.count() - 1;
+      
+      for (int i = 0; i < limit; ++i) {
+        tmpName += tokens.at(i);
+        
+        if (i != limit - 1)
+          tmpName += "_";
+      }
+      
+      filename = tmpName;
       
       switch (format) {
         case 0:
@@ -263,7 +276,7 @@ void MfaResultsForm::exportDqValuesTableToCsv()
   QFileDialog * fileDialog = new QFileDialog(this);
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-  fileDialog->setDirectory(".");
+  fileDialog->setDirectory("data/results/");
   fileDialog->selectFile(fileName);
   fileDialog->setDefaultSuffix("csv");
   

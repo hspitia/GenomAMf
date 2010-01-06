@@ -49,7 +49,7 @@ class MfaResultsController
     
     MfaResultsForm * getMfaResultsForm();
     
-    MfaResultsForm * contructTheResultsForm();
+    MfaResultsForm * contructTheResultsForm(QWidget *parent);
     
     QList<Plotter *> plotResults();
     

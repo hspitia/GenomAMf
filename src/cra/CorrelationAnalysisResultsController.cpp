@@ -19,7 +19,7 @@
  *  Description:  
  */
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -59,7 +59,7 @@ CorrelationAnalysisResultsController::~CorrelationAnalysisResultsController()
 }
 
 CorrelationAnalysisResultsForm * 
-CorrelationAnalysisResultsController::contructTheResultsForm()
+CorrelationAnalysisResultsController::contructTheResultsForm(QWidget *parent)
 {
   QList<QStringList> sequenceContent = prepareContentSequenceTable();
   DistancesModel * model = prepareDistancesModel();
@@ -70,7 +70,8 @@ CorrelationAnalysisResultsController::contructTheResultsForm()
   CorrelationAnalysisResultsForm * creResultsForm = 
           new CorrelationAnalysisResultsForm(model,
                                              tree,
-                                             sequenceContent);
+                                             sequenceContent,
+                                             parent);
   TRACE (__LINE__ << "\n\t" << "Despues de construir el formulario");
 //  Plotter * plotter = plotMuMeasures();
   

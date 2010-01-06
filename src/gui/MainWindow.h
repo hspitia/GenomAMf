@@ -50,6 +50,7 @@ using namespace bpp;
 #include <mfa/MfaResultsController.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
+#include <gui/PreprocessingScriptParametersForm.h>
 #include <gui/SequenceListModel.h>
 #include <gui/TreeItem.h>
 #include <gui/TreeModel.h>
@@ -186,16 +187,15 @@ class MainWindow : public QMainWindow
     
     void loadSequences();
 
-    
     void makeCgr();
 
-    
     void makeMultifractalAnalysis();
     
     void makeCorrelationAnalysis();
     
-    void displayResultForm(QModelIndex index);
+    void makePreprocessScript();
     
+    void displayResultForm(QModelIndex index);
     
     void closeSubWindow();
     
