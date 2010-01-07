@@ -167,7 +167,8 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
 int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                             const int & minQ,
                                             const int & maxQ,
-                                            const int & nCenters)
+                                            const int & nCenters,
+                                            const int & radiusStep)
 {
   QList<int> mfaKeys;
   QList<const ChaosGameRepresentation *> cgrList =
@@ -179,7 +180,8 @@ int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
     MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
                                                           minQ, 
                                                           maxQ,
-                                                          nCenters);
+                                                          nCenters,
+                                                          radiusStep);
     
     mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
 //    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);

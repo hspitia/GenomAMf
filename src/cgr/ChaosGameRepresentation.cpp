@@ -48,6 +48,20 @@ ChaosGameRepresentation::ChaosGameRepresentation(const
           RowMatrix<int>(cgrObject.cumulativeFrequencyMatrix);
 }
 
+ChaosGameRepresentation & 
+ChaosGameRepresentation::operator=(const ChaosGameRepresentation & cgrObject) 
+{
+  sequence            = cgrObject.getSequence();
+  matrixOfPoints      = RowMatrix<int>(cgrObject.matrixOfPoints);
+  imagefilePath       = cgrObject.imagefilePath;
+  translatedSequence  = vector<int>(cgrObject.translatedSequence);
+  coordinatesOfPoints = new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
+  this->cumulativeFrequencyMatrix = 
+          RowMatrix<int>(cgrObject.cumulativeFrequencyMatrix);
+  
+  return *this;
+}
+
 ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
 {
   this->sequence                  = sequence;
@@ -74,16 +88,6 @@ ChaosGameRepresentation::~ChaosGameRepresentation()
   
 }
 
-ChaosGameRepresentation & ChaosGameRepresentation::
-operator=(const ChaosGameRepresentation & cgrObject)
-{
-//  sequence = new Sequence(*cgrObject.getSequence());
-  sequence = cgrObject.getSequence();
-  matrixOfPoints = RowMatrix<int>(cgrObject.matrixOfPoints);
-  imagefilePath = cgrObject.imagefilePath;
-  translatedSequence = vector<int>(cgrObject.translatedSequence);
-  return *this;
-}
 
 void ChaosGameRepresentation::translateSequence()
 {

@@ -95,7 +95,8 @@ class AppController : public QApplication
     int makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                   const int & minQ,
                                   const int & maxQ,
-                                  const int & nCenters);
+                                  const int & nCenters,
+                                  const int & radiusStep);
     
     int makeCorrelationAnalysis(const QList<int> & sequenceKeys, 
                                 const int & nMeshFrames);

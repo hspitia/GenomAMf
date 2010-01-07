@@ -60,7 +60,8 @@ class MultifractalAnalysis
     MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const int & minQ,
                          const int & maxQ,
-                         const int & nCenters);
+                         const int & nCenters,
+                         const int & radiusStep);
     
     virtual ~MultifractalAnalysis();
     
@@ -129,6 +130,10 @@ class MultifractalAnalysis
     
     int getNCenters();
     
+    int getRadiusStep();
+    
+    void setRadiusStep(const int & radiusStep);
+    
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
       ChaosGameRepresentation sobre el que se realiza el 
@@ -139,6 +144,8 @@ class MultifractalAnalysis
     int maxQ; /**< Valor para el parámetro q máximo*/
     
     int nCenters; /**< Número de centros para el análisis multifractal */
+    
+    int radiusStep;
     
     QString linearRegressionImgePath; /**< Ruta a la imagen
       correspondiente a la regresión lineal */

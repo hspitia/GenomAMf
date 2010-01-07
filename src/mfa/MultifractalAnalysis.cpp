@@ -26,74 +26,58 @@
 
 MultifractalAnalysis::MultifractalAnalysis()
 {
-  this->cgrObject = 0;
-  this->minQ = 0;
-  this->maxQ = 0;
-  this->nCenters = 0;
+  this->cgrObject                = 0;
+  this->minQ                     = 0;
+  this->maxQ                     = 0;
+  this->nCenters                 = 0;
+  this->radiusStep               = 0;
   this->linearRegressionImgePath = "";
-  this->dqSpectraImagePath = "";
-  this->cqImagePath = "";
-//  this->linearRegressionValues = new QList <vector <double> > ();
-  this->linearRegressionValues = QList <vector <double> *>();
-//  this->dqValues = new QList <vector <double> > ();
-  this->dqValues = new vector<double>();
-//  this->cqValues = new QList <vector <double> > ();
-  this->cqValues = new vector<double>();
-//  this->tqValues = new QList <vector <double> > ();
-  this->tqValues = new vector<double>();
+  this->dqSpectraImagePath       = "";
+  this->cqImagePath              = "";
+  this->linearRegressionValues   = QList <vector <double> *>();
+  this->dqValues                 = new vector<double>();
+  this->cqValues                 = new vector<double>();
+  this->tqValues                 = new vector<double>();
   
 }
 
 MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis & 
                                            mfaObject)
 {
-  //  this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
-  this->cgrObject = mfaObject.cgrObject;
-  this->minQ = mfaObject.minQ;
-  this->maxQ = mfaObject.maxQ;
-  this->nCenters = 300;
+  this->cgrObject                = mfaObject.cgrObject;
+  this->minQ                     = mfaObject.minQ;
+  this->maxQ                     = mfaObject.maxQ;
+  this->nCenters                 = mfaObject.nCenters;
+  this->radiusStep               = mfaObject.radiusStep;
   this->linearRegressionImgePath = mfaObject.linearRegressionImgePath;
-  this->dqSpectraImagePath = mfaObject.dqSpectraImagePath;
-  this->cqImagePath = mfaObject.cqImagePath;
-//  this->linearRegressionValues
-//          = new QList <vector <double> > (*(mfaObject.linearRegressionValues));
-  this->linearRegressionValues
-          = QList<vector<double> *>(mfaObject.linearRegressionValues);
-//  this->dqValues = new QList <vector <double> > (*(mfaObject.dqValues));
-  this->dqValues = new vector<double>(*(mfaObject.dqValues));
-//  this->cqValues = new QList <vector <double> > (*(mfaObject.cqValues));
-  this->cqValues = new vector<double>(*(mfaObject.cqValues));
-//  this->tqValues = new QList <vector <double> > (*(mfaObject.tqValues));
-  this->tqValues = new vector<double>(*(mfaObject.tqValues));
+  this->dqSpectraImagePath       = mfaObject.dqSpectraImagePath;
+  this->cqImagePath              = mfaObject.cqImagePath;
+  this->linearRegressionValues   = 
+          QList<vector<double> *>(mfaObject.linearRegressionValues);
+  this->dqValues                 = new vector<double>(*(mfaObject.dqValues));
+  this->cqValues                 = new vector<double>(*(mfaObject.cqValues));
+  this->tqValues                 = new vector<double>(*(mfaObject.tqValues));
 }
 
 MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
                                            cgrObject,
                                            const int & minQ, 
                                            const int & maxQ,
-                                           const int & nCenters)
+                                           const int & nCenters,
+                                           const int & radiusStep)
 {
-  this->cgrObject = cgrObject;
-  this->minQ = minQ;
-  this->maxQ = maxQ;
-  this->nCenters = nCenters;
+  this->cgrObject                = cgrObject;
+  this->minQ                     = minQ;
+  this->maxQ                     = maxQ;
+  this->nCenters                 = nCenters;
+  this->radiusStep               = radiusStep;
   this->linearRegressionImgePath = "";
-  this->dqSpectraImagePath = "";
-  this->cqImagePath = "";
-  //  this->linearRegressionValues = new QList <vector <double> > ();
-  this->linearRegressionValues = QList <vector <double> *>();
-//  this->dqValues = new QList <vector <double> > ();
-  this->dqValues = new vector<double>();
-//  this->cqValues = new QList <vector <double> > ();
-  this->cqValues = new vector<double>();
-//  this->tqValues = new QList <vector <double> > ();
-  this->tqValues = new vector<double>();
-/*
-  this->linearRegressionValues = new QList <vector <double> > ();
-  this->dqValues = new QList <vector <double> > ();
-  this->cqValues = new QList <vector <double> > ();
-  this->tqValues = new QList <vector <double> > ();
-*/
+  this->dqSpectraImagePath       = "";
+  this->cqImagePath              = "";
+  this->linearRegressionValues   = QList <vector <double> *>();
+  this->dqValues                 = new vector<double>();
+  this->cqValues                 = new vector<double>();
+  this->tqValues                 = new vector<double>();
   
 }
 
@@ -101,23 +85,18 @@ MultifractalAnalysis & MultifractalAnalysis::operator=(const
                                                        MultifractalAnalysis & 
                                                        mfaObject)
 {
-  this->cgrObject = new ChaosGameRepresentation(*(mfaObject.cgrObject));
-  this->minQ = mfaObject.minQ;
-  this->maxQ = mfaObject.maxQ;
+  this->cgrObject                = 
+          new ChaosGameRepresentation(*(mfaObject.cgrObject));
+  this->minQ                     = mfaObject.minQ;
+  this->maxQ                     = mfaObject.maxQ;
   this->linearRegressionImgePath = mfaObject.linearRegressionImgePath;
-  this->dqSpectraImagePath = mfaObject.dqSpectraImagePath;
-  this->cqImagePath = mfaObject.cqImagePath;
-  
-//  this->linearRegressionValues
-//          = new QList <vector <double> > (*(mfaObject.linearRegressionValues));
-  this->linearRegressionValues
-          = QList<vector<double> *>(mfaObject.linearRegressionValues);
-//  this->dqValues = new QList <vector <double> > (*(mfaObject.dqValues));
-  this->dqValues = new vector<double>(*(mfaObject.dqValues));
-//  this->cqValues = new QList <vector <double> > (*(mfaObject.cqValues));
-  this->cqValues = new vector<double>(*(mfaObject.cqValues));
-//  this->tqValues = new QList <vector <double> > (*(mfaObject.tqValues));
-  this->tqValues = new vector<double>(*(mfaObject.tqValues));
+  this->dqSpectraImagePath       = mfaObject.dqSpectraImagePath;
+  this->cqImagePath              = mfaObject.cqImagePath;
+  this->linearRegressionValues   = 
+          QList<vector<double> *>(mfaObject.linearRegressionValues);
+  this->dqValues                 = new vector<double>(*(mfaObject.dqValues));
+  this->cqValues                 = new vector<double>(*(mfaObject.cqValues));
+  this->tqValues                 = new vector<double>(*(mfaObject.tqValues));
   
 /*
   this->linearRegressionValues
@@ -377,4 +356,12 @@ int MultifractalAnalysis::getNCenters()
   return nCenters;
 }
 
+int MultifractalAnalysis::getRadiusStep()
+{
+  return radiusStep;
+}
 
+void MultifractalAnalysis::setRadiusStep(const int & radiusStep)
+{
+  this->radiusStep = radiusStep;
+}

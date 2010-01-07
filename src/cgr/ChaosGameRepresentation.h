@@ -69,10 +69,10 @@ class ChaosGameRepresentation
     ChaosGameRepresentation();
     ChaosGameRepresentation(const Sequence * sequence);
     ChaosGameRepresentation(const ChaosGameRepresentation & cgrObject);
+    ChaosGameRepresentation & operator=(const 
+                                        ChaosGameRepresentation & cgrObject);
     virtual ~ChaosGameRepresentation();
     
-    ChaosGameRepresentation & operator=(const ChaosGameRepresentation 
-                                        & cgrObject);
     /**
      * 
      */

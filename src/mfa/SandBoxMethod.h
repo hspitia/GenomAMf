@@ -66,14 +66,16 @@ class SandBoxMethod
                   const int & totalPoints,
                   const int & minQ         = -20,
                   const int & maxQ         =  20,
-                  const int & nCenters     = 300);
+                  const int & nCenters     = 300,
+                  const int & radiusStep   =   2);
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const RowMatrix<int> * cumulativeFrequencyMatrix,
                   const QList<QPointF> & fractalPoints,
-                  const int & minQ     = -20,
-                  const int & maxQ     =  20,
-                  const int & nCenters =  300);
+                  const int & minQ       = -20,
+                  const int & maxQ       =  20,
+                  const int & nCenters   =  300,
+                  const int & radiusStep =    2);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -169,6 +171,10 @@ class SandBoxMethod
     
     void setIndexesOfCenters(QList<int> indexesOfCenters);
     
+    int getRadiusStep();
+    
+    void setRadiusStep(const int & radiusStep);
+    
   private:
     int minQ; /**< Valor para el parámetro q mínimo */
 
@@ -179,7 +185,9 @@ class SandBoxMethod
     int maxR; /**< Valor del radio máximo de las cajas de arena */
     
     int totalPoints; /**< Número total de puntos del fractal */
-
+    
+    int radiusStep;
+    
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
     
@@ -213,6 +221,9 @@ class SandBoxMethod
     bool yCoordinateLessThan(const QPointF & y1, const QPointF & y2);
     */
     
+    
+    QList<vector<double> > * calculateDistributionProbabilities(vector<double> & 
+                                                                xData);
     
 };
 

@@ -29,7 +29,8 @@ SandBoxMethod::SandBoxMethod()
   this->maxQ                      =   70;
   this->minR                      =    1;
   this->maxR                      =  256;
-  this->totalPoints               =    0;                 
+  this->totalPoints               =    0;
+  this->radiusStep                =    2;
   this->cgrMatrix                 =    0;
   this->cumulativeFrequencyMatrix =    0;                                 
   this->nCenters                  = 1000;
@@ -46,6 +47,7 @@ SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
   this->minR                      = sandBoxObject.minR;
   this->maxR                      = sandBoxObject.maxR;
   this->totalPoints               = sandBoxObject.totalPoints;
+  this->radiusStep                = sandBoxObject.radiusStep;
   this->cgrMatrix                 = sandBoxObject.cgrMatrix;
   this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
   this->nCenters                  = sandBoxObject.nCenters;
@@ -60,13 +62,15 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & totalPoints,
                              const int & minQ,
                              const int & maxQ,
-                             const int & nCenters)
+                             const int & nCenters,
+                             const int & radiusStep)
 {
   this->minQ                      = minQ;
   this->maxQ                      = maxQ;
   this->minR                      = 1;
   this->maxR                      = 256;
   this->totalPoints               = totalPoints;
+  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
   this->nCenters                  = nCenters;
@@ -81,13 +85,15 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const QList<QPointF> & fractalPoints,
                              const int & minQ,
                              const int & maxQ,
-                             const int & nCenters)
+                             const int & nCenters,
+                             const int & radiusStep)
 {
   this->minQ                      = minQ;
   this->maxQ                      = maxQ;
   this->minR                      = 10;
   this->maxR                      = 256;
   this->totalPoints               = fractalPoints.count();
+  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
   this->nCenters                  = nCenters;
@@ -106,6 +112,7 @@ SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
   this->minR                      = sandBoxObject.minR;
   this->maxR                      = sandBoxObject.maxR;
   this->totalPoints               = sandBoxObject.totalPoints;
+  this->radiusStep                = sandBoxObject.radiusStep;
   this->cgrMatrix                 = sandBoxObject.cgrMatrix;
   this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
   this->nCenters                  = sandBoxObject.nCenters;
@@ -340,6 +347,34 @@ void SandBoxMethod::performDiscreteAnalysis_()
     linearRegressionValues.append(yData);
   }
 }
+
+QList<vector<double> > * 
+SandBoxMethod::calculateDistributionProbabilities(vector<double> & xData)
+{
+  QList<vector<double> > * distributionList;
+  int index = 0;
+  for (int radius = minR; radius <= maxR; radius += 2) {
+    
+  }
+}
+
+
+
+/*void SandBoxMethod::performDiscreteAnalysis_()
+{
+  int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
+  
+  DEBUG ("Coeficiente regresión;q;Dq");
+  for (int q = minQ; q <= maxQ; ++q) {
+    vector<double> * xData = new vector<double> (dataLenght);
+    vector<double> * yData = new vector<double> (dataLenght);
+    
+    double dqValue = calculateDiscreteDqValue((double) q, *xData, *yData);
+    dqValues->push_back(dqValue);
+    linearRegressionValues.append(xData);
+    linearRegressionValues.append(yData);
+  }
+}*/
 
 double SandBoxMethod::calculateContinousDqValue(const double & q, 
                                                 vector<double> & xData,
@@ -772,4 +807,14 @@ QList<int> SandBoxMethod::getIndexesOfCenters()
 void SandBoxMethod::setIndexesOfCenters(QList<int> indexesOfCenters)
 {
   this->indexesOfCenters = indexesOfCenters;
+}
+
+int SandBoxMethod::getRadiusStep()
+{
+  return radiusStep;
+}
+
+void SandBoxMethod::setRadiusStep(const int & radiusStep)
+{
+  this->radiusStep = radiusStep;
 }
