@@ -267,7 +267,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
       if (element > -1 && element < 4) {
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
-        coordinatesOfPoints->append(QPointF(x, y));
+//        coordinatesOfPoints->append(QPointF(x, y));
         
         // Redondeo a Piso
         xMatrix = utils::roundToInt(x);

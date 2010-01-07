@@ -81,7 +81,7 @@ QList<double> CorrelationAnalysis::performAnalysis()
   return distances;
 }
 
-QList<double> CorrelationAnalysis::calculateAverages()
+/*QList<double> CorrelationAnalysis::calculateAverages()
 {
   QList<double> averages;
   const RowMatrix<int> * matrix = 0;
@@ -111,7 +111,7 @@ CorrelationAnalysis::calculateVariances(const QList<double> & averages)
   }
   
   return variances;
-}
+}*/
 
 QList<double> CorrelationAnalysis::calculateCovariances()
 {

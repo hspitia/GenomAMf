@@ -83,9 +83,9 @@ class CorrelationAnalysis
     Tree * tree; /**< Árbol filogenético creado a partir de la matriz de 
       distancias */
     
-    QList<double> calculateAverages();
+//    QList<double> calculateAverages();
     
-    QList<double> calculateVariances(const QList<double> & averages);
+//    QList<double> calculateVariances(const QList<double> & averages);
     
 //    QList<double> calculateCovariances(const QList<double> & averages);
     QList<double> calculateCovariances();
