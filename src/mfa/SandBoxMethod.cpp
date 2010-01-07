@@ -292,7 +292,7 @@ void SandBoxMethod::performDiscreteAnalysis()
   DEBUG ("Coeficiente regresión;q;Dq");
   
 //  int iterations = 1;
-  int iterations = 100;
+  int iterations = 50;
   QList<vector<double> *> tmpDqList;
   for (int i = 0; i < maxQ - minQ + 1; ++i) {
     tmpDqList.append(new vector<double>(iterations));
@@ -412,7 +412,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     
   
 //    for (int radius = minR; radius <= maxR; ++radius) {
-    for (int radius = minR; radius <= maxR; radius += 4) {
+    for (int radius = minR; radius <= maxR; radius += 2) {
       vector <double> masses(nCenters);
       for (int i = 0; i < nCenters; ++i) {
         QPointF center = fractalPoints.at(indexesOfCenters.at(i));
