@@ -90,8 +90,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ                      = minQ;
   this->maxQ                      = maxQ;
-  this->minR                      = 10;
-  this->maxR                      = 256;
+  this->minR                      = 10; // aqui TODO - min
+  this->maxR                      = 384;// aqui TODo - max
   this->totalPoints               = fractalPoints.count();
   this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
@@ -157,7 +157,8 @@ void SandBoxMethod::performAnalysis(int type)
       performContinousAnalysis();
       break;
     case MultifractalAnalysis::DISCRETE_ANALYSIS:
-      performDiscreteAnalysis();
+//      performDiscreteAnalysis();
+      performDiscreteAnalysis_();
       break;
     case MultifractalAnalysis::COMPARATIVE_ANALYSIS:
       performComparativeAnalysis();
@@ -334,28 +335,115 @@ void SandBoxMethod::performDiscreteAnalysis()
 
 void SandBoxMethod::performDiscreteAnalysis_()
 {
-  int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
+  // Longitud rango valores de radio
+  int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
   
-  DEBUG ("Coeficiente regresión;q;Dq");
-  for (int q = minQ; q <= maxQ; ++q) {
-    vector<double> * xData = new vector<double> (dataLenght);
-    vector<double> * yData = new vector<double> (dataLenght);
-    
-    double dqValue = calculateDiscreteDqValue((double) q, *xData, *yData);
-    dqValues->push_back(dqValue);
-    linearRegressionValues.append(xData);
-    linearRegressionValues.append(yData);
+//  int iterations = 50; // TODO - cambio - iteraciones
+  int iterations = 600; // TODO - cambio - iteraciones
+  QList<vector<double> *> tmpDqList;
+  vector<double> * sizeRelations;
+//  QList<Qlist<vector<double> *> > tmpYDataLinearRegresionList;
+  
+  for (int i = 0; i < maxQ - minQ + 1; ++i) {
+    tmpDqList.append(new vector<double>(iterations));
+//    tmpYDataLinearRegresionList.append(new vector<double>(iterations));
   }
+  
+  vector<double> * xDataLinearRegression = 0; // Datos x regresión lineal
+  vector<double> * yDataLinearRegression = 0; // Datos y regresión lineal
+  
+  for (int i = 0; i < iterations; ++i) {
+    // Generación centros aleatorios
+    generateRandomCenters();
+    
+//    xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
+    sizeRelations = new vector<double>(dataLenght); // vector que contiene los valores ln(R/L)
+    TRACE (__LINE__ << "\n\t" << "Antes");
+    // Cálculo distribuciones de probabilidad (conteo en sand boxes)
+    QList<vector<double> > * distributionsList = 
+//            calculateDistributionProbabilities(*xDataLinearRegression);
+            calculateDistributionProbabilities(*sizeRelations);
+//    MatrixTools::print(*xDataLinearRegression);
+    TRACE (__LINE__ << "\n\t" << "Despues");
+    // Cálculo de valores Dq
+    int numberOfQ = maxQ - minQ + 1; // + 2; // Dos datos adicionales para q+epsilon y q-epsilon
+    double q = static_cast<double>(minQ);
+    //  double qMinusOne = 0.0;
+    
+    for (int qIndex = 0; qIndex < numberOfQ; ++qIndex) {
+      xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
+      yDataLinearRegression = new vector<double>(dataLenght); // Datos y regresión lineal
+      
+      double dqValue = calculateDiscreteDqValue_(q, 
+                                                 distributionsList,
+                                                 *sizeRelations,
+                                                 *xDataLinearRegression,
+                                                 *yDataLinearRegression);
+      
+//      dqValues->at(i) = dqValue;
+      tmpDqList.at(qIndex)->at(i) = dqValue;
+      q += 1;
+    }
+  }
+  
+  double average = 0.0;
+  for (int i = 0; i < tmpDqList.count(); ++i) {
+    average = VectorTools::mean<double, double>(*(tmpDqList.at(i)));
+    dqValues->push_back(average);
+  }
+  
+  linearRegressionValues.append(xDataLinearRegression);
+  linearRegressionValues.append(yDataLinearRegression);
+ // ---------------------------------------------------------------------------
+  
+ 
+  
 }
 
 QList<vector<double> > * 
-SandBoxMethod::calculateDistributionProbabilities(vector<double> & xData)
+SandBoxMethod::calculateDistributionProbabilities(vector<double> & 
+                                                  xDataLinearRegression)
 {
-  QList<vector<double> > * distributionList;
+  QList<vector<double> > * distributionList = new QList<vector<double> >();
   int index = 0;
-  for (int radius = minR; radius <= maxR; radius += 2) {
+  int fractalSize = cgrMatrix->getNumberOfRows();// - 1; // Menos 1 por ser matriz ampliada ??
+  double count = 0.0;
+  double probabilityDistributionValue = 0.0;
+  int dataLenght = xDataLinearRegression.size(); 
+  int radius = minR;
+  
+  for (int radiusIndex = 0; radiusIndex < dataLenght; ++radiusIndex) {
+    vector<double> probabilityDistributions(nCenters);
     
+    for (int i = 0; i < nCenters; ++i) {
+      QPointF center = fractalPoints.at(indexesOfCenters.at(i));
+      int xCenterCoordinate = utils::roundToInt(center.x());
+      int yCenterCoordinate = utils::roundToInt(center.y());
+      
+      count = countPointsOnTheDiscreteSquareSandbox(xCenterCoordinate,
+                                                    yCenterCoordinate,
+                                                    radius);
+      // Probabilidad de distribución -> M(R)/Mo
+      probabilityDistributionValue = count / totalPoints;
+      probabilityDistributions.at(i) = probabilityDistributionValue;
+//      DEBUG ( "probabilityDistributionValue: " << probabilityDistributionValue );
+    }
+//    DEBUG ( "\n");
+    // Probabilidades de distribución
+    distributionList->append(probabilityDistributions);
+    
+    // Dato x para regresión lineal -> ln(R/L)
+    double sizeRelation = 
+              (static_cast<double>(radius) / static_cast<double>(fractalSize));
+//    
+    xDataLinearRegression.at(radiusIndex) = log(sizeRelation);
+//    DEBUG (__LINE__ << "  radius: " <<   radius << 
+//           "  fractalSize: " << fractalSize <<
+//           "  sizeRelation: " << sizeRelation <<
+//           "  xDataLinearRegression.at(radiusIndex): " << xDataLinearRegression.at(radiusIndex) );
+    radius += radiusStep;
   }
+  return distributionList;
 }
 
 
@@ -428,6 +516,126 @@ double SandBoxMethod::calculateContinousDqValue(const double & q,
   delete linear;
   
   return slope;
+}
+
+void SandBoxMethod::calculateDiscreteDqValues(QList<vector<double> > * 
+                                                distributionsList,
+                                                vector<double> & 
+                                                xDataLinearRegression,
+                                                vector<double> & 
+                                                yDataLinearRegression)
+{
+  /*int numberOfQ = maxQ - minQ + 1 + 2; // Dos datos adicionales para q+epsilon y q-epsilon
+  int fractalSize = cgrMatrix->getNumberOfRows() - 1; // Menos 1 por ser matriz ampliada ??
+  int dataLenght = distributionsList->count();
+  double q = static_cast<double>(minQ);
+  double qMinusOne = 0.0;
+  
+  for (int i = 0; i < numberOfQ; ++i) {
+    qMinusOne = q - 1.0;
+    
+    for (int j = 0; j < dataLenght; ++j) {
+      // [M(R)/Mo]^(q-1) 
+      vector<double> tmpDistributions = 
+              VectorTools::pow<double>(distributionsList->at(j), qMinusOne);
+      
+      // <[M(R)/Mo]^(q-1)>   promedio
+      double probDistributionsAverage = 
+              VectorTools::mean<double, double>(tmpDistributions);
+      
+      yDataLinearRegression.at(j) = log(probDistributionsAverage);
+    }
+    
+    Linear * linear = new Linear(dataLenght,
+                                 &xDataLinearRegression, 
+                                 &yDataLinearRegression);
+    
+    double dqValue = calculateDiscreteDqValue_(q, 
+                                               distributionsList,
+                                               
+                                               xDataLinearRegression,
+                                               yDataLinearRegression);
+    dqValues->at(i) = dqValue;
+    q += 1.0;
+  }*/
+}
+
+double SandBoxMethod::calculateDiscreteDqValue_(const double & q,
+                                                QList<vector<double> > * 
+                                                distributionsList,
+                                                vector<double> & 
+                                                sizeRelations,
+                                                vector<double> & 
+                                                xDataLinearRegression,
+                                                vector<double> & 
+                                                yDataLinearRegression)
+{
+  int dataLenght = distributionsList->count(); // Número de radios en el rango
+  double qMinusOne = 0.0;
+  double dqValue = 0.0;
+  
+  if (q != 1) {
+    qMinusOne = q - 1.0;
+    
+    for (int j = 0; j < dataLenght; ++j) {
+      // [M(R)/Mo]^(q-1) 
+//      vector<double> tmpDistributions = 
+//              VectorTools::pow<double>(distributionsList->at(j), qMinusOne);
+//      
+//      // <[M(R)/Mo]^(q-1)>  promedio
+//      double probDistributionsAverage = 
+//              VectorTools::mean<double, double>(tmpDistributions);
+      
+      double sum = 0.0;
+      int nElements =  static_cast<int>(distributionsList->at(j).size());
+      for (int k = 0; k < nElements; ++k) {
+        sum += std::pow(distributionsList->at(j).at(k), qMinusOne);
+      }
+      
+      double probDistributionsAverage = sum / static_cast<double>(nElements);
+              
+      yDataLinearRegression.at(j) = log(probDistributionsAverage);// / qMinusOne;
+      
+//      for (unsigned int k = 0; k < sizeRelations.size(); ++k) {
+        double sizeRelation = sizeRelations.at(j);
+        xDataLinearRegression.at(j) = sizeRelation * qMinusOne;
+//      }
+//      xDataLinearRegression.at(j) = log(xDataLinearRegression.at(j)) * qMinusOne;
+//      DEBUG (__LINE__ << " q: " << q << "  yDataLinearRegression.at(j): " << yDataLinearRegression.at(j) );
+    }
+    
+//    MatrixTools::print(xDataLinearRegression);
+//    MatrixTools::print(yDataLinearRegression);
+    
+    Linear * linear = new Linear(dataLenght, &xDataLinearRegression, 
+                                 &yDataLinearRegression);
+    
+    dqValue = linear->getSlope();
+    delete linear;
+  }
+  
+  else if (q == 1) {
+    vector<double> xDataPlusEpsilon(xDataLinearRegression.size());
+    vector<double> yDataPlusEpsilon(yDataLinearRegression.size());
+//    vector<double> xDataMinusEpsilon(xDataLinearRegression.size());
+//    vector<double> yDataMinusEpsilon(yDataLinearRegression.size());
+    double epsilon = 0.001;
+    double dqMinusEpsilon = calculateDiscreteDqValue_(q - epsilon,
+                                                     distributionsList,
+                                                     sizeRelations,
+                                                     xDataLinearRegression,
+                                                     yDataLinearRegression);
+    
+    double dqPlusEpsilon = calculateDiscreteDqValue_(q + epsilon,
+                                                     distributionsList,
+                                                     sizeRelations,
+                                                     xDataPlusEpsilon,
+                                                     yDataPlusEpsilon);
+    
+    dqValue = (dqMinusEpsilon + dqPlusEpsilon) / 2;
+  }
+  
+  return dqValue;
 }
 
 double SandBoxMethod::calculateDiscreteDqValue(const double & q, 
@@ -669,8 +877,10 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
     int maxIndex = cgrMatrix->getNumberOfRows() - 1;
     int initX = x - radius;
     int initY = y - radius;
-    int endX  = x + radius - 1; 
-    int endY  = y + radius - 1;
+    int endX  = x + radius - 1; // TODO - cambio - tamaño caja conteo
+    int endY  = y + radius - 1; // TODO - cambio - tamaño caja conteo
+//    int endX  = x + radius; 
+//    int endY  = y + radius;
     
     if (initX < minIndex)
       initX = 0;

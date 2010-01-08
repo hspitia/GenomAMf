@@ -146,8 +146,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal
-  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida
+//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal  // TODO - cambio - tamaño matriz
+  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida // TODO - cambio - tamaño matriz
   
   int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
   int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
@@ -221,9 +221,13 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         yMatrix = static_cast<int>(yNuevo - 0.5);
         */
         
-        // Redondeo a Piso
-        xMatrix = utils::roundToInt(x);
-        yMatrix = utils::roundToInt(y);
+        // Redondeo - Aproximación
+//        xMatrix = utils::roundToInt(x); // TODO - cambio - redondeo
+//        yMatrix = utils::roundToInt(y); // TODO - cambio - redondeo
+        
+        // Redondeo - A piso
+        xMatrix = utils::roundFloorInt(x);
+        yMatrix = utils::roundFloorInt(y);
 
 //        cout << x << ", " << y;
 //        cout << "    "<< xMatrix << ", " << yMatrix << endl;
@@ -238,7 +242,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
 //        matrixOfPoints(xMatrix, yMatrix)++;
         
-//        if (matrixOfPoints(xMatrix, yMatrix) == 0)
+//        if (matrixOfPoints(xMatrix, yMatrix) == 0) // TODO - cambio - frecuencias
           matrixOfPoints(xMatrix, yMatrix)++;
         
       }

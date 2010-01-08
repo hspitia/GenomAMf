@@ -75,6 +75,12 @@ namespace utils
 //    return static_cast<int> (floor(number));
   }
   
+  inline int roundFloorInt(double number) {
+    return static_cast<int> (floor(number));
+//    return static_cast<int> (floor(number));
+//    return static_cast<int> (floor(number));
+  }
+  
 //  QString ApplicationController::getTimeElapsed(const int & milliseconds)
   inline string getTimeElapsed(const int & milliseconds)
   {

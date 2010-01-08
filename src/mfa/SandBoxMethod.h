@@ -75,7 +75,7 @@ class SandBoxMethod
                   const int & minQ       = -20,
                   const int & maxQ       =  20,
                   const int & nCenters   =  300,
-                  const int & radiusStep =    2);
+                  const int & radiusStep =    16); //aqui TODO - cambio - step
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -94,6 +94,22 @@ class SandBoxMethod
     
     double calculateContinousDqValue(const double & q, vector<double> & xData,
                                      vector<double> & yData);
+    
+    void calculateDiscreteDqValues(QList<vector<double> > * 
+                                     distributionsList,
+                                     vector<double> & xData,
+                                     vector<double> & yData);
+    
+    
+    double calculateDiscreteDqValue_(const double & q,
+                                     QList<vector<double> > * 
+                                     distributionsList,
+                                     vector<double> &
+                                     sizeRelations,
+                                     vector<double> & 
+                                     xDataLinearRegression,
+                                     vector<double> & 
+                                     yDataLinearRegression);
     
     double calculateDiscreteDqValue(const double & q, vector<double> & xData,
                                     vector<double> & yData);
