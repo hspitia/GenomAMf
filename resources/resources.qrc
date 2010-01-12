@@ -32,5 +32,6 @@
         <file>icons/cgr_result.png</file>
         <file>icons/correl_result.png</file>
         <file>icons/mfa_result.png</file>
+        <file>icons/preprocess_script.png</file>
     </qresource>
 </RCC>

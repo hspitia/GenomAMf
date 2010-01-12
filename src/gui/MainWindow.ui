@@ -108,22 +108,9 @@ QDockWidget::title {
     </property>
     <addaction name="makeCgrAction"/>
    </widget>
-   <widget class="QMenu" name="menuTest">
-    <property name="title">
-     <string>&amp;Test</string>
-    </property>
-    <addaction name="testAction"/>
-   </widget>
-   <widget class="QMenu" name="menu_Ventana">
-    <property name="title">
-     <string>&amp;Ventana</string>
-    </property>
-   </widget>
    <addaction name="menu_Archivo"/>
    <addaction name="menuJuego_del_Caos"/>
    <addaction name="menu_Herramientas"/>
-   <addaction name="menu_Ventana"/>
-   <addaction name="menuTest"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -146,8 +133,8 @@ QDockWidget::title {
    <addaction name="makeCgrAction"/>
    <addaction name="makeMultifractalAnalysisAction"/>
    <addaction name="makeCorrelationAnalysisAction"/>
+   <addaction name="makePreprocessingScriptAction"/>
    <addaction name="exitAction"/>
-   <addaction name="testAction"/>
   </widget>
   <widget class="QDockWidget" name="dockWidget">
    <property name="font">
@@ -307,7 +294,7 @@ QDockWidget::title {
   <action name="makePreprocessingScriptAction">
    <property name="icon">
     <iconset resource="../../resources/resources.qrc">
-     <normaloff>:/icons/tool.png</normaloff>:/icons/tool.png</iconset>
+     <normaloff>:/icons/preprocess_script.png</normaloff>:/icons/preprocess_script.png</iconset>
    </property>
    <property name="text">
     <string>Script de Preprocesamiento ...</string>

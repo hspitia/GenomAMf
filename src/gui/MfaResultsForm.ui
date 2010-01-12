@@ -271,58 +271,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="regressionTab">
-      <attribute name="icon">
-       <iconset resource="../../resources/resources.qrc">
-        <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Regresiones Lineales</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QScrollArea" name="linearRegressionScrollArea">
-         <property name="widgetResizable">
-          <bool>false</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents_2">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>615</width>
-            <height>431</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPushButton" name="exportLinearPlotPushButton">
-           <property name="text">
-            <string>Exportar</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
     </widget>
    </item>
   </layout>

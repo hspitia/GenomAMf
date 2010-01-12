@@ -2,6 +2,8 @@
 #define PREPROCESSINGINGSCRIPTPARAMETERSFORM_H
 
 #include <QtGui/QDialog>
+#include <script/ScriptBuilder.h>
+
 #include "ui_PreprocessingScriptParametersForm.h"
 
 namespace Ui {
@@ -45,13 +47,15 @@ class PreprocessingScriptParametersForm : public QDialog
     
     int fragmentSize;
     
+    ScriptBuilder::OriginType originType;
     
     void connectSignalsSlots();
     
   private slots:
        
-    void updateFragmentControls();
+    void updateFragmentControls(int checkState);
     
+    void updateOriginControls(bool checked);
 };
 
 #endif // PREPROCESSINGINGSCRIPTPARAMETERSFORM_H

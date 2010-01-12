@@ -87,8 +87,8 @@ void MainWindow::connectSignalsSlots()
           SLOT(makePreprocessScript()));
   connect(ui->explorerTreeView, SIGNAL(doubleClicked(QModelIndex /*index*/)), 
           this, SLOT(displayResultForm(QModelIndex /*index*/)));
-  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
-  
+  connect(ui->exitAction, SIGNAL(triggered()), this, SLOT(close()));
+//  connect(ui->testAction, SIGNAL(triggered()), this, SLOT(testSlot()));
 }
 
 void MainWindow::setUpExplorerTreeView()
@@ -651,20 +651,11 @@ void MainWindow::displayCraResults(const int & craKey)
 {
   CorrelationAnalysis craObject = parentApp->getCraHash()->value(craKey);
   
-//  TRACE (__LINE__ << "\n\t" << "Names from craObject");
-//  for (int i = 0; i < craObject.getCorrelationElements().count(); ++i) {
-//    cout << craObject.getCorrelationElements().at(i)->
-//            getCgrObject()->getSequence()->getName()
-//    << " " << endl;
-//  }
-  
   CorrelationAnalysisResultsController * craResultsController =
           new CorrelationAnalysisResultsController(&craObject);
   
-  TRACE (__LINE__ << "\n\t" << "Antes de construir formulario");
   CorrelationAnalysisResultsForm * craResultsForm =
           craResultsController->contructTheResultsForm(this);
-  TRACE (__LINE__ << "\n\t" << "Despues de construir formulario");
   
   ui->mdiArea->addSubWindow(craResultsForm);
   craResultsForm->show();

@@ -199,6 +199,8 @@ class MainWindow : public QMainWindow
     
     void closeSubWindow();
     
+//    void closeSubWindow();
+    
     void testSlot();
         
 };

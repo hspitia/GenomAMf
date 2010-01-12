@@ -49,14 +49,14 @@ void MfaResultsForm::connectSignalsSlots()
   QSignalMapper * signalMapper = new QSignalMapper(this);
   signalMapper->setMapping(ui->exportDqPlotPushButton, Plotter::Dq_Plot);
   signalMapper->setMapping(ui->exportCqPlotPushButton, Plotter::Cq_Plot);
-  signalMapper->setMapping(ui->exportLinearPlotPushButton, Plotter::Linear_Plot);
+//  signalMapper->setMapping(ui->exportLinearPlotPushButton, Plotter::Linear_Plot);
   
   connect(ui->exportDqPlotPushButton, SIGNAL(clicked()),
           signalMapper, SLOT (map()));
   connect(ui->exportCqPlotPushButton, SIGNAL(clicked()),
           signalMapper, SLOT (map()));
-  connect(ui->exportLinearPlotPushButton, SIGNAL(clicked()),
-          signalMapper, SLOT (map()));
+//  connect(ui->exportLinearPlotPushButton, SIGNAL(clicked()),
+//          signalMapper, SLOT (map()));
   
   connect(signalMapper, SIGNAL(mapped(int /*plotType*/)),
          this, SLOT(exportImage(int /*plotType*/)));
@@ -82,9 +82,9 @@ void MfaResultsForm::setupGraphicWidgets()
   cqGraphicWidget->setSize(609, 432);
   ui->cqScrollArea->setWidget(cqGraphicWidget);
   
-  linearRegressionGraphicWidget = new QMathGL(this);
-  linearRegressionGraphicWidget->autoResize = true;
-  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
+//  linearRegressionGraphicWidget = new QMathGL(this);
+//  linearRegressionGraphicWidget->autoResize = true;
+//  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
 }
 
 void MfaResultsForm::setUpDqGraphic(Plotter * plotter)
@@ -101,8 +101,8 @@ void MfaResultsForm::setUpCqGraphic(Plotter * plotter)
 
 void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
 {
-  linearRegressionGraphicWidget->setDraw(plotter);
-  linearRegressionGraphicWidget->update();
+//  linearRegressionGraphicWidget->setDraw(plotter);
+//  linearRegressionGraphicWidget->update();
 }
 
 void MfaResultsForm::setUpSequenceTable()
@@ -333,7 +333,11 @@ QMathGL * MfaResultsForm::getLinearRegressionGraphicWidget()
 void MfaResultsForm::setLinearRegressionGraphicWidget(QMathGL * 
                                                  linearRegressionGraphicWidget)
 {
-  this->linearRegressionGraphicWidget = linearRegressionGraphicWidget;
+//  this->linearRegressionGraphicWidget = linearRegressionGraphicWidget;
+//  this->linearRegressionGraphicWidget->setVisible(false);
+//  ui->linearRegressionScrollArea->setVisible(false);
+//  ui->exportLinearPlotPushButton->setVisible(false);
+//  ui->regressionTab->setVisible(false);
 }
 
 QIcon MfaResultsForm::getIcon(const int & type) const

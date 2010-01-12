@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
-    <height>649</height>
+    <width>603</width>
+    <height>686</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,7 +23,7 @@
    <iconset resource="../../resources/resources.qrc">
     <normaloff>:/icons/cgr.png</normaloff>:/icons/cgr.png</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout_12">
+  <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
     <number>0</number>
    </property>
@@ -52,182 +52,171 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item row="1" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QGridLayout" name="gridLayout_16">
      <property name="margin">
       <number>9</number>
      </property>
-     <item>
-      <widget class="QGroupBox" name="groupBox_2">
+     <item row="0" column="0">
+      <widget class="QGroupBox" name="groupBox_4">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>350</height>
+         <height>300</height>
         </size>
        </property>
        <property name="title">
-        <string>Origen de las secuencias:</string>
+        <string>Origen de las secuencias</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_10">
-        <property name="leftMargin">
-         <number>9</number>
-        </property>
-        <property name="topMargin">
-         <number>9</number>
-        </property>
-        <property name="rightMargin">
-         <number>9</number>
-        </property>
+       <layout class="QGridLayout" name="gridLayout_15">
         <item row="0" column="0">
-         <widget class="QToolBox" name="toolBox">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QRadioButton" name="localRadioButton">
+            <property name="text">
+             <string>Local</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="remoteRadioButton">
+            <property name="text">
+             <string>Remoto</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="gridLayout_12">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Directorio de trabajo:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLineEdit" name="inputDirectoryLineEdit"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="findInputDirPushButton">
+            <property name="text">
+             <string>Buscar ...</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,0">
+          <item row="0" column="0">
+           <widget class="QLabel" name="dataBaseLabel">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Base de datos Entrez:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="dataBaseComboBox">
+            <property name="minimumSize">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>120</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QGroupBox" name="sequenceGroupBox">
           <property name="minimumSize">
            <size>
-            <width>0</width>
-            <height>330</height>
+            <width>512</width>
+            <height>200</height>
            </size>
           </property>
-          <property name="currentIndex">
-           <number>0</number>
+          <property name="title">
+           <string>Secuencias a ser procesadas:</string>
           </property>
-          <widget class="QWidget" name="localPage">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>544</width>
-             <height>266</height>
-            </rect>
-           </property>
-           <attribute name="label">
-            <string>Remoto</string>
-           </attribute>
-           <layout class="QGridLayout" name="gridLayout_9">
-            <item row="0" column="0">
-             <layout class="QGridLayout" name="gridLayout" columnstretch="0,0,0">
-              <item row="0" column="0">
-               <widget class="QLabel" name="dataBaseLabel">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="text">
-                 <string>Base de datos remota:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="dataBaseComboBox"/>
-              </item>
-              <item row="0" column="2">
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item row="1" column="0">
-             <widget class="QGroupBox" name="groupBox">
-              <property name="minimumSize">
-               <size>
-                <width>512</width>
-                <height>200</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Secuencias a ser procesadas:</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_7">
-               <item row="0" column="0">
-                <layout class="QGridLayout" name="gridLayout_6" columnminimumwidth="0,1,0">
-                 <item row="0" column="0">
-                  <widget class="QLabel" name="label_2">
-                   <property name="text">
-                    <string>Id o nombre de secuencia:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="1">
-                  <widget class="QLineEdit" name="squenceLineEdit"/>
-                 </item>
-                 <item row="0" column="2">
-                  <widget class="QPushButton" name="pushButton">
-                   <property name="text">
-                    <string>Agregar</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="1" column="0">
-                <widget class="QTableWidget" name="sequenceTable">
-                 <property name="minimumSize">
-                  <size>
-                   <width>300</width>
-                   <height>120</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-          <widget class="QWidget" name="remotePage">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>544</width>
-             <height>266</height>
-            </rect>
-           </property>
-           <attribute name="label">
-            <string>Local</string>
-           </attribute>
-           <widget class="QWidget" name="layoutWidget_2">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>11</y>
-              <width>531</width>
-              <height>54</height>
-             </rect>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_8">
+          <layout class="QGridLayout" name="gridLayout_13">
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_14" columnminimumwidth="0,1,0">
              <item row="0" column="0">
-              <widget class="QLabel" name="label_7">
+              <widget class="QLabel" name="idSequenceLabel">
                <property name="text">
-                <string>Directorio de trabajo:</string>
+                <string>Id / Accesion de secuencia:</string>
                </property>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QLineEdit" name="inputDirectoryLineEdit"/>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="squenceIdLineEdit"/>
              </item>
-             <item row="1" column="1">
-              <widget class="QPushButton" name="pushButton_3">
+             <item row="0" column="2">
+              <widget class="QPushButton" name="addSequencePushButton">
                <property name="text">
-                <string>Buscar ...</string>
+                <string>Agregar</string>
                </property>
               </widget>
              </item>
             </layout>
-           </widget>
-          </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QTableWidget" name="sequenceTable">
+             <property name="minimumSize">
+              <size>
+               <width>300</width>
+               <height>120</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="1" column="0">
       <widget class="QGroupBox" name="groupBox_3">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="title">
         <string>Directorio de destino:</string>
        </property>
@@ -238,7 +227,7 @@ p, li { white-space: pre-wrap; }
            <widget class="QLineEdit" name="outputDirectoryLineEdit"/>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="findOutputDirPushButton_2">
             <property name="text">
              <string>Buscar ...</string>
             </property>
@@ -249,8 +238,14 @@ p, li { white-space: pre-wrap; }
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="2" column="0">
       <widget class="QGroupBox" name="splitParametersGroup">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="title">
         <string>Parámetros de división:</string>
        </property>
@@ -268,7 +263,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="fragmentSizeLabel">
             <property name="text">
              <string>Tamaño de fragmento:</string>
             </property>
@@ -300,7 +295,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item row="0" column="4">
-           <widget class="QLabel" name="label_5">
+           <widget class="QLabel" name="fragmentUnitsLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
@@ -330,7 +325,7 @@ p, li { white-space: pre-wrap; }
        </layout>
       </widget>
      </item>
-     <item>
+     <item row="3" column="0">
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="topMargin">
         <number>9</number>
@@ -367,5 +362,22 @@ p, li { white-space: pre-wrap; }
  <resources>
   <include location="../../resources/resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>PreprocessingScriptParametersForm</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>475</x>
+     <y>658</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>597</x>
+     <y>557</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

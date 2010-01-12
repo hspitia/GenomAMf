@@ -222,12 +222,12 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         */
         
         // Redondeo - Aproximación
-//        xMatrix = utils::roundToInt(x); // TODO - cambio - redondeo
-//        yMatrix = utils::roundToInt(y); // TODO - cambio - redondeo
+        xMatrix = utils::roundToInt(x); // TODO - cambio - redondeo
+        yMatrix = utils::roundToInt(y); // TODO - cambio - redondeo
         
         // Redondeo - A piso
-        xMatrix = utils::roundFloorInt(x);
-        yMatrix = utils::roundFloorInt(y);
+//        xMatrix = utils::roundFloorInt(x);
+//        yMatrix = utils::roundFloorInt(y);
 
 //        cout << x << ", " << y;
 //        cout << "    "<< xMatrix << ", " << yMatrix << endl;

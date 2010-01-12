@@ -34,7 +34,8 @@ SandBoxMethod::SandBoxMethod()
   this->cgrMatrix                 =    0;
   this->cumulativeFrequencyMatrix =    0;                                 
   this->nCenters                  = 1000;
-  this->indexesOfCenters          = QList<int>();
+//  this->indexesOfCenters          = QList<int>();
+  this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>();
@@ -74,7 +75,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
   this->nCenters                  = nCenters;
-  this->indexesOfCenters          = QList<int>();
+//  this->indexesOfCenters          = QList<int>();
+  this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>();
@@ -90,14 +92,15 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ                      = minQ;
   this->maxQ                      = maxQ;
-  this->minR                      = 10; // aqui TODO - min
-  this->maxR                      = 384;// aqui TODo - max
+  this->minR                      = 1; // aqui TODO - cambio - minR
+  this->maxR                      = 512;// aqui TODo - cambio - maxR
   this->totalPoints               = fractalPoints.count();
   this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
   this->nCenters                  = nCenters;
-  this->indexesOfCenters          = QList<int>();
+//  this->indexesOfCenters          = QList<int>();
+  this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>(fractalPoints);
@@ -339,7 +342,7 @@ void SandBoxMethod::performDiscreteAnalysis_()
   int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
   
 //  int iterations = 50; // TODO - cambio - iteraciones
-  int iterations = 600; // TODO - cambio - iteraciones
+  int iterations = 100; // TODO - cambio - iteraciones
   QList<vector<double> *> tmpDqList;
   vector<double> * sizeRelations;
 //  QList<Qlist<vector<double> *> > tmpYDataLinearRegresionList;
@@ -358,13 +361,11 @@ void SandBoxMethod::performDiscreteAnalysis_()
     
 //    xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
     sizeRelations = new vector<double>(dataLenght); // vector que contiene los valores ln(R/L)
-    TRACE (__LINE__ << "\n\t" << "Antes");
     // Cálculo distribuciones de probabilidad (conteo en sand boxes)
     QList<vector<double> > * distributionsList = 
 //            calculateDistributionProbabilities(*xDataLinearRegression);
             calculateDistributionProbabilities(*sizeRelations);
 //    MatrixTools::print(*xDataLinearRegression);
-    TRACE (__LINE__ << "\n\t" << "Despues");
     // Cálculo de valores Dq
     int numberOfQ = maxQ - minQ + 1; // + 2; // Dos datos adicionales para q+epsilon y q-epsilon
     double q = static_cast<double>(minQ);
@@ -382,8 +383,11 @@ void SandBoxMethod::performDiscreteAnalysis_()
       
 //      dqValues->at(i) = dqValue;
       tmpDqList.at(qIndex)->at(i) = dqValue;
+//      cout << dqValue << endl;
+//      cout << tmpDqList.at(qIndex)->at(i) << endl;
       q += 1;
     }
+//    cout << endl;
   }
   
   double average = 0.0;
@@ -391,6 +395,8 @@ void SandBoxMethod::performDiscreteAnalysis_()
     average = VectorTools::mean<double, double>(*(tmpDqList.at(i)));
     dqValues->push_back(average);
   }
+  
+  exportToCsv(tmpDqList);
   
   linearRegressionValues.append(xDataLinearRegression);
   linearRegressionValues.append(yDataLinearRegression);
@@ -424,7 +430,8 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
                                                     yCenterCoordinate,
                                                     radius);
       // Probabilidad de distribución -> M(R)/Mo
-      probabilityDistributionValue = count / totalPoints;
+      probabilityDistributionValue = count / totalPoints; // TODO - cambio - masas M(R)
+//      probabilityDistributionValue = count; // TODO - cambio - masas M(R)
       probabilityDistributions.at(i) = probabilityDistributionValue;
 //      DEBUG ( "probabilityDistributionValue: " << probabilityDistributionValue );
     }
@@ -446,7 +453,32 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
   return distributionList;
 }
 
-
+bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
+{
+  QString outString = "";
+  int q = minQ;
+  for (int i = 0; i < dqList.count(); ++i) {
+    outString += QString::number(q) + ";";
+    for (unsigned int j = 0; j < dqList.at(i)->size(); ++j) {
+      outString += QString::number(dqList.at(i)->at(j));
+      
+      if (j != dqList.at(i)->size() - 1)
+        outString += ";";
+      
+    }
+    outString += "\n";
+    ++q;
+  }
+  
+  QFile file("dq_iteration_values.csv");
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return false;
+  
+  QTextStream out(&file);
+  out << outString;
+  
+  return true;
+}
 
 /*void SandBoxMethod::performDiscreteAnalysis_()
 {
@@ -594,11 +626,13 @@ double SandBoxMethod::calculateDiscreteDqValue_(const double & q,
       
       double probDistributionsAverage = sum / static_cast<double>(nElements);
               
-      yDataLinearRegression.at(j) = log(probDistributionsAverage);// / qMinusOne;
+//      yDataLinearRegression.at(j) = log(probDistributionsAverage); // TODO - cambio - ProbDistibution
+      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne;
       
 //      for (unsigned int k = 0; k < sizeRelations.size(); ++k) {
         double sizeRelation = sizeRelations.at(j);
-        xDataLinearRegression.at(j) = sizeRelation * qMinusOne;
+//        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // TODO - cambio - SizeRelation
+        xDataLinearRegression.at(j) = sizeRelation; // TODO - cambio - SizeRelation
 //      }
 //      xDataLinearRegression.at(j) = log(xDataLinearRegression.at(j)) * qMinusOne;
 //      DEBUG (__LINE__ << " q: " << q << "  yDataLinearRegression.at(j): " << yDataLinearRegression.at(j) );
@@ -716,10 +750,13 @@ void SandBoxMethod::generateRandomCenters()
 {
   int maxIndex = fractalPoints.size();
   int randomIndex = 0;
-  
+//  indexesOfCenters = QList<int>();
+  indexesOfCenters = QVector<int>(nCenters);
+          
   for (int i = 0; i < nCenters; ++i) {
     randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
-    indexesOfCenters.append(randomIndex);
+//    indexesOfCenters.append(randomIndex);
+    indexesOfCenters[i] = randomIndex;
   }
 } 
 
@@ -1009,12 +1046,14 @@ void SandBoxMethod::setFractalPoints(const QList<QPointF> & fractalPoints)
   this->fractalPoints = fractalPoints;
 }
 
-QList<int> SandBoxMethod::getIndexesOfCenters()
+//QList<int> SandBoxMethod::getIndexesOfCenters()
+QVector<int> SandBoxMethod::getIndexesOfCenters()
 {
   return indexesOfCenters;
 }
 
-void SandBoxMethod::setIndexesOfCenters(QList<int> indexesOfCenters)
+//void SandBoxMethod::setIndexesOfCenters(QList<int> indexesOfCenters)
+void SandBoxMethod::setIndexesOfCenters(QVector<int> indexesOfCenters)
 {
   this->indexesOfCenters = indexesOfCenters;
 }

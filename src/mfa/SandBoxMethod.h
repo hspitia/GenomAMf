@@ -35,6 +35,7 @@ using namespace std;
 #include <QtCore/QList>
 #include <QtCore/QPointF>
 #include <QtCore/QString>
+#include <QtCore/QTextStream>
 
 // Bio++ libraries
 #include <NumCalc/Matrix.h>
@@ -75,7 +76,7 @@ class SandBoxMethod
                   const int & minQ       = -20,
                   const int & maxQ       =  20,
                   const int & nCenters   =  300,
-                  const int & radiusStep =    16); //aqui TODO - cambio - step
+                  const int & radiusStep =  8); //aqui TODO - cambio - step
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -183,9 +184,11 @@ class SandBoxMethod
     
     int getTotalPoints();
     
-    QList<int> getIndexesOfCenters();
+//    QList<int> getIndexesOfCenters();
+    QVector<int> getIndexesOfCenters();
     
-    void setIndexesOfCenters(QList<int> indexesOfCenters);
+//    void setIndexesOfCenters(QList<int> indexesOfCenters);
+    void setIndexesOfCenters(QVector<int> indexesOfCenters);
     
     int getRadiusStep();
     
@@ -217,7 +220,8 @@ class SandBoxMethod
     int nCenters; /**< Número de centros de caja de arena que serán ser 
       generados aleatoriamente */
     
-    QList<int> indexesOfCenters; /**< Listado de índices de los puntos 
+//    QList<int> indexesOfCenters; /**< Listado de índices de los puntos 
+    QVector<int> indexesOfCenters; /**< Listado de índices de los puntos 
       correspondientes a los centros generados aleatoriamente */
     
 //    QList<vector<double> > * dqValues; /**< Contenedor para los valores 
@@ -240,6 +244,8 @@ class SandBoxMethod
     
     QList<vector<double> > * calculateDistributionProbabilities(vector<double> & 
                                                                 xData);
+    
+    bool exportToCsv(const QList<vector<double> *> & dqList);
     
 };
 

@@ -6,10 +6,15 @@ PreprocessingScriptParametersForm(QWidget *parent) :
 {
   ui->setupUi(this);
   
-  this->inputDirectoryPath = "";
+  this->inputDirectoryPath  = "";
   this->outputDirectoryPath = "";
   this->isForFragment       = true;
   this->fragmentSize        = 100000;
+  this->originType          = ScriptBuilder::Local_Type;
+  
+  connectSignalsSlots();
+  updateOriginControls(false);
+  updateFragmentControls(Qt::Checked);
 }
 
 PreprocessingScriptParametersForm::~PreprocessingScriptParametersForm()
@@ -40,11 +45,41 @@ void PreprocessingScriptParametersForm::done(int result)
 
 void PreprocessingScriptParametersForm::connectSignalsSlots()
 {
-//  connect(ui->, SIGNAL(signal), receiver, SLOT(method));
+//  connect(ui->buttonBox, SIGNAL(rejected()), this->parent(),
+//          SLOT(closeSubWindow()));
+  
+  connect(ui->remoteRadioButton, SIGNAL(toggled(bool /*checked*/)), this, 
+          SLOT(updateOriginControls(bool /*checked*/)));
+  
+  connect(ui->fragmentCheckBox, SIGNAL(stateChanged(int /*checkState*/)), this, 
+          SLOT(updateFragmentControls(int /*checkState*/)));
 }
     
-void PreprocessingScriptParametersForm::updateFragmentControls()
+void PreprocessingScriptParametersForm::updateFragmentControls(int checkState)
 {
+  bool flag = false;
+  
+  if (checkState == Qt::Checked)
+    flag = true;
+
+  ui->fragmentSizeLineEdit->setEnabled(flag);
+  ui->fragmentSizeLabel->setEnabled(flag);
+  ui->fragmentUnitsLabel->setEnabled(flag);
+}
+
+void PreprocessingScriptParametersForm::updateOriginControls(bool checked)
+{
+//  bool flag = ui->remoteRadioButton->isChecked();
+//  bool flag = ui->remoteRadioButton->isChecked();
+  
+  
+//  ui->dataBaseLabel->setEnabled(flag);
+//  ui->dataBaseComboBox->setEnabled(flag);
+//  ui->sequenceGroupBox->setEnabled(flag);
+  
+  ui->dataBaseLabel->setEnabled(checked);
+  ui->dataBaseComboBox->setEnabled(checked);
+  ui->sequenceGroupBox->setEnabled(checked);
   
 }
 
