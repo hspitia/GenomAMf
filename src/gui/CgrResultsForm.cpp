@@ -38,7 +38,7 @@ void CgrResultsForm::exportImage()
   
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-  fileDialog->setDirectory(".");
+  fileDialog->setDirectory(QDir::homePath());
   fileDialog->selectFile(filename);
   fileDialog->setDefaultSuffix("png");
   
@@ -57,7 +57,7 @@ void CgrResultsForm::exportImage()
       }
       
       if(!imageViewer->saveImage(filename, format)){
-        QMessageBox::information(this,"Error",QString::fromUtf8("Ocurrió un "
+        QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
                 "error mientras se trataba de guardar la imagen.\n "
                 "Verifique los permisos del directorio destino e intente "
                 "guardar la imagen nuevamente."),

@@ -453,7 +453,7 @@ void MainWindow::loadSequences()
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
   fileDialog->setFileMode(QFileDialog::ExistingFiles);
-  fileDialog->setDirectory("/home/hspitia/C_Elegans_Info/");
+  fileDialog->setDirectory(QDir::homePath());
   
   if (fileDialog->exec()) {
     QStringList filesList = fileDialog->selectedFiles();
@@ -566,9 +566,32 @@ void MainWindow::makePreprocessScript()
           new PreprocessingScriptParametersForm(this);
  
   if (scriptForm->exec() == QDialog::Accepted) {
+    ScriptParametersSet parameters = ScriptParametersSet();
     
+    parameters.setInputDirectory(scriptForm->getInputDirectoryPath());
+    parameters.setOutputDirectory(scriptForm->getOutputDirectoryPath());
+    parameters.setDataBaseName(scriptForm->getDataBaseName());
+    parameters.setForFragment(scriptForm->getIsForFragment());
+    parameters.setFragmentSize(scriptForm->getFragmentSize());
+    parameters.setOriginType(scriptForm->getOriginType());
+    parameters.setSequences(scriptForm->getSequencesToDownload());
+    
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Guardar script"),
+                            QDir::homePath(),
+                            tr("Python scripts (*.py)"));
+    
+    if (!fileName.isEmpty()) {
+      bool succes = parentApp->makePreprocessingScript(parameters, fileName);
+      if (!succes)
+        QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
+                "error mientras se trataba de guardar el script.\n "
+                "Verifique los permisos del directorio destino e intente "
+                "guardar nuevamente."),
+                QMessageBox::Ok);
+    }
   }
   
+  delete scriptForm;
 }
 
 void MainWindow::makeCorrelationAnalysis()

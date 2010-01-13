@@ -1,9 +1,16 @@
 #ifndef PREPROCESSINGINGSCRIPTPARAMETERSFORM_H
 #define PREPROCESSINGINGSCRIPTPARAMETERSFORM_H
 
+#include <QtCore/QDir>
 #include <QtGui/QDialog>
-#include <script/ScriptBuilder.h>
+#include <QtGui/QFileDialog>
+#include <QtGui/QMessageBox>
+#include <QtGui/QTableWidgetItem>
 
+#include <iostream>
+
+#include <script/ScriptBuilder.h>
+#include <script/ScriptParametersSet.h>
 #include "ui_PreprocessingScriptParametersForm.h"
 
 namespace Ui {
@@ -36,6 +43,13 @@ class PreprocessingScriptParametersForm : public QDialog
     
     void setFragmentSize(const int & fragmentSize);
     
+//    int getOriginType();
+    ScriptParametersSet::OriginType getOriginType();
+    
+    QStringList getSequencesToDownload();
+    
+    QString getDataBaseName();
+    
   private:
     Ui::PreprocessingScriptParametersForm * ui;
     
@@ -47,15 +61,35 @@ class PreprocessingScriptParametersForm : public QDialog
     
     int fragmentSize;
     
-    ScriptBuilder::OriginType originType;
+    QStringList sequencesToDownload;
+    
+    ScriptParametersSet::OriginType originType;
+    
+    QString dataBaseName;
     
     void connectSignalsSlots();
     
+    QString validateFields();
+    
+    void initControls();
+    
+    QStringList takeSequencesToDownload();
+    
   private slots:
+    void addItemToSequenceList();
+
+    void removeItemFromSequenceList();
        
     void updateFragmentControls(int checkState);
     
     void updateOriginControls(bool checked);
+    
+    QString findDirectory();
+    
+    void updateInputDirectoryLineEdit();
+    
+    void updateOutputDirectoryLineEdit();
+    
 };
 
 #endif // PREPROCESSINGINGSCRIPTPARAMETERSFORM_H

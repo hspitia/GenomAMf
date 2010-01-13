@@ -9,7 +9,8 @@ QT += core \
 WIN_USER_ENV_PATH = e:/programming
 
 # Input
-HEADERS += src/mfa/MfaResultsController.h \
+HEADERS += src/script/ScriptParametersSet.h \
+    src/mfa/MfaResultsController.h \
     src/cra/DistancesModel.h \
     src/cra/CorrelationAnalysisResultsController.h \
     src/cra/CorrelationElement.h \
@@ -40,7 +41,8 @@ HEADERS += src/mfa/MfaResultsController.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/MfaResultsController.cpp \
+SOURCES += src/script/ScriptParametersSet.cpp \
+    src/mfa/MfaResultsController.cpp \
     src/cra/DistancesModel.cpp \
     src/gui/CorrelationAnalysisResultsForm.cpp \
     src/cra/CorrelationAnalysisResultsController.cpp \

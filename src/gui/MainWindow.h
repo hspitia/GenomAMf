@@ -55,6 +55,7 @@ using namespace bpp;
 #include <gui/TreeItem.h>
 #include <gui/TreeModel.h>
 #include <utils/SeqLoader.h>
+#include <script/ScriptParametersSet.h>
 
 // STD libraries
 #include <iostream>

@@ -22,8 +22,12 @@
 #ifndef SCRIPTBUILDER_H_
 #define SCRIPTBUILDER_H_
 
-#include <QString>
-#include <QStringList>
+#include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
+
+#include <script/ScriptParametersSet.h>
 
 /**
  * 
@@ -31,25 +35,25 @@
 class ScriptBuilder
 {
   public:
-    enum OriginType{
-      Local_Type, Remote_Type
-    };
-    
     ScriptBuilder();
-    ScriptBuilder(const QString & destinationDirectory,
-                                 const QStringList & sequences,
-                                 const QString & dataBaseName);
+    ScriptBuilder(const ScriptParametersSet & parametersSet,
+                  const QString & bodyTemplateFilename,
+                  const QString & mainTemplateFilename);
     ScriptBuilder(const ScriptBuilder & scriptBuilderObject);
     ScriptBuilder & operator=(const ScriptBuilder & scriptBuilderObject);
     virtual ~ScriptBuilder();
     
     // Methods
-    
+    bool saveScript(const QString & fileName);
     
     // Access
-    QString getDestinationDirectory();
+    /*QString getInputDirectory();
     
-    void setDestinationDirectory(QString destinationDirectory);
+    void setInputDirectory(QString inputDirectory);
+    
+    QString getOutputDirectory();
+    
+    void setOutputDirectory(QString outputDirectory);
     
     QString getDataBaseName();
     
@@ -59,21 +63,21 @@ class ScriptBuilder
     
     void setSequences(QStringList sequences);
     
-    bool getForSegment();
+    bool getForFragment();
     
-    void setForSegment(const bool & forSegment);
+    void setForFragment(const bool & forFragment);
     
-    long getSegmentSize();
+    long getFragmentSize();
     
-    void setSegmentSize(const long & segmentSize);
+    void setFragmentSize(const long & fragmentSize);
+    
+    int getOriginType();
+    
+    void setOriginType(OriginType originType);*/
     
     QString getScript();
     
     void setScript(const QString & script);
-    
-    QString getTemplatePath();
-    
-    void setTemplatePath(const QString & templatePath);
     
     QString getTemplateText();
     
@@ -81,24 +85,58 @@ class ScriptBuilder
     
     QString buildScript();
     
-    QString getTextFromFile(const QString & fileName);
+    QString getSequenceListFilename();
+    
+    void setSequenceListFilename(QString sequenceListFilename);
+    
+    QString getBodyTemplateFilename();
+    
+    void setBodyTemplateFilename(QString bodyTemplateFilename);
+    
+    QString getmainTemplateFilename();
+    
+    void setMainTemplateFilename(const QString & mainTemplateFilename);
+    
+    ScriptParametersSet getParameters();
+    
+    void setParameters(ScriptParametersSet parameters);
     
   private:
-    QString destinationDirectory;
+    ScriptParametersSet parameters;
+    
+    /*QString inputDirectory;
+    
+    QString outputDirectory;
     
     QString dataBaseName;
     
     QStringList sequences; 
     
-    bool forSegment;
+    bool forFragment;
     
-    long segmentSize;
+    long fragmentSize;
     
+    OriginType originType;
+    */
     QString script;
     
-    QString templatePath;
+    QString bodyTemplateFilename;
+    
+    QString mainTemplateFilename;
     
     QString templateText;
+    
+    QString sequenceListFilename;
+    
+    QString makeVariablesBlock();
+    
+    bool makeSequenceListFile();
+    
+    QString makeSequenceList();
+    
+    QString getTextFromFile(const QString & fileName);
+    
+    
     
 };
 

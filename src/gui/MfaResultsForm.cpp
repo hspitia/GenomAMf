@@ -101,6 +101,7 @@ void MfaResultsForm::setUpCqGraphic(Plotter * plotter)
 
 void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
 {
+  Q_UNUSED(plotter);
 //  linearRegressionGraphicWidget->setDraw(plotter);
 //  linearRegressionGraphicWidget->update();
 }
@@ -276,7 +277,7 @@ void MfaResultsForm::exportDqValuesTableToCsv()
   QFileDialog * fileDialog = new QFileDialog(this);
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-  fileDialog->setDirectory("data/results/");
+  fileDialog->setDirectory(QDir::homePath());
   fileDialog->selectFile(fileName);
   fileDialog->setDefaultSuffix("csv");
   

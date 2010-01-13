@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>603</width>
-    <height>686</height>
+    <height>664</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">
-    <normaloff>:/icons/cgr.png</normaloff>:/icons/cgr.png</iconset>
+    <normaloff>:/icons/preprocess_script.png</normaloff>:/icons/preprocess_script.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
@@ -29,6 +29,12 @@
    </property>
    <item row="0" column="0">
     <widget class="QLabel" name="instructionsLabel">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>84</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">QFrame {background-color: white;}</string>
      </property>
@@ -36,9 +42,9 @@
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Parámetros de Entrada&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Seleccione el orígen de las secuencias, local o remoto; adicionalmente especifique si las secuencias serán divididas y el tamaño de fragmentos en que serán divididas.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-weight:600;&quot;&gt;Parámetros de Entrada&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans'; font-size:9pt;&quot;&gt;Seleccione el orígen de las secuencias y de acuerdo a esto seleccione la base de datos remota de Entrez y adicione elementos para descarga. Especifique los directorios de entrada y salida, y si las secuencias serán divididas, indique el tamaño de cada fragmento.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -73,7 +79,7 @@ p, li { white-space: pre-wrap; }
           <item>
            <widget class="QRadioButton" name="localRadioButton">
             <property name="text">
-             <string>Local</string>
+             <string>&amp;Local</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -83,7 +89,7 @@ p, li { white-space: pre-wrap; }
           <item>
            <widget class="QRadioButton" name="remoteRadioButton">
             <property name="text">
-             <string>Remoto</string>
+             <string>&amp;Remoto</string>
             </property>
            </widget>
           </item>
@@ -105,19 +111,23 @@ p, li { white-space: pre-wrap; }
         <item row="1" column="0">
          <layout class="QGridLayout" name="gridLayout_12">
           <item row="0" column="0">
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="inputDirectoryLabel">
             <property name="text">
              <string>Directorio de trabajo:</string>
             </property>
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLineEdit" name="inputDirectoryLineEdit"/>
+           <widget class="QLineEdit" name="inputDirectoryLineEdit">
+            <property name="toolTip">
+             <string/>
+            </property>
+           </widget>
           </item>
           <item row="1" column="1">
            <widget class="QPushButton" name="findInputDirPushButton">
             <property name="text">
-             <string>Buscar ...</string>
+             <string>&amp;Buscar ...</string>
             </property>
            </widget>
           </item>
@@ -173,21 +183,28 @@ p, li { white-space: pre-wrap; }
           </property>
           <layout class="QGridLayout" name="gridLayout_13">
            <item row="0" column="0">
-            <layout class="QGridLayout" name="gridLayout_14" columnminimumwidth="0,1,0">
+            <layout class="QGridLayout" name="gridLayout_14">
              <item row="0" column="0">
               <widget class="QLabel" name="idSequenceLabel">
                <property name="text">
-                <string>Id / Accesion de secuencia:</string>
+                <string>Id / Accesion Number:</string>
                </property>
               </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QLineEdit" name="squenceIdLineEdit"/>
              </item>
              <item row="0" column="2">
               <widget class="QPushButton" name="addSequencePushButton">
                <property name="text">
-                <string>Agregar</string>
+                <string>&amp;Agregar</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="sequenceIdLineEdit"/>
+             </item>
+             <item row="0" column="3">
+              <widget class="QPushButton" name="removeSequencePushButton">
+               <property name="text">
+                <string>&amp;Eliminar</string>
                </property>
               </widget>
              </item>
@@ -201,6 +218,21 @@ p, li { white-space: pre-wrap; }
                <height>120</height>
               </size>
              </property>
+             <property name="selectionMode">
+              <enum>QAbstractItemView::SingleSelection</enum>
+             </property>
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+             </attribute>
+             <attribute name="verticalHeaderDefaultSectionSize">
+              <number>24</number>
+             </attribute>
+             <attribute name="verticalHeaderStretchLastSection">
+              <bool>false</bool>
+             </attribute>
             </widget>
            </item>
           </layout>
@@ -227,9 +259,9 @@ p, li { white-space: pre-wrap; }
            <widget class="QLineEdit" name="outputDirectoryLineEdit"/>
           </item>
           <item row="0" column="1">
-           <widget class="QPushButton" name="findOutputDirPushButton_2">
+           <widget class="QPushButton" name="findOutputDirPushButton">
             <property name="text">
-             <string>Buscar ...</string>
+             <string>B&amp;uscar ...</string>
             </property>
            </widget>
           </item>
@@ -255,7 +287,7 @@ p, li { white-space: pre-wrap; }
           <item row="0" column="0">
            <widget class="QCheckBox" name="fragmentCheckBox">
             <property name="text">
-             <string>Dividir secuencias</string>
+             <string>&amp;Dividir secuencias</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -266,31 +298,6 @@ p, li { white-space: pre-wrap; }
            <widget class="QLabel" name="fragmentSizeLabel">
             <property name="text">
              <string>Tamaño de fragmento:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLineEdit" name="fragmentSizeLineEdit">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>60</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>100000</string>
-            </property>
-            <property name="maxLength">
-             <number>10000000</number>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
@@ -319,6 +326,28 @@ p, li { white-space: pre-wrap; }
              </size>
             </property>
            </spacer>
+          </item>
+          <item row="0" column="3">
+           <widget class="QSpinBox" name="fragmentSizeSpinBox">
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <number>10</number>
+            </property>
+            <property name="maximum">
+             <number>99000000</number>
+            </property>
+            <property name="singleStep">
+             <number>100000</number>
+            </property>
+            <property name="value">
+             <number>100000</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -374,8 +403,24 @@ p, li { white-space: pre-wrap; }
      <y>658</y>
     </hint>
     <hint type="destinationlabel">
-     <x>597</x>
-     <y>557</y>
+     <x>81</x>
+     <y>642</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>PreprocessingScriptParametersForm</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>553</x>
+     <y>657</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>183</x>
+     <y>658</y>
     </hint>
    </hints>
   </connection>

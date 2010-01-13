@@ -237,6 +237,27 @@ int AppController::makeCorrelationAnalysis(const QList<int> & sequenceKeys,
 //  return 0;
 }
 
+bool AppController::makePreprocessingScript(const ScriptParametersSet & 
+                                            scriptParametersSet,
+                                            const QString & fileName)
+{
+  QString bodyScriptTemplateFilename = "templates/script.ptp"; 
+  QString mainScriptTemplateFilename = "templates/main.ptp";
+  QString seqsIdsFileName = "sequencesToDownload.txt";
+  
+  ScriptBuilder * scriptBuilder = new ScriptBuilder(scriptParametersSet,
+                                                    bodyScriptTemplateFilename,
+                                                    mainScriptTemplateFilename);
+  
+  scriptBuilder->setSequenceListFilename(seqsIdsFileName);
+  
+  scriptBuilder->buildScript();
+  bool succes = scriptBuilder->saveScript(fileName);
+  delete scriptBuilder;
+  
+  return succes;
+}
+
 QList<const ChaosGameRepresentation *>
 AppController::getCgrObjectsForAnalysis(const QList<int> & sequenceKeys) 
 {

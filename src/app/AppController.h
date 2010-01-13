@@ -42,6 +42,8 @@ using namespace bpp;
 #include <cra/CorrelationAnalysis.h>
 #include <mfa/MultifractalAnalysis.h>
 #include <gui/MainWindow.h>
+#include <script/ScriptBuilder.h>
+#include <script/ScriptParametersSet.h>
 #include <utils/CustomSequencesContainer.h>
 #include <utils/SeqLoader.h>
 #include <utils/Utils.h>
@@ -100,6 +102,10 @@ class AppController : public QApplication
     
     int makeCorrelationAnalysis(const QList<int> & sequenceKeys, 
                                 const int & nMeshFrames);
+    
+    bool makePreprocessingScript(const ScriptParametersSet & 
+                                 scriptParametersSet,
+                                 const QString & fileName);
     
     // Access
     MainWindow * getMainWindow();
