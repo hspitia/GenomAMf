@@ -1,0 +1,56 @@
+#!/usr/bin/python
+
+#import gzip
+#import sys
+#import mimetypes
+#from Bio.Seq import Seq
+import os
+from Bio import SeqIO
+from Bio.SeqRecord import SeqRecord
+
+## ------------------------------------------------------------------ ##
+def split(fullFileName, outputDir, sizeSplit) :
+
+	fileName = os.path.splitext(os.path.basename(fullFileName))[0]
+	fileExt  = os.path.splitext(fullFileName)[1]
+
+# mimetypes.init()
+# print mimetypes.knownfiles
+# print mimetypes.guess_type(fullFileName)
+# handle = gzip.open(fullFileName)
+	print "\n  - Processing ", fullFileName, " ..."
+
+	handle = open(fullFileName, "rU")
+	record = SeqIO.read(handle, "fasta")
+
+	seq = record.seq
+	description = record.description
+	id = record.id
+
+	nSplits = len(seq) / sizeSplit
+
+	ini = 0
+	end = sizeSplit
+
+	tokens = description.split("|")
+	desc   = tokens[len(tokens)-1][1:]
+	nPad   = len("%d" % (nSplits))
+
+	for i in range (0, nSplits):
+		splitNumber = "{0:0{pad}}".format(i+1, pad=nPad)
+		newDescription = desc + " - split " + splitNumber
+
+		newSeq = seq[ini:end]
+		newRecord = SeqRecord(newSeq, id=id, description=newDescription)
+		newFileName = fileName + "_split_" + splitNumber + fileExt
+		newFileName = os.path.join(outputDir, newFileName)
+
+		records = [newRecord]
+		output_handle = open(newFileName, "w")
+		print "\tWrote split %d in file " %(i+1) + newFileName
+		SeqIO.write(records, output_handle, "fasta")
+		output_handle.close()
+
+		ini = end
+		end += sizeSplit
+

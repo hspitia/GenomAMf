@@ -1,0 +1,23 @@
+## ------------------------------------------------------------------ ##
+def main():
+	# if len (sys.argv) == 1:
+		# print "DESC:\t Split fasta files in 3 parts"
+		# print "USAGE:\t splitAA.py [file of fasta filenames]"
+		# print "OUTPUT:\t three new files for each fasta file"
+		# sys.exit (0)
+
+<variablesBlock>
+
+	fileList = os.listdir(inputDir)
+	print "\n*************   PROCESS BEGIN ******************"
+	print " Processing files at \"%s\" directory" %(inputDir)
+
+	for f in fileList :
+		fileName = str(os.path.join(inputDir,f))
+		if os.path.isfile(fileName):
+			split(fileName, outputDir, splitSize)
+
+	print "\n*************    PROCESS END  ******************"
+## ------------------------------------------------------------------ ##
+
+main()
