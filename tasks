@@ -2,8 +2,9 @@
 make clean
 rm -fr debug/*.*
 rm app
-rm tmp/*.*
-rm release/*.*
+rm tmp/*
+rm bin/*
+rm release/*
 rm doc/**/*.*
 cd test/MatrixOperations
 make clean

@@ -355,16 +355,22 @@ void SandBoxMethod::performDiscreteAnalysis_()
   vector<double> * xDataLinearRegression = 0; // Datos x regresión lineal
   vector<double> * yDataLinearRegression = 0; // Datos y regresión lineal
   
+  vector<int> * xCenterCoordinates = new vector<int>(nCenters);
+  vector<int> * yCenterCoordinates = new vector<int>(nCenters);;
+  
   for (int i = 0; i < iterations; ++i) {
     // Generación centros aleatorios
-    generateRandomCenters();
+//    generateRandomCenters();
+    generateRandomCenters(xCenterCoordinates, yCenterCoordinates);
     
 //    xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
     sizeRelations = new vector<double>(dataLenght); // vector que contiene los valores ln(R/L)
     // Cálculo distribuciones de probabilidad (conteo en sand boxes)
     QList<vector<double> > * distributionsList = 
 //            calculateDistributionProbabilities(*xDataLinearRegression);
-            calculateDistributionProbabilities(*sizeRelations);
+            calculateDistributionProbabilities(*sizeRelations, 
+                                               xCenterCoordinates,
+                                               yCenterCoordinates);
 //    MatrixTools::print(*xDataLinearRegression);
     // Cálculo de valores Dq
     int numberOfQ = maxQ - minQ + 1; // + 2; // Dos datos adicionales para q+epsilon y q-epsilon
@@ -387,8 +393,11 @@ void SandBoxMethod::performDiscreteAnalysis_()
 //      cout << tmpDqList.at(qIndex)->at(i) << endl;
       q += 1;
     }
+    delete distributionsList;
 //    cout << endl;
   }
+  delete xCenterCoordinates;
+  delete yCenterCoordinates;
   
   double average = 0.0;
   for (int i = 0; i < tmpDqList.count(); ++i) {
@@ -407,6 +416,59 @@ void SandBoxMethod::performDiscreteAnalysis_()
 }
 
 QList<vector<double> > * 
+SandBoxMethod::calculateDistributionProbabilities(vector<double> & 
+                                                  xDataLinearRegression,
+                                                  vector<int> *
+                                                  xCenterCoordinates,
+                                                  vector<int> *
+                                                  yCenterCoordinates)
+{
+  QList<vector<double> > * distributionList = new QList<vector<double> >();
+  int index = 0;
+  int fractalSize = cgrMatrix->getNumberOfRows();// - 1; // Menos 1 por ser matriz ampliada ??
+  double count = 0.0;
+  double probabilityDistributionValue = 0.0;
+  int dataLenght = xDataLinearRegression.size(); 
+  int radius = minR;
+  
+  for (int radiusIndex = 0; radiusIndex < dataLenght; ++radiusIndex) {
+    vector<double> probabilityDistributions(nCenters);
+    
+    for (int i = 0; i < nCenters; ++i) {
+//      QPointF center = fractalPoints.at(indexesOfCenters.at(i));
+//      int xCenterCoordinate = utils::roundToInt(center.x());
+//      int yCenterCoordinate = utils::roundToInt(center.y());
+      int xCenterCoordinate = xCenterCoordinates->at(i);
+      int yCenterCoordinate = yCenterCoordinates->at(i);
+      
+      count = countPointsOnTheDiscreteSquareSandbox(xCenterCoordinate,
+                                                    yCenterCoordinate,
+                                                    radius);
+      // Probabilidad de distribución -> M(R)/Mo
+//      probabilityDistributionValue = count / totalPoints; // TODO - cambio - masas M(R)
+      probabilityDistributionValue = count; // TODO - cambio - masas M(R)
+      probabilityDistributions.at(i) = probabilityDistributionValue;
+//      DEBUG ( "probabilityDistributionValue: " << probabilityDistributionValue );
+    }
+//    DEBUG ( "\n");
+    // Probabilidades de distribución
+    distributionList->append(probabilityDistributions);
+    
+    // Dato x para regresión lineal -> ln(R/L)
+    double sizeRelation = 
+              (static_cast<double>(radius) / static_cast<double>(fractalSize));
+//    
+    xDataLinearRegression.at(radiusIndex) = log(sizeRelation);
+//    DEBUG (__LINE__ << "  radius: " <<   radius << 
+//           "  fractalSize: " << fractalSize <<
+//           "  sizeRelation: " << sizeRelation <<
+//           "  xDataLinearRegression.at(radiusIndex): " << xDataLinearRegression.at(radiusIndex) );
+    radius += radiusStep;
+  }
+  return distributionList;
+}
+
+/*QList<vector<double> > * 
 SandBoxMethod::calculateDistributionProbabilities(vector<double> & 
                                                   xDataLinearRegression)
 {
@@ -430,8 +492,8 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
                                                     yCenterCoordinate,
                                                     radius);
       // Probabilidad de distribución -> M(R)/Mo
-      probabilityDistributionValue = count / totalPoints; // TODO - cambio - masas M(R)
-//      probabilityDistributionValue = count; // TODO - cambio - masas M(R)
+//      probabilityDistributionValue = count / totalPoints; // TODO - cambio - masas M(R)
+      probabilityDistributionValue = count; // TODO - cambio - masas M(R)
       probabilityDistributions.at(i) = probabilityDistributionValue;
 //      DEBUG ( "probabilityDistributionValue: " << probabilityDistributionValue );
     }
@@ -451,7 +513,7 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
     radius += radiusStep;
   }
   return distributionList;
-}
+}*/
 
 bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
 {
@@ -626,13 +688,13 @@ double SandBoxMethod::calculateDiscreteDqValue_(const double & q,
       
       double probDistributionsAverage = sum / static_cast<double>(nElements);
               
-//      yDataLinearRegression.at(j) = log(probDistributionsAverage); // TODO - cambio - ProbDistibution
-      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne;
+      yDataLinearRegression.at(j) = log(probDistributionsAverage); // Yu - TODO - cambio - ProbDistibution
+//      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Otro - TODO - cambio - ProbDistibution
       
 //      for (unsigned int k = 0; k < sizeRelations.size(); ++k) {
         double sizeRelation = sizeRelations.at(j);
-//        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // TODO - cambio - SizeRelation
-        xDataLinearRegression.at(j) = sizeRelation; // TODO - cambio - SizeRelation
+        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // Yu - TODO - cambio - SizeRelation
+//        xDataLinearRegression.at(j) = sizeRelation; // Otro - TODO - cambio - SizeRelation
 //      }
 //      xDataLinearRegression.at(j) = log(xDataLinearRegression.at(j)) * qMinusOne;
 //      DEBUG (__LINE__ << " q: " << q << "  yDataLinearRegression.at(j): " << yDataLinearRegression.at(j) );
@@ -760,6 +822,38 @@ void SandBoxMethod::generateRandomCenters()
   }
 } 
 
+// SIN usar la lista de puntos con precisión real  
+void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
+                                          vector<int> * yCoordinates)
+{
+//  vector<double> * xCoordinatesDouble =  new vector<double>(nCenters);
+//  vector<double> * yCoordinatesDouble =  new vector<double>(nCenters);
+  
+  int x = 0;
+  int y = 0;
+  
+  for (int i = 0; i < nCenters; ++i) {
+    bool found = false;
+    while (!found) {
+      x = RandomTools::
+          giveIntRandomNumberBetweenZeroAndEntry(cgrMatrix->getNumberOfRows());
+      y = RandomTools::
+              giveIntRandomNumberBetweenZeroAndEntry(cgrMatrix->getNumberOfRows());
+      
+      if ((*cgrMatrix)(x, y) > 0)
+        found = true;
+    }
+    xCoordinates->at(i) = x;
+    yCoordinates->at(i) = y;
+  }
+  
+//  delete xCoordinatesDouble;
+//  delete yCoordinatesDouble;
+}
+
+
+/*
+// Utilizando la lista de puntos con precisión real  
 void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
                                           vector<int> * yCoordinates)
 {
@@ -780,6 +874,7 @@ void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
   delete xCoordinatesDouble;
   delete yCoordinatesDouble;
 }
+*/
 
 
 
@@ -914,10 +1009,10 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
     int maxIndex = cgrMatrix->getNumberOfRows() - 1;
     int initX = x - radius;
     int initY = y - radius;
-    int endX  = x + radius - 1; // TODO - cambio - tamaño caja conteo
-    int endY  = y + radius - 1; // TODO - cambio - tamaño caja conteo
-//    int endX  = x + radius; 
-//    int endY  = y + radius;
+//    int endX  = x + radius - 1; // TODO - cambio - tamaño caja conteo
+//    int endY  = y + radius - 1; // TODO - cambio - tamaño caja conteo
+    int endX  = x + radius; 
+    int endY  = y + radius;
     
     if (initX < minIndex)
       initX = 0;

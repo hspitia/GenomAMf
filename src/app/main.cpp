@@ -745,6 +745,7 @@ int roundTest()
 }
 
 
+
 int main(int argc, char *argv[])
 {
   appNormal(argc, argv);
@@ -754,7 +755,6 @@ int main(int argc, char *argv[])
 //  return otherTests();
 //  bppRaaTest();
 //  return roundTest();
-  // TODO Probar regresión lineal
   return 0;
 }
 

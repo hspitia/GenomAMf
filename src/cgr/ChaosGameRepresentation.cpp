@@ -146,21 +146,21 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 {
   unsigned int sequenceSize = sequence->size();
   int margin = 20; // pixeles
-//  matrixOfPoints = RowMatrix<int>(matrixSize,matrixSize); // Matriz normal  // TODO - cambio - tamaño matriz
-  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida // TODO - cambio - tamaño matriz
+  matrixOfPoints = RowMatrix<int>(matrixSize, matrixSize); // Matriz normal  // TODO - cambio - tamaño matriz
+//  matrixOfPoints = RowMatrix<int>(matrixSize + 1, matrixSize + 1); // Matriz extendida // TODO - cambio - tamaño matriz
   
-  int xImagePoints[4] = {0,       0, cgrSize, cgrSize};
-  int yImagePoints[4] = {cgrSize, 0, 0,       cgrSize};
+  int xImagePoints[4] = {0,        0, cgrSize - 1, cgrSize - 1};
+  int yImagePoints[4] = {cgrSize - 1, 0, 0,           cgrSize - 1};
   
   // Para parejas de coordenadas reales (continuas)
 //  int xPoints[4] = { 0, 0, 1, 1 };
 //  int yPoints[4] = { 0, 1, 1, 0 };
   
-  int xMatrixPoints[4] = {0, 0,          matrixSize, matrixSize};
-  int yMatrixPoints[4] = {0, matrixSize, matrixSize, 0         };
+//  int xMatrixPoints[4] = {0, 0,              matrixSize - 1, matrixSize - 1};
+//  int yMatrixPoints[4] = {0, matrixSize - 1, matrixSize - 1, 0         };
   
-  int xPoints[4] =       {0, 0,          matrixSize, matrixSize};
-  int yPoints[4] =       {0, matrixSize, matrixSize, 0         };
+  int xPoints[4] =       {0, 0,              matrixSize - 1, matrixSize - 1};
+  int yPoints[4] =       {0, matrixSize - 1, matrixSize - 1, 0         };
   
   const vector<int> * ptrSequence;
   
@@ -210,7 +210,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         
         x = (xPoints[element] + x) / 2;
         y = (yPoints[element] + y) / 2;
-        coordinatesOfPoints->append(QPointF(x, y));
+//        coordinatesOfPoints->append(QPointF(x, y));
         
         // Redondeo a 0.5
         /*
@@ -222,12 +222,12 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         */
         
         // Redondeo - Aproximación
-        xMatrix = utils::roundToInt(x); // TODO - cambio - redondeo
-        yMatrix = utils::roundToInt(y); // TODO - cambio - redondeo
+//        xMatrix = utils::roundToInt(x); // TODO - cambio - redondeo
+//        yMatrix = utils::roundToInt(y); // TODO - cambio - redondeo
         
         // Redondeo - A piso
-//        xMatrix = utils::roundFloorInt(x);
-//        yMatrix = utils::roundFloorInt(y);
+        xMatrix = utils::roundFloorInt(x);
+        yMatrix = utils::roundFloorInt(y);
 
 //        cout << x << ", " << y;
 //        cout << "    "<< xMatrix << ", " << yMatrix << endl;
@@ -243,7 +243,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //        matrixOfPoints(xMatrix, yMatrix)++;
         
 //        if (matrixOfPoints(xMatrix, yMatrix) == 0) // TODO - cambio - frecuencias
-          matrixOfPoints(xMatrix, yMatrix)++;
+        
+        matrixOfPoints(xMatrix, yMatrix)++;
         
       }
     }

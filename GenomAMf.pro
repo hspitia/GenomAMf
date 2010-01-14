@@ -115,3 +115,4 @@ win32 {
     CONFIG += console
 }
 RESOURCES += resources/resources.qrc
+TRANSLATIONS += translations/genomamf_es.ts 
