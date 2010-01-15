@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Análisis de Correación - Resultados</string>
+   <string>Análisis de Correlación - Resultados</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

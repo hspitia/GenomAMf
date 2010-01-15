@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CgrResultsForm</string>
+   <string>Representación de Juego del Caos - Resultados</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">

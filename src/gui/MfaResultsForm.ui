@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MfaResultsForm</string>
+   <string>Análisis Multifractal - Resultados</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../resources/resources.qrc">

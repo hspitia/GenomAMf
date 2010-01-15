@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>CorrelationAnalysisParametersForm</string>
+   <string>Análisis de Correlación - Parámetros</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="margin">
