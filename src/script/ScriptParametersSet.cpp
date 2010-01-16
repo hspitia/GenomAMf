@@ -29,6 +29,7 @@ ScriptParametersSet::ScriptParametersSet()
   this->sequences       = QStringList();
   this->forFragment     = false;
   this->fragmentSize    = -1;
+  this->originType      = Local_Type;
 }
 
 ScriptParametersSet::ScriptParametersSet(const ScriptParametersSet & 
@@ -40,6 +41,7 @@ ScriptParametersSet::ScriptParametersSet(const ScriptParametersSet &
   this->sequences       = scriptParametersSetObject.sequences;
   this->forFragment     = scriptParametersSetObject.forFragment;
   this->fragmentSize    = scriptParametersSetObject.fragmentSize;
+  this->originType      = scriptParametersSetObject.originType;
 }
 
 ScriptParametersSet & ScriptParametersSet::operator=(const ScriptParametersSet & 
@@ -51,6 +53,7 @@ ScriptParametersSet & ScriptParametersSet::operator=(const ScriptParametersSet &
   this->sequences       = scriptParametersSetObject.sequences;
   this->forFragment     = scriptParametersSetObject.forFragment;
   this->fragmentSize    = scriptParametersSetObject.fragmentSize;
+  this->originType      = scriptParametersSetObject.originType;
   
   return *this;
 }

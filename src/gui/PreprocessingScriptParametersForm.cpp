@@ -114,8 +114,8 @@ QString PreprocessingScriptParametersForm::validateFields()
 void PreprocessingScriptParametersForm::initControls()
 {
   QStringList items;
-  items << "Nucleotide";
-  items << "Protein";
+  items << "nucleotide";
+  items << "protein";
   
   ui->dataBaseComboBox->insertItems(0, items);
   

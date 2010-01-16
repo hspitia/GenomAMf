@@ -4,9 +4,41 @@
 #import sys
 #import mimetypes
 #from Bio.Seq import Seq
-import os
+import os, shutil
 from Bio import SeqIO
+from Bio import Entrez
 from Bio.SeqRecord import SeqRecord
+
+## ------------------------------------------------------------------ ##
+def download(database, seqId, outputDir) :
+	Entrez.email = "A.N.Other@example.com"     # Always tell NCBI who you are
+	filename = seqId + ".tmp"
+	filename = os.path.join(outputDir, filename)
+
+	if not os.path.isfile(filename):
+		print "\n  - Downloading sequence identified with %s ..." % (seqId)
+		net_handle = Entrez.efetch(db=database,id=seqId,rettype="fasta")
+		out_handle = open(filename, "w")
+		out_handle.write(net_handle.read())
+		out_handle.close()
+		net_handle.close()
+
+	record = SeqIO.read(open(filename), "fasta")
+	newName = record.id.split("|")[3].split(".")[0]
+	newName += ".fna"
+	newName = os.path.join(outputDir, newName)
+	shutil.copy2(filename, newName)
+	print "\t%s saved in %s" %(seqId, newName)
+
+## ------------------------------------------------------------------ ##
+def deleteTemporaryFiles(outputDir):
+	fileList = os.listdir(outputDir)
+	for f in fileList :
+		ext = os.path.splitext(os.path.basename(f))[1]
+		if ext == ".tmp" :
+			filename = os.path.join(outputDir, f)
+			if os.path.isfile(filename) :
+				os.remove(filename)
 
 ## ------------------------------------------------------------------ ##
 def split(fullFileName, outputDir, sizeSplit) :
@@ -54,3 +86,4 @@ def split(fullFileName, outputDir, sizeSplit) :
 		ini = end
 		end += sizeSplit
 
+## ------------------------------------------------------------------ ##

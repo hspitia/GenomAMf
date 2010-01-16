@@ -247,7 +247,7 @@ class SandBoxMethod
     QList<vector<double> > * 
     calculateDistributionProbabilities(vector<double> & xDataLinearRegression,
                                        vector<int> * xCenterCoordinates,
-                                       vector<int> * xCenterCoordinates);
+                                       vector<int> * yCenterCoordinates);
     
     bool exportToCsv(const QList<vector<double> *> & dqList);
     
