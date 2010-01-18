@@ -6,9 +6,8 @@
 #include <QtGui/QPushButton>
 
 #include "ui_MfaParametersForm.h"
-
 #include <gui/SequenceListModel.h>
-
+#include <mfa/MfaParametersSet.h>
 
 //namespace Ui {
 //    class MfaParametersForm;
@@ -16,47 +15,32 @@
 
 class MfaParametersForm : public QDialog
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
+  public:
     MfaParametersForm(SequenceListModel * model, QWidget *parent = 0);
     ~MfaParametersForm();
-    
-    int getCgrSelectedKey();
-    
+
     QList<int> getSelectedSequencesKeys();
-    
+
+    MfaParametersSet mfaParametersSet;
+
+    MfaParametersSet getMfaParametersSet() const;
+
     void done(int result);
-    
-    /**
-     * Retorna 
-     * @return 
-     */
-    int getMinQValue();
 
-    /**
-     * Retorna 
-     * @return 
-     */
-    int getMaxQValue();
-    
-    int getNCenters();
-    
-private:
+  private:
     Ui::MfaParametersForm *ui;
-    int cgrSelectedKey;
-    
-    QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
-      seleccionadas por el usuario */
-    
-    int minQValue; /**< Valor q mínimo seleccionado en la interfaz como 
-      parámetro para el análisis multifractal */
-    int maxQValue; /**< Valor q máximoseleccionado en la interfaz como 
-      parámetro para el análisis multifractal */
-    
-    int nCenters; /**< Número de centros para ejecución del análisis 
-      multifractal */
 
+    QList<int> selectedSequencesKeys; /**< Lista de claves de las secuencias 
+     seleccionadas por el usuario */
+    
+    void setMfaParametersSet(const MfaParametersSet & mfaParametersSet);
+
+    void connectSignalsSlots();
+
+  private slots:
+    void updateTotalRadii();
 };
 
 #endif // MFAPARAMETERSFORM_H

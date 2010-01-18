@@ -42,6 +42,7 @@ using namespace std;
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/SandBoxMethod.h>
+#include <mfa/MfaParametersSet.h>
 
 // LOCAL INCLUDES
 // --
@@ -56,16 +57,18 @@ class MultifractalAnalysis
     enum AnalysisType {CONTINOUS_ANALYSIS, DISCRETE_ANALYSIS, COMPARATIVE_ANALYSIS};
     
     MultifractalAnalysis();
-    MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
     MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const int & minQ,
                          const int & maxQ,
                          const int & nCenters,
                          const int & radiusStep);
+    MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
+                         const MfaParametersSet & mfaParametersSet);
+    
+    MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
+    MultifractalAnalysis & operator=(const MultifractalAnalysis & mfaObject);
     
     virtual ~MultifractalAnalysis();
-    
-    MultifractalAnalysis & operator=(const MultifractalAnalysis & mfaObject);
     
     
     void performAnalysis(AnalysisType type);
@@ -82,6 +85,10 @@ class MultifractalAnalysis
     
     void calculateCqValues();
     
+    
+    MfaParametersSet getMfaParametersSet() const;
+    
+    void setMfaParametersSet(const MfaParametersSet & mfaParametersSet);
     
     int getMinQ() const;
     
@@ -139,13 +146,16 @@ class MultifractalAnalysis
       ChaosGameRepresentation sobre el que se realiza el 
       análisis multifractal */
     
-    int minQ; /**< Valor para el parámetro q mínimo */
+    MfaParametersSet mfaParametersSet;
+
+//    int minQ; /**< Valor para el parámetro q mínimo */
+//    
+//    int maxQ; /**< Valor para el parámetro q máximo*/
+//    
+//    int nCenters; /**< Número de centros para el análisis multifractal */
+//    
+//    int radiusStep;
     
-    int maxQ; /**< Valor para el parámetro q máximo*/
-    
-    int nCenters; /**< Número de centros para el análisis multifractal */
-    
-    int radiusStep;
     
     QString linearRegressionImgePath; /**< Ruta a la imagen
       correspondiente a la regresión lineal */

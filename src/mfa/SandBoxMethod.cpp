@@ -25,37 +25,21 @@
 
 SandBoxMethod::SandBoxMethod()
 {
-  this->minQ                      =  -70;
-  this->maxQ                      =   70;
-  this->minR                      =    1;
-  this->maxR                      =  256;
-  this->totalPoints               =    0;
-  this->radiusStep                =    2;
+  this->mfaParametersSet          = MfaParametersSet();
+//  this->minQ                      =  -70;
+//  this->maxQ                      =   70;
+//  this->minR                      =    1;
+//  this->maxR                      =  256;
+//  this->totalPoints               =    0;
+//  this->radiusStep                =    2;
   this->cgrMatrix                 =    0;
   this->cumulativeFrequencyMatrix =    0;                                 
-  this->nCenters                  = 1000;
+//  this->nCenters                  = 1000;
 //  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>();
-}
-
-SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
-{
-  this->minQ                      = sandBoxObject.minQ;
-  this->maxQ                      = sandBoxObject.maxQ;
-  this->minR                      = sandBoxObject.minR;
-  this->maxR                      = sandBoxObject.maxR;
-  this->totalPoints               = sandBoxObject.totalPoints;
-  this->radiusStep                = sandBoxObject.radiusStep;
-  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
-  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-  this->nCenters                  = sandBoxObject.nCenters;
-  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
-  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
-  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
-  this->fractalPoints             = sandBoxObject.fractalPoints; 
 }
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
@@ -66,15 +50,16 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & nCenters,
                              const int & radiusStep)
 {
-  this->minQ                      = minQ;
-  this->maxQ                      = maxQ;
-  this->minR                      = 1;
-  this->maxR                      = 256;
+  this->mfaParametersSet          = MfaParametersSet(); 
+//  this->minQ                      = minQ;
+//  this->maxQ                      = maxQ;
+//  this->minR                      = 1;
+//  this->maxR                      = 256;
   this->totalPoints               = totalPoints;
-  this->radiusStep                = radiusStep;
+//  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-  this->nCenters                  = nCenters;
+//  this->nCenters                  = nCenters;
 //  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
@@ -90,15 +75,16 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & nCenters,
                              const int & radiusStep)
 {
-  this->minQ                      = minQ;
-  this->maxQ                      = maxQ;
-  this->minR                      = 2; // aqui TODO - cambio - minR
-  this->maxR                      = 256;// aqui TODo - cambio - maxR
+  this->mfaParametersSet          = MfaParametersSet();
+//  this->minQ                      = minQ;
+//  this->maxQ                      = maxQ;
+//  this->minR                      = 1; // aqui TODO - cambio - minR
+//  this->maxR                      = 256;// aqui TODo - cambio - maxR
   this->totalPoints               = fractalPoints.count();
-  this->radiusStep                = radiusStep;
+//  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-  this->nCenters                  = nCenters;
+//  this->nCenters                  = nCenters;
 //  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
@@ -108,17 +94,60 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 //  generateRandomCenters();
 }
 
-SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
+SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                             const RowMatrix<int> * cumulativeFrequencyMatrix,
+                             const QList<QPointF> & fractalPoints,
+                             const MfaParametersSet & mfaParametersSet)
 {
-  this->minQ                      = sandBoxObject.minQ;
-  this->maxQ                      = sandBoxObject.maxQ;
-  this->minR                      = sandBoxObject.minR;
-  this->maxR                      = sandBoxObject.maxR;
+  this->mfaParametersSet          = mfaParametersSet;
+//  this->minQ                      = minQ;
+//  this->maxQ                      = maxQ;
+//  this->minR                      = 1; // aqui TODO - cambio - minR
+//  this->maxR                      = 256;// aqui TODo - cambio - maxR
+  this->totalPoints               = fractalPoints.count();
+//  this->radiusStep                = radiusStep;
+  this->cgrMatrix                 = cgrMatrix;
+  this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
+//  this->nCenters                  = nCenters;
+//  this->indexesOfCenters          = QList<int>();
+  this->indexesOfCenters          = QVector<int>();
+  this->dqValues                  = new vector<double>();
+  this->linearRegressionValues    = QList<vector<double> *>();
+  this->fractalPoints             = QList<QPointF>(fractalPoints);
+  
+//  generateRandomCenters();
+}
+
+SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
+{
+  this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
+//  this->minQ                      = sandBoxObject.minQ;
+//  this->maxQ                      = sandBoxObject.maxQ;
+//  this->minR                      = sandBoxObject.minR;
+//  this->maxR                      = sandBoxObject.maxR;
   this->totalPoints               = sandBoxObject.totalPoints;
-  this->radiusStep                = sandBoxObject.radiusStep;
+//  this->radiusStep                = sandBoxObject.radiusStep;
   this->cgrMatrix                 = sandBoxObject.cgrMatrix;
   this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-  this->nCenters                  = sandBoxObject.nCenters;
+//  this->nCenters                  = sandBoxObject.nCenters;
+  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
+  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
+  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
+  this->fractalPoints             = sandBoxObject.fractalPoints; 
+}
+
+SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
+{
+  this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
+//  this->minQ                      = sandBoxObject.minQ;
+//  this->maxQ                      = sandBoxObject.maxQ;
+//  this->minR                      = sandBoxObject.minR;
+//  this->maxR                      = sandBoxObject.maxR;
+  this->totalPoints               = sandBoxObject.totalPoints;
+//  this->radiusStep                = sandBoxObject.radiusStep;
+  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
+  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
+//  this->nCenters                  = sandBoxObject.nCenters;
   this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
   this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
   this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
@@ -173,7 +202,7 @@ void SandBoxMethod::performAnalysis(int type)
 void SandBoxMethod::performComparativeAnalysis()
 {
   
-  int nIteraciones = 4;
+  int nIteraciones = mfaParametersSet.getNIterations();
   unsigned int nIteracionesInternas = 3;
   int radio = 6;
 
@@ -189,11 +218,11 @@ void SandBoxMethod::performComparativeAnalysis()
         xCoordinateLessThan);
   
   for (int genIt = 0; genIt < nIteraciones; ++genIt) {
-    vector<int> xCoordinates(nCenters);
-    vector<int> yCoordinates(nCenters);
+    vector<int> xCoordinates(mfaParametersSet.getNCenters());
+    vector<int> yCoordinates(mfaParametersSet.getNCenters());
     
-    vector<double> xCoordinatesDouble(nCenters);
-    vector<double> yCoordinatesDouble(nCenters);
+    vector<double> xCoordinatesDouble(mfaParametersSet.getNCenters());
+    vector<double> yCoordinatesDouble(mfaParametersSet.getNCenters());
     
     generateRandomCenters(&xCoordinatesDouble, &yCoordinatesDouble);
     
@@ -272,12 +301,13 @@ void SandBoxMethod::performComparativeAnalysis()
 void SandBoxMethod::performContinousAnalysis()
 {
 //  int nMomentums = maxQ - minQ + 1;  // Longitud rango valores q
-  int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
+  int dataLenght = mfaParametersSet.getMaxR() - mfaParametersSet.getMinR() + 1;  // Longitud rango valores de radio
   
 //  vector<double> qData(nMomentums);
 //  vector<double> * dqData = new vector<double>(nMomentums);
   
-  for (int q = minQ; q <= maxQ; ++q) {
+  for (int q = mfaParametersSet.getMinQ(); q <= mfaParametersSet.getMaxQ(); ++q) 
+  {
     if (q != 1) {
       vector<double> * xData = new vector<double> (dataLenght);
       vector<double> * yData = new vector<double> (dataLenght);
@@ -298,16 +328,26 @@ void SandBoxMethod::performContinousAnalysis()
 void SandBoxMethod::performDiscreteAnalysis()
 {
   // Longitud rango valores de radio
-  int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
+//  int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
   
-  int iterations = 100; // TODO - cambio - iteraciones
+//  int maxR = mfaParametersSet.getMaxR();
+//  int minR = mfaParametersSet.getMinR();
+//    int minQ = mfaParametersSet.getMinQ();
+//    int maxQ = mfaParametersSet.getMaxQ();
+  
+  int dataLenght = static_cast<int>(ceil((mfaParametersSet.getMaxR() - 
+          mfaParametersSet.getMinR()+ 1) / mfaParametersSet.getRadiusStep()));
+  
+  int iterations = mfaParametersSet.getNIterations(); // TODO - cambio - iteraciones
   QList<vector<double> *> tmpDqList;
   vector<double> * sizeRelations;
   QList<QList<vector<double> > > linearRegressionList;
   QList<vector<double> > regressionSubList;
+  int numberOfQ = 
+          mfaParametersSet.getMaxQ() - mfaParametersSet.getMinQ() + 1;
   
 //  for (int i = 0; i < iterations; ++i) {
-  for (int i = 0; i < maxQ - minQ + 1; ++i) {
+  for (int i = 0; i < numberOfQ; ++i) {
 //    tmpDqList.append(new vector<double>(maxQ - minQ + 1));
     tmpDqList.append(new vector<double>(iterations));
 //    tmpYDataLinearRegresionList.append(new vector<double>(iterations));
@@ -316,8 +356,12 @@ void SandBoxMethod::performDiscreteAnalysis()
   vector<double> * xDataLinearRegression = 0; // Datos x regresión lineal
   vector<double> * yDataLinearRegression = 0; // Datos y regresión lineal
   
-  vector<int> * xCenterCoordinates = new vector<int>(nCenters);
-  vector<int> * yCenterCoordinates = new vector<int>(nCenters);;
+//  vector<int> * xCenterCoordinates = new vector<int>(nCenters);
+//  vector<int> * yCenterCoordinates = new vector<int>(nCenters);;
+  vector<int> * xCenterCoordinates = 
+          new vector<int>(mfaParametersSet.getNCenters());
+  vector<int> * yCenterCoordinates = 
+          new vector<int>(mfaParametersSet.getNCenters());
   
   for (int i = 0; i < iterations; ++i) {
     // Generación centros aleatorios
@@ -331,8 +375,8 @@ void SandBoxMethod::performDiscreteAnalysis()
                                                xCenterCoordinates,
                                                yCenterCoordinates);
     // Cálculo de valores Dq
-    int numberOfQ = maxQ - minQ + 1;
-    double q = static_cast<double>(minQ);
+//    double q = static_cast<double>(minQ);
+    double q = static_cast<double>(mfaParametersSet.getMinQ());
     
     regressionSubList = QList<vector<double> >();
     
@@ -390,12 +434,12 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
   double count = 0.0;
   double probabilityDistributionValue = 0.0;
   int dataLenght = xDataLinearRegression.size(); 
-  int radius = minR;
+  int radius = mfaParametersSet.getMinR();
   
   for (int radiusIndex = 0; radiusIndex < dataLenght; ++radiusIndex) {
-    vector<double> probabilityDistributions(nCenters);
+    vector<double> probabilityDistributions(mfaParametersSet.getNCenters());
     
-    for (int i = 0; i < nCenters; ++i) {
+    for (int i = 0; i < mfaParametersSet.getNCenters(); ++i) {
 //      QPointF center = fractalPoints.at(indexesOfCenters.at(i));
 //      int xCenterCoordinate = utils::roundToInt(center.x());
 //      int yCenterCoordinate = utils::roundToInt(center.y());
@@ -427,7 +471,7 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
 //           "  fractalSize: " << fractalSize <<
 //           "  sizeRelation: " << sizeRelation <<
 //           "  xDataLinearRegression.at(radiusIndex): " << xDataLinearRegression.at(radiusIndex) );
-    radius += radiusStep;
+    radius += mfaParametersSet.getRadiusStep();
   }
   return distributionList;
 }
@@ -482,7 +526,7 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
 bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
 {
   QString outString = "";
-  int q = minQ;
+  int q = mfaParametersSet.getMinQ();// minQ;
   /*for (int i = 0; i < dqList.count(); ++i) {
     outString += QString::number(q) + ";";
     for (unsigned int j = 0; j < dqList.at(i)->size(); ++j) {
@@ -590,21 +634,26 @@ double SandBoxMethod::calculateContinousDqValue(const double & q,
                                                 vector<double> & xData,
                                                 vector<double> & yData)
 {
-  int dataLenght = maxR - minR + 1;
+//  int dataLenght = maxR - minR + 1;
+  int dataLenght = mfaParametersSet.getMaxR() - mfaParametersSet.getMinR() + 1;
   
   double massAverage;
   int fractalSize = cgrMatrix->getNumberOfRows(); 
   int index = 0;
   
-  for (int radius = minR; radius <= maxR; ++radius) {
+//  for (int radius = minR; radius <= maxR; ++radius) {
+  for (int radius = mfaParametersSet.getMinR(); 
+       radius <= mfaParametersSet.getMaxR(); ++radius) {
     // Sand box centers coordinates
-    vector<int> xCoordinates(nCenters);
-    vector<int> yCoordinates(nCenters);
+//    vector<int> xCoordinates(nCenters);
+//    vector<int> yCoordinates(nCenters);
+    vector<int> xCoordinates(mfaParametersSet.getNCenters());
+    vector<int> yCoordinates(mfaParametersSet.getNCenters());
     
     generateRandomCenters(&xCoordinates, &yCoordinates);
-    vector <double> masses(nCenters);
+    vector <double> masses(mfaParametersSet.getNCenters());
     
-    for (int i = 0; i < nCenters; ++i) {
+    for (int i = 0; i < mfaParametersSet.getNCenters(); ++i) {
       double count = countPointsOnTheContinousSquareSandbox(xCoordinates.at(i),
                                                             yCoordinates.at(i),
                                                             radius);
@@ -768,7 +817,9 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
 {
   double DqValue = 0.0;
   if (q != 1) {
-    int dataLenght = maxR - minR + 1;
+//    int dataLenght = maxR - minR + 1;
+    int dataLenght = 
+            mfaParametersSet.getMaxR() - mfaParametersSet.getMinR() + 1;
     
     double massAverage;
     int fractalSize = cgrMatrix->getNumberOfRows() - 1; // Menos 1 por ser matriz ampliada 
@@ -778,10 +829,14 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
     double count = 0.0;
     
   
-//    for (int radius = minR; radius <= maxR; ++radius) {
-    for (int radius = minR; radius <= maxR; radius += 2) {
-      vector <double> masses(nCenters);
-      for (int i = 0; i < nCenters; ++i) {
+//    for (int radius = minR; radius <= maxR; radius += 2) {
+    for (int radius = mfaParametersSet.getMinR(); 
+         radius <= mfaParametersSet.getMaxR(); 
+         radius += mfaParametersSet.getRadiusStep()) {
+//      vector <double> masses(nCenters);
+      vector <double> masses(mfaParametersSet.getNCenters());
+//      for (int i = 0; i < nCenters; ++i) {
+      for (int i = 0; i < mfaParametersSet.getNCenters(); ++i) {
         QPointF center = fractalPoints.at(indexesOfCenters.at(i));
         int xCenterCoordinate = utils::roundToInt(center.x());
         int yCenterCoordinate = utils::roundToInt(center.y());
@@ -841,9 +896,11 @@ void SandBoxMethod::generateRandomCenters()
   int maxIndex = fractalPoints.size();
   int randomIndex = 0;
 //  indexesOfCenters = QList<int>();
-  indexesOfCenters = QVector<int>(nCenters);
+//  indexesOfCenters = QVector<int>(nCenters);
+  indexesOfCenters = QVector<int>(mfaParametersSet.getNCenters());
           
-  for (int i = 0; i < nCenters; ++i) {
+//  for (int i = 0; i < nCenters; ++i) {
+  for (int i = 0; i < mfaParametersSet.getNCenters(); ++i) {
     randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
 //    indexesOfCenters.append(randomIndex);
     indexesOfCenters[i] = randomIndex;
@@ -860,7 +917,8 @@ void SandBoxMethod::generateRandomCenters(vector<int> * xCoordinates,
   int x = 0;
   int y = 0;
   
-  for (int i = 0; i < nCenters; ++i) {
+//  for (int i = 0; i < nCenters; ++i) {
+  for (int i = 0; i < mfaParametersSet.getNCenters(); ++i) {
     bool found = false;
     while (!found) {
       x = RandomTools::
@@ -912,7 +970,8 @@ void SandBoxMethod::generateRandomCenters(vector<double> * xCoordinates,
   int maxIndex = fractalPoints.size();
   int randomIndex = 0;
           
-  for (int i = 0; i < nCenters; ++i){
+//  for (int i = 0; i < nCenters; ++i){
+  for (int i = 0; i < mfaParametersSet.getNCenters(); ++i){
     randomIndex = RandomTools::giveIntRandomNumberBetweenZeroAndEntry(maxIndex);
     xCoordinates->at(i) = fractalPoints.at(randomIndex).x();
     yCoordinates->at(i) = fractalPoints.at(randomIndex).y();
@@ -1067,50 +1126,60 @@ double SandBoxMethod::countPointsOnTheDiscreteSquareSandbox(const int & x,
 }
 
 // Accessors
-int SandBoxMethod::getMinQ()
+MfaParametersSet SandBoxMethod::getMfaParametersSet() const
 {
-  return minQ;
+  return mfaParametersSet;
 }
 
-void SandBoxMethod::setMinQ(int minQ)
+void SandBoxMethod::setMfaParametersSet(const MfaParametersSet & mfaParametersSet)
 {
-  this->minQ = minQ;
+  this->mfaParametersSet = mfaParametersSet;
 }
-
-int SandBoxMethod::getMaxQ()
-{
-  return maxQ;
-}
-
-void SandBoxMethod::setMaxQ(int maxQ)
-{
-  this->maxQ = maxQ;
-}
-
-int SandBoxMethod::getMinR()
-{
-  return minR;
-}
-
-void SandBoxMethod::setMinR(int minR)
-{
-  this->minR = minR;
-}
-
-int SandBoxMethod::getMaxR()
-{
-  return maxR;
-}
-
-int SandBoxMethod::getTotalPoints()
-{
-  return totalPoints;
-}
-
-void SandBoxMethod::setMaxR(int maxR)
-{
-  this->maxR = maxR;
-}
+//
+//int SandBoxMethod::getMinQ()
+//{
+//  return minQ;
+//}
+//
+//void SandBoxMethod::setMinQ(int minQ)
+//{
+//  this->minQ = minQ;
+//}
+//
+//int SandBoxMethod::getMaxQ()
+//{
+//  return maxQ;
+//}
+//
+//void SandBoxMethod::setMaxQ(int maxQ)
+//{
+//  this->maxQ = maxQ;
+//}
+//
+//int SandBoxMethod::getMinR()
+//{
+//  return minR;
+//}
+//
+//void SandBoxMethod::setMinR(int minR)
+//{
+//  this->minR = minR;
+//}
+//
+//int SandBoxMethod::getMaxR()
+//{
+//  return maxR;
+//}
+//
+//int SandBoxMethod::getTotalPoints()
+//{
+//  return totalPoints;
+//}
+//
+//void SandBoxMethod::setMaxR(int maxR)
+//{
+//  this->maxR = maxR;
+//}
 
 const RowMatrix<int> * SandBoxMethod::getCgrMatrix() const
 {
@@ -1121,16 +1190,16 @@ void SandBoxMethod::setCgrMatrix(const RowMatrix<int> * cgrMatrix)
 {
   this->cgrMatrix = cgrMatrix;
 }
-
-int SandBoxMethod::getNCenters()
-{
-  return nCenters;
-}
-
-void SandBoxMethod::setNCenters(int nCenters)
-{
-  this->nCenters = nCenters;
-}
+//
+//int SandBoxMethod::getNCenters()
+//{
+//  return nCenters;
+//}
+//
+//void SandBoxMethod::setNCenters(int nCenters)
+//{
+//  this->nCenters = nCenters;
+//}
 
 //QList<vector<double> > * SandBoxMethod::getDqValues()
 vector<double> * SandBoxMethod::getDqValues()
@@ -1180,13 +1249,13 @@ void SandBoxMethod::setIndexesOfCenters(QVector<int> indexesOfCenters)
 {
   this->indexesOfCenters = indexesOfCenters;
 }
-
-int SandBoxMethod::getRadiusStep()
-{
-  return radiusStep;
-}
-
-void SandBoxMethod::setRadiusStep(const int & radiusStep)
-{
-  this->radiusStep = radiusStep;
-}
+//
+//int SandBoxMethod::getRadiusStep()
+//{
+//  return radiusStep;
+//}
+//
+//void SandBoxMethod::setRadiusStep(const int & radiusStep)
+//{
+//  this->radiusStep = radiusStep;
+//}

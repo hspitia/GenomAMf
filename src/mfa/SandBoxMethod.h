@@ -46,6 +46,7 @@ using namespace bpp;
 // PROJECT INCLUDES
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/MultifractalAnalysis.h>
+#include <mfa/MfaParametersSet.h>
 #include <utils/Linear.h>
 #include <utils/Utils.h>
   
@@ -77,6 +78,11 @@ class SandBoxMethod
                   const int & maxQ       =  20,
                   const int & nCenters   =  300,
                   const int & radiusStep =  3); //aqui TODO - cambio - step
+    
+    SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+                  const RowMatrix<int> * cumulativeFrequencyMatrix,
+                  const QList<QPointF> & fractalPoints,
+                  const MfaParametersSet & mfaParametersSet);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -133,28 +139,33 @@ class SandBoxMethod
                                                   const double & radius);
     
     
-    int getMinQ();
+    // Access
+    MfaParametersSet getMfaParametersSet() const;
+    
+    void setMfaParametersSet(const MfaParametersSet & mfaParametersSet);
+    
+//    int getMinQ();
     
     
-    void setMinQ(int minQ);
+//    void setMinQ(int minQ);
 
     
-    int getMaxQ();
+//    int getMaxQ();
     
     
-    void setMaxQ(int maxQ);
+//    void setMaxQ(int maxQ);
 
     
-    int getMinR();
+//    int getMinR();
     
     
-    void setMinR(int rMin);
+//    void setMinR(int rMin);
 
     
-    int getMaxR();
+//    int getMaxR();
     
     
-    void setMaxR(int maxR);
+//    void setMaxR(int maxR);
 
     
     const RowMatrix<int> * getCgrMatrix() const;
@@ -163,10 +174,10 @@ class SandBoxMethod
     void setCgrMatrix(const RowMatrix<int> * cgrMatrix);
 
     
-    int getNCenters();
+//    int getNCenters();
     
     
-    void setNCenters(int nCenters);
+//    void setNCenters(int nCenters);
 
     
 //    QList<vector<double> > * getDqValues();
@@ -194,17 +205,19 @@ class SandBoxMethod
     void setRadiusStep(const int & radiusStep);
     
   private:
-    int minQ; /**< Valor para el parámetro q mínimo */
+    MfaParametersSet mfaParametersSet;
+    
+//    int minQ; /**< Valor para el parámetro q mínimo */
 
-    int maxQ; /**< Valor para el parámetro q máximo */
+//    int maxQ; /**< Valor para el parámetro q máximo */
     
-    int minR; /**< Valor del radio mínimo de las cajas de arena */
+//    int minR; /**< Valor del radio mínimo de las cajas de arena */
     
-    int maxR; /**< Valor del radio máximo de las cajas de arena */
+//    int maxR; /**< Valor del radio máximo de las cajas de arena */
     
     int totalPoints; /**< Número total de puntos del fractal */
     
-    int radiusStep;
+//    int radiusStep;
     
     const RowMatrix<int> * cgrMatrix; /**< Apuntador a la matriz de puntos 
       obtenida de la representación de juego del caos*/
@@ -216,8 +229,8 @@ class SandBoxMethod
     QList<QPointF> fractalPoints; /**< Lista de coordenadas de puntos 
       obtenida de la representación de juego del caos*/
     
-    int nCenters; /**< Número de centros de caja de arena que serán ser 
-      generados aleatoriamente */
+//    int nCenters; /**< Número de centros de caja de arena que serán ser 
+//      generados aleatoriamente */
     
 //    QList<int> indexesOfCenters; /**< Listado de índices de los puntos 
     QVector<int> indexesOfCenters; /**< Listado de índices de los puntos 

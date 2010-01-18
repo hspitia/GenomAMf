@@ -376,8 +376,8 @@ QList<QStringList > MfaResultsController::prepareContentSequenceTable()
 QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
 {
   QList<QStringList > contentList;
-  int minQ = mfaObjects.at(0).getMinQ();
-  int maxQ = mfaObjects.at(0).getMaxQ();
+  int minQ = mfaObjects.at(0).getMfaParametersSet().getMinQ();
+  int maxQ = mfaObjects.at(0).getMfaParametersSet().getMaxQ();
   int nRows = mfaObjects.count();
   int nCols = maxQ - minQ + 1;
   QStringList row;

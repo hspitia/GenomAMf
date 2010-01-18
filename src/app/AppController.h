@@ -41,6 +41,7 @@ using namespace bpp;
 #include <cgr/ChaosGameRepresentation.h>
 #include <cra/CorrelationAnalysis.h>
 #include <mfa/MultifractalAnalysis.h>
+#include <mfa/MfaParametersSet.h>
 #include <gui/MainWindow.h>
 #include <script/ScriptBuilder.h>
 #include <script/ScriptParametersSet.h>
@@ -93,6 +94,9 @@ class AppController : public QApplication
     QVector<int> loadSequences(const QStringList & fileName);
     
     QList<int> makeCgr(const QList<int> & sequenceKeys);
+    
+    int makeMultifractalAnalysis(const QList<int> & sequenceKeys,
+                                 const MfaParametersSet & mfaParametersSet);
     
     int makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                   const int & minQ,

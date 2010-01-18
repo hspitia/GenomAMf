@@ -528,30 +528,21 @@ void MainWindow::makeMultifractalAnalysis()
   MfaParametersForm * mfaParametersForm = 
           new MfaParametersForm(sequenceListModel, this);
   if (mfaParametersForm->exec() == QDialog::Accepted) {
-    minQ       = mfaParametersForm->getMinQValue();
-    maxQ       = mfaParametersForm->getMaxQValue();
-    nCenters   = mfaParametersForm->getNCenters();
-    // TODO - Implementar parámetro radiusStep en mfaParametersForm
-//    radiusStep = mfaParametersForm->getRadiusStep();
-    radiusStep = 2;
     
-    
+    MfaParametersSet mfaParametersSet = mfaParametersForm->getMfaParametersSet();
     sequencesKeysList = mfaParametersForm->getSelectedSequencesKeys();
     
     QTime timer;
     timer.restart();
     int mfaResultSetKey = 
-//            parentApp->makeMultifractalAnalysis_(sequencesKeysList, -2, 2);
             parentApp->makeMultifractalAnalysis(sequencesKeysList, 
-                                                minQ, 
-                                                maxQ,
-                                                nCenters, 
-                                                radiusStep);
+                                                mfaParametersSet);
+    
+    
     int timeElapsed = timer.elapsed();
     cerr << __FILE__ << " " << __LINE__ << endl;
     cerr << utils::getTimeElapsed(timeElapsed) << endl;
     displayMfaResults(mfaResultSetKey);
-    
     QMessageBox::information(this, trUtf8("Análisis multifractal"),
                                 trUtf8("Tiempo: ") + 
                                 QString::fromStdString(

@@ -48,6 +48,7 @@ using namespace bpp;
 #include <gui/CorrelationAnalysisParametersForm.h>
 #include <gui/CorrelationAnalysisResultsForm.h>
 #include <mfa/MfaResultsController.h>
+#include <mfa/MfaParametersSet.h>
 #include <gui/MfaParametersForm.h>
 #include <gui/MfaResultsForm.h>
 #include <gui/PreprocessingScriptParametersForm.h>

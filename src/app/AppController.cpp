@@ -165,6 +165,45 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
 }
 
 int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
+                                            const MfaParametersSet & 
+                                            mfaParametersSet)
+{
+  QList<int> mfaKeys;
+  QList<const ChaosGameRepresentation *> cgrList =
+          getCgrObjectsForAnalysis(sequenceKeys);
+  
+  
+  int mfaKey = 0;
+  
+  for (int i = 0; i < cgrList.count(); ++i) {
+    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
+                                                          mfaParametersSet);
+
+//    MultifractalAnalysis mfaObject = MultifractalAnalysis(cgrList.at(i), 
+//                                                          minQ, 
+//                                                          maxQ,
+//                                                          nCenters,
+//                                                          radiusStep);
+    
+    mfaObject.performAnalysis(MultifractalAnalysis::DISCRETE_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::CONTINOUS_ANALYSIS);
+//    mfaObject.performAnalysis(MultifractalAnalysis::COMPARATIVE_ANALYSIS);
+    
+    mfaKey = mfaObjectsCounter;
+    mfaHash->insert(mfaKey, mfaObject);
+    mfaKeys.append(mfaKey);
+    ++mfaObjectsCounter;
+  }
+  
+  int mfaResultSetKey = mfaResultSetsCounter;
+  mfaResultSetHash->insert(mfaResultSetKey, mfaKeys);
+  mainWindow->insertMfaResultSetTotreeView(mfaResultSetKey);
+  ++mfaResultSetsCounter;
+  
+  return mfaResultSetKey;
+}
+
+int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                             const int & minQ,
                                             const int & maxQ,
                                             const int & nCenters,

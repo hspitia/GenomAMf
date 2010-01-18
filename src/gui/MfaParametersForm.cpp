@@ -5,10 +5,11 @@ MfaParametersForm::MfaParametersForm(SequenceListModel * model, QWidget *parent)
   : QDialog(parent),
   ui(new Ui::MfaParametersForm())
 {
-  cgrSelectedKey = -1;
-  minQValue = 0;
-  maxQValue = 0;
+  mfaParametersSet = MfaParametersSet();
   ui->setupUi(this);
+  connectSignalsSlots();
+  ui->totalRadii->setEnabled(false);
+  updateTotalRadii();
   ui->sequenceTableView->setModel(model);
   ui->sequenceTableView->selectRow(0);
 }
@@ -18,27 +19,29 @@ MfaParametersForm::~MfaParametersForm()
   delete ui;
 }
 
-int MfaParametersForm::getCgrSelectedKey(){
-  return cgrSelectedKey;
+void MfaParametersForm::connectSignalsSlots()
+{
+  connect(ui->minRSpinBox, SIGNAL(valueChanged(int /*value*/)), this, 
+          SLOT(updateTotalRadii()));
+  connect(ui->maxRSpinBox, SIGNAL(valueChanged(int /*value*/)), this, 
+          SLOT(updateTotalRadii()));
+  connect(ui->radiusStepSpinBox, SIGNAL(valueChanged(int /*value*/)), this, 
+          SLOT(updateTotalRadii()));
 }
+
+MfaParametersSet MfaParametersForm::getMfaParametersSet() const
+{
+  return mfaParametersSet;
+}
+
+void MfaParametersForm::setMfaParametersSet(const MfaParametersSet & mfaParametersSet)
+{
+  this->mfaParametersSet = mfaParametersSet;
+}
+
 
 void MfaParametersForm::done(int result)
 {
-  // TODO Verificar validaci�n de existencia de modelo o index
-  
-//  if (result == QDialog::Accepted) {
-//    QModelIndex index = ui->sequenceTableView->selectionModel()->currentIndex();
-//    QAbstractItemModel *model = ui->sequenceTableView->model();
-//
-//    if(model->rowCount() > 0){
-//      cgrSelectedKey = model->data(index,Qt::UserRole).toInt();
-//      minQValue = ui->qMinSpinBox->text().toInt();
-//      maxQValue = ui->qMaxSpinBox->text().toInt();
-//    }
-//  }
-//  QDialog::done(result);
-  
-  
   if (result == QDialog::Accepted) {
     QList<QModelIndex> selectedIndexes = ui->sequenceTableView->
             selectionModel()->selectedRows();
@@ -50,31 +53,34 @@ void MfaParametersForm::done(int result)
         
         selectedSequencesKeys << model->data(index,Qt::UserRole).toInt();
       }
-      minQValue = ui->qMinSpinBox->text().toInt();
-      maxQValue = ui->qMaxSpinBox->text().toInt();
-      nCenters  = ui->nCentersSpinBox->text().toInt();
+      
+      mfaParametersSet.setMinQ(ui->minQSpinBox->text().toInt());
+      mfaParametersSet.setMaxQ(ui->maxQSpinBox->text().toInt());
+      mfaParametersSet.setMinR(ui->minRSpinBox->text().toInt());
+      mfaParametersSet.setMaxR(ui->maxRSpinBox->text().toInt());
+      mfaParametersSet.setRadiusStep(ui->radiusStepSpinBox->text().toInt());
+      mfaParametersSet.setNCenters(ui->nCentersSpinBox->text().toInt());
+      mfaParametersSet.setNIterations(ui->nIterationsSpinBox->text().toInt());
     }
   }
   QDialog::done(result);
   
 }
 
-int MfaParametersForm::getMinQValue()
+void MfaParametersForm::updateTotalRadii()
 {
-  return minQValue;
-}
-
-int MfaParametersForm::getMaxQValue()
-{
-  return maxQValue;
+  int minR = ui->minRSpinBox->text().toInt();
+  int maxR = ui->maxRSpinBox->text().toInt();
+  int radiusStep = ui->radiusStepSpinBox->text().toInt();
+  
+  int totalRadii = static_cast<int>( 
+          ceil(((double)maxR - (double)minR + 1)/ (double)radiusStep));
+  
+  ui->totalRadii->setText(QString("%1").arg(totalRadii));
+  
 }
 
 QList<int> MfaParametersForm::getSelectedSequencesKeys()
 {
   return selectedSequencesKeys;
-}
-
-int MfaParametersForm::getNCenters()
-{
-  return nCenters;
 }
