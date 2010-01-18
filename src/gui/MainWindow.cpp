@@ -521,10 +521,6 @@ void MainWindow::makeCgr()
 void MainWindow::makeMultifractalAnalysis()
 {
   QList<int> sequencesKeysList = QList<int>();
-  int minQ = 0;
-  int maxQ = 0;
-  int nCenters = 0;
-  int radiusStep = 0;
   MfaParametersForm * mfaParametersForm = 
           new MfaParametersForm(sequenceListModel, this);
   if (mfaParametersForm->exec() == QDialog::Accepted) {

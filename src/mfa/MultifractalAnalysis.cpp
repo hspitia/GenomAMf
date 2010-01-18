@@ -167,13 +167,10 @@ void MultifractalAnalysis::performAnalysis(AnalysisType type)
       {
         // Cálculo de valores Dq
         calculateDqValues(type);
-        TRACE (__LINE__ << "\n\t" << "Ok Dq");
         // Cálculo de valores Tauq
         calculateTqValues();
-        TRACE (__LINE__ << "\n\t" << "Ok TauQ");
         // Cálculo de valores Cq
         calculateCqValues();
-        TRACE (__LINE__ << "\n\t" << "Ok Dq");
       }
       break;
     case COMPARATIVE_ANALYSIS:
@@ -222,9 +219,15 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
                             *(cgrObject->getCoordinatesOfPoints()),
                             newParameters);
   
-  TRACE (__LINE__ << "\n\t" << "\n");
-  DEBUG(qPrintable(newParameters.toString()));
+  vector<int> qValuesForReg(6);
+  qValuesForReg.at(0) = mfaParametersSet.getMinQ();
+  qValuesForReg.at(1) = -1;
+  qValuesForReg.at(2) =  0;
+  qValuesForReg.at(3) =  1;
+  qValuesForReg.at(4) =  2;
+  qValuesForReg.at(5) = mfaParametersSet.getMaxQ();
   
+  sandBoxObject->setQValuesForRegressionPlot(qValuesForReg);
   sandBoxObject->performAnalysis(type);
   
   linearRegressionValues = sandBoxObject->getLinearRegressionValues();

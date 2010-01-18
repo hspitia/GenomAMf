@@ -26,23 +26,15 @@
 SandBoxMethod::SandBoxMethod()
 {
   this->mfaParametersSet          = MfaParametersSet();
-//  this->minQ                      =  -70;
-//  this->maxQ                      =   70;
-//  this->minR                      =    1;
-//  this->maxR                      =  256;
-//  this->totalPoints               =    0;
-//  this->radiusStep                =    2;
   this->cgrMatrix                 =    0;
   this->cumulativeFrequencyMatrix =    0;                                 
-//  this->nCenters                  = 1000;
-//  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>();
 }
 
-SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
+/*SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const RowMatrix<int> * cumulativeFrequencyMatrix,
                              const int & totalPoints,
                              const int & minQ,
@@ -51,16 +43,9 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & radiusStep)
 {
   this->mfaParametersSet          = MfaParametersSet(); 
-//  this->minQ                      = minQ;
-//  this->maxQ                      = maxQ;
-//  this->minR                      = 1;
-//  this->maxR                      = 256;
   this->totalPoints               = totalPoints;
-//  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-//  this->nCenters                  = nCenters;
-//  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
@@ -76,23 +61,14 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & radiusStep)
 {
   this->mfaParametersSet          = MfaParametersSet();
-//  this->minQ                      = minQ;
-//  this->maxQ                      = maxQ;
-//  this->minR                      = 1; // aqui TODO - cambio - minR
-//  this->maxR                      = 256;// aqui TODo - cambio - maxR
   this->totalPoints               = fractalPoints.count();
-//  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-//  this->nCenters                  = nCenters;
-//  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>(fractalPoints);
-  
-//  generateRandomCenters();
-}
+}*/
 
 SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const RowMatrix<int> * cumulativeFrequencyMatrix,
@@ -100,58 +76,40 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const MfaParametersSet & mfaParametersSet)
 {
   this->mfaParametersSet          = mfaParametersSet;
-//  this->minQ                      = minQ;
-//  this->maxQ                      = maxQ;
-//  this->minR                      = 1; // aqui TODO - cambio - minR
-//  this->maxR                      = 256;// aqui TODo - cambio - maxR
   this->totalPoints               = fractalPoints.count();
-//  this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
   this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-//  this->nCenters                  = nCenters;
-//  this->indexesOfCenters          = QList<int>();
   this->indexesOfCenters          = QVector<int>();
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>(fractalPoints);
-  
-//  generateRandomCenters();
+  this->qValuesForRegressionPlot  = vector<int>();
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 {
   this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
-//  this->minQ                      = sandBoxObject.minQ;
-//  this->maxQ                      = sandBoxObject.maxQ;
-//  this->minR                      = sandBoxObject.minR;
-//  this->maxR                      = sandBoxObject.maxR;
   this->totalPoints               = sandBoxObject.totalPoints;
-//  this->radiusStep                = sandBoxObject.radiusStep;
   this->cgrMatrix                 = sandBoxObject.cgrMatrix;
   this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-//  this->nCenters                  = sandBoxObject.nCenters;
   this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
   this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
   this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
   this->fractalPoints             = sandBoxObject.fractalPoints; 
+  this->qValuesForRegressionPlot  = sandBoxObject.qValuesForRegressionPlot;
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
 {
   this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
-//  this->minQ                      = sandBoxObject.minQ;
-//  this->maxQ                      = sandBoxObject.maxQ;
-//  this->minR                      = sandBoxObject.minR;
-//  this->maxR                      = sandBoxObject.maxR;
   this->totalPoints               = sandBoxObject.totalPoints;
-//  this->radiusStep                = sandBoxObject.radiusStep;
   this->cgrMatrix                 = sandBoxObject.cgrMatrix;
   this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-//  this->nCenters                  = sandBoxObject.nCenters;
   this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
   this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
   this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
   this->fractalPoints             = sandBoxObject.fractalPoints;
+  this->qValuesForRegressionPlot  = sandBoxObject.qValuesForRegressionPlot;
   
   return *this;
 }
@@ -328,36 +286,37 @@ void SandBoxMethod::performContinousAnalysis()
 void SandBoxMethod::performDiscreteAnalysis()
 {
   // Longitud rango valores de radio
-//  int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
-  
-//  int maxR = mfaParametersSet.getMaxR();
-//  int minR = mfaParametersSet.getMinR();
-//    int minQ = mfaParametersSet.getMinQ();
-//    int maxQ = mfaParametersSet.getMaxQ();
-  
   int dataLenght = static_cast<int>(ceil((mfaParametersSet.getMaxR() - 
           mfaParametersSet.getMinR()+ 1) / mfaParametersSet.getRadiusStep()));
   
   int iterations = mfaParametersSet.getNIterations(); // TODO - cambio - iteraciones
-  QList<vector<double> *> tmpDqList;
-  vector<double> * sizeRelations;
-  QList<QList<vector<double> > > linearRegressionList;
-  QList<vector<double> > regressionSubList;
+  
   int numberOfQ = 
           mfaParametersSet.getMaxQ() - mfaParametersSet.getMinQ() + 1;
   
-//  for (int i = 0; i < iterations; ++i) {
+  
+  vector<double> * sizeRelations;
+  QList<vector<double> *> tmpDqList; //  Para promedio de los Dq de las iteraciones
+  
+  QList<QList<vector<double> > > linearRegressionList; //  Para archivo CSV de análisis
+  QList<vector<double> > regressionSubList; //  Para archivo CSV de análisis
+  
+  QList<vector<double> *> regressionSumations; // Para promedio de regresiones
+  int indexOfQRegValues = 0;
+  
   for (int i = 0; i < numberOfQ; ++i) {
-//    tmpDqList.append(new vector<double>(maxQ - minQ + 1));
     tmpDqList.append(new vector<double>(iterations));
 //    tmpYDataLinearRegresionList.append(new vector<double>(iterations));
+  }
+  
+  for (int i = 0; i < qValuesForRegressionPlot.size(); ++i) {
+    regressionSumations.append(new vector<double>(dataLenght, 0.0)); // sumas datos x
+    regressionSumations.append(new vector<double>(dataLenght, 0.0)); // sumas datos y
   }
   
   vector<double> * xDataLinearRegression = 0; // Datos x regresión lineal
   vector<double> * yDataLinearRegression = 0; // Datos y regresión lineal
   
-//  vector<int> * xCenterCoordinates = new vector<int>(nCenters);
-//  vector<int> * yCenterCoordinates = new vector<int>(nCenters);;
   vector<int> * xCenterCoordinates = 
           new vector<int>(mfaParametersSet.getNCenters());
   vector<int> * yCenterCoordinates = 
@@ -365,7 +324,6 @@ void SandBoxMethod::performDiscreteAnalysis()
   
   for (int i = 0; i < iterations; ++i) {
     // Generación centros aleatorios
-//    generateRandomCenters();
     generateRandomCenters(xCenterCoordinates, yCenterCoordinates);
     
     sizeRelations = new vector<double>(dataLenght); // vector que contiene los valores ln(R/L)
@@ -380,6 +338,9 @@ void SandBoxMethod::performDiscreteAnalysis()
     
     regressionSubList = QList<vector<double> >();
     
+    indexOfQRegValues = 0;
+    
+    // Iteracion a través de los valores q en el rango [Qmin, Qmax]
     for (int qIndex = 0; qIndex < numberOfQ; ++qIndex) {
       xDataLinearRegression = new vector<double>(dataLenght);
       yDataLinearRegression = new vector<double>(dataLenght);
@@ -390,30 +351,58 @@ void SandBoxMethod::performDiscreteAnalysis()
                                                  *xDataLinearRegression,
                                                  *yDataLinearRegression);
       
-      tmpDqList.at(qIndex)->at(i) = dqValue;
-//      tmpDqList.at(i)->at(qIndex) = dqValue;
-      q += 1;
+      tmpDqList.at(qIndex)->at(i) = dqValue; // 
 
-      regressionSubList.append(*xDataLinearRegression);
-      regressionSubList.append(*yDataLinearRegression);
+      regressionSubList.append(*xDataLinearRegression); // Para Archivo CSV de análisis
+      regressionSubList.append(*yDataLinearRegression); // Para Archivo CSV de análisis
+      
+      // Suma de valores de regresión para los q especificados en qValuesForregressionPlot
+      int tmpQ = static_cast<int>(q);
+      if (tmpQ == qValuesForRegressionPlot.at(indexOfQRegValues)) {
+        for (int k = 0; k < dataLenght; ++k) {
+          int listIndex = indexOfQRegValues * 2;
+          regressionSumations.at(listIndex)->at(k) += 
+                  xDataLinearRegression->at(k);
+          
+          regressionSumations.at(listIndex + 1)->at(k) += 
+                  yDataLinearRegression->at(k);
+        }
+        if (indexOfQRegValues < qValuesForRegressionPlot.size() - 1) 
+          ++indexOfQRegValues;
+      }
+      q += 1;
     }
+    
     delete distributionsList;
     linearRegressionList.append(regressionSubList);
   }
+  
   delete xCenterCoordinates;
   delete yCenterCoordinates;
   
+  // Promedio de valores Dq
   double average = 0.0;
   for (int i = 0; i < tmpDqList.count(); ++i) {
     average = VectorTools::mean<double, double>(*(tmpDqList.at(i)));
     dqValues->push_back(average);
   }
   
+  // Promedio de regresiones
+  for (int i = 0; i < regressionSumations.count(); ++i) {
+    for (int j = 0; j < dataLenght; ++j) {
+      regressionSumations.at(i)->at(j) /= iterations;
+    }
+  }
+  linearRegressionValues.append(regressionSumations);
+  
+  
+  
   exportToCsv(tmpDqList);
+  exportRegressionsToCsv(regressionSumations);
 //  exportRegressionsToCsv(linearRegressionList);
   
-  linearRegressionValues.append(xDataLinearRegression);
-  linearRegressionValues.append(yDataLinearRegression);
+//  linearRegressionValues.append(xDataLinearRegression);
+//  linearRegressionValues.append(yDataLinearRegression);
  // ---------------------------------------------------------------------------
   
  
@@ -605,6 +594,44 @@ exportRegressionsToCsv(const QList<QList<vector<double> > > &
   }
   
   QFile file("data/regression_values.csv");
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return false;
+  
+  QTextStream out(&file);
+  out << outString;
+  
+  return true;
+}
+
+bool SandBoxMethod::
+exportRegressionsToCsv(const QList<vector<double> * > &
+                       linearRegressionsList)
+{
+  int nVectorData = linearRegressionsList.count();
+  int dataLength =  linearRegressionsList.at(0)->size();
+  QString outString = "";
+  QString separator = ";";
+  QString linefeed  = "\n";
+  
+   // headers
+  for (int k = 0; k < nVectorData; k += 2) {
+    outString += "x" + separator + "y";
+    if (k != nVectorData - 2) 
+      outString += separator;
+  }
+  outString += linefeed;
+    
+  for (int i = 0; i < dataLength; ++i) {
+    // Content
+    for (int j = 0; j < nVectorData; ++j) {
+      outString += QString::number(linearRegressionsList.at(j)->at(i));     // dato x 
+      if (j != nVectorData - 1) 
+        outString += separator;
+    }
+    outString += linefeed;
+  }
+  
+  QFile file("data/regression_values_for_plot.csv");
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     return false;
   
@@ -1135,51 +1162,6 @@ void SandBoxMethod::setMfaParametersSet(const MfaParametersSet & mfaParametersSe
 {
   this->mfaParametersSet = mfaParametersSet;
 }
-//
-//int SandBoxMethod::getMinQ()
-//{
-//  return minQ;
-//}
-//
-//void SandBoxMethod::setMinQ(int minQ)
-//{
-//  this->minQ = minQ;
-//}
-//
-//int SandBoxMethod::getMaxQ()
-//{
-//  return maxQ;
-//}
-//
-//void SandBoxMethod::setMaxQ(int maxQ)
-//{
-//  this->maxQ = maxQ;
-//}
-//
-//int SandBoxMethod::getMinR()
-//{
-//  return minR;
-//}
-//
-//void SandBoxMethod::setMinR(int minR)
-//{
-//  this->minR = minR;
-//}
-//
-//int SandBoxMethod::getMaxR()
-//{
-//  return maxR;
-//}
-//
-//int SandBoxMethod::getTotalPoints()
-//{
-//  return totalPoints;
-//}
-//
-//void SandBoxMethod::setMaxR(int maxR)
-//{
-//  this->maxR = maxR;
-//}
 
 const RowMatrix<int> * SandBoxMethod::getCgrMatrix() const
 {
@@ -1190,43 +1172,16 @@ void SandBoxMethod::setCgrMatrix(const RowMatrix<int> * cgrMatrix)
 {
   this->cgrMatrix = cgrMatrix;
 }
-//
-//int SandBoxMethod::getNCenters()
-//{
-//  return nCenters;
-//}
-//
-//void SandBoxMethod::setNCenters(int nCenters)
-//{
-//  this->nCenters = nCenters;
-//}
 
-//QList<vector<double> > * SandBoxMethod::getDqValues()
 vector<double> * SandBoxMethod::getDqValues()
 {
   return dqValues;
 }
 
-/*
-void SandBoxMethod::setDqValues(QList<vector<double> > * dqValues)
-{
-  this->dqValues = dqValues;
-}
-*/
-
-//QList<vector<double> > * SandBoxMethod::getLinearRegressionValues()
 QList<vector<double> *> SandBoxMethod::getLinearRegressionValues()
 {
   return linearRegressionValues;
 }
-
-/*
-void SandBoxMethod::setLinearRegressionValues(QList<vector<double> > * 
-                                              linearRegressionValues)
-{
-  this->linearRegressionValues = linearRegressionValues;
-}
-*/
 
 const QList<QPointF> SandBoxMethod::getFractalPoints() const
 {
@@ -1238,24 +1193,22 @@ void SandBoxMethod::setFractalPoints(const QList<QPointF> & fractalPoints)
   this->fractalPoints = fractalPoints;
 }
 
-//QList<int> SandBoxMethod::getIndexesOfCenters()
 QVector<int> SandBoxMethod::getIndexesOfCenters()
 {
   return indexesOfCenters;
 }
 
-//void SandBoxMethod::setIndexesOfCenters(QList<int> indexesOfCenters)
 void SandBoxMethod::setIndexesOfCenters(QVector<int> indexesOfCenters)
 {
   this->indexesOfCenters = indexesOfCenters;
 }
-//
-//int SandBoxMethod::getRadiusStep()
-//{
-//  return radiusStep;
-//}
-//
-//void SandBoxMethod::setRadiusStep(const int & radiusStep)
-//{
-//  this->radiusStep = radiusStep;
-//}
+
+vector<int> SandBoxMethod::getQValuesForRegressionPlot()
+{
+  return qValuesForRegressionPlot;
+}
+
+void SandBoxMethod::setQValuesForRegressionPlot(const vector<int> & qValuesForRegressionPlot)
+{
+  this->qValuesForRegressionPlot = qValuesForRegressionPlot;
+}
