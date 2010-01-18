@@ -19,7 +19,7 @@
  *  Description:
  */
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include "utils/Trace.h"
 #include "ChaosGameRepresentation.h"
@@ -33,31 +33,36 @@ ChaosGameRepresentation::ChaosGameRepresentation()
   this->translatedSequence        = vector<int> ();
   this->coordinatesOfPoints       = new QList<QPointF> ();
   this->cumulativeFrequencyMatrix = RowMatrix<int>();
+  this->totalNonzeroCells         = 0;
 }
 
 ChaosGameRepresentation::ChaosGameRepresentation(const 
                                                  ChaosGameRepresentation & 
                                                  cgrObject) 
 {
-  sequence            = cgrObject.getSequence();
-  matrixOfPoints      = RowMatrix<int>(cgrObject.matrixOfPoints);
-  imagefilePath       = cgrObject.imagefilePath;
-  translatedSequence  = vector<int>(cgrObject.translatedSequence);
-  coordinatesOfPoints = new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
+  this->sequence                  = cgrObject.getSequence();
+  this->matrixOfPoints            = RowMatrix<int>(cgrObject.matrixOfPoints);
+  this->imagefilePath             = cgrObject.imagefilePath;
+  this->translatedSequence        = vector<int>(cgrObject.translatedSequence);
+  this->coordinatesOfPoints       = 
+          new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
   this->cumulativeFrequencyMatrix = 
           RowMatrix<int>(cgrObject.cumulativeFrequencyMatrix);
+  this->totalNonzeroCells         = cgrObject.totalNonzeroCells;
 }
 
 ChaosGameRepresentation & 
 ChaosGameRepresentation::operator=(const ChaosGameRepresentation & cgrObject) 
 {
-  sequence            = cgrObject.getSequence();
-  matrixOfPoints      = RowMatrix<int>(cgrObject.matrixOfPoints);
-  imagefilePath       = cgrObject.imagefilePath;
-  translatedSequence  = vector<int>(cgrObject.translatedSequence);
-  coordinatesOfPoints = new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
+  this->sequence                  = cgrObject.getSequence();
+  this->matrixOfPoints            = RowMatrix<int>(cgrObject.matrixOfPoints);
+  this->imagefilePath             = cgrObject.imagefilePath;
+  this->translatedSequence        = vector<int>(cgrObject.translatedSequence);
+  this->coordinatesOfPoints       = 
+          new QList<QPointF> (*(cgrObject.coordinatesOfPoints));
   this->cumulativeFrequencyMatrix = 
           RowMatrix<int>(cgrObject.cumulativeFrequencyMatrix);
+  this->totalNonzeroCells         = cgrObject.totalNonzeroCells;
   
   return *this;
 }
@@ -70,6 +75,7 @@ ChaosGameRepresentation::ChaosGameRepresentation(const Sequence * sequence)
   this->translatedSequence        = vector<int>();
   this->coordinatesOfPoints       = new QList<QPointF>();
   this->cumulativeFrequencyMatrix = RowMatrix<int>();
+  this->totalNonzeroCells         = 0;
 }
 
 ChaosGameRepresentation::~ChaosGameRepresentation()
@@ -242,6 +248,9 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
 //               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
 //        matrixOfPoints(xMatrix, yMatrix)++;
         
+        if (matrixOfPoints(xMatrix, yMatrix) == 0)
+          ++totalNonzeroCells;
+        
 //        if (matrixOfPoints(xMatrix, yMatrix) == 0) // TODO - cambio - frecuencias
         
         matrixOfPoints(xMatrix, yMatrix)++;
@@ -260,6 +269,16 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
       currentDir.mkdir("tmp");
     }
     cgrImage->save(QString::fromStdString(imagefilePath), "PNG");
+    double totalPossiblePoints = matrixSize * matrixSize;
+    double z = 1.96;
+    double d = 0.02;
+    double p = static_cast<double>(totalNonzeroCells) / static_cast<double>(totalPossiblePoints);
+    double q = 1 - p;
+    double estimatedNumberOfCenters = (z * z * p * q) / (d * d);
+    TRACE (__LINE__ << "\n\t" << "Calculo de centros:");
+    DEBUG ( "totalPossiblePoints     : " << totalPossiblePoints << endl <<
+            "totalNonzeroCells       : " << totalNonzeroCells << endl <<
+            "estimatedNumberOfCenters: " << estimatedNumberOfCenters);
     
     delete painter;
     delete cgrImage;
@@ -459,4 +478,9 @@ const RowMatrix<int> *
 ChaosGameRepresentation::getCumulativeFrequencyMatrix() const
 {
   return &cumulativeFrequencyMatrix;
+}
+
+int ChaosGameRepresentation::getTotalNonzeroCells()
+{
+  return totalNonzeroCells;
 }

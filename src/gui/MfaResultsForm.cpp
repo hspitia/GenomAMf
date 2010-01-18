@@ -141,6 +141,31 @@ void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList
   int nCols = dqTableContent.at(0).count();
   int nRows = dqTableContent.count();
   table->setColumnCount(nCols);
+  table->setRowCount(nRows - 1); 
+  
+  QStringList headers = dqTableContent.at(0);
+    
+  for (int row = 0; row < nRows - 1; ++row) {
+    QStringList contentRow = dqTableContent.at(row + 1);
+    QTableWidgetItem * qItem = new QTableWidgetItem(contentRow.at(0));
+    table->setItem(row, 0, qItem);
+
+    for (int j = 0; j < nCols; ++j) {
+      QTableWidgetItem * dqValueItem = new QTableWidgetItem(contentRow.at(j));
+      table->setItem(row, j, dqValueItem);
+//      headers << QString::fromUtf8("Dq Seq_%1").arg(j);
+    }
+  }
+  table->setHorizontalHeaderLabels(headers);
+  
+}
+
+/*void MfaResultsForm::setUpDqValuesTable(const QList<QStringList> & contentList)
+{
+  QTableWidget * table =  ui->dqValuesTable;
+  int nCols = dqTableContent.at(0).count();
+  int nRows = dqTableContent.count();
+  table->setColumnCount(nCols);
   table->setRowCount(nRows); 
   
   QStringList headers;
@@ -159,7 +184,7 @@ void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList
   }
   table->setHorizontalHeaderLabels(headers);
   
-}
+}*/
 
 void MfaResultsForm::exportImage(int plotType)
 {
@@ -201,7 +226,7 @@ void MfaResultsForm::exportImage(int plotType)
   QFileDialog * fileDialog = new QFileDialog(this);
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-  fileDialog->setDirectory("data/results/");
+  fileDialog->setDirectory(QDir::homePath());
   fileDialog->selectFile(filename);
 //  fileDialog->setDefaultSuffix("png");
   
@@ -224,14 +249,14 @@ void MfaResultsForm::exportImage(int plotType)
       QString tmpName = "";
       int limit = tokens.count() - 1;
       
-      for (int i = 0; i < limit; ++i) {
-        tmpName += tokens.at(i);
-        
-        if (i != limit - 1)
-          tmpName += "_";
+      if (limit > 0) {
+        for (int i = 0; i < limit; ++i) {
+          tmpName += tokens.at(i);
+          if (i != limit - 1)
+            tmpName += "_";
+        }
+        filename = tmpName;
       }
-      
-      filename = tmpName;
       
       switch (format) {
         case 0:
@@ -251,7 +276,6 @@ void MfaResultsForm::exportImage(int plotType)
           break;
           
         default:
-          cout << "Ooopps";
           return;
       }
       

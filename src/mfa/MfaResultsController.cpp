@@ -142,8 +142,7 @@ QList<Plotter *> MfaResultsController::plotResults()
   
   return plots;
 }
-
-QString MfaResultsController::convertDqValuesToCsv()
+/*QString MfaResultsController::convertDqValuesToCsv()
 {
 
   QList<QStringList> dqTableContent = prepareContentDqValuesTable();
@@ -182,7 +181,89 @@ QString MfaResultsController::convertDqValuesToCsv()
   outString = informationBlock + lineFeed + headers + rows;
   
   return outString;
+}*/
+
+QString MfaResultsController::convertDqValuesToCsv()
+{
+
+  QList<QStringList> dqTableContent = prepareContentDqValuesTable();
+  int nCols = dqTableContent.at(0).count();
+  int nRows = dqTableContent.count();
+  
+  QString informationBlock = getSequenceCodeAndNames();
+  
+  QString headers;
+  QString outString;
+  QString rows;
+  QString lineFeed  = "\n";
+  
+  QStringList headersList = dqTableContent.at(0);
+  for (int i = 0; i < nCols; ++i) {
+    headers += QString::fromUtf8("\"") + 
+               headersList.at(i) + 
+               QObject::trUtf8("\"");
+    
+    if (i < nCols - 1) 
+        headers += separator;
+  }
+  
+  for (int row = 1; row < nRows; ++row) {
+    QStringList contentRow = dqTableContent.at(row);
+//    rows += QString("Seq_%1").arg(row + 1);
+//    rows += separator;
+    for (int j = 0; j < nCols; ++j) {
+      rows += contentRow.at(j); // Dq value
+      
+      if (j < nCols - 1) 
+        rows += separator;
+    }
+    rows += lineFeed;
+  }
+  headers += lineFeed;
+  outString = informationBlock + lineFeed + headers + rows;
+  
+  return outString;
 }
+/*QString MfaResultsController::convertDqValuesToCsv()
+{
+
+  QList<QStringList> dqTableContent = prepareContentDqValuesTable();
+  
+  int nCols = dqTableContent.at(0).count();
+  int nRows = dqTableContent.count();
+  
+  QString informationBlock = getSequenceCodeAndNames();
+  
+  QString headers;
+  QString outString;
+  QString rows;
+  QString lineFeed  = "\n";
+  headers += "\"q\"";
+  headers += separator;
+  
+  for (int i = 1; i < nCols; ++i) {
+    headers += QString::fromUtf8("\"Dq Seq_%1\"").arg(i);
+    if (i < nCols - 1) 
+        headers += separator;
+  }
+  
+  for (int row = 0; row < nRows; ++row) {
+    QStringList contentRow = dqTableContent.at(row);
+    rows += contentRow.at(0); // q value
+    rows += separator;
+    for (int j = 1; j < nCols; ++j) {
+      rows += contentRow.at(j); // Dq value
+      
+      if (j < nCols - 1) 
+        rows += separator;
+    }
+    rows += lineFeed;
+  }
+  headers += lineFeed;
+  outString = informationBlock + lineFeed + headers + rows;
+  
+  return outString;
+}*/
 
 bool MfaResultsController::exportDqValuesToCsv(const QString & fileName)
 {
@@ -291,7 +372,54 @@ QList<QStringList > MfaResultsController::prepareContentSequenceTable()
   return contentList;
 }
 
+// Horizontal
 QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
+{
+  QList<QStringList > contentList;
+  int minQ = mfaObjects.at(0).getMinQ();
+  int maxQ = mfaObjects.at(0).getMaxQ();
+  int nRows = mfaObjects.count();
+  int nCols = maxQ - minQ + 1;
+  QStringList row;
+  QList<vector<double> * > dqValues;
+  int q = minQ;
+  double dqValue = 0.0;
+  /*
+  for (int i = 0; i < mfaObjects.count(); ++i) {
+    dqValues.append(mfaObjects.at(i).getDqValues());
+  }*/
+  
+  QStringList headers;
+  headers << QObject::trUtf8("Secuencias");
+  for (int i = 0; i < nCols; ++i) {
+    headers << QString::fromUtf8("D(q=%1)").arg(q);
+    ++q;
+  }
+  contentList << headers;
+  
+  for (int i = 0; i < nRows; ++i) {
+    row = QStringList();
+    row << QString("seq_%1").arg(i + 1);
+    for (int j = 0; j < nCols; ++j) {
+      dqValue = mfaObjects.at(i).getDqValues()->at(j);
+      row << QString("%L1").arg(dqValue, 0, 'g', 9);
+    }
+    contentList << row;
+    ++q;
+  }
+//  
+//  for (int i = 0; i < contentList.count(); ++i) {
+//    for (int j = 0; j < contentList.at(i).count(); ++j) {
+//      cout << qPrintable(contentList.at(i).at(j)) << " ";
+//    }
+//    cout << endl;
+//  }
+  
+  return contentList;
+}
+
+// Vertical
+/*QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
 {
   QList<QStringList > contentList;
   int minQ = mfaObjects.at(0).getMinQ();
@@ -320,7 +448,7 @@ QList<QStringList > MfaResultsController::prepareContentDqValuesTable()
   }
   
   return contentList;
-}
+}*/
 
 void MfaResultsController::setMfaObjects(QList <MultifractalAnalysis> 
                                          mfaObjects)

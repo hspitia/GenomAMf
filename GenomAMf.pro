@@ -115,4 +115,6 @@ win32 {
     CONFIG += console
 }
 RESOURCES += resources/resources.qrc
-TRANSLATIONS += translations/genomamf_es.ts 
+TRANSLATIONS += translations/genomamf_es.ts \
+    translations/genomamf_en.ts
+UI_HEADERS_DIR += src/gui

@@ -76,7 +76,7 @@ class SandBoxMethod
                   const int & minQ       = -20,
                   const int & maxQ       =  20,
                   const int & nCenters   =  300,
-                  const int & radiusStep =  8); //aqui TODO - cambio - step
+                  const int & radiusStep =  3); //aqui TODO - cambio - step
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
     
@@ -88,7 +88,6 @@ class SandBoxMethod
     void performContinousAnalysis();
     
     void performDiscreteAnalysis();
-    void performDiscreteAnalysis_();
     
     void performComparativeAnalysis();
 
@@ -251,6 +250,8 @@ class SandBoxMethod
     
     bool exportToCsv(const QList<vector<double> *> & dqList);
     
+    bool exportRegressionsToCsv(const QList<QList<vector<double> > > & 
+                                linearRegressionsList);
 };
 
 #endif /* SANDBOXMETHOD_H_ */

@@ -92,8 +92,8 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
 {
   this->minQ                      = minQ;
   this->maxQ                      = maxQ;
-  this->minR                      = 1; // aqui TODO - cambio - minR
-  this->maxR                      = 512;// aqui TODo - cambio - maxR
+  this->minR                      = 2; // aqui TODO - cambio - minR
+  this->maxR                      = 256;// aqui TODo - cambio - maxR
   this->totalPoints               = fractalPoints.count();
   this->radiusStep                = radiusStep;
   this->cgrMatrix                 = cgrMatrix;
@@ -160,8 +160,7 @@ void SandBoxMethod::performAnalysis(int type)
       performContinousAnalysis();
       break;
     case MultifractalAnalysis::DISCRETE_ANALYSIS:
-//      performDiscreteAnalysis();
-      performDiscreteAnalysis_();
+      performDiscreteAnalysis();
       break;
     case MultifractalAnalysis::COMPARATIVE_ANALYSIS:
       performComparativeAnalysis();
@@ -298,56 +297,18 @@ void SandBoxMethod::performContinousAnalysis()
 
 void SandBoxMethod::performDiscreteAnalysis()
 {
-  int dataLenght = maxR - minR + 1;  // Longitud rango valores de radio
-  
-  DEBUG ("Coeficiente regresión;q;Dq");
-  
-//  int iterations = 1;
-  int iterations = 50;
-  QList<vector<double> *> tmpDqList;
-  for (int i = 0; i < maxQ - minQ + 1; ++i) {
-    tmpDqList.append(new vector<double>(iterations));
-  }
-  
-  vector<double> * xData = 0;
-  vector<double> * yData = 0;
-  int qIndex = 0;
-  double dqValue = 0.0;
-  for (int i = 0; i < iterations; ++i) {
-    qIndex = 0;
-    generateRandomCenters();
-    for (int q = minQ; q <= maxQ; ++q) {
-      xData = new vector<double>(dataLenght);
-      yData = new vector<double>(dataLenght);
-      dqValue = calculateDiscreteDqValue((double) q, *xData, *yData);
-      tmpDqList.at(qIndex)->at(i) = dqValue;
-      ++qIndex;
-    }
-  }
-  
-  double average = 0.0;
-  for (int i = 0; i < tmpDqList.count(); ++i) {
-    average = VectorTools::mean<double, double>(*(tmpDqList.at(i)));
-    dqValues->push_back(average);
-  }
-  
-  linearRegressionValues.append(xData);
-  linearRegressionValues.append(yData);
-  
-}
-
-void SandBoxMethod::performDiscreteAnalysis_()
-{
   // Longitud rango valores de radio
   int dataLenght = static_cast<int>(ceil((maxR - minR + 1) / radiusStep));
   
-//  int iterations = 50; // TODO - cambio - iteraciones
   int iterations = 100; // TODO - cambio - iteraciones
   QList<vector<double> *> tmpDqList;
   vector<double> * sizeRelations;
-//  QList<Qlist<vector<double> *> > tmpYDataLinearRegresionList;
+  QList<QList<vector<double> > > linearRegressionList;
+  QList<vector<double> > regressionSubList;
   
+//  for (int i = 0; i < iterations; ++i) {
   for (int i = 0; i < maxQ - minQ + 1; ++i) {
+//    tmpDqList.append(new vector<double>(maxQ - minQ + 1));
     tmpDqList.append(new vector<double>(iterations));
 //    tmpYDataLinearRegresionList.append(new vector<double>(iterations));
   }
@@ -363,23 +324,21 @@ void SandBoxMethod::performDiscreteAnalysis_()
 //    generateRandomCenters();
     generateRandomCenters(xCenterCoordinates, yCenterCoordinates);
     
-//    xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
     sizeRelations = new vector<double>(dataLenght); // vector que contiene los valores ln(R/L)
     // Cálculo distribuciones de probabilidad (conteo en sand boxes)
     QList<vector<double> > * distributionsList = 
-//            calculateDistributionProbabilities(*xDataLinearRegression);
             calculateDistributionProbabilities(*sizeRelations, 
                                                xCenterCoordinates,
                                                yCenterCoordinates);
-//    MatrixTools::print(*xDataLinearRegression);
     // Cálculo de valores Dq
-    int numberOfQ = maxQ - minQ + 1; // + 2; // Dos datos adicionales para q+epsilon y q-epsilon
+    int numberOfQ = maxQ - minQ + 1;
     double q = static_cast<double>(minQ);
-    //  double qMinusOne = 0.0;
+    
+    regressionSubList = QList<vector<double> >();
     
     for (int qIndex = 0; qIndex < numberOfQ; ++qIndex) {
-      xDataLinearRegression = new vector<double>(dataLenght); // Datos x regresión lineal
-      yDataLinearRegression = new vector<double>(dataLenght); // Datos y regresión lineal
+      xDataLinearRegression = new vector<double>(dataLenght);
+      yDataLinearRegression = new vector<double>(dataLenght);
       
       double dqValue = calculateDiscreteDqValue_(q, 
                                                  distributionsList,
@@ -387,14 +346,15 @@ void SandBoxMethod::performDiscreteAnalysis_()
                                                  *xDataLinearRegression,
                                                  *yDataLinearRegression);
       
-//      dqValues->at(i) = dqValue;
       tmpDqList.at(qIndex)->at(i) = dqValue;
-//      cout << dqValue << endl;
-//      cout << tmpDqList.at(qIndex)->at(i) << endl;
+//      tmpDqList.at(i)->at(qIndex) = dqValue;
       q += 1;
+
+      regressionSubList.append(*xDataLinearRegression);
+      regressionSubList.append(*yDataLinearRegression);
     }
     delete distributionsList;
-//    cout << endl;
+    linearRegressionList.append(regressionSubList);
   }
   delete xCenterCoordinates;
   delete yCenterCoordinates;
@@ -406,6 +366,7 @@ void SandBoxMethod::performDiscreteAnalysis_()
   }
   
   exportToCsv(tmpDqList);
+//  exportRegressionsToCsv(linearRegressionList);
   
   linearRegressionValues.append(xDataLinearRegression);
   linearRegressionValues.append(yDataLinearRegression);
@@ -455,8 +416,11 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
     distributionList->append(probabilityDistributions);
     
     // Dato x para regresión lineal -> ln(R/L)
+//    double sizeRelation = 
+//              (static_cast<double>(radius) / static_cast<double>(fractalSize));
+    double rad = static_cast<double>(radius);
     double sizeRelation = 
-              (static_cast<double>(radius) / static_cast<double>(fractalSize));
+              (static_cast<double>(rad) / static_cast<double>(fractalSize));
 //    
     xDataLinearRegression.at(radiusIndex) = log(sizeRelation);
 //    DEBUG (__LINE__ << "  radius: " <<   radius << 
@@ -519,7 +483,7 @@ bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
 {
   QString outString = "";
   int q = minQ;
-  for (int i = 0; i < dqList.count(); ++i) {
+  /*for (int i = 0; i < dqList.count(); ++i) {
     outString += QString::number(q) + ";";
     for (unsigned int j = 0; j < dqList.at(i)->size(); ++j) {
       outString += QString::number(dqList.at(i)->at(j));
@@ -530,9 +494,73 @@ bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
     }
     outString += "\n";
     ++q;
+  }*/
+  for (unsigned int j = 0; j < dqList.count(); ++j) {
+    outString += QString("%1").arg(q) + ";";
+    ++q;
+  }
+  outString += "\n";
+  
+  for (unsigned int i = 0; i < dqList.at(0)->size(); ++i) {
+    for (int j = 0; j < dqList.count(); ++j) {
+      outString += QString("%1").arg(dqList.at(j)->at(i), 0, 'g', 9);
+      
+      if (j != dqList.count() - 1)
+        outString += ";";
+      
+    }
+    outString += "\n";
+    ++q;
   }
   
-  QFile file("dq_iteration_values.csv");
+  QFile file("data/dq_iteration_values.csv");
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    return false;
+  
+  QTextStream out(&file);
+  out << outString;
+  
+  return true;
+}
+
+bool SandBoxMethod::
+exportRegressionsToCsv(const QList<QList<vector<double> > > &
+                       linearRegressionsList)
+{
+  int nIterations = linearRegressionsList.count();
+  int nRadii      = linearRegressionsList.at(0).at(0).size();
+  int nVectorData = linearRegressionsList.at(0).count();
+  QString outString = "";
+  QString separator = ";";
+  QString linefeed  = "\n";
+
+  for (int i = 0; i < nIterations; ++i) {
+    QList<vector<double> > current = linearRegressionsList.at(i);
+    
+    // headers
+    for (int k = 0; k < nVectorData; k += 2) {
+      outString += "x" + separator + "y";
+      if (k != nVectorData - 2) 
+        outString += separator;
+    }
+    outString += linefeed;
+    
+    // Content
+    for (int j = 0; j < nRadii; ++j) {
+      for (int k = 0; k < nVectorData; k += 2) {
+        outString += QString::number(current.at(k).at(j)) +     // dato x 
+                     separator + 
+                     QString::number(current.at(k + 1).at(j));  // dato y
+        if (k != nVectorData - 2) 
+          outString += separator;
+      }
+      outString += linefeed;
+    }
+    outString += linefeed;
+    outString += linefeed;
+  }
+  
+  QFile file("data/regression_values.csv");
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     return false;
   

@@ -135,6 +135,8 @@ class ChaosGameRepresentation
     
     const RowMatrix<int> * getCumulativeFrequencyMatrix() const;
     
+    int getTotalNonzeroCells();
+    
   private:
     const Sequence * sequence; /**< Apuntador a la secuencia de la cual se 
       obtendrá la GRC */
@@ -151,7 +153,11 @@ class ChaosGameRepresentation
     QList<QPointF> * coordinatesOfPoints; /**< Lista de coordenadas de los 
       puntos de la CGR */
     
-    RowMatrix<int> cumulativeFrequencyMatrix; /**< Matriz de frecuencias acumuladas de puntos de la CGR */
+    RowMatrix<int> cumulativeFrequencyMatrix; /**< Matriz de frecuencias 
+      acumuladas de puntos de la CGR */
+    
+    int totalNonzeroCells; /**< Número de celdas en la matriz cuyo valor es 
+      distinto de 0 */
 
     void translateSequence();
     
