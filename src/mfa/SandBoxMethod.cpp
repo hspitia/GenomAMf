@@ -309,7 +309,7 @@ void SandBoxMethod::performDiscreteAnalysis()
 //    tmpYDataLinearRegresionList.append(new vector<double>(iterations));
   }
   
-  for (int i = 0; i < qValuesForRegressionPlot.size(); ++i) {
+  for (int i = 0; i < static_cast<int>(qValuesForRegressionPlot.size()); ++i) {
     regressionSumations.append(new vector<double>(dataLenght, 0.0)); // sumas datos x
     regressionSumations.append(new vector<double>(dataLenght, 0.0)); // sumas datos y
   }
@@ -367,7 +367,8 @@ void SandBoxMethod::performDiscreteAnalysis()
           regressionSumations.at(listIndex + 1)->at(k) += 
                   yDataLinearRegression->at(k);
         }
-        if (indexOfQRegValues < qValuesForRegressionPlot.size() - 1) 
+        if (indexOfQRegValues < 
+                static_cast<int>(qValuesForRegressionPlot.size() - 1)) 
           ++indexOfQRegValues;
       }
       q += 1;
@@ -439,8 +440,8 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
                                                     yCenterCoordinate,
                                                     radius);
       // Probabilidad de distribución -> M(R)/Mo
-//      probabilityDistributionValue = count / totalPoints; // TODO - cambio - masas M(R)
-      probabilityDistributionValue = count; // TODO - cambio - masas M(R)
+//      probabilityDistributionValue = count; // Yu TODO - cambio - Formula masas M(R)
+      probabilityDistributionValue = count / totalPoints; // Otro TODO - cambio - Formula masas M(R)
       probabilityDistributions.at(i) = probabilityDistributionValue;
 //      DEBUG ( "probabilityDistributionValue: " << probabilityDistributionValue );
     }
@@ -792,16 +793,12 @@ double SandBoxMethod::calculateDiscreteDqValue_(const double & q,
       
       double probDistributionsAverage = sum / static_cast<double>(nElements);
               
-      yDataLinearRegression.at(j) = log(probDistributionsAverage); // Yu - TODO - cambio - ProbDistibution
-//      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Otro - TODO - cambio - ProbDistibution
+//      yDataLinearRegression.at(j) = log(probDistributionsAverage); // Yu - TODO - cambio - Formula ProbDistibution
+      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Otro - TODO - cambio - Formula ProbDistibution
       
-//      for (unsigned int k = 0; k < sizeRelations.size(); ++k) {
         double sizeRelation = sizeRelations.at(j);
-        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // Yu - TODO - cambio - SizeRelation
-//        xDataLinearRegression.at(j) = sizeRelation; // Otro - TODO - cambio - SizeRelation
-//      }
-//      xDataLinearRegression.at(j) = log(xDataLinearRegression.at(j)) * qMinusOne;
-//      DEBUG (__LINE__ << " q: " << q << "  yDataLinearRegression.at(j): " << yDataLinearRegression.at(j) );
+//        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // Yu - TODO - cambio - Formula SizeRelation
+        xDataLinearRegression.at(j) = sizeRelation; // Otro - TODO - cambio - Formula SizeRelation
     }
     
 //    MatrixTools::print(xDataLinearRegression);
