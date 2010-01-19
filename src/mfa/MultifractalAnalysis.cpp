@@ -194,6 +194,7 @@ void MultifractalAnalysis::performComparativeAnalysis()
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
                             cgrObject->getCumulativeFrequencyMatrix(),
                             *(cgrObject->getCoordinatesOfPoints()),
+                            static_cast<int>(cgrObject->getSequence()->size()),
                             mfaParametersSet);      // nCenters
   
   sandBoxObject->performAnalysis(COMPARATIVE_ANALYSIS);
@@ -217,6 +218,7 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
           new SandBoxMethod(cgrObject->getMatrixOfPoints(),
                             cgrObject->getCumulativeFrequencyMatrix(),
                             *(cgrObject->getCoordinatesOfPoints()),
+                            static_cast<int>(cgrObject->getSequence()->size()),
                             newParameters);
   
   vector<int> qValuesForReg(6);

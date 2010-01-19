@@ -343,13 +343,13 @@ p, li { white-space: pre-wrap; }
                 <number>10</number>
                </property>
                <property name="maximum">
-                <number>1000</number>
+                <number>10000</number>
                </property>
                <property name="singleStep">
-                <number>10</number>
+                <number>100</number>
                </property>
                <property name="value">
-                <number>10</number>
+                <number>1000</number>
                </property>
               </widget>
              </item>
@@ -375,10 +375,10 @@ p, li { white-space: pre-wrap; }
                 <number>100000</number>
                </property>
                <property name="singleStep">
-                <number>1</number>
+                <number>100</number>
                </property>
                <property name="value">
-                <number>2</number>
+                <number>100</number>
                </property>
               </widget>
              </item>

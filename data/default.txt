@@ -1,7 +1,0 @@
-Getting Started	0
-
-Designing a Component	1
-Using a Component in Your Application	0
-Form Editing Mode	1
-Using Containers	1
-Connection Editing Mode	0

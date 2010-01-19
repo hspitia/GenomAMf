@@ -84,6 +84,7 @@ class SandBoxMethod
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                   const RowMatrix<int> * cumulativeFrequencyMatrix,
                   const QList<QPointF> & fractalPoints,
+                  const int & totalPoints,
                   const MfaParametersSet & mfaParametersSet);
     
     SandBoxMethod & operator=( const SandBoxMethod & sandBoxObject);
@@ -103,25 +104,16 @@ class SandBoxMethod
     double calculateContinousDqValue(const double & q, vector<double> & xData,
                                      vector<double> & yData);
     
-    void calculateDiscreteDqValues(QList<vector<double> > * 
-                                     distributionsList,
-                                     vector<double> & xData,
-                                     vector<double> & yData);
+    double calculateDiscreteDqValue(const double & q,
+                                    QList<vector<double> > * 
+                                    distributionsList,
+                                    vector<double> &
+                                    sizeRelations,
+                                    vector<double> & 
+                                    xDataLinearRegression,
+                                    vector<double> & 
+                                    yDataLinearRegression);
     
-    
-    double calculateDiscreteDqValue_(const double & q,
-                                     QList<vector<double> > * 
-                                     distributionsList,
-                                     vector<double> &
-                                     sizeRelations,
-                                     vector<double> & 
-                                     xDataLinearRegression,
-                                     vector<double> & 
-                                     yDataLinearRegression);
-    
-    double calculateDiscreteDqValue(const double & q, vector<double> & xData,
-                                    vector<double> & yData);
-
     void generateRandomCenters();
     
     void generateRandomCenters(vector<int> * xCoordinates,
