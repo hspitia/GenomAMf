@@ -19,7 +19,7 @@
  *  Description:
  */
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include "utils/Trace.h"
 #include "ChaosGameRepresentation.h"
@@ -159,12 +159,6 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int yImagePoints[4] = {cgrSize - 1, 0, 0,           cgrSize - 1};
   
   // Para parejas de coordenadas reales (continuas)
-//  int xPoints[4] = { 0, 0, 1, 1 };
-//  int yPoints[4] = { 0, 1, 1, 0 };
-  
-//  int xMatrixPoints[4] = {0, 0,              matrixSize - 1, matrixSize - 1};
-//  int yMatrixPoints[4] = {0, matrixSize - 1, matrixSize - 1, 0         };
-  
   int xPoints[4] =       {0, 0,              matrixSize - 1, matrixSize - 1};
   int yPoints[4] =       {0, matrixSize - 1, matrixSize - 1, 0         };
   
@@ -235,25 +229,16 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xMatrix = utils::roundFloorInt(x);
         yMatrix = utils::roundFloorInt(y);
 
-//        cout << x << ", " << y;
-//        cout << "    "<< xMatrix << ", " << yMatrix << endl;
-        
         // Transformación de la coordenada cartesiana a matricial
 //        int row = matrixSize - 1 - yMatrix; // Tamaño normal de matriz
 //        int row = matrixSize - yMatrix;     // Tamaño agrandado de matriz en una fila y columna
 //        int col = xMatrix;
 
-//        matrixOfPoints(row, col)++;
-//        TRACE (__LINE__ << "\n\t" << "(x, y): (" << x << ", " << y << ") "
-//               << "  (xMatrix, yMatrix): (" << xMatrix << ", " << yMatrix << ") ");
-//        matrixOfPoints(xMatrix, yMatrix)++;
-        
         if (matrixOfPoints(xMatrix, yMatrix) == 0)
           ++totalNonzeroCells;
         
 //        if (matrixOfPoints(xMatrix, yMatrix) == 0) // TODO - cambio - frecuencias
-        
-        matrixOfPoints(xMatrix, yMatrix)++;
+          matrixOfPoints(xMatrix, yMatrix)++;
         
       }
     }
@@ -261,7 +246,6 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
                                                        getAlphabetType());
     imagefilePath = "tmp/cgr_" +  
             sequenceType + "_" + sequence->getName() + ".png";
-//    imagefilePath = "tmp/cgr_" + sequence->getName() + ".dat";
     
     // Si el directorio tmp no existe, entonces lo crea
     QDir currentDir = QDir::current();
@@ -269,6 +253,8 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
       currentDir.mkdir("tmp");
     }
     cgrImage->save(QString::fromStdString(imagefilePath), "PNG");
+    
+    // Cálculo de centros a explorar
     double totalPossiblePoints = matrixSize * matrixSize;
     double z = 1.96;
     double d = 0.02;
@@ -303,7 +289,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     }
   }
   
-  calculateCumulativeFrequency();
+//  calculateCumulativeFrequency();
 }
 
 void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter, 
@@ -346,9 +332,55 @@ void ChaosGameRepresentation::drawBoxAndLabels(QPainter * painter,
   // Box
   painter->setBrush(QColor(250, 250, 250));
   painter->translate(margin - 2, margin - 2);
-  QRectF box(0, 0, cgrSize + 1, cgrSize + 1);
+//  QRectF box(0, 0, cgrSize + 1, cgrSize + 1);
+  QRectF box(0, 0, cgrSize, cgrSize);
   painter->drawRect(box);
   
+}
+
+void ChaosGameRepresentation::trasformMatrixToMuMeasures(const int & nMeshFrames)
+{
+  RowMatrix<int> muMeasuresMatrix;//(nMeshFrames, nMeshFrames);
+  
+  int size = nMeshFrames;
+  int rows = static_cast<int>(matrixOfPoints.getNumberOfRows());
+  
+  if (size < rows) {
+    muMeasuresMatrix = RowMatrix<int>(size, size);
+    int frameSize = static_cast<int>(rows / size);
+    
+    int initRow = 0;
+    int endRow  = 0;
+    int initCol = 0;
+    int endCol  = 0;
+    int sum     = 0;
+            
+    for (int i = 0; i < nMeshFrames; ++i) {
+      initRow = i * frameSize;
+      endRow  = initRow + frameSize;
+      
+      for (int j = 0; j < nMeshFrames; ++j) {
+        initCol = j * frameSize;
+        endCol  = initCol + frameSize;
+        sum   = 0;
+        
+        for (int row = initRow; row < endRow; ++row) {
+          for (int col = initCol; col < endCol; ++col) {
+            sum += matrixOfPoints(row, col);
+          }
+        }
+        
+        muMeasuresMatrix(i, j) = sum;
+      }
+    }
+  }
+//  else {
+//    if (size > rows)
+//      size = rows;
+//      
+//    muMeasuresMatrix = RowMatrix<int>(cgrMatrix);
+//  }
+  matrixOfPoints = muMeasuresMatrix;
 }
 
 void ChaosGameRepresentation::performRepresentation1(int cgrSize, 

@@ -151,8 +151,14 @@ QList<int> AppController::makeCgr(const QList<int> & sequenceKeys)
     sequence = sequences->getSequence(sequenceKey);
     if (sequence) {
       cgrObject = new ChaosGameRepresentation(sequence);
-      cgrObject->performRepresentation(512, 512, true);
-//          cgrObject->performRepresentation(256,20,true); // CorrelationElement::89
+      cgrObject->performRepresentation(512, 512, true); // Original - TODO - cambio - Tamaño matriz CGR
+      cgrObject->calculateCumulativeFrequency();
+      
+      /*
+      cgrObject->performRepresentation(512, 1024, true); // Nuevo - TODO - cambio - Tamaño matriz CGR
+      cgrObject->trasformMatrixToMuMeasures(512); // Nuevo - TODO - cambio - calculo de medidas Mu
+      cgrObject->calculateCumulativeFrequency();
+      */
       cgrHash->insert(cgrKey, cgrObject);
       cgrKeys.append(cgrKey);
       mainWindow->addCgrToModels(cgrObjectsCounter, sequenceKey);

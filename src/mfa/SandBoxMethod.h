@@ -78,7 +78,7 @@ class SandBoxMethod
                   const int & minQ       = -20,
                   const int & maxQ       =  20,
                   const int & nCenters   =  300,
-                  const int & radiusStep =  3); //aqui TODO - cambio - step
+                  const int & radiusStep =  3); //aqui
 */
     
     SandBoxMethod(const RowMatrix<int> * cgrMatrix,

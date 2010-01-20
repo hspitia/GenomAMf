@@ -22,6 +22,8 @@
 
 #include "SandBoxMethod.h"
 #include "utils/Trace.h"
+#include <limits>
+
 
 SandBoxMethod::SandBoxMethod()
 {
@@ -279,7 +281,7 @@ void SandBoxMethod::performContinousAnalysis()
       linearRegressionValues.append(yData);
     }
   }
-  
+  #include <limits>
 //  dqValues->push_back(dqData);
   
 }
@@ -407,8 +409,6 @@ void SandBoxMethod::performDiscreteAnalysis()
 //  linearRegressionValues.append(yDataLinearRegression);
  // ---------------------------------------------------------------------------
   
- 
-  
 }
 
 bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
@@ -492,7 +492,7 @@ exportRegressionsToCsv(const QList<QList<vector<double> > > &
     outString += linefeed;
   }
   
-  QFile file("data/regression_values.csv");
+  QFile file("data/regression_values_iterations.csv");
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     return false;
   
@@ -630,16 +630,35 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
 //      double probDistributionsAverage = 
 //              VectorTools::mean<double, double>(tmpDistributions);
       
-      double sum = 0.0;
+//      DEBUG ("max double: "<< numeric_limits<double>::max());
+//      DEBUG ("max long double: "<< numeric_limits<long double>::max());
+      
+      long double sum = 0.0;
       int nElements =  static_cast<int>(distributionsList->at(j).size());
       for (int k = 0; k < nElements; ++k) {
         sum += std::pow(distributionsList->at(j).at(k), qMinusOne);
+        //TODO - Verificación 1
+        /*if (k < nElements - 1 && q < -20){
+          distributionsList->at(j).at(k);
+          DEBUG( "q: "<<q<<"  conteo: "<<distributionsList->at(j).at(k)
+                 << "  conteo a la q-1: " << std::pow(distributionsList->at(j).at(k), qMinusOne)
+                 <<"  sum at k="<<k<<" :" << sum);
+          if (sum <= __DBL_MAX__ && sum >= -__DBL_MAX__)
+            cout << "isFiniteNumber" << endl;
+        }*/
       }
       
-      double probDistributionsAverage = sum / static_cast<double>(nElements);
-              
+      long double probDistributionsAverage = sum / static_cast<double>(nElements);
+      
+      
 //      yDataLinearRegression.at(j) = log(probDistributionsAverage); // Yu - TODO - cambio - Formula ProbDistibution
       yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Otro - TODO - cambio - Formula ProbDistibution
+      //TODO - Verificación 2
+      /*if (j < 2) {
+//        TRACE (__LINE__ << "\n\t" << "Verificando dato y regresiones");
+        DEBUG ( "sum: " << sum <<"  probDistributionsAverage: "<< probDistributionsAverage <<
+                "  log(probDistributionsAverage) - " <<j<<" : " <<   yDataLinearRegression.at(j));
+      }*/
       
         double sizeRelation = sizeRelations.at(j);
 //        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // Yu - TODO - cambio - Formula SizeRelation
@@ -717,6 +736,7 @@ SandBoxMethod::calculateDistributionProbabilities(vector<double> &
 //      probabilityDistributionValue = count; // Yu -> M(R) TODO - cambio - Formula masas M(R)
       probabilityDistributionValue = count / totalPoints; // Vicsek - Stosic -> M(R)/Mo TODO - cambio - Formula masas M(R)
       probabilityDistributions.at(i) = probabilityDistributionValue;
+//      cout << __FILE__ << " "<< __LINE__<< " - Conteo: "<< probabilityDistributions.at(i) << endl; 
     }
     // Probabilidades de distribución
     distributionList->append(probabilityDistributions);

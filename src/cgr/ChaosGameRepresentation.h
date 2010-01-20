@@ -80,6 +80,10 @@ class ChaosGameRepresentation
                                const int & matrixSize = 1024,
                                const bool & generateImage = true);
     
+    void trasformMatrixToMuMeasures(const int & nMeshFrames);
+    
+    void calculateCumulativeFrequency();
+    
     void performRepresentation1(int cgrSize = 512, bool generateImage = true);
     
     /**
@@ -164,7 +168,6 @@ class ChaosGameRepresentation
     void drawBoxAndLabels(QPainter * painter, const int & cgrSize,
                          int alphabetType);
     
-    void calculateCumulativeFrequency();
 };
 
 #endif /* CHAOSGAMEREPRESENTATION_H_ */
