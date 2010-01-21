@@ -162,6 +162,11 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int xPoints[4] =       {0, 0,              matrixSize - 1, matrixSize - 1};
   int yPoints[4] =       {0, matrixSize - 1, matrixSize - 1, 0         };
   
+  QColor colors[4]  =  {QColor(255,0,0), 
+                        QColor(0,255,0), 
+                        QColor(0,0,255), 
+                        QColor(255,255,0)};
+  
   const vector<int> * ptrSequence;
   
   if (utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType())
@@ -192,7 +197,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     cgrImage->fill(backgroundColor);
     
     QPainter * painter = new QPainter(cgrImage);
-    painter->setPen(QColor(0, 0, 0));
+//    painter->setPen(QColor(0, 0, 0));
     
     drawBoxAndLabels(painter, cgrSize, 
                      utils::getAlphabetType(sequence->getAlphabet()->
@@ -200,12 +205,19 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     
     painter->translate(1, 1);
     
+    double hueInterval = 314.0 / static_cast<double>(sequenceSize);
+    
+    
     for (unsigned int i = 0; i < sequenceSize; ++i) {
       int element = ptrSequence->at(i);
       // Los gaps y bases/aminoácidos no resueltos son ignorados
       if (element > -1 && element < 4) {
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
+        
+        double currentHue = static_cast<double>(i) * hueInterval; 
+//        painter->setPen(QColor::fromHsvF(currentHue / 360, 1, 1));
+        painter->setPen(colors[element]);
         painter->drawPoint(QPointF(xImage, yImage));
         
         x = (xPoints[element] + x) / 2;
