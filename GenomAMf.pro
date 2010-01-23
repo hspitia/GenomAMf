@@ -9,7 +9,10 @@ QT += core \
 WIN_USER_ENV_PATH = e:/programming
 
 # Input
-HEADERS += src/mfa/MfaParametersSet.h \
+HEADERS += src/utils/LinearPlot.h \
+    src/utils/NormalPlot.h \
+    src/utils/Plot.h \
+    src/mfa/MfaParametersSet.h \
     src/script/ScriptParametersSet.h \
     src/mfa/MfaResultsController.h \
     src/cra/DistancesModel.h \
@@ -42,7 +45,10 @@ HEADERS += src/mfa/MfaParametersSet.h \
     src/gui/MfaParametersForm.h \
     src/gui/MfaResultsForm.h \
     src/utils/Utils.h
-SOURCES += src/mfa/MfaParametersSet.cpp \
+SOURCES += src/utils/LinearPlot.cpp \
+    src/utils/NormalPlot.cpp \
+    src/utils/Plot.cpp \
+    src/mfa/MfaParametersSet.cpp \
     src/script/ScriptParametersSet.cpp \
     src/mfa/MfaResultsController.cpp \
     src/cra/DistancesModel.cpp \
@@ -93,7 +99,8 @@ INCLUDEPATH += . \
     src/gui
 unix { 
     INCLUDEPATH += /usr/include \
-        /usr/local/include
+        /usr/local/include \
+        /usr/local/qwt-5.2.0/include
     LIBS += -L/usr/local/lib \
         -lbpp-utils \
         -lbpp-seq \
@@ -103,6 +110,8 @@ unix {
     LIBS += -L/usr/lib \
         -lmgl \
         -lmgl-qt
+    LIBS += -L/usr/local/qwt-5.2.0/lib \
+        -lqwt
 }
 win32 { 
     INCLUDEPATH += $$WIN_USER_ENV_PATH/include

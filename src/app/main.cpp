@@ -27,8 +27,9 @@
 #include <cgr/ChaosGameRepresentation.h>
 #include <mfa/SandBoxMethod.h>
 #include <mfa/Plotter.h>
-
 #include <utils/Utils.h>
+#include <utils/Plot.h>
+#include <utils/NormalPlot.h>
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
@@ -744,11 +745,55 @@ int roundTest()
   return 0;
 }
 
+int qwtPlotApp(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+    QList<QVector<double> > dataList;
+    
+    const int nPoints = 360;
+    QVector<double> xValues(nPoints);
+    QVector<double> ySinValues(nPoints);
+    QVector<double> yCosValues(nPoints);
+    QVector<double> ySinMValues(nPoints);
+    
+    double pi = 3.1416;
+    
+    for (int i = 0; i < nPoints; i += 1) {
+      xValues[i] = ((double)i * pi) / 180;
+      ySinValues[i] = sin(xValues.at(i));
+      yCosValues[i] = cos(xValues.at(i));
+      ySinMValues[i] = 2 * sin(xValues.at(i));
+    }
+    
+    dataList.append(xValues);
+    dataList.append(ySinValues);
+    dataList.append(yCosValues);
+    dataList.append(ySinMValues);
+    
+    QStringList curveIds;
+    curveIds << "y = sin(x)" 
+             << "y = cos(x)"
+             << "y = 2 * cos(x)";
+    
+    NormalPlot dqPlot(dataList, curveIds);
+    dqPlot.setTitle("Espectro Dq");
+    
+//#if QT_VERSION < 0x040000
+//    a.setMainWidget(&dqPlot);
+//#endif
+    
+    
+    dqPlot.resize(600,400);
+    dqPlot.show();
+    return a.exec(); 
+}
 
 
 int main(int argc, char *argv[])
 {
-  appNormal(argc, argv);
+//  appNormal(argc, argv);
+  qwtPlotApp(argc, argv);
 //  treeTest();
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
