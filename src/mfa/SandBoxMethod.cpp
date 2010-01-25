@@ -652,7 +652,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
       
       
 //      yDataLinearRegression.at(j) = log(probDistributionsAverage); // Yu - TODO - cambio - Formula ProbDistibution
-      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Otro - TODO - cambio - Formula ProbDistibution
+      yDataLinearRegression.at(j) = log(probDistributionsAverage) / qMinusOne; // Vicsek - TODO - cambio - Formula ProbDistibution
       //TODO - Verificación 2
       /*if (j < 2) {
 //        TRACE (__LINE__ << "\n\t" << "Verificando dato y regresiones");
@@ -662,7 +662,7 @@ double SandBoxMethod::calculateDiscreteDqValue(const double & q,
       
         double sizeRelation = sizeRelations.at(j);
 //        xDataLinearRegression.at(j) = sizeRelation * qMinusOne; // Yu - TODO - cambio - Formula SizeRelation
-        xDataLinearRegression.at(j) = sizeRelation; // Otro - TODO - cambio - Formula SizeRelation
+        xDataLinearRegression.at(j) = sizeRelation; // Vicsek - TODO - cambio - Formula SizeRelation
     }
     
 //    MatrixTools::print(xDataLinearRegression);

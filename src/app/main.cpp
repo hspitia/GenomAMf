@@ -792,8 +792,8 @@ int qwtPlotApp(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-//  appNormal(argc, argv);
-  qwtPlotApp(argc, argv);
+  appNormal(argc, argv);
+//  qwtPlotApp(argc, argv);
 //  treeTest();
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
