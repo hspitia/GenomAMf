@@ -415,19 +415,8 @@ bool SandBoxMethod::exportToCsv(const QList<vector<double> *> & dqList)
 {
   QString outString = "";
   int q = mfaParametersSet.getMinQ();// minQ;
-  /*for (int i = 0; i < dqList.count(); ++i) {
-    outString += QString::number(q) + ";";
-    for (unsigned int j = 0; j < dqList.at(i)->size(); ++j) {
-      outString += QString::number(dqList.at(i)->at(j));
-      
-      if (j != dqList.at(i)->size() - 1)
-        outString += ";";
-      
-    }
-    outString += "\n";
-    ++q;
-  }*/
-  for (unsigned int j = 0; j < dqList.count(); ++j) {
+
+  for (int j = 0; j < dqList.count(); ++j) {
     outString += QString("%1").arg(q) + ";";
     ++q;
   }

@@ -36,6 +36,7 @@ LinearPlot::LinearPlot(const LinearPlot & dqPlotObject) :
 
 LinearPlot & LinearPlot::operator=(const LinearPlot & dqPlotObject)
 {
+  Q_UNUSED(dqPlotObject);
   return *this;
 }
 

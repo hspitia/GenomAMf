@@ -116,11 +116,11 @@ void CorrelationElement::calculateDistanceMatrix()
     MatrixOperations::sub<int>((*measureMatrix), (*fractalBackground),
                               distanceMatrix);
 
-    TRACE(__LINE__ << "\n\t" << "distanceMatrix:");
+//    TRACE(__LINE__ << "\n\t" << "distanceMatrix:");
 //    MatrixTools::print(distanceMatrix);
-    TRACE(__LINE__ << "\n\t" << "Sumatorias:");
-    DEBUG( "measureMatrix    : " << MatrixOperations::sum<int>(*measureMatrix) );
-    DEBUG( "fractalBackground: " << MatrixOperations::sum<int>(*fractalBackground) );
+//    TRACE(__LINE__ << "\n\t" << "Sumatorias:");
+//    DEBUG( "measureMatrix    : " << MatrixOperations::sum<int>(*measureMatrix) );
+//    DEBUG( "fractalBackground: " << MatrixOperations::sum<int>(*fractalBackground) );
     distanceMatrixCalculated = true;
   }
 }
@@ -193,8 +193,8 @@ Sequence * CorrelationElement::generateSymbolicSequence()
   
   sequenceOut = new Sequence("Symbolic Sequence", sequenceContent, new DNA());
   
-  DEBUG(originalSequence->toString());
-  DEBUG(sequenceOut->toString());
+//  DEBUG(originalSequence->toString());
+//  DEBUG(sequenceOut->toString());
   
   return sequenceOut;
 }

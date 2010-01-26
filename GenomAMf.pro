@@ -43,6 +43,7 @@ HEADERS +=    src/utils/LinearPlot.h \
               src/gui/MfaParametersForm.h \
               src/gui/MfaResultsForm.h \
               src/utils/Utils.h
+              
 SOURCES +=    src/utils/LinearPlot.cpp \
               src/utils/NormalPlot.cpp \
               src/utils/Plot.cpp \
@@ -74,6 +75,7 @@ SOURCES +=    src/utils/LinearPlot.cpp \
               src/gui/MainWindow.cpp \
               src/gui/MfaParametersForm.cpp \
               src/gui/MfaResultsForm.cpp
+              
 FORMS      += src/gui/PreprocessingScriptParametersForm.ui \
               src/gui/CorrelationAnalysisParametersForm.ui \
               src/gui/CorrelationAnalysisResultsForm.ui \
@@ -83,18 +85,21 @@ FORMS      += src/gui/PreprocessingScriptParametersForm.ui \
               src/gui/MainWindow.ui \
               src/gui/MfaParametersForm.ui \
               src/gui/MfaResultsForm.ui
+              
 DEPENDPATH += . \
               src/ \
               src/app \
               src/cgr \
               src/gui \
               src/utils
+              
 INCLUDEPATH += . \
                src/ \
                src/app \
                src/cgr \
                src/utils \
                src/gui
+               
 unix { 
     INCLUDEPATH += /usr/include \
                    /usr/local/include \
@@ -111,6 +116,7 @@ unix {
     LIBS        += -L/usr/local/qwt-5.2.0/lib \
                    -lqwt
 }
+
 win32 { 
     INCLUDEPATH += $$WIN_USER_ENV_PATH/include
     LIBS        += -L$$WIN_USER_ENV_PATH/lib \
@@ -139,7 +145,7 @@ win32 {
     INSTALL_DIR    = C:/GenomAMf
 }
 
-CONFIG += release
+#CONFIG += release
 
 SUFFIX_STR = 
 CONFIG(debug, debug|release) {
@@ -149,15 +155,14 @@ else {
   SUFFIX_STR = $${RELEASE_SUFFIX}
 }
 
-OBJECTS_DIR = obj$$SUFFIX_STR
-MOC_DIR     = moc$$SUFFIX_STR
-RCC_DIR     = resources
+#OBJECTS_DIR         = obj$$SUFFIX_STR
+#MOC_DIR             = moc$$SUFFIX_STR
+#RCC_DIR             = resources
 
 target.path         = $$INSTALL_DIR/bin
-
-!exists(/usr/local/bin/$$TARGET) {
-  unix:target.extra = ln -s $$INSTALL_DIR/$$DESTDIR/$$TARGET /usr/local/bin/$$TARGET
-}
+#!exists(/usr/local/bin/$$TARGET) {
+#  unix:target.extra = ln -s $$INSTALL_DIR/$$DESTDIR/$$TARGET /usr/local/bin/$$TARGET
+#}
 
 documentation.path  = $$INSTALL_DIR/doc
 documentation.files = doc/*
@@ -168,11 +173,11 @@ templates.files     = templates/*
 tmp.path            = $$INSTALL_DIR/templates
 tmp.files           = tmp/*
 
-unix {
-  !exists($$INSTALL_DIR/tmp) {
-    unix:tmp.extra      = mkdir $$INSTALL_DIR/tmp;
-  }
-}
+#unix {
+#  !exists($$INSTALL_DIR/tmp) {
+#    unix:tmp.extra      = mkdir $$INSTALL_DIR/tmp;
+#  }
+#}
 
 INSTALLS += target \
             documentation \ 

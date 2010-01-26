@@ -162,10 +162,10 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
   int xPoints[4] =       {0, 0,              matrixSize - 1, matrixSize - 1};
   int yPoints[4] =       {0, matrixSize - 1, matrixSize - 1, 0         };
   
-  QColor colors[4]  =  {QColor(255,0,0), 
+  /*QColor colors[4]  =  {QColor(255,0,0), 
                         QColor(0,255,0), 
                         QColor(0,0,255), 
-                        QColor(255,255,0)};
+                        QColor(255,255,0)};*/
   
   const vector<int> * ptrSequence;
   
@@ -197,7 +197,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     cgrImage->fill(backgroundColor);
     
     QPainter * painter = new QPainter(cgrImage);
-//    painter->setPen(QColor(0, 0, 0));
+    painter->setPen(QColor(0, 0, 0));
     
     drawBoxAndLabels(painter, cgrSize, 
                      utils::getAlphabetType(sequence->getAlphabet()->
@@ -205,7 +205,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     
     painter->translate(1, 1);
     
-    double hueInterval = 314.0 / static_cast<double>(sequenceSize);
+//    double hueInterval = 314.0 / static_cast<double>(sequenceSize);
     
     
     for (unsigned int i = 0; i < sequenceSize; ++i) {
@@ -215,9 +215,9 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
         xImage = (xImagePoints[element] + xImage) / 2;
         yImage = (yImagePoints[element] + yImage) / 2;
         
-        double currentHue = static_cast<double>(i) * hueInterval; 
+//        double currentHue = static_cast<double>(i) * hueInterval; 
 //        painter->setPen(QColor::fromHsvF(currentHue / 360, 1, 1));
-        painter->setPen(colors[element]);
+//        painter->setPen(colors[element]);
         painter->drawPoint(QPointF(xImage, yImage));
         
         x = (xPoints[element] + x) / 2;
@@ -267,7 +267,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     cgrImage->save(QString::fromStdString(imagefilePath), "PNG");
     
     // Cálculo de centros a explorar
-    double totalPossiblePoints = matrixSize * matrixSize;
+    /*double totalPossiblePoints = matrixSize * matrixSize;
     double z = 1.96;
     double d = 0.02;
     double p = static_cast<double>(totalNonzeroCells) / static_cast<double>(totalPossiblePoints);
@@ -277,7 +277,7 @@ void ChaosGameRepresentation::performRepresentation(const int & cgrSize,
     DEBUG ( "totalPossiblePoints     : " << totalPossiblePoints << endl <<
             "totalNonzeroCells       : " << totalNonzeroCells << endl <<
             "estimatedNumberOfCenters: " << estimatedNumberOfCenters);
-    
+    */
     delete painter;
     delete cgrImage;
     

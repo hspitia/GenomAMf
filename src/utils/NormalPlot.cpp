@@ -38,6 +38,7 @@ NormalPlot::NormalPlot(const NormalPlot & dqPlotObject) :
 
 NormalPlot & NormalPlot::operator=(const NormalPlot & dqPlotObject)
 {
+  Q_UNUSED(dqPlotObject);
   return *this;
 }
 

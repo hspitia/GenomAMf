@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de implementacio-.n para la clase MainWindow
  */
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include "MainWindow.h"
 
@@ -536,14 +536,14 @@ void MainWindow::makeMultifractalAnalysis()
     
     
     int timeElapsed = timer.elapsed();
-    cerr << __FILE__ << " " << __LINE__ << endl;
-    cerr << utils::getTimeElapsed(timeElapsed) << endl;
+//    cerr << __FILE__ << " " << __LINE__ << endl;
+//    cerr << utils::getTimeElapsed(timeElapsed) << endl;
     displayMfaResults(mfaResultSetKey);
-    QMessageBox::information(this, trUtf8("Análisis multifractal"),
-                                trUtf8("Tiempo: ") + 
-                                QString::fromStdString(
-                                        utils::getTimeElapsed(timeElapsed)),
-                                QMessageBox::Ok);
+//    QMessageBox::information(this, trUtf8("Análisis multifractal"),
+//                                trUtf8("Tiempo: ") + 
+//                                QString::fromStdString(
+//                                        utils::getTimeElapsed(timeElapsed)),
+//                                QMessageBox::Ok);
   }
 }
 
@@ -592,7 +592,6 @@ void MainWindow::makeCorrelationAnalysis()
   if (correlationParametersForm->exec() == QDialog::Accepted) {
     QList<int> sequencesKeysList = 
             correlationParametersForm->getSelectedSequencesKeys();
-//    int nMeshFrames = correlationParametersForm->getNMeshFrames();
     int craKey = parentApp->makeCorrelationAnalysis(sequencesKeysList, 512);
     displayCraResults(craKey);
   }
@@ -604,7 +603,6 @@ void MainWindow::displayResultForm(QModelIndex index)
   QModelIndex keyIndex = treeModel->index(index.row(), 2, index.parent());
   int elementType = treeModel->data(typeIndex, Qt::DisplayRole).toInt();
   int key = treeModel->data(keyIndex, Qt::DisplayRole).toInt();
-//  cout << "Type: "<< elementType << "  Key: "<< key << endl;
   
   switch (elementType)
   {
