@@ -1,1 +1,65 @@
-Proyecto acad閙ico para an醠isis de secuencias de ADN y prote韓as.
+GenomAMf
+================================================================================
+Herramienta para an谩lisis multifractal en secuencias de ADN y prote铆nas, basada
+en el m茅todo de las Cajas de Arena (Sand Box Method).
+
+Autor: H茅ctor Fabio Espitia Navarro
+       Universidad del Valle
+       Santiago de Cali
+       Colombia
+
+
+LICENCIA
+================================================================================
+
+El proyecto se encuentra cubierto bajo la licencia GNU GPL (GNU General Public 
+Licence) v3.  Para m谩s detalles, consulte el archivo LICENSE. 
+
+
+ESTRUCTURA DE DIRECTORIOS DEL PROYECTO
+================================================================================
+
+ - bin         : Archivo ejecutable de la aplicaci贸n.
+ - doc         : Documentaci贸n de referencia del proyecto
+   - html      : API en formato html
+   - user_man  : Manual de usuario
+ - resources   : Recursos de la aplicaci贸n
+   - icons     : Iconos de la aplicaci贸n
+ - src         : C贸digo fuente del proyecto
+   - app       : Clase controladora de la aplicaci贸n y archivo main
+   - cgr       : Clases de Representaci贸n del Juego del Caos
+   - cra       : Clases de An谩lisis de Correlaci贸n
+   - gui       : Clases de interfaz gr谩fica de usuario
+   - mfa       : Clases de An谩lisis Multifractal
+   - script    : Clases para creaci贸n de scripts de preprocesamiento de 
+                 secuencias
+   - utils     : Clases y encabezados de utiler铆as usados en el proyecto 
+ - templates   : Plantillas para generaci贸n de scripts Python de 
+                 preprocesamiento de secuencias.
+ - tmp         : Archivos temporales de la aplicaci贸n
+ - translations: Archivos para internacionalizaci贸n de la aplicaci贸n
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    

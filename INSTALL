@@ -1,0 +1,51 @@
+REQUEMIENTOS DE SOFTWARE
+================================================================================
+  
+ - Sistema Operativo Linux
+  
+Bibliotecas adicionales:
+   
+ - Qt >= 4.5.2
+ - Bio++:
+     - Utils   = 1.4.0
+     - NumCalc = 1.7.0
+     - SeqLib  = 1.6.0
+     - PhylLib = 1.8.0
+     - Bpp-qt  = 0.1.0
+ - MathGl = 1.9.1
+  
+  
+REQUEMIENTOS DE HARDWARE
+================================================================================
+
+ - Procesador: 2.0 Ghz
+ - Memoria RAM:  2.0 GB
+ - Espacio en disco: 60 Mb
+ 
+ 
+INSTALACION
+================================================================================
+
+La aplicación está gestionada por la herramienta qmake la cual hace parte de
+la distribución Qt.
+
+Para instalar la aplicación debe ejecutar los siguientes comandos en el 
+directorio raíz del proyecto:
+
+$ qmake
+
+para configurar el proyecto 
+
+$ make
+
+para compilarlo, y finalmente
+
+$ make install
+
+para instalar la aplicación.
+
+La aplicación se instalará por defecto en el directorio "/usr/local/GenoAMf". 
+Si desea una ubicación distinta, deberá especificar la ruta antes de realizar 
+la compilación e instalaciónpor medio del comando qmake de la siguiente manera:
+
+$ qmake INSTALL_DIR=/ruta/deseada/de/instalacion
