@@ -46,7 +46,8 @@ class Plot : public QwtPlot
 {
   public:
     Plot(QWidget *parent = 0);
-    Plot(const QList<QVector<double> > & dataList,
+//    Plot(const QList<QVector<double> > & dataList,
+    Plot(const QList<vector<double> > & dataList,
          const QStringList curveIdentifiers,
          QWidget *parent = 0);
     Plot(const Plot & plotObject);
@@ -54,9 +55,11 @@ class Plot : public QwtPlot
     
     virtual ~Plot();
     
-    QList<QVector<double> > getDataList();
+//    QList<QVector<double> > getDataList();
+    QList<vector<double> > getDataList();
     
-    void setDataList(const QList<QVector<double> > & dataList);
+//    void setDataList(const QList<QVector<double> > & dataList);
+    void setDataList(const QList<vector<double> > & dataList);
     
     QStringList getCurveIdentifiers();
     
@@ -73,8 +76,10 @@ class Plot : public QwtPlot
   protected:
     virtual void setupCurves() = 0;
 //    QwtPlotCurve * createCurves(const int & nCurves);
-    void createCurves(const int & nCurves);
-    QList<QVector<double> > dataList;
+//    void createCurves(const int & nCurves);
+    virtual QwtPlotCurve * createCurves(const int & nCurves);
+//    QList<QVector<double> > dataList;
+    QList<vector<double> > dataList;
     QList<QColor> colorList;
     QStringList curveIdentifiers;
     QList<QwtSymbol::Style> symbolList;

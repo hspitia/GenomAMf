@@ -49,7 +49,8 @@ Plot::Plot(QWidget *parent) :
   mX->attach(this);
 }
 
-Plot::Plot(const QList<QVector<double> > & dataList,
+//Plot::Plot(const QList<QVector<double> > & dataList,
+Plot::Plot(const QList<vector<double> > & dataList,
            const QStringList curveIdentifiers,
            QWidget *parent) : 
   QwtPlot(parent)
@@ -85,16 +86,17 @@ Plot & Plot::operator=(const Plot & plotObject)
   return *this;
 }
 
-void Plot::createCurves(const int & nCurves)
+//void Plot::createCurves(const int & nCurves)
+QwtPlotCurve * Plot::createCurves(const int & nCurves)
 {
 
   int nColors = colorList.count();
-  curves = new QwtPlotCurve[nCurves];
+  QwtPlotCurve * tmpCurves = new QwtPlotCurve[nCurves];
   int nSymForAssign = static_cast<int>(ceil(static_cast<double>(nCurves) / 
                                             static_cast<double>(nColors)));
   
   if (nSymForAssign > symbolList.count() + 1)
-    return;
+    return 0;
   
   for (int i = 0; i < nSymForAssign; ++i) {
     QwtSymbol sym;
@@ -108,21 +110,19 @@ void Plot::createCurves(const int & nCurves)
 //      cout << "index: " << index << "  j: " << j<< endl;
       QString id = curveIdentifiers.at(index);
       sym.setBrush(colorList.at(j));
-      curves[index].setTitle(id);
-      curves[index].setSymbol(sym);
-//      curves[index].setPen(QPen(Qt::red));
+      tmpCurves[index].setTitle(id);
+      tmpCurves[index].setSymbol(sym);
+//      tmpCurves[index].setPen(QPen(Qt::red));
       QPen pen(colorList.at(j));
 //      pen.setWidth(2);
-      curves[index].setPen(pen);
-      curves[index].setRenderHint(QwtPlotItem::RenderAntialiased);
-      curves[index].setStyle(QwtPlotCurve::Lines);
-//      curves[index].setCurveAttribute(QwtPlotCurve::Fitted);
+      tmpCurves[index].setPen(pen);
+//      tmpCurves[index].setCurveAttribute(QwtPlotCurve::Fitted);
       ++index;
       ++j;
     }
   } 
   
-//  return curves;
+  return tmpCurves;
 }
 
 void Plot::setupGeneralConfiguration()
@@ -134,12 +134,12 @@ void Plot::setupGeneralConfiguration()
   legend->setFrameStyle(QFrame::Box|QFrame::Sunken);
 //  insertLegend(legend, QwtPlot::BottomLegend);
   
-  setCanvasBackground(QColor(250,250,250));
-//  setCanvasBackground(Qt::white);
+//  setCanvasBackground(QColor(250,250,250));
+  setCanvasBackground(Qt::white);
   
   // Set axis titles
-  setAxisTitle(xBottom, "x");
-  setAxisTitle(yLeft, "y");
+//  setAxisTitle(xBottom, "x");
+//  setAxisTitle(yLeft, "y");
   
   
   // Set grid
@@ -219,12 +219,14 @@ Plot::~Plot()
   delete[] curves;
 }
 
-QList<QVector<double> > Plot::getDataList()
+//QList<QVector<double> > Plot::getDataList()
+QList<vector<double> > Plot::getDataList()
 {
   return dataList;
 }
 
-void Plot::setDataList(const QList<QVector<double> > & dataList)
+//void Plot::setDataList(const QList<QVector<double> > & dataList)
+void Plot::setDataList(const QList<vector<double> > & dataList)
 {
   this->dataList = dataList;
 }

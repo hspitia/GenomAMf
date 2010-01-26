@@ -23,6 +23,14 @@
 #define NORMALPLOT_H_
 
 #include <utils/Plot.h>
+#include <NumCalc/MatrixTools.h>
+
+using namespace bpp;
+
+#include <algorithm>
+
+using namespace std;
+
 
 /**
  * 
@@ -30,8 +38,9 @@
 class NormalPlot : public Plot
 {
   public:
-    NormalPlot(const QList<QVector<double> > & dataList,
-               const QStringList curveIdentifiers,
+//    NormalPlot(const QList<QVector<double> > & dataList,
+    NormalPlot(const QList<vector<double> > & dataList,
+               const QStringList & curveIdentifiers,
                QWidget *parent = 0);
     
     NormalPlot(const NormalPlot & dqPlotObject);

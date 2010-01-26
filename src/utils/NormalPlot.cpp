@@ -21,8 +21,9 @@
 
 #include "NormalPlot.h"
 
-NormalPlot::NormalPlot(const QList<QVector<double> > & dataList,
-                       const QStringList curveIdentifiers,
+//NormalPlot::NormalPlot(const QList<QVector<double> > & dataList,
+NormalPlot::NormalPlot(const QList<vector<double> > & dataList,
+                       const QStringList & curveIdentifiers,
                        QWidget *parent) : 
   Plot(dataList, curveIdentifiers, parent)
 {
@@ -76,68 +77,50 @@ NormalPlot & NormalPlot::operator=(const NormalPlot & dqPlotObject)
   cCos->setData(xSinVal, yCosVal, nPoints);
 }*/
 
+//void NormalPlot::setupCurves()
+//{
+//  int nCurves = dataList.count() - 1;
+//  createCurves(nCurves);
+//  int nPoints = dataList.at(0).size();
+//  
+//  QVector<double> tmpXDataVector = 
+//          QVector<double>::fromStdVector(dataList.at(0));
+//  
+////  const double * xValues = /*new double[nPoints]; //*/dataList.at(0).data(); 
+//  const double * xValues = tmpXDataVector.data();
+//  const double * yValues = 0; 
+//  
+//  for (int i = 0; i < nCurves; ++i) {
+////    yValues = dataList.at(i+1).data();
+//    QVector<double> tmpVector = 
+//            QVector<double>::fromStdVector(dataList.at(i+1));
+//    yValues = tmpVector.data();
+//    curves[i].setData(xValues, yValues, nPoints);
+//    curves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
+////    curves[i].setPen(QPen(colorList.at(i)));
+//    curves[i].attach(this);
+//  }
+//}
+
 void NormalPlot::setupCurves()
 {
   int nCurves = dataList.count() - 1;
-  createCurves(nCurves);
+  curves = createCurves(nCurves);
   int nPoints = dataList.at(0).size();
   
-  const double * xValues = /*new double[nPoints]; //*/dataList.at(0).data(); 
-  const double * yValues = 0; 
+  double * xValues = new double[nPoints];
+  copy(dataList.at(0).begin(), dataList.at(0).end(), xValues);
   
-  /*for (int j = 0; j < nPoints; ++j) {
-    xValues[j] = dataList.at(0).at(j);
-  }
-  
-  for (int i = 1; i < nCurves; ++i) {
-    double * yValues = new double[nPoints];
-    
-    for (int j = 0; j < nPoints; ++j) {
-      yValues[j] = dataList.at(i).at(j);
-    }
-    curves[i].setData(xValues, yValues, nPoints);
-    curves[i].attach(this);
-  }*/
+  double * yValues = 0; 
   
   for (int i = 0; i < nCurves; ++i) {
-    yValues = dataList.at(i+1).data();
+    yValues = new double[nPoints];
+    copy(dataList.at(i+1).begin(), dataList.at(i+1).end(), yValues);
     curves[i].setData(xValues, yValues, nPoints);
     curves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
-//    curves[i].setPen(QPen(colorList.at(i)));
+    curves[i].setStyle(QwtPlotCurve::Lines);
     curves[i].attach(this);
   }
-  
-  /*// Insert new curves
-  QwtPlotCurve *cSin = new QwtPlotCurve("y = sin(x) as s");
-  cSin->setRenderHint(QwtPlotItem::RenderAntialiased);
-  cSin->setPen(QPen(Qt::red));
-  cSin->setCurveAttribute(QwtPlotCurve::Fitted);
-  cSin->attach(this);
-  
-  QwtPlotCurve *cCos = new QwtPlotCurve("y = cos(x) asa ");
-  cCos->setRenderHint(QwtPlotItem::RenderAntialiased);
-  cCos->setPen(QPen(Qt::blue));
-  cCos->attach(this);
-  
-//  // Create sin and cos data
-  const int nPoints = 360;
-  double xSinVal[nPoints];
-  double ySinVal[nPoints];
-  double xCosVal[nPoints];
-  double yCosVal[nPoints];
-  double pi = 3.1416;
-  
-  for (int i = 0; i < nPoints; i++) {
-    xSinVal[i] = ((double)i * pi) / 180;
-    ySinVal[i] = sin(xSinVal[i]);
-    xCosVal[i] = ((double)i * pi) / 180;
-    yCosVal[i] = cos(xCosVal[i]);
-  }
-  
-//  //Isert data
-  cSin->setData(xSinVal, ySinVal, nPoints);
-  cCos->setData(xSinVal, yCosVal, nPoints);
-  */
 }
 
 NormalPlot::~NormalPlot()

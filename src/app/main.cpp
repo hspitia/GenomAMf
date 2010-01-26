@@ -749,21 +749,22 @@ int qwtPlotApp(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QList<QVector<double> > dataList;
+//    QList<QVector<double> > dataList;
+    QList<vector<double> > dataList;
     
     const int nPoints = 360;
-    QVector<double> xValues(nPoints);
-    QVector<double> ySinValues(nPoints);
-    QVector<double> yCosValues(nPoints);
-    QVector<double> ySinMValues(nPoints);
+    /*QVector<double>*/vector<double> xValues(nPoints);
+    /*QVector<double>*/vector<double> ySinValues(nPoints);
+    /*QVector<double>*/vector<double> yCosValues(nPoints);
+    /*QVector<double>*/vector<double> ySinMValues(nPoints);
     
     double pi = 3.1416;
     
     for (int i = 0; i < nPoints; i += 1) {
-      xValues[i] = ((double)i * pi) / 180;
-      ySinValues[i] = sin(xValues.at(i));
-      yCosValues[i] = cos(xValues.at(i));
-      ySinMValues[i] = 2 * sin(xValues.at(i));
+      xValues.at(i) = ((double)i * pi) / 180;
+      ySinValues.at(i) = sin(xValues.at(i));
+      yCosValues.at(i) = cos(xValues.at(i));
+      ySinMValues.at(i) = 2 * sin(xValues.at(i));
     }
     
     dataList.append(xValues);
@@ -774,17 +775,13 @@ int qwtPlotApp(int argc, char *argv[])
     QStringList curveIds;
     curveIds << "y = sin(x)" 
              << "y = cos(x)"
-             << "y = 2 * cos(x)";
+             << "y = 2cos(x)";
     
     NormalPlot dqPlot(dataList, curveIds);
     dqPlot.setTitle("Espectro Dq");
-    
-//#if QT_VERSION < 0x040000
-//    a.setMainWidget(&dqPlot);
-//#endif
-    
-    
-    dqPlot.resize(600,400);
+    dqPlot.setAxisTitle(QwtPlot::xBottom, "q");
+    dqPlot.setAxisTitle(QwtPlot::yLeft, "Dq");
+    dqPlot.resize(800,500);
     dqPlot.show();
     return a.exec(); 
 }
@@ -792,8 +789,8 @@ int qwtPlotApp(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-  appNormal(argc, argv);
-//  qwtPlotApp(argc, argv);
+//  appNormal(argc, argv);
+  qwtPlotApp(argc, argv);
 //  treeTest();
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples
