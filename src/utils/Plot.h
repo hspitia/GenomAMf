@@ -33,7 +33,9 @@
 #include <qwt_text.h>
 #include <qwt_math.h>
 #include <qwt_scale_widget.h>
-
+#include <qwt_scale_engine.h>
+#include <qwt_plot_layout.h>
+#include <qwt_legend_item.h>
 
 #include <iostream>
 
@@ -44,10 +46,12 @@ using namespace std;
  */
 class Plot : public QwtPlot 
 {
+  Q_OBJECT
+
   public:
     Plot(QWidget *parent = 0);
 //    Plot(const QList<QVector<double> > & dataList,
-    Plot(const QList<vector<double> > & dataList,
+    Plot(const QList<vector<double> *> & dataList,
          const QStringList curveIdentifiers,
          QWidget *parent = 0);
     Plot(const Plot & plotObject);
@@ -56,10 +60,10 @@ class Plot : public QwtPlot
     virtual ~Plot();
     
 //    QList<QVector<double> > getDataList();
-    QList<vector<double> > getDataList();
+    QList<vector<double> *> getDataList();
     
 //    void setDataList(const QList<QVector<double> > & dataList);
-    void setDataList(const QList<vector<double> > & dataList);
+    void setDataList(const QList<vector<double> *> & dataList);
     
     QStringList getCurveIdentifiers();
     
@@ -73,23 +77,28 @@ class Plot : public QwtPlot
     
     void setSymbolList(QList<QwtSymbol::Style> symbolList);
     
+  protected slots:
+    void showCurve(QwtPlotItem *item, bool on);
+    
   protected:
     virtual void setupCurves() = 0;
 //    QwtPlotCurve * createCurves(const int & nCurves);
 //    void createCurves(const int & nCurves);
     virtual QwtPlotCurve * createCurves(const int & nCurves);
 //    QList<QVector<double> > dataList;
-    QList<vector<double> > dataList;
+    QList<vector<double> *> dataList;
     QList<QColor> colorList;
     QStringList curveIdentifiers;
     QList<QwtSymbol::Style> symbolList;
     QwtPlotCurve * curves; 
+    
     
   private:
     void setupGeneralConfiguration();
     void alignScales();
     void initColorList();
     void initSymbolList();
+    void connectSignalsSlots();
     
 };
 

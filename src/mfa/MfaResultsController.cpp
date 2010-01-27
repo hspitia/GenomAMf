@@ -142,6 +142,44 @@ QList<Plotter *> MfaResultsController::plotResults()
   
   return plots;
 }
+
+QList<NormalPlot *> MfaResultsController::plotDqAndCqResults()
+{
+  QList<NormalPlot *> plots;
+  QList<vector<double> *> dqDataSet;
+  QList<vector<double> *> cqDataSet;
+  QStringList curveIds;
+  
+//  vector<double> * qValues = mfaObjects.at(0)->getQValues();
+  vector<double> * qValues = mfaObjects.at(0).getQValues();
+  
+  dqDataSet.append(qValues);
+  cqDataSet.append(qValues);
+  
+  for (int i = 0; i < mfaObjects.count(); ++i) {
+    curveIds << QObject::trUtf8("Seq_%1").arg(i + 1);
+    dqDataSet.append(mfaObjects.at(i).getDqValues());
+    cqDataSet.append(mfaObjects.at(i).getCqValues());
+  }
+  
+  newDqPlot = new NormalPlot(dqDataSet, curveIds);
+  newCqPlot = new NormalPlot(cqDataSet, curveIds);
+  
+  
+//  dqPlot->setXLabel("q");
+//  dqPlot->setYLabel("\\D_q");
+//  dqPlot->setTitle("Espectro \\D_q");
+//  
+//  cqPlot->setXLabel("q");
+//  cqPlot->setYLabel("\\C_q");
+//  cqPlot->setTitle("Calor específico análogo \\C_q");
+//  
+//  plots.append(dqPlot);
+//  plots.append(cqPlot);
+//  plots.append(linearRegressionPlot);
+  
+  return plots;
+}
 /*QString MfaResultsController::convertDqValuesToCsv()
 {
 

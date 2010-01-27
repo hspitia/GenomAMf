@@ -22,7 +22,7 @@
 #include "NormalPlot.h"
 
 //NormalPlot::NormalPlot(const QList<QVector<double> > & dataList,
-NormalPlot::NormalPlot(const QList<vector<double> > & dataList,
+NormalPlot::NormalPlot(const QList<vector<double> *> & dataList,
                        const QStringList & curveIdentifiers,
                        QWidget *parent) : 
   Plot(dataList, curveIdentifiers, parent)
@@ -106,20 +106,21 @@ void NormalPlot::setupCurves()
 {
   int nCurves = dataList.count() - 1;
   curves = createCurves(nCurves);
-  int nPoints = dataList.at(0).size();
+  int nPoints = dataList.at(0)->size();
   
   double * xValues = new double[nPoints];
-  copy(dataList.at(0).begin(), dataList.at(0).end(), xValues);
+  copy(dataList.at(0)->begin(), dataList.at(0)->end(), xValues);
   
   double * yValues = 0; 
   
   for (int i = 0; i < nCurves; ++i) {
     yValues = new double[nPoints];
-    copy(dataList.at(i+1).begin(), dataList.at(i+1).end(), yValues);
+    copy(dataList.at(i+1)->begin(), dataList.at(i+1)->end(), yValues);
     curves[i].setData(xValues, yValues, nPoints);
     curves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
     curves[i].setStyle(QwtPlotCurve::Lines);
     curves[i].attach(this);
+    showCurve(&curves[i], true);
   }
 }
 

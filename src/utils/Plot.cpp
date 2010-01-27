@@ -50,7 +50,7 @@ Plot::Plot(QWidget *parent) :
 }
 
 //Plot::Plot(const QList<QVector<double> > & dataList,
-Plot::Plot(const QList<vector<double> > & dataList,
+Plot::Plot(const QList<vector<double> *> & dataList,
            const QStringList curveIdentifiers,
            QWidget *parent) : 
   QwtPlot(parent)
@@ -61,6 +61,7 @@ Plot::Plot(const QList<vector<double> > & dataList,
   initSymbolList();
   setupGeneralConfiguration();
   alignScales();
+  connectSignalsSlots();
 }
 
 Plot::Plot(const Plot & plotObject) : 
@@ -72,6 +73,7 @@ Plot::Plot(const Plot & plotObject) :
   initSymbolList();
   setupGeneralConfiguration();
   alignScales();
+  connectSignalsSlots();
 }
 
 Plot & Plot::operator=(const Plot & plotObject)
@@ -82,6 +84,7 @@ Plot & Plot::operator=(const Plot & plotObject)
   initSymbolList();
   setupGeneralConfiguration();
   alignScales();
+  connectSignalsSlots();
   
   return *this;
 }
@@ -100,7 +103,7 @@ QwtPlotCurve * Plot::createCurves(const int & nCurves)
   
   for (int i = 0; i < nSymForAssign; ++i) {
     QwtSymbol sym;
-    sym.setStyle(symbolList.at(i));
+    sym.setStyle(symbolList.at(i+1));
     sym.setPen(QPen(QColor(Qt::black)));
     sym.setSize(7);
     
@@ -114,7 +117,7 @@ QwtPlotCurve * Plot::createCurves(const int & nCurves)
       tmpCurves[index].setSymbol(sym);
 //      tmpCurves[index].setPen(QPen(Qt::red));
       QPen pen(colorList.at(j));
-//      pen.setWidth(2);
+      pen.setWidth(2);
       tmpCurves[index].setPen(pen);
 //      tmpCurves[index].setCurveAttribute(QwtPlotCurve::Fitted);
       ++index;
@@ -127,39 +130,46 @@ QwtPlotCurve * Plot::createCurves(const int & nCurves)
 
 void Plot::setupGeneralConfiguration()
 {
-//  setTitle("A Simple QwtPlot Demonstration");
+  setAutoReplot(false);
+  
   QwtLegend *legend = new QwtLegend;
-//  legend->setContentsMargins(0,0,0,0);
-  insertLegend(legend, QwtPlot::RightLegend);
+  legend->setItemMode(QwtLegend::CheckableItem);
   legend->setFrameStyle(QFrame::Box|QFrame::Sunken);
+//  legend->setFrameStyle(QFrame::Panel|QFrame::Plain);
+  
+//  legend->setFrameStyle(QFrame::StyledPanel | QFrame::Plain);
+  insertLegend(legend, QwtPlot::RightLegend);
 //  insertLegend(legend, QwtPlot::BottomLegend);
   
 //  setCanvasBackground(QColor(250,250,250));
   setCanvasBackground(Qt::white);
   
-  // Set axis titles
-//  setAxisTitle(xBottom, "x");
-//  setAxisTitle(yLeft, "y");
-  
-  
   // Set grid
   QwtPlotGrid *grid = new QwtPlotGrid;
   grid->enableXMin(true);
   grid->enableYMin(true);
-  grid->setMajPen(QPen(Qt::gray, 0, Qt::SolidLine));
+  grid->setMajPen(QPen(Qt::lightGray, 0, Qt::SolidLine));
   grid->setMinPen(QPen(Qt::lightGray, 0 , Qt::DotLine));
   grid->attach(this);
   
   setMargin(20);
+  
+  axisScaleEngine(QwtPlot::xBottom)->
+          setAttribute(QwtScaleEngine::Floating, true);
+  axisScaleEngine(QwtPlot::yLeft)->
+          setAttribute(QwtScaleEngine::Floating, true);
+  
 //  setPalette(QPalette(Qt::white));
 }
 
 void Plot::alignScales()
 {
+//   plotLayout()->setAlignCanvasToScales(true);
+  
   // The code below shows how to align the scales to
   // the canvas frame, but is also a good example demonstrating
   // why the spreaded API needs polishing.
-  
+
   canvas()->setFrameStyle(QFrame::Box | QFrame::Plain );
   canvas()->setLineWidth(1);
   
@@ -214,19 +224,38 @@ void Plot::initSymbolList()
    symbolList.append(QwtSymbol::Hexagon);
 }
 
+void Plot::connectSignalsSlots()
+{
+  connect(this, SIGNAL(legendChecked(QwtPlotItem *, bool)), this,
+          SLOT(showCurve(QwtPlotItem *, bool)));
+//  connect(sender, SIGNAL(signal), receiver, SLOT(method));
+}
+
 Plot::~Plot()
 {
   delete[] curves;
 }
 
+void Plot::showCurve(QwtPlotItem *item, bool on)
+{
+    item->setVisible(on);
+    QWidget *w = legend()->find(item);
+    if ( w && w->inherits("QwtLegendItem") ) {
+        ((QwtLegendItem *)w)->setChecked(on);
+        ((QwtLegendItem *)w)->clearFocus();
+    }
+    
+    replot();
+}
+
 //QList<QVector<double> > Plot::getDataList()
-QList<vector<double> > Plot::getDataList()
+QList<vector<double> *> Plot::getDataList()
 {
   return dataList;
 }
 
 //void Plot::setDataList(const QList<QVector<double> > & dataList)
-void Plot::setDataList(const QList<vector<double> > & dataList)
+void Plot::setDataList(const QList<vector<double> *> & dataList)
 {
   this->dataList = dataList;
 }

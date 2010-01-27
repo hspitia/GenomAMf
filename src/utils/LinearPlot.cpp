@@ -21,32 +21,112 @@
 
 #include "LinearPlot.h"
 
-LinearPlot::LinearPlot(const QList<vector<double> > & dataList,
+LinearPlot::LinearPlot(const QList<vector<double> *> & dataList,
                        const QStringList curveIdentifiers,
-                       const QList<vector<double> > & linearParameters,
+                       const QList<vector<double> *> & linearParameters,
                        QWidget *parent) : 
   Plot(dataList, curveIdentifiers, parent)
 {
+  this->linearParameters = linearParameters;
   setupCurves();
-
+  cout<< "Hola" << endl;
+  QList<QWidget* > legendItemList = legend()->legendItems();
 }
 
 LinearPlot::LinearPlot(const LinearPlot & dqPlotObject) :
   Plot(dqPlotObject)
 {
-  
+  this->linearParameters = dqPlotObject.linearParameters;
 }
 
 LinearPlot & LinearPlot::operator=(const LinearPlot & dqPlotObject)
 {
-  Q_UNUSED(dqPlotObject);
+  this->linearParameters = dqPlotObject.linearParameters;
   return *this;
+}
+
+
+void LinearPlot::setupCurves()
+{
+  int nCurves = dataList.count() / 2;
+  int nPoints = dataList.at(0)->size();
+  
+  int xDataIndex = 0;
+  int yDataIndex = 0;
+  
+  // Linear fit curves
+  linearFitCurves = createLinearFitCurves(nCurves);
+  
+  double * xValues = 0;
+  double * yValues = 0; 
+  
+  if (linearFitCurves) {
+    for (int i = 0; i < nCurves; ++i) {
+      xDataIndex = i * 2;
+      xValues = new double[2];
+      xValues[0] = dataList.at(xDataIndex)->at(0);
+      xValues[1] = dataList.at(xDataIndex)->at(nPoints - 1);
+      
+      yValues = new double[2];
+      
+      yValues[0] = (linearParameters.at(i)->at(0) * xValues[0]) + 
+              linearParameters.at(i)->at(1);
+      yValues[1] = (linearParameters.at(i)->at(0) * xValues[1]) + 
+              linearParameters.at(i)->at(1);
+      
+      linearFitCurves[i].setData(xValues, yValues, 2);
+      linearFitCurves[i].attach(this);
+      showCurve(&linearFitCurves[i], true);
+    }
+  }
+  
+  // Points of plot
+  curves = createCurves(nCurves);
+   
+  xValues = 0;
+  yValues = 0; 
+  
+  if (curves) {
+    
+    for (int i = 0; i < nCurves; ++i) {
+      xDataIndex = i * 2;
+      xValues = new double[nPoints];
+      copy(dataList.at(xDataIndex)->begin(), dataList.at(xDataIndex)->end(), xValues);
+      
+      yValues = new double[nPoints];
+      yDataIndex = xDataIndex + 1; 
+      copy(dataList.at(yDataIndex)->begin(), dataList.at(yDataIndex)->end(), yValues);
+      
+      curves[i].setData(xValues, yValues, nPoints);
+      curves[i].attach(this);
+      showCurve(&curves[i], true);
+    }
+   
+    
+    /*if (linearFitCurves) {
+      for (int i = 0; i < nCurves; ++i) {
+        xDataIndex = i * 2;
+        xValues = new double[nPoints];
+        copy(dataList.at(xDataIndex).begin(), dataList.at(xDataIndex).end(), xValues);
+        
+        yValues = new double[nPoints];
+        
+        for (int j = 0; j < nPoints; ++j) {
+          yValues[j] = (linearParameters.at(i).at(0) * xValues[j]) + 
+                  linearParameters.at(i).at(1);
+        }
+        
+        linearFitCurves[i].setData(xValues, yValues, nPoints);
+        linearFitCurves[i].attach(this);
+      }
+    }*/
+  }
+  
+  
 }
 
 QwtPlotCurve * LinearPlot::createCurves(const int & nCurves)
 {
-
-  int nColors = colorList.count();
   QwtPlotCurve * tmpCurves = new QwtPlotCurve[nCurves];
   
   if (nCurves > symbolList.count() || nCurves > colorList.count())
@@ -54,96 +134,43 @@ QwtPlotCurve * LinearPlot::createCurves(const int & nCurves)
   
   for (int i = 0; i < nCurves; ++i) {
     QwtSymbol sym;
+    QPen pen(colorList.at(i));
+    
     sym.setStyle(symbolList.at(i+1));
     sym.setPen(QPen(QColor(Qt::black)));
+    sym.setBrush(colorList.at(i));
     sym.setSize(5);
-    QString id = curveIdentifiers.at(index);
-    sym.setBrush(colorList.at(j));
-    tmpCurves[index].setTitle(id);
-    tmpCurves[index].setSymbol(sym);
-    QPen pen(colorList.at(j));
-    tmpCurves[index].setPen(pen);
-    ++index;
-    ++j;
+    
+    QString id = curveIdentifiers.at(i);
+    tmpCurves[i].setTitle(id);
+    
+    tmpCurves[i].setSymbol(sym);
+    tmpCurves[i].setPen(pen);
+    tmpCurves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
+    tmpCurves[i].setStyle(QwtPlotCurve::NoCurve);
   } 
   
   return tmpCurves;
 }
 
-void LinearPlot::setupCurves()
-{
-  int nCurves = dataList.count() - 1;
-  curves = createCurves(nCurves);
-  int nPoints = dataList.at(0).size();
-  
-  // Points of plot
-  double * xValues = 0;
-  double * yValues = 0; 
-  
-  for (int i = 0; i < nCurves; ++i) {
-    xValues = new double[nPoints];
-    copy(dataList.at(i).begin(), dataList.at(i).end(), xValues);
-    
-    yValues = new double[nPoints];
-    copy(dataList.at(i).begin(), dataList.at(i).end(), yValues);
-    
-    curves[i].setData(xValues, yValues, nPoints);
-    curves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
-    curves[i].setStyle(QwtPlotCurve::NoCurve);
-    curves[i].attach(this);
-  }
-  
-  // Linear fit curves
-  linearFitCurves = createLinearFitCurves(nCurves);
-  
-  xValues = 0;
-  yValues = 0; 
-  
-  for (int i = 0; i < nCurves; ++i) {
-    xValues = new double[nPoints];
-    copy(dataList.at(i).begin(), dataList.at(i).end(), xValues);
-    
-    yValues = new double[nPoints];
-    
-    for (int j = 0; j < nPoints; ++j) {
-      yValues[i] = (linearParameters.at(i).at(0) * xValues[0]) + 
-                    linearParameters.at(i).at(1);
-    }
-    
-    linearFitCurves[i].setData(xValues, yValues, nPoints);
-    linearFitCurves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
-    linearFitCurves[i].setStyle(QwtPlotCurve::Lines);
-    linearFitCurves[i].attach(this);
-  }
-}
-
 QwtPlotCurve * LinearPlot::createLinearFitCurves(const int & nCurves)
 {
-
-  int nColors = colorList.count();
   QwtPlotCurve * tmpCurves = new QwtPlotCurve[nCurves];
-  int nSymForAssign = static_cast<int>(ceil(static_cast<double>(nCurves) / 
-                                            static_cast<double>(nColors)));
   
-  if (nSymForAssign > symbolList.count())
+  if (nCurves > symbolList.count() || nCurves > colorList.count())
     return 0;
   
-  for (int i = 0; i < nSymForAssign; ++i) {
+  for (int i = 0; i < nCurves; ++i) {
+    QPen pen(colorList.at(i));
     QwtSymbol sym;
-    sym.setStyle(QwtSymbol::NoSymbol);
-    
-    int index = i * nColors;
-    int j = 0;
-    while(j < nColors && j < nCurves) {
-      QString id = curveIdentifiers.at(index);
-      sym.setBrush(colorList.at(j));
-      tmpCurves[index].setTitle(id);
-      tmpCurves[index].setSymbol(sym);
-      QPen pen(colorList.at(j));
-      tmpCurves[index].setPen(pen);
-      ++index;
-      ++j;
-    }
+    sym.setStyle(symbolList.at(0));
+    QString id = trUtf8("Ajuste lineal para ") + curveIdentifiers.at(i);
+
+    tmpCurves[i].setPen(pen);
+    tmpCurves[i].setSymbol(sym);
+    tmpCurves[i].setTitle(id);
+    tmpCurves[i].setRenderHint(QwtPlotItem::RenderAntialiased);
+    tmpCurves[i].setStyle(QwtPlotCurve::Lines);
   } 
   
   return tmpCurves;
@@ -151,15 +178,16 @@ QwtPlotCurve * LinearPlot::createLinearFitCurves(const int & nCurves)
 
 LinearPlot::~LinearPlot()
 {
-  // TODO Auto-generated destructor stub
+  if (linearFitCurves)
+    delete [] linearFitCurves;
 }
 
-QList<vector<double> > LinearPlot::getLinearParameters()
+QList<vector<double> *> LinearPlot::getLinearParameters()
 {
   return linearParameters;
 }
 
-void LinearPlot::setLinearParameters(const QList<vector<double> > & linearParameters)
+void LinearPlot::setLinearParameters(const QList<vector<double> *> & linearParameters)
 {
   this->linearParameters = linearParameters;
 }

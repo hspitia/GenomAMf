@@ -66,13 +66,11 @@ CorrelationAnalysisResultsController::contructTheResultsForm(QWidget *parent)
   Tree * tree = craObject->getTree();
   
   
-  TRACE (__LINE__ << "\n\t" << "Antes de construir el formulario");
   CorrelationAnalysisResultsForm * creResultsForm = 
           new CorrelationAnalysisResultsForm(model,
                                              tree,
                                              sequenceContent,
                                              parent);
-  TRACE (__LINE__ << "\n\t" << "Despues de construir el formulario");
 //  Plotter * plotter = plotMuMeasures();
   
   return creResultsForm;

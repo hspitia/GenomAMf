@@ -535,7 +535,7 @@ void MainWindow::makeMultifractalAnalysis()
                                                 mfaParametersSet);
     
     
-    int timeElapsed = timer.elapsed();
+//    int timeElapsed = timer.elapsed();
 //    cerr << __FILE__ << " " << __LINE__ << endl;
 //    cerr << utils::getTimeElapsed(timeElapsed) << endl;
     displayMfaResults(mfaResultSetKey);

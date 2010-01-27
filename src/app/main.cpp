@@ -21,6 +21,12 @@
 #include <QPainter>
 #include <QImage>
 #include <QRgb>
+#include <QFileDialog>
+#include <QPixmap>
+#include <QDir>
+#include <QString>
+#include <QImage>
+
 
 #include <app/AppController.h>
 #include <gui/MainWindow.h>
@@ -30,6 +36,7 @@
 #include <utils/Utils.h>
 #include <utils/Plot.h>
 #include <utils/NormalPlot.h>
+#include <utils/LinearPlot.h>
 
 // The SeqLib library:
 #include <Seq/Alphabet.h>
@@ -745,47 +752,308 @@ int roundTest()
   return 0;
 }
 
-int qwtPlotApp(int argc, char *argv[])
+NormalPlot * qwtPlotNormalCurves(QWidget * parent)
 {
-    QApplication a(argc, argv);
-
-//    QList<QVector<double> > dataList;
-    QList<vector<double> > dataList;
-    
-    const int nPoints = 360;
-    /*QVector<double>*/vector<double> xValues(nPoints);
-    /*QVector<double>*/vector<double> ySinValues(nPoints);
-    /*QVector<double>*/vector<double> yCosValues(nPoints);
-    /*QVector<double>*/vector<double> ySinMValues(nPoints);
-    
-    double pi = 3.1416;
-    
-    for (int i = 0; i < nPoints; i += 1) {
-      xValues.at(i) = ((double)i * pi) / 180;
-      ySinValues.at(i) = sin(xValues.at(i));
-      yCosValues.at(i) = cos(xValues.at(i));
-      ySinMValues.at(i) = 2 * sin(xValues.at(i));
-    }
-    
-    dataList.append(xValues);
-    dataList.append(ySinValues);
-    dataList.append(yCosValues);
-    dataList.append(ySinMValues);
-    
-    QStringList curveIds;
-    curveIds << "y = sin(x)" 
-             << "y = cos(x)"
-             << "y = 2cos(x)";
-    
-    NormalPlot dqPlot(dataList, curveIds);
-    dqPlot.setTitle("Espectro Dq");
-    dqPlot.setAxisTitle(QwtPlot::xBottom, "q");
-    dqPlot.setAxisTitle(QwtPlot::yLeft, "Dq");
-    dqPlot.resize(800,500);
-    dqPlot.show();
-    return a.exec(); 
+  QList<vector<double> *> dataList;
+  
+  const int nPoints = 41;
+  vector<double> * xValues  = new vector<double>(nPoints);
+  vector<double> * y1Values = new vector<double>(nPoints);
+  vector<double> * y2Values = new vector<double>(nPoints);
+//  vector<double> ySinValues(nPoints);
+//  vector<double> yCosValues(nPoints);
+//  vector<double> ySinMValues(nPoints);
+  
+//  double pi = 3.1416;
+  
+//  for (int i = 0; i < nPoints; i += 1) {
+//    xValues.at(i) = ((double)i * pi) / 180;
+//    ySinValues.at(i) = sin(xValues.at(i));
+//    yCosValues.at(i) = cos(xValues.at(i));
+//    ySinMValues.at(i) = 2 * sin(xValues.at(i));
+//  }
+  
+//  int q = -20;
+  for (int i = 0, q = -20; i < nPoints; ++i, ++q) {
+    xValues->at(i) = q;
+  }
+  
+  y1Values->at(0)  = 2.21482376;
+  y1Values->at(1)  = 2.21335273;
+  y1Values->at(2)  = 2.21167236;
+  y1Values->at(3)  = 2.20974298;
+  y1Values->at(4)  = 2.20751535;
+  y1Values->at(5)  = 2.20492786;
+  y1Values->at(6)  = 2.20190272;
+  y1Values->at(7)  = 2.19834070;
+  y1Values->at(8)  = 2.19411402;
+  y1Values->at(9)  = 2.18905639;
+  y1Values->at(10) = 2.18294945;
+  y1Values->at(11) = 2.17550425;
+  y1Values->at(12) = 2.16633765;
+  y1Values->at(13) = 2.15494700;
+  y1Values->at(14) = 2.14070021;
+  y1Values->at(15) = 2.12290090;
+  y1Values->at(16) = 2.10108283;
+  y1Values->at(17) = 2.07573302;
+  y1Values->at(18) = 2.04903018;
+  y1Values->at(19) = 2.02364757;
+  y1Values->at(20) = 1.99885758;
+  y1Values->at(21) = 1.96815334;
+  y1Values->at(22) = 1.91955382;
+  y1Values->at(23) = 1.84067197;
+  y1Values->at(24) = 1.74977813;
+  y1Values->at(25) = 1.67366250;
+  y1Values->at(26) = 1.61604074;
+  y1Values->at(27) = 1.57284440;
+  y1Values->at(28) = 1.53994134;
+  y1Values->at(29) = 1.51433757;
+  y1Values->at(30) = 1.49399561;
+  y1Values->at(31) = 1.47753027;
+  y1Values->at(32) = 1.46398373;
+  y1Values->at(33) = 1.45267914;
+  y1Values->at(34) = 1.44312772;
+  y1Values->at(35) = 1.43496921;
+  y1Values->at(36) = 1.42793318;
+  y1Values->at(37) = 1.42181316;
+  y1Values->at(38) = 1.41644916;
+  y1Values->at(39) = 1.41171554;
+  y1Values->at(40) = 1.40751239;
+  
+  y2Values->at(0)  = 2.22041633;
+  y2Values->at(1)  = 2.21890971;
+  y2Values->at(2)  = 2.21719617;
+  y2Values->at(3)  = 2.21523779;
+  y2Values->at(4)  = 2.21298774;
+  y2Values->at(5)  = 2.21038775;
+  y2Values->at(6)  = 2.20736453;
+  y2Values->at(7)  = 2.20382502;
+  y2Values->at(8)  = 2.19964978;
+  y2Values->at(9)  = 2.19468368;
+  y2Values->at(10) = 2.18872281;
+  y2Values->at(11) = 2.18149583;
+  y2Values->at(12) = 2.17263769;
+  y2Values->at(13) = 2.16165417;
+  y2Values->at(14) = 2.14788264;
+  y2Values->at(15) = 2.13048544;
+  y2Values->at(16) = 2.10861254;
+  y2Values->at(17) = 2.08204955;
+  y2Values->at(18) = 2.05243473;
+  y2Values->at(19) = 2.02324956;
+  y2Values->at(20) = 1.99575571;
+  y2Values->at(21) = 1.96493205;
+  y2Values->at(22) = 1.92011556;
+  y2Values->at(23) = 1.85006878;
+  y2Values->at(24) = 1.76774652;
+  y2Values->at(25) = 1.69676812;
+  y2Values->at(26) = 1.64202132;
+  y2Values->at(27) = 1.60048152;
+  y2Values->at(28) = 1.56857252;
+  y2Values->at(29) = 1.54358595;
+  y2Values->at(30) = 1.52363684;
+  y2Values->at(31) = 1.50742561;
+  y2Values->at(32) = 1.49404474;
+  y2Values->at(33) = 1.48284815;
+  y2Values->at(34) = 1.47336645;
+  y2Values->at(35) = 1.46525197;
+  y2Values->at(36) = 1.45824253;
+  y2Values->at(37) = 1.45213725;
+  y2Values->at(38) = 1.44677992;
+  y2Values->at(39) = 1.44204749;
+  y2Values->at(40) = 1.43784184;
+  
+  
+  dataList.append(xValues);
+  dataList.append(y1Values);
+  dataList.append(y2Values);
+  
+  QStringList curveIds;
+  curveIds << "Seq_1" 
+           << "Seq_2";
+  
+  NormalPlot * dqPlot = new NormalPlot(dataList, curveIds, parent);
+  dqPlot->setTitle("Espectro Dq");
+  dqPlot->setAxisTitle(QwtPlot::xBottom, "q");
+  dqPlot->setAxisTitle(QwtPlot::yLeft, "Dq");
+  dqPlot->resize(800,500);
+  
+  return dqPlot;
 }
 
+LinearPlot * qwtPlotLinearRegressionCurves(QWidget * parent)
+{
+  QList<vector<double> *> dataList;
+  
+  const int nPoints = 16;
+  vector<double> * x1Values = new vector<double>(nPoints);
+  vector<double> * y1Values = new vector<double>(nPoints);
+  vector<double> * x2Values = new vector<double>(nPoints);
+  vector<double> * y2Values = new vector<double>(nPoints);
+  
+  x1Values->at(0)  = -5.139710;
+  x1Values->at(1)  = -2.682980;
+  x1Values->at(2)  = -2.033630;
+  x1Values->at(3)  = -1.643200;
+  x1Values->at(4)  = -1.363130;
+  x1Values->at(5)  = -1.144570;
+  x1Values->at(6)  = -0.965325;
+  x1Values->at(7)  = -0.813375;
+  x1Values->at(8)  = -0.681497;
+  x1Values->at(9)  = -0.565001;
+  x1Values->at(10) = -0.460672;
+  x1Values->at(11) = -0.366207;
+  x1Values->at(12) = -0.279900;
+  x1Values->at(13) = -0.200454;
+  x1Values->at(14) = -0.126857;
+  x1Values->at(15) = -0.058308;
+                    
+  y1Values->at(0)  = -13.479300;
+  y1Values->at(1)  =  -6.952870;
+  y1Values->at(2)  =  -5.729590;
+  y1Values->at(3)  =  -5.073850;
+  y1Values->at(4)  =  -4.419330;
+  y1Values->at(5)  =  -3.958190;
+  y1Values->at(6)  =  -3.573480;
+  y1Values->at(7)  =  -3.241410;
+  y1Values->at(8)  =  -2.896190;
+  y1Values->at(9)  =  -2.688650;
+  y1Values->at(10) =  -2.485950;
+  y1Values->at(11) =  -2.287880;
+  y1Values->at(12) =  -2.087170;
+  y1Values->at(13) =  -1.925750;
+  y1Values->at(14) =  -1.756650;
+  y1Values->at(15) =  -1.579190;
+
+  x2Values->at(0)  = -5.139710;
+  x2Values->at(1)  = -2.682980;
+  x2Values->at(2)  = -2.033630;
+  x2Values->at(3)  = -1.643200;
+  x2Values->at(4)  = -1.363130;
+  x2Values->at(5)  = -1.144570;
+  x2Values->at(6)  = -0.965325;
+  x2Values->at(7)  = -0.813375;
+  x2Values->at(8)  = -0.681497;
+  x2Values->at(9)  = -0.565001;
+  x2Values->at(10) = -0.460672;
+  x2Values->at(11) = -0.366207;
+  x2Values->at(12) = -0.279900;
+  x2Values->at(13) = -0.200454;
+  x2Values->at(14) = -0.126857;
+  x2Values->at(15) = -0.058308;
+
+  y2Values->at(0)  = -11.539400;
+  y2Values->at(1)  = -5.657540;
+  y2Values->at(2)  = -4.339440;
+  y2Values->at(3)  = -3.573720;
+  y2Values->at(4)  = -3.034720;
+  y2Values->at(5)  = -2.628360;
+  y2Values->at(6)  = -2.299440;
+  y2Values->at(7)  = -2.025640;
+  y2Values->at(8)  = -1.793270;
+  y2Values->at(9)  = -1.596780;
+  y2Values->at(10) = -1.422870;
+  y2Values->at(11) = -1.267440;
+  y2Values->at(12) = -1.127180;
+  y2Values->at(13) = -1.001400;
+  y2Values->at(14) = -0.886317;
+  y2Values->at(15) = -0.781351;
+  
+  dataList.append(x1Values);
+  dataList.append(y1Values);
+  dataList.append(x2Values);
+  dataList.append(y2Values);
+  
+  
+  QList<vector<double> *> linearParams;
+  
+  vector<double> * linearFit1 = new vector<double>(2);
+  linearFit1->at(0) =  2.279807722; // m
+  linearFit1->at(1) = -1.368901965; // b
+  
+  vector<double> * linearFit2 = new vector<double>(2);
+  linearFit2->at(0) =  2.079070978;
+  linearFit2->at(1) = -0.403778793;
+  
+  linearParams.append(linearFit1);
+  linearParams.append(linearFit2);
+  
+  QStringList curveIds;
+  curveIds << "D(q=-20)" 
+           << "D(q=1)";
+  
+  LinearPlot * linearPlot = new LinearPlot(dataList, curveIds, linearParams, parent);
+  linearPlot->setTitle(QObject::trUtf8("Regresiones lineales para cálculo \nde valores Dq"));
+  linearPlot->setAxisTitle(QwtPlot::xBottom, "ln(R/L)");
+  linearPlot->setAxisTitle(QwtPlot::yLeft, "Dq");
+  linearPlot->resize(800,500);
+  
+  return linearPlot;
+}
+
+int qwtPlotApp(int argc, char *argv[])
+{
+  QApplication a(argc, argv);
+  
+//  NormalPlot * examplePlot = qwtPlotNormalCurves();
+//  LinearPlot * examplePlot = qwtPlotLinearRegressionCurves();
+  
+//  examplePlot->show();
+    
+//  return a.exec(); 
+  
+  
+  
+  QWidget vBox;
+  vBox.setWindowTitle("Cpu Plot");
+  
+    
+  NormalPlot * examplePlot = qwtPlotNormalCurves(&vBox);
+//  LinearPlot * examplePlot = qwtPlotLinearRegressionCurves(&vBox);
+  
+  QString info(QObject::trUtf8("Presione en cada item de leyenda para activar o "
+          "desactivar la curva correspondiente"));
+  
+  QLabel *label = new QLabel(info, &vBox);
+  
+  QVBoxLayout *layout = new QVBoxLayout(&vBox);
+  layout->addWidget(examplePlot);
+  layout->addWidget(label);
+  
+  vBox.resize(800,550);
+  vBox.show();
+  
+  
+//  QPixmap pixmap(examplePlot->size());
+//  pixmap.fill(Qt::lightGray);
+//  pixmap.fill(Qt::transparent);
+  QImage pixmap(examplePlot->size(), QImage::Format_RGB32);
+  pixmap.fill(qRgb(255, 255, 255));
+  
+  QwtPlotPrintFilter filter;
+  int options = QwtPlotPrintFilter::PrintAll;
+            options &= ~QwtPlotPrintFilter::PrintBackground;
+            options |= QwtPlotPrintFilter::PrintFrameWithScales;
+  filter.setOptions(options);
+  
+  if(!pixmap.isNull()){
+    QString fileName = QFileDialog::getSaveFileName(examplePlot, QObject::trUtf8("Save the file as..."), QDir::currentPath(), QObject::trUtf8("JPEG (*.jpg);;Portable Network Graphics (*.png)"));
+    if (!fileName.isEmpty()){
+      if(fileName.endsWith(".png")){
+        examplePlot->print(pixmap, filter);
+        pixmap.save(fileName, "PNG", 100);
+      }
+      else if(fileName.endsWith(".jpg")){
+        examplePlot->print(pixmap, filter);
+        pixmap.save(fileName, "JPG", 100);
+      }
+      else{
+        return 0;
+      }
+    }
+  }
+  
+  return a.exec(); 
+}
 
 int main(int argc, char *argv[])
 {

@@ -30,6 +30,10 @@
 #include <mfa/MultifractalAnalysis.h>
 #include <mfa/Plotter.h>
 #include <utils/Definitions.h>
+#include <utils/Plot.h>
+#include <utils/NormalPlot.h>
+#include <utils/LinearPlot.h>
+
 
 class MfaResultsForm;
 
@@ -52,6 +56,7 @@ class MfaResultsController
     MfaResultsForm * contructTheResultsForm(QWidget *parent);
     
     QList<Plotter *> plotResults();
+    QList<NormalPlot *> plotDqAndCqResults();
     
     QString convertDqValuesToCsv();
     bool exportDqValuesToCsv(const QString & fileName);
@@ -76,6 +81,10 @@ class MfaResultsController
     Plotter * dqPlot;
     
     Plotter * cqPlot; 
+    
+    NormalPlot * newDqPlot;
+    
+    NormalPlot * newCqPlot; 
     
     Plotter * linearRegressionPlot; 
     

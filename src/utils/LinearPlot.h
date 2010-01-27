@@ -30,9 +30,9 @@
 class LinearPlot : public Plot
 {
   public:
-    LinearPlot(const QList<vector<double> > & dataList,
+    LinearPlot(const QList<vector<double> *> & dataList,
                        const QStringList curveIdentifiers,
-                       const QList<vector<double> > & linearParameters,
+                       const QList<vector<double> *> & linearParameters,
                        QWidget *parent = 0);
     
     LinearPlot(const LinearPlot & linearPlotObject);
@@ -44,12 +44,12 @@ class LinearPlot : public Plot
     
     void setupCurves();
     
-    QList<vector<double> > getLinearParameters();
+    QList<vector<double> *> getLinearParameters();
     
-    void setLinearParameters(const QList<vector<double> > & linearParameters);
+    void setLinearParameters(const QList<vector<double> *> & linearParameters);
     
   private:
-    QList<vector<double> > linearParameters;
+    QList<vector<double> *> linearParameters;
     
     QwtPlotCurve * linearFitCurves;
     

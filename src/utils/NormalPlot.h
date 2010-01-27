@@ -39,7 +39,7 @@ class NormalPlot : public Plot
 {
   public:
 //    NormalPlot(const QList<QVector<double> > & dataList,
-    NormalPlot(const QList<vector<double> > & dataList,
+    NormalPlot(const QList<vector<double> *> & dataList,
                const QStringList & curveIdentifiers,
                QWidget *parent = 0);
     

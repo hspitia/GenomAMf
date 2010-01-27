@@ -63,7 +63,7 @@ MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation *
   
 }
 
-MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
+/*MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
                                            cgrObject,
                                            const int & minQ, 
                                            const int & maxQ,
@@ -71,11 +71,7 @@ MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation *
                                            const int & radiusStep)
 {
   this->cgrObject                = cgrObject;
-  this->mfaParametersSet         = MfaParametersSet(); /*mfaParametersSet;*/
-//  this->minQ                     = minQ;
-//  this->maxQ                     = maxQ;
-//  this->nCenters                 = nCenters;
-//  this->radiusStep               = radiusStep;
+  this->mfaParametersSet         = MfaParametersSet(); mfaParametersSet;
   this->linearRegressionImgePath = "";
   this->dqSpectraImagePath       = "";
   this->cqImagePath              = "";
@@ -84,17 +80,13 @@ MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation *
   this->cqValues                 = new vector<double>();
   this->tqValues                 = new vector<double>();
   
-}
+}*/
 
 MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis & 
                                            mfaObject)
 {
   this->cgrObject                = mfaObject.cgrObject;
   this->mfaParametersSet         = mfaObject.mfaParametersSet;
-//  this->minQ                     = mfaObject.minQ;
-//  this->maxQ                     = mfaObject.maxQ;
-//  this->nCenters                 = mfaObject.nCenters;
-//  this->radiusStep               = mfaObject.radiusStep;
   this->linearRegressionImgePath = mfaObject.linearRegressionImgePath;
   this->dqSpectraImagePath       = mfaObject.dqSpectraImagePath;
   this->cqImagePath              = mfaObject.cqImagePath;
@@ -112,8 +104,6 @@ MultifractalAnalysis & MultifractalAnalysis::operator=(const
   this->cgrObject                = 
           new ChaosGameRepresentation(*(mfaObject.cgrObject));
   this->mfaParametersSet         = mfaObject.mfaParametersSet;
-//  this->minQ                     = mfaObject.minQ;
-//  this->maxQ                     = mfaObject.maxQ;
   this->linearRegressionImgePath = mfaObject.linearRegressionImgePath;
   this->dqSpectraImagePath       = mfaObject.dqSpectraImagePath;
   this->cqImagePath              = mfaObject.cqImagePath;
