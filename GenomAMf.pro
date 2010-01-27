@@ -101,8 +101,8 @@ unix {
     LIBS += -L/usr/lib \
         -lmgl \
         -lmgl-qt
-    LIBS += -L/usr/local/qwt-5.2.0/lib \
-        -lqwt
+#    LIBS += -L/usr/local/qwt-5.2.0/lib \
+#        -lqwt
 }
 win32 { 
     INCLUDEPATH += $$WIN_USER_ENV_PATH/include
@@ -125,8 +125,7 @@ win32:INSTALL_DIR = C:/GenomAMf
 
 # CONFIG += release
 SUFFIX_STR = 
-CONFIG(debug, debug|release):SUFFIX_STR = $${DEBUG_SUFFIX}
-else:SUFFIX_STR = $${RELEASE_SUFFIX}
+CONFIG(debug, debug|release): SUFFIX_STR = $${DEBUG_SUFFIX} else:SUFFIX_STR = $${RELEASE_SUFFIX}
 
 # OBJECTS_DIR = obj$$SUFFIX_STR
 # MOC_DIR = moc$$SUFFIX_STR

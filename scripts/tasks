@@ -11,6 +11,6 @@ cd test/MatrixOperations
 make clean
 rm -fr test
 cd ../../
-tar -zcvf ../GenomAMf_$1.tgz ../GenomAMf
-mv ../GenomAMf_$1.tgz $2/Univalle/Trabajo\ de\ Grado/Fuente
+tar -zcvf ../GenomAMf_entrega_$1.tgz ../GenomAMf_entrega
+mv ../GenomAMf_entrega_$1.tgz $2/Univalle/Trabajo\ de\ Grado/Fuente
 sync
