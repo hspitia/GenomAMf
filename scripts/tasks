@@ -3,7 +3,7 @@ make clean
 pwd
 rm -fr debug/*.*
 rm app
-rm tmp/*
+rm tmp/*.*
 rm bin/*
 rm release/*
 rm doc/**/*.*

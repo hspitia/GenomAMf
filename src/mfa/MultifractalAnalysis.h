@@ -57,15 +57,12 @@ class MultifractalAnalysis
     enum AnalysisType {CONTINOUS_ANALYSIS, DISCRETE_ANALYSIS, COMPARATIVE_ANALYSIS};
     
     MultifractalAnalysis();
-    MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
-                         const int & minQ,
-                         const int & maxQ,
-                         const int & nCenters,
-                         const int & radiusStep);
+
     MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const MfaParametersSet & mfaParametersSet);
     
     MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
+    
     MultifractalAnalysis & operator=(const MultifractalAnalysis & mfaObject);
     
     virtual ~MultifractalAnalysis();

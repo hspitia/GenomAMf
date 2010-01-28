@@ -90,8 +90,9 @@ INCLUDEPATH += . \
     src/gui
 unix { 
     INCLUDEPATH += /usr/include \
-        /usr/local/include \
-        /usr/local/qwt-5.2.0/include
+        /usr/local/include 
+#        \
+#        /usr/local/qwt-5.2.0/include
     LIBS += -L/usr/local/lib \
         -lbpp-utils \
         -lbpp-seq \
@@ -120,35 +121,29 @@ RESOURCES += resources/resources.qrc
 TRANSLATIONS += translations/genomamf_es.ts \
     translations/genomamf_en.ts
 UI_HEADERS_DIR += src/gui
-unix:isEmpty(INSTALL_DIR):INSTALL_DIR = /usr/local/GenoAMf
+unix:isEmpty(INSTALL_DIR):INSTALL_DIR = /usr/local
 win32:INSTALL_DIR = C:/GenomAMf
+
+INSTALL_DIR = $$INSTALL_DIR/GenomAMf
 
 # CONFIG += release
 SUFFIX_STR = 
 CONFIG(debug, debug|release): SUFFIX_STR = $${DEBUG_SUFFIX} else:SUFFIX_STR = $${RELEASE_SUFFIX}
 
-# OBJECTS_DIR = obj$$SUFFIX_STR
-# MOC_DIR = moc$$SUFFIX_STR
-# RCC_DIR = resources
+OBJECTS_DIR = obj$$SUFFIX_STR
+MOC_DIR = moc$$SUFFIX_STR
+RCC_DIR = resources
 target.path = $$INSTALL_DIR/bin
 
-# !exists(/usr/local/bin/$$TARGET) {
-# unix:target.extra = ln -s $$INSTALL_DIR/$$DESTDIR/$$TARGET /usr/local/bin/$$TARGET
-# }
 documentation.path = $$INSTALL_DIR/doc
 documentation.files = doc/*
 source.path = $$INSTALL_DIR/src
 source.files = src/*
 templates.path = $$INSTALL_DIR/templates
 templates.files = templates/*
-tmp.path = $$INSTALL_DIR/templates
+tmp.path = $$INSTALL_DIR/tmp
 tmp.files = tmp/*
 
-# unix {
-# !exists($$INSTALL_DIR/tmp) {
-# unix:tmp.extra = mkdir $$INSTALL_DIR/tmp;
-# }
-# }
 INSTALLS += target \
     documentation \
     source \

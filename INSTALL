@@ -1,9 +1,8 @@
+================================================================================
 REQUEMIENTOS DE SOFTWARE
 ================================================================================
   
- - Sistema Operativo Linux
-  
-Bibliotecas adicionales:
+Librerías:
    
  - Qt >= 4.5.2
  - Bio++:
@@ -14,7 +13,11 @@ Bibliotecas adicionales:
      - Bpp-qt  = 0.1.0
  - MathGl = 1.9.1
   
-  
+Con excepciOn de Qt, las demAs librerias se encuentran en el CD que contiene
+la aplicacion en el directorio 'Aplicacion/Librerias', disponibles para 
+instalaciOn.
+
+================================================================================  
 REQUEMIENTOS DE HARDWARE
 ================================================================================
 
@@ -23,29 +26,68 @@ REQUEMIENTOS DE HARDWARE
  - Espacio en disco: 60 Mb
  
  
-INSTALACION
+================================================================================
+INSTALACION AUTOMATIZADA
 ================================================================================
 
 La aplicación está gestionada por la herramienta qmake la cual hace parte de
 la distribución Qt.
 
-Para instalar la aplicación debe ejecutar los siguientes comandos en el 
-directorio raíz del proyecto:
+Para facilitar el proceso de instalación, se ha incluido el script 'install'
+el cual realiza las tareas de configuración, compilación e instalaciOn de manera
+automatizada. Al ejecutar el script, deberA especificar la ruta al directorio 
+de instalaciOn de la librerIa Qt.
 
-$ qmake
+Para instalar la aplicacikOn, ejecute el siguiente comando con privilegios de
+administrador:
 
-para configurar el proyecto 
+$ ./install /ruta/hacia/qt 
 
-$ make
+Por defecto, la aplicaciOn se instalarA en el directorio '/usr/local/GenomAMf'.
+Si desea cambiar esta ubicación, especifique la nueva ruta de la siguiente 
+manera:
 
-para compilarlo, y finalmente
+$ ./install /ruta/hacia/qt /ruta/directorio/de/instalaciOn
 
-$ make install
 
-para instalar la aplicación.
+================================================================================
+INSTALACION MANUAL
+================================================================================
+Si lo desea puede ejecutar el proceso manualmente a travEs de los siguientes
+pasos:
 
-La aplicación se instalará por defecto en el directorio "/usr/local/GenoAMf". 
-Si desea una ubicación distinta, deberá especificar la ruta antes de realizar 
-la compilación e instalaciónpor medio del comando qmake de la siguiente manera:
+1. Configure el proyecto
+   $ qmake 
+
+2. Compile el proyecto 
+   $ make
+
+3. Instale la aplicación
+   $ make install
+
+La aplicación se instalará por defecto en el directorio '/usr/local/GenoAMf'. 
+Si desea una ubicación distinta, deberá especificar la ruta en el paso 1 de 
+la siguiente manera:
 
 $ qmake INSTALL_DIR=/ruta/deseada/de/instalacion
+
+================================================================================
+EJECUCION
+================================================================================
+El archivo binario estA ubicado en el directorio 'bin' dentro del directorio
+de instalaciOn de la aplicaciOn.
+
+Cuando se realiza la instalaciOn automatizada, el script de instalacion se 
+encarga de crear un enlace simbOlico hacia el archivo binario. De esta manera 
+para ejecutar la aplicaciOn solo hace falta el comando:
+
+$ genomAMf
+
+Si realizO la instalaciOn manual, debera ejecutar el comado hacia el archivo 
+binario de la aplicaciOn:
+
+$ /directorio/de/istalacion/GenomAMf/bin/genomAMf
+
+o si lo prefiere, puede crear un enlace simbOlico hacia este archivo binario
+en su directorio 'bin' del sistema
+

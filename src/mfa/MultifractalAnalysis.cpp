@@ -63,29 +63,6 @@ MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation *
   
 }
 
-MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
-                                           cgrObject,
-                                           const int & minQ, 
-                                           const int & maxQ,
-                                           const int & nCenters,
-                                           const int & radiusStep)
-{
-  this->cgrObject                = cgrObject;
-  this->mfaParametersSet         = MfaParametersSet(); /*mfaParametersSet;*/
-//  this->minQ                     = minQ;
-//  this->maxQ                     = maxQ;
-//  this->nCenters                 = nCenters;
-//  this->radiusStep               = radiusStep;
-  this->linearRegressionImgePath = "";
-  this->dqSpectraImagePath       = "";
-  this->cqImagePath              = "";
-  this->linearRegressionValues   = QList <vector <double> *>();
-  this->dqValues                 = new vector<double>();
-  this->cqValues                 = new vector<double>();
-  this->tqValues                 = new vector<double>();
-  
-}
-
 MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis & 
                                            mfaObject)
 {

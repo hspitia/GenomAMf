@@ -1,0 +1,32 @@
+#! /bin/sh
+
+QT_DIR=$1 
+
+INST_DIR=$2
+
+if [ ! -n  "$INST_DIR" ]; then
+	INST_DIR=/usr/local
+fi
+
+echo $INST_DIR
+echo Configurando la aplicaciOn ...
+$QT_DIR/bin/qmake INSTALL_DIR=$INST_DIR
+echo Compilando la aplicaciOn ...
+make
+echo Instalando la aplicaciOn ...
+make install
+
+APP_DIR=$INST_DIR/GenomAMf
+
+#if [ ! -s $APP_DIR/tmp ]; then
+#	mkdir $APP_DIR/tmp	
+#echo NO existe tmp
+#else
+#echo existe tmp
+#fi
+
+if [ ! -s /usr/local/bin/genomAMf ]; then
+	ln -s $APP_DIR/bin/genomAMf /usr/local/bin/genomAMf
+fi
+
+echo La aplicaciOn ha sido instalada correctamente

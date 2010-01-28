@@ -358,6 +358,7 @@ QMathGL * MfaResultsForm::getLinearRegressionGraphicWidget()
 void MfaResultsForm::setLinearRegressionGraphicWidget(QMathGL * 
                                                  linearRegressionGraphicWidget)
 {
+  Q_UNUSED(linearRegressionGraphicWidget);
 //  this->linearRegressionGraphicWidget = linearRegressionGraphicWidget;
 //  this->linearRegressionGraphicWidget->setVisible(false);
 //  ui->linearRegressionScrollArea->setVisible(false);

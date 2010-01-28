@@ -167,9 +167,9 @@ class AppController : public QApplication
       creados en la aplicación para asignar valor clave al hash 
       contenedor */
     
-    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de análisis 
-      multifractal creados en la aplicación para asignar valor clave al hash 
-      contenedor */
+    int mfaResultSetsCounter; /**< Contador de conjuntos de resultados de 
+      análisis multifractal creados en la aplicación para asignar valor clave 
+      al hash contenedor */
 
     int creObjectsCounter; /**< Contador de objetos de elementos de correlación
       (CorrelationElement) creados en la aplicación para asignar valor clave al 

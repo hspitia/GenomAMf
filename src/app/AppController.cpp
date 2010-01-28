@@ -209,7 +209,7 @@ int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
   return mfaResultSetKey;
 }
 
-int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
+/*int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
                                             const int & minQ,
                                             const int & maxQ,
                                             const int & nCenters,
@@ -244,7 +244,7 @@ int AppController::makeMultifractalAnalysis(const QList<int> & sequenceKeys,
   ++mfaResultSetsCounter;
   
   return mfaResultSetKey;
-}
+}*/
 
 int AppController::makeCorrelationAnalysis(const QList<int> & sequenceKeys,
                                            const int & nMeshFrames)

@@ -42,13 +42,13 @@ VectorSequenceContainer * SeqLoader::load(const string & filePath,
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
-  VectorSequenceContainer * sequences;
+  VectorSequenceContainer * sequences = 0;
   
   try {
     sequences = seqReader->read(filePath, dnaAlphabet);
   }
   catch (Exception e) {
-    cout << e.what() << endl << "Excepción en lectura." << endl;
+    cout << e.what() << endl << "Excepciï¿½n en lectura." << endl;
     alphabet = new ProteicAlphabet();
     try {
       sequences = seqReader->read(filePath, proteicAlphabet);
@@ -105,12 +105,12 @@ void SeqLoader::load(const QStringList & filePath,
   delete seqReader;
 }
 
-// TODO cambiar implementación incluyendo alfabetos tal como en el método load
+// TODO cambiar implementaciï¿½n incluyendo alfabetos tal como en el mï¿½todo load
 VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new DNA();
-  VectorSequenceContainer * sequences;
+  VectorSequenceContainer * sequences = 0;
   
   try {
     sequences = seqReader->read(filePath, alphabet);
@@ -123,13 +123,13 @@ VectorSequenceContainer * SeqLoader::loadDnaSequences(const string & filePath)
   return sequences;
 }
 
-// TODO cambiar implementación incluyendo alfabetos tal como en el método load
+// TODO cambiar implementaciï¿½n incluyendo alfabetos tal como en el mï¿½todo load
 VectorSequenceContainer * SeqLoader::loadProteinSequences(const string & 
                                                           filePath)
 {
   Fasta * seqReader = new Fasta();
   Alphabet * alphabet = new ProteicAlphabet();
-  VectorSequenceContainer * sequences;
+  VectorSequenceContainer * sequences = 0;
   
   try {
     sequences = seqReader->read(filePath, alphabet);

@@ -17,11 +17,7 @@
  */
 
 #include <QApplication>
-
 #include <app/AppController.h>
-
-
-using namespace utils;
 
 int appNormal(int argc, char *argv[])
 {
@@ -37,4 +33,3 @@ int main(int argc, char *argv[])
   appNormal(argc, argv);
   return 0;
 }
-
