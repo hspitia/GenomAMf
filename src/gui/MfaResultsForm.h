@@ -34,6 +34,8 @@
 #include <mfa/Plotter.h>
 #include <mfa/MfaResultsController.h>
 #include <gui/TreeItem.h>
+#include <utils/NormalPlot.h>
+#include <utils/LinearPlot.h>
 
 class MfaResultsController;
 
@@ -42,6 +44,10 @@ class MfaResultsController;
 //#include <mgl/mgl_zb.h>
 //#include <mgl/mgl_font.h>
 #include <mgl/mgl_qt.h>
+
+//Qwt Library
+//#include <qwt_plot.h>
+
 
 namespace Ui
 {
@@ -62,6 +68,11 @@ class MfaResultsForm : public QWidget
     void setUpDqGraphic(Plotter * plotter);
     void setUpCqGraphic(Plotter * plotter);
     void setUpLinearRegressionGraphic(Plotter * plotter);
+    
+    void setUpDqPlot(NormalPlot * dqPlot);
+    void setUpCqPlot(NormalPlot * cqPlot);
+    void setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList);
+    
     void setUpSequenceTable(/*const QList<QStringList> & contentList*/);
     void setUpDqValuesTable(/*const QList<QStringList> & contentList*/);
     
@@ -82,6 +93,22 @@ class MfaResultsForm : public QWidget
     
     MfaResultsController * getParentController();
     
+    NormalPlot * getDqPlotWidget();
+    
+    void setDqPlotWidget(NormalPlot * dqPlotWidget);
+    
+    NormalPlot * getCqPlotWidget();
+    
+    void setCqPlotWidget(NormalPlot * cqPlotWidget);
+    
+    QList<LinearPlot *> getLinearPlotWidgetList();
+    
+    void setLinearPlotWidgetList(QList<LinearPlot *> linearPlotWidgetList);
+    
+    QFrame * getlinearPlotFrame();
+    
+    void setlinearPlotFrame(QFrame * linearPlotFrame);
+    
   private:
     MfaResultsController * parentController;
     Ui::MfaResultsForm *ui;
@@ -90,6 +117,10 @@ class MfaResultsForm : public QWidget
     QMathGL * linearRegressionGraphicWidget;
     QList<QStringList> dqTableContent;
     QList<QStringList> sequenceList;
+    NormalPlot * dqPlotWidget;
+    NormalPlot * cqPlotWidget;
+    QList<LinearPlot *> linearPlotWidgetList;
+    QFrame * linearPlotFrame;
     
     /**
      * Realiza conexiones entre signals y slots.

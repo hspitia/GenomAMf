@@ -87,6 +87,23 @@ void MfaResultsForm::setupGraphicWidgets()
 //  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
 }
 
+void MfaResultsForm::setupPlotWidgets()
+{
+  dqGraphicWidget = new QMathGL(this);
+  dqGraphicWidget->autoResize = true;
+  dqGraphicWidget->setSize(609, 432);
+  ui->dqScrollArea->setWidget(dqGraphicWidget);
+  
+  cqGraphicWidget = new QMathGL(this);
+  cqGraphicWidget->autoResize = true;
+  cqGraphicWidget->setSize(609, 432);
+  ui->cqScrollArea->setWidget(cqGraphicWidget);
+  
+//  linearRegressionGraphicWidget = new QMathGL(this);
+//  linearRegressionGraphicWidget->autoResize = true;
+//  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
+}
+
 void MfaResultsForm::setUpDqGraphic(Plotter * plotter)
 {
   dqGraphicWidget->setDraw(plotter);
@@ -105,6 +122,27 @@ void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
 //  linearRegressionGraphicWidget->setDraw(plotter);
 //  linearRegressionGraphicWidget->update();
 }
+
+void MfaResultsForm::setUpDqPlot(NormalPlot * dqPlot)
+{
+  dqPlotWidget->setDraw(plotter);
+  dqPlotWidget->update();
+}
+
+void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
+{
+  cqPlotWidget->setDraw(plotter);
+  cqPlotWidget->update();
+}
+
+void 
+MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
+{
+  Q_UNUSED(linearPlotList);
+//  linearRegressionPlotWidget->setDraw(plotter);
+//  linearRegressionPlotWidget->update();
+}
+
 
 void MfaResultsForm::setUpSequenceTable()
 {
@@ -382,4 +420,44 @@ QIcon MfaResultsForm::getIcon(const int & type) const
 MfaResultsController * MfaResultsForm::getParentController()
 {
   return parentController;
+}
+
+NormalPlot * MfaResultsForm::getDqPlotWidget()
+{
+  return dqPlotWidget;
+}
+
+void MfaResultsForm::setDqPlotWidget(NormalPlot * dqPlotWidget)
+{
+  this->dqPlotWidget = dqPlotWidget;
+}
+
+NormalPlot * MfaResultsForm::getCqPlotWidget()
+{
+  return cqPlotWidget;
+}
+
+void MfaResultsForm::setCqPlotWidget(NormalPlot * cqPlotWidget)
+{
+  this->cqPlotWidget = cqPlotWidget;
+}
+
+QList<LinearPlot *> MfaResultsForm::getLinearPlotWidgetList()
+{
+  return linearPlotWidgetList;
+}
+
+void MfaResultsForm::setLinearPlotWidgetList(QList<LinearPlot *> linearPlotWidgetList)
+{
+  this->linearPlotWidgetList = linearPlotWidgetList;
+}
+
+QFrame * MfaResultsForm::getlinearPlotFrame()
+{
+  return linearPlotFrame;
+}
+
+void MfaResultsForm::setlinearPlotFrame(QFrame * linearPlotFrame)
+{
+  this->linearPlotFrame = linearPlotFrame;
 }
