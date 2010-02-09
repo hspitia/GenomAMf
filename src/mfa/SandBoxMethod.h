@@ -164,6 +164,8 @@ class SandBoxMethod
     
     void setQValuesForRegressionPlot(const vector<int> & qValuesForRegressionPlot);
     
+    vector<double> * getLinearRegressionParameters();
+    
   private:
     MfaParametersSet mfaParametersSet;
     
@@ -190,6 +192,9 @@ class SandBoxMethod
     
     vector<int> qValuesForRegressionPlot;
     
+    vector<double> * linearRegressionParameters; /**< Parámetros adicionales 
+      calculados en la regresión lineal: pendiente e intercepto */
+   
     QList<vector<double> > * 
     calculateDistributionProbabilities(vector<double> & xDataLinearRegression,
                                        vector<int> * xCenterCoordinates,

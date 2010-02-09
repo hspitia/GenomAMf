@@ -985,7 +985,7 @@ LinearPlot * qwtPlotLinearRegressionCurves(QWidget * parent)
   linearPlot->setTitle(QObject::trUtf8("Regresiones lineales para cálculo \nde valores Dq"));
   linearPlot->setAxisTitle(QwtPlot::xBottom, "ln(R/L)");
   linearPlot->setAxisTitle(QwtPlot::yLeft, "Dq");
-  linearPlot->resize(800,500);
+  linearPlot->resize(620,440);
   
   return linearPlot;
 }
@@ -1007,8 +1007,8 @@ int qwtPlotApp(int argc, char *argv[])
   vBox.setWindowTitle("Cpu Plot");
   
     
-  NormalPlot * examplePlot = qwtPlotNormalCurves(&vBox);
-//  LinearPlot * examplePlot = qwtPlotLinearRegressionCurves(&vBox);
+//  NormalPlot * examplePlot = qwtPlotNormalCurves(&vBox);
+  LinearPlot * examplePlot = qwtPlotLinearRegressionCurves(&vBox);
   
   QString info(QObject::trUtf8("Presione en cada item de leyenda para activar o "
           "desactivar la curva correspondiente"));
@@ -1019,7 +1019,8 @@ int qwtPlotApp(int argc, char *argv[])
   layout->addWidget(examplePlot);
   layout->addWidget(label);
   
-  vBox.resize(800,550);
+//  vBox.resize(800,550);
+  vBox.resize(620,440);
   vBox.show();
   
   
@@ -1057,8 +1058,8 @@ int qwtPlotApp(int argc, char *argv[])
 
 int main(int argc, char *argv[])
 {
-//  appNormal(argc, argv);
-  qwtPlotApp(argc, argv);
+  appNormal(argc, argv);
+//  qwtPlotApp(argc, argv);
 //  treeTest();
 //  appPlot(argc, argv);
 //  return runSample(argc, argv); // MathGl samples

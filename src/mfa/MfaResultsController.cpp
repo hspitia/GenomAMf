@@ -76,7 +76,7 @@ MfaResultsController::~MfaResultsController()
 }
 
 
-MfaResultsForm * MfaResultsController::contructTheResultsForm(QWidget *parent)
+/*MfaResultsForm * MfaResultsController::contructTheResultsForm(QWidget *parent)
 {
   QList<QStringList> dqValuesContent = prepareContentDqValuesTable();
   QList<QStringList> sequenceList = prepareContentSequenceTable();
@@ -89,6 +89,32 @@ MfaResultsForm * MfaResultsController::contructTheResultsForm(QWidget *parent)
   mfaResultsForm->setUpDqGraphic(dqPlot); // Dq graphic
   mfaResultsForm->setUpCqGraphic(cqPlot); // Cq graphic
   mfaResultsForm->setUpLinearRegressionGraphic(linearRegressionPlot); // Linear reg.
+  mfaResultsForm->setUpSequenceTable();
+  mfaResultsForm->setUpDqValuesTable();
+//  prepareContentSequenceTable();
+//  TRACE (__LINE__ << "\n\t" << "Después setUpDqGraphic()");
+  
+   
+  return mfaResultsForm;
+}*/
+
+MfaResultsForm * MfaResultsController::contructTheResultsForm(QWidget *parent)
+{
+  QList<QStringList> dqValuesContent = prepareContentDqValuesTable();
+  QList<QStringList> sequenceList = prepareContentSequenceTable();
+  
+  MfaResultsForm * mfaResultsForm = new MfaResultsForm(dqValuesContent,
+                                                       sequenceList, this, 
+                                                       parent);
+//  QList<Plotter *> plots = plotResults();
+  QList<NormalPlot *> normalPlots = plotDqAndCqResults();
+  QList<LinearPlot *> linearPlots = plotLinearRegressionResults();
+  
+  
+  mfaResultsForm->setUpDqPlot(newDqPlot); // Dq graphic
+  mfaResultsForm->setUpCqPlot(newCqPlot); // Cq graphic
+  mfaResultsForm->setUpLinearRegressionPlot(linearPlots); // Linear reg.
+//  mfaResultsForm->setUpLinearRegressionGraphic(linearRegressionPlot); // Linear reg.
   mfaResultsForm->setUpSequenceTable();
   mfaResultsForm->setUpDqValuesTable();
 //  prepareContentSequenceTable();
@@ -150,7 +176,6 @@ QList<NormalPlot *> MfaResultsController::plotDqAndCqResults()
   QList<vector<double> *> cqDataSet;
   QStringList curveIds;
   
-//  vector<double> * qValues = mfaObjects.at(0)->getQValues();
   vector<double> * qValues = mfaObjects.at(0).getQValues();
   
   dqDataSet.append(qValues);
@@ -166,20 +191,73 @@ QList<NormalPlot *> MfaResultsController::plotDqAndCqResults()
   newCqPlot = new NormalPlot(cqDataSet, curveIds);
   
   
-//  dqPlot->setXLabel("q");
-//  dqPlot->setYLabel("\\D_q");
-//  dqPlot->setTitle("Espectro \\D_q");
-//  
-//  cqPlot->setXLabel("q");
-//  cqPlot->setYLabel("\\C_q");
-//  cqPlot->setTitle("Calor específico análogo \\C_q");
-//  
-//  plots.append(dqPlot);
-//  plots.append(cqPlot);
-//  plots.append(linearRegressionPlot);
+  newDqPlot->setTitle(QObject::trUtf8("Espectro Dq"));
+  newDqPlot->setAxisTitle(QwtPlot::xBottom, "q");
+  newDqPlot->setAxisTitle(QwtPlot::yLeft, "Dq");
+  
+  
+  newCqPlot->setTitle(QObject::trUtf8("Calor específico análogo Cq"));
+  newCqPlot->setAxisTitle(QwtPlot::xBottom, "q");
+  newCqPlot->setAxisTitle(QwtPlot::yLeft, "Cq");
   
   return plots;
 }
+
+QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
+{
+  QList<LinearPlot *> plots;
+  QList<vector<double> *> dataSet;
+  QStringList curveIds;
+  
+    for (int i = 0; i < mfaObjects.count(); ++i) {
+      curveIds << QObject::trUtf8("Seq_%1").arg(i + 1);
+      QList<vector<double> *> linearParams;
+      
+      MultifractalAnalysis mfaObject = mfaObjects.at(i);
+      
+      
+      int nVectors = mfaObject.getLinearRegressionValues().count();
+      
+      for (int j = 0; j < nVectors; j += 2) {
+        int dataLength = 
+                (int)mfaObject.getLinearRegressionValues().at(j)->size();
+        Linear * linear = 
+                new Linear(dataLength, 
+                           mfaObject.getLinearRegressionValues().at(j),
+                           mfaObject.getLinearRegressionValues().at(j + 1));
+        
+        double slope = linear->getSlope();
+        double intercept = linear->getIntercept();
+        
+        delete linear;
+        vector<double> * params = new vector<double>(2);
+        params->at(0) = slope;
+        params->at(1) = intercept;
+        
+        cout << "slope: " << slope << "  intercept: " <<   intercept << endl;
+        
+        linearParams.append(params);
+        
+      }
+      /*dataSet = mfaObject.getLinearRegressionValues();      
+      LinearPlot * newLinearPlot = new LinearPlot(dataSet, curveIds, 
+                                                  linearParams);
+      
+      plots.append(newLinearPlot);*/
+    }
+//   
+//  for (int i = 0; i < mfaObjects.count(); ++i) {
+//    curveIds << QObject::trUtf8("Seq_%1").arg(i + 1);
+//    dqDataSet.append(mfaObjects.at(i).getDqValues());
+//    cqDataSet.append(mfaObjects.at(i).getCqValues());
+//    LinearPlot * newLinearPlot = new LinearPlot(dataSet, );
+//  }
+  /*
+  newCqPlot = new NormalPlot(cqDataSet, curveIds);*/
+  
+  return plots;
+}
+
 /*QString MfaResultsController::convertDqValuesToCsv()
 {
 
@@ -498,7 +576,6 @@ MfaResultsForm * MfaResultsController::getMfaResultsForm()
 {
   return mfaResultsForm;
 }
-
 
 Plotter * MfaResultsController::getDqPlot()
 {

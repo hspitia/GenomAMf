@@ -113,7 +113,7 @@
           </size>
          </property>
          <property name="widgetResizable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <widget class="QWidget" name="scrollAreaWidgetContents">
           <property name="geometry">
@@ -171,7 +171,7 @@
           </size>
          </property>
          <property name="widgetResizable">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <widget class="QWidget" name="scrollAreaWidgetContents_3">
           <property name="geometry">
@@ -242,12 +242,6 @@
          </attribute>
          <attribute name="verticalHeaderDefaultSectionSize">
           <number>24</number>
-         </attribute>
-         <attribute name="horizontalHeaderStretchLastSection">
-          <bool>true</bool>
-         </attribute>
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>70</number>
          </attribute>
         </widget>
        </item>

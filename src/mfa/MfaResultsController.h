@@ -33,6 +33,7 @@
 #include <utils/Plot.h>
 #include <utils/NormalPlot.h>
 #include <utils/LinearPlot.h>
+#include <utils/Linear.h>
 
 
 class MfaResultsForm;
@@ -57,6 +58,7 @@ class MfaResultsController
     
     QList<Plotter *> plotResults();
     QList<NormalPlot *> plotDqAndCqResults();
+    QList<LinearPlot *> plotLinearRegressionResults();
     
     QString convertDqValuesToCsv();
     bool exportDqValuesToCsv(const QString & fileName);

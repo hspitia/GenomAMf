@@ -27,6 +27,7 @@
 #include <QtGui/QMdiSubWindow>
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
+#include <QtGui/QGridLayout>
 #include <QtCore/QTextStream>
 
 // Project
@@ -72,6 +73,8 @@ class MfaResultsForm : public QWidget
     void setUpDqPlot(NormalPlot * dqPlot);
     void setUpCqPlot(NormalPlot * cqPlot);
     void setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList);
+    
+    void setupPlotWidgets();
     
     void setUpSequenceTable(/*const QList<QStringList> & contentList*/);
     void setUpDqValuesTable(/*const QList<QStringList> & contentList*/);

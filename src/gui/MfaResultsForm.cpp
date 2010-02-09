@@ -87,7 +87,7 @@ void MfaResultsForm::setupGraphicWidgets()
 //  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
 }
 
-void MfaResultsForm::setupPlotWidgets()
+/*void MfaResultsForm::setupPlotWidgets()
 {
   dqGraphicWidget = new QMathGL(this);
   dqGraphicWidget->autoResize = true;
@@ -102,6 +102,12 @@ void MfaResultsForm::setupPlotWidgets()
 //  linearRegressionGraphicWidget = new QMathGL(this);
 //  linearRegressionGraphicWidget->autoResize = true;
 //  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
+}*/
+
+void MfaResultsForm::setupPlotWidgets()
+{
+  dqPlotWidget = 0;
+  cqPlotWidget = 0;
 }
 
 void MfaResultsForm::setUpDqGraphic(Plotter * plotter)
@@ -125,20 +131,37 @@ void MfaResultsForm::setUpLinearRegressionGraphic(Plotter * plotter)
 
 void MfaResultsForm::setUpDqPlot(NormalPlot * dqPlot)
 {
-  dqPlotWidget->setDraw(plotter);
-  dqPlotWidget->update();
+  dqPlotWidget = dqPlot;
+  dqPlotWidget->resize(620,440);
+  ui->dqScrollArea->setWidget(dqPlot);
+  //  dqPlotWidget->setDraw(plotter);
+//  dqPlotWidget->update();
 }
 
 void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
 {
-  cqPlotWidget->setDraw(plotter);
-  cqPlotWidget->update();
+  cqPlotWidget = cqPlot;
+  cqPlotWidget->resize(620,440);
+  ui->cqScrollArea->setWidget(cqPlot);
+//  cqPlotWidget->setDraw(plotter);
+//  cqPlotWidget->update();
 }
 
 void 
 MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
 {
-  Q_UNUSED(linearPlotList);
+//  Q_UNUSED(linearPlotList);
+  int nPlots = linearPlotList.count();
+  QWidget * linearPlotsWidget = new QWidget();
+  QGridLayout * gridLayout = new QGridLayout();
+  
+  if (nPlots > 1) {
+    int nRows = 0;
+  }
+  else {
+    
+  }
+  
 //  linearRegressionPlotWidget->setDraw(plotter);
 //  linearRegressionPlotWidget->update();
 }

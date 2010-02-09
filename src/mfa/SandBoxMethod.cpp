@@ -34,6 +34,7 @@ SandBoxMethod::SandBoxMethod()
   this->dqValues                  = new vector<double>();
   this->linearRegressionValues    = QList<vector<double> *>();
   this->fractalPoints             = QList<QPointF>();
+  this->qValuesForRegressionPlot  = vector<int>();
 }
 
 /*SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
@@ -78,41 +79,44 @@ SandBoxMethod::SandBoxMethod(const RowMatrix<int> * cgrMatrix,
                              const int & totalPoints,
                              const MfaParametersSet & mfaParametersSet)
 {
-  this->mfaParametersSet          = mfaParametersSet;
-  this->totalPoints               = totalPoints;
-  this->cgrMatrix                 = cgrMatrix;
-  this->cumulativeFrequencyMatrix = cumulativeFrequencyMatrix;
-  this->indexesOfCenters          = QVector<int>();
-  this->dqValues                  = new vector<double>();
-  this->linearRegressionValues    = QList<vector<double> *>();
-  this->fractalPoints             = QList<QPointF>(fractalPoints);
-  this->qValuesForRegressionPlot  = vector<int>();
+  this->mfaParametersSet           = mfaParametersSet;
+  this->totalPoints                = totalPoints;
+  this->cgrMatrix                  = cgrMatrix;
+  this->cumulativeFrequencyMatrix  = cumulativeFrequencyMatrix;
+  this->indexesOfCenters           = QVector<int>();
+  this->dqValues                   = new vector<double>();
+  this->linearRegressionValues     = QList<vector<double> *>();
+  this->fractalPoints              = QList<QPointF>(fractalPoints);
+  this->qValuesForRegressionPlot   = vector<int>();
+  this->linearRegressionParameters = new vector<double>();
 }
 
 SandBoxMethod::SandBoxMethod(const SandBoxMethod & sandBoxObject)
 {
-  this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
-  this->totalPoints               = sandBoxObject.totalPoints;
-  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
-  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
-  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
-  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
-  this->fractalPoints             = sandBoxObject.fractalPoints; 
-  this->qValuesForRegressionPlot  = sandBoxObject.qValuesForRegressionPlot;
+  this->mfaParametersSet           = sandBoxObject.mfaParametersSet;
+  this->totalPoints                = sandBoxObject.totalPoints;
+  this->cgrMatrix                  = sandBoxObject.cgrMatrix;
+  this->cumulativeFrequencyMatrix  = sandBoxObject.cumulativeFrequencyMatrix;
+  this->indexesOfCenters           = sandBoxObject.indexesOfCenters;
+  this->dqValues                   = new vector<double>(*sandBoxObject.dqValues);
+  this->linearRegressionValues     = sandBoxObject.linearRegressionValues;
+  this->fractalPoints              = sandBoxObject.fractalPoints; 
+  this->qValuesForRegressionPlot   = sandBoxObject.qValuesForRegressionPlot;
+  this->linearRegressionParameters = new vector<double>();
 }
 
 SandBoxMethod & SandBoxMethod::operator=(const SandBoxMethod & sandBoxObject)
 {
-  this->mfaParametersSet          = sandBoxObject.mfaParametersSet;
-  this->totalPoints               = sandBoxObject.totalPoints;
-  this->cgrMatrix                 = sandBoxObject.cgrMatrix;
-  this->cumulativeFrequencyMatrix = sandBoxObject.cumulativeFrequencyMatrix;
-  this->indexesOfCenters          = sandBoxObject.indexesOfCenters;
-  this->dqValues                  = new vector<double>(*sandBoxObject.dqValues);
-  this->linearRegressionValues    = sandBoxObject.linearRegressionValues;
-  this->fractalPoints             = sandBoxObject.fractalPoints;
-  this->qValuesForRegressionPlot  = sandBoxObject.qValuesForRegressionPlot;
+  this->mfaParametersSet           = sandBoxObject.mfaParametersSet;
+  this->totalPoints                = sandBoxObject.totalPoints;
+  this->cgrMatrix                  = sandBoxObject.cgrMatrix;
+  this->cumulativeFrequencyMatrix  = sandBoxObject.cumulativeFrequencyMatrix;
+  this->indexesOfCenters           = sandBoxObject.indexesOfCenters;
+  this->dqValues                   = new vector<double>(*sandBoxObject.dqValues);
+  this->linearRegressionValues     = sandBoxObject.linearRegressionValues;
+  this->fractalPoints              = sandBoxObject.fractalPoints;
+  this->qValuesForRegressionPlot   = sandBoxObject.qValuesForRegressionPlot;
+  this->linearRegressionParameters = new vector<double>();
   
   return *this;
 }
@@ -129,6 +133,9 @@ SandBoxMethod::~SandBoxMethod()
   
   if (!linearRegressionValues.empty())
     linearRegressionValues.clear();
+  
+  if (linearRegressionParameters != 0)
+    delete linearRegressionParameters;
   
 }
 
@@ -359,7 +366,7 @@ void SandBoxMethod::performDiscreteAnalysis()
       regressionSubList.append(*xDataLinearRegression); // Para Archivo CSV de análisis
       regressionSubList.append(*yDataLinearRegression); // Para Archivo CSV de análisis
       
-      // Suma de valores de regresión para los q especificados en qValuesForregressionPlot
+      // Suma de valores de regresión para los q especificados en qValuesForRegressionPlot
       int tmpQ = static_cast<int>(q);
       if (tmpQ == qValuesForRegressionPlot.at(indexOfQRegValues)) {
         for (int k = 0; k < dataLenght; ++k) {
@@ -980,4 +987,9 @@ vector<int> SandBoxMethod::getQValuesForRegressionPlot()
 void SandBoxMethod::setQValuesForRegressionPlot(const vector<int> & qValuesForRegressionPlot)
 {
   this->qValuesForRegressionPlot = qValuesForRegressionPlot;
+}
+
+vector<double> * SandBoxMethod::getLinearRegressionParameters()
+{
+  return linearRegressionParameters;
 }

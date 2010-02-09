@@ -57,15 +57,12 @@ class MultifractalAnalysis
     enum AnalysisType {CONTINOUS_ANALYSIS, DISCRETE_ANALYSIS, COMPARATIVE_ANALYSIS};
     
     MultifractalAnalysis();
-    /*MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
-                         const int & minQ,
-                         const int & maxQ,
-                         const int & nCenters,
-                         const int & radiusStep);*/
+
     MultifractalAnalysis(const ChaosGameRepresentation * cgrObject,
                          const MfaParametersSet & mfaParametersSet);
     
     MultifractalAnalysis(const MultifractalAnalysis & mfaObject);
+    
     MultifractalAnalysis & operator=(const MultifractalAnalysis & mfaObject);
     
     virtual ~MultifractalAnalysis();
@@ -116,22 +113,13 @@ class MultifractalAnalysis
     
     QString getCqImagePath();
 
-    
-//    QList<vector<double> > * getLinearRegressionValues();
     QList<vector<double> *> getLinearRegressionValues() const;
     
-    
-//    QList<vector<double> > * getDqValues();
     vector<double> * getDqValues() const;
     
-    
-//    QList<vector<double> > * getCqValues();
     vector<double> * getCqValues() const;
     
-    
-//    QList<vector<double> > * getTqValues();
     vector<double> * getTqValues() const;
-    
     
     vector<double> * getQValues() const;
     
@@ -141,21 +129,14 @@ class MultifractalAnalysis
     
     void setRadiusStep(const int & radiusStep);
     
+    vector<double> * getLinearRegressionParameters();
+    
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
       ChaosGameRepresentation sobre el que se realiza el 
       análisis multifractal */
     
     MfaParametersSet mfaParametersSet;
-
-//    int minQ; /**< Valor para el parámetro q mínimo */
-//    
-//    int maxQ; /**< Valor para el parámetro q máximo*/
-//    
-//    int nCenters; /**< Número de centros para el análisis multifractal */
-//    
-//    int radiusStep;
-    
     
     QString linearRegressionImgePath; /**< Ruta a la imagen
       correspondiente a la regresión lineal */
@@ -165,20 +146,9 @@ class MultifractalAnalysis
     
     QString cqImagePath; /**< Ruta a la imagen correspondiente al 
       gráfico Dq */
-/*
-    QList<vector<double> > * linearRegressionValues; *< Contenedor de los 
-      valores de la regresión lineal 
-*/
+
     QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
-    
-    /*
-    QList<vector<double> > * dqValues; *< Contenedor de los valores Dq vs q 
-    
-    QList<vector<double> > * cqValues; *< contenedor de los valores Cq vs q 
-
-    QList<vector<double> > * tqValues; *< Contenedor para valores tau q 
-    */
     
    vector<double> * dqValues; /**< Contenedor de los valores Dq  */
    
@@ -186,8 +156,10 @@ class MultifractalAnalysis
 
    vector<double> * tqValues; /**< Contenedor para valores tau q */
    
-//   QString plotResults(const QList <vector <double> > & values);
-    
+   vector<double> * linearRegressionParameters; /**< Parámetros adicionales 
+      calculados en la regresión lineal: pendiente e intercepto */
+   
+   
 };
 
 #endif /* MULTIFRACTALANALYSIS_H_ */
