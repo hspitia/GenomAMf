@@ -128,7 +128,8 @@ INSTALL_DIR = $$INSTALL_DIR/GenomAMf
 
 # CONFIG += release
 SUFFIX_STR = 
-CONFIG(debug, debug|release): SUFFIX_STR = $${DEBUG_SUFFIX} else:SUFFIX_STR = $${RELEASE_SUFFIX}
+CONFIG(debug, debug|release): SUFFIX_STR = $${DEBUG_SUFFIX} 
+else:SUFFIX_STR = $${RELEASE_SUFFIX}
 
 OBJECTS_DIR = obj$$SUFFIX_STR
 MOC_DIR = moc$$SUFFIX_STR
