@@ -208,52 +208,50 @@ QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
   QList<LinearPlot *> plots;
   QList<vector<double> *> dataSet;
   QStringList curveIds;
+    
   
-    for (int i = 0; i < mfaObjects.count(); ++i) {
-      curveIds << QObject::trUtf8("Seq_%1").arg(i + 1);
-      QList<vector<double> *> linearParams;
+  for (int i = 0; i < mfaObjects.count(); ++i) {
+    QList<vector<double> *> linearParams;
+    
+    MultifractalAnalysis mfaObject = mfaObjects.at(i);
+    
+    
+    int nVectors = mfaObject.getLinearRegressionValues().count();
+    
+    for (int j = 0; j < nVectors; j += 2) {
+      int dataLength = 
+              (int)mfaObject.getLinearRegressionValues().at(j)->size();
+      Linear * linear = 
+              new Linear(dataLength, 
+                         mfaObject.getLinearRegressionValues().at(j),
+                         mfaObject.getLinearRegressionValues().at(j + 1));
       
-      MultifractalAnalysis mfaObject = mfaObjects.at(i);
+      double slope = linear->getSlope();
+      double intercept = linear->getIntercept();
       
+      delete linear;
+      vector<double> * params = new vector<double>(2);
+      params->at(0) = slope;
+      params->at(1) = intercept;
       
-      int nVectors = mfaObject.getLinearRegressionValues().count();
+      DEBUG("slope: " << slope << "  intercept: " <<   intercept << endl);
       
-      for (int j = 0; j < nVectors; j += 2) {
-        int dataLength = 
-                (int)mfaObject.getLinearRegressionValues().at(j)->size();
-        Linear * linear = 
-                new Linear(dataLength, 
-                           mfaObject.getLinearRegressionValues().at(j),
-                           mfaObject.getLinearRegressionValues().at(j + 1));
-        
-        double slope = linear->getSlope();
-        double intercept = linear->getIntercept();
-        
-        delete linear;
-        vector<double> * params = new vector<double>(2);
-        params->at(0) = slope;
-        params->at(1) = intercept;
-        
-        cout << "slope: " << slope << "  intercept: " <<   intercept << endl;
-        
-        linearParams.append(params);
-        
-      }
-      /*dataSet = mfaObject.getLinearRegressionValues();      
-      LinearPlot * newLinearPlot = new LinearPlot(dataSet, curveIds, 
-                                                  linearParams);
+      linearParams.append(params);
       
-      plots.append(newLinearPlot);*/
     }
-//   
-//  for (int i = 0; i < mfaObjects.count(); ++i) {
-//    curveIds << QObject::trUtf8("Seq_%1").arg(i + 1);
-//    dqDataSet.append(mfaObjects.at(i).getDqValues());
-//    cqDataSet.append(mfaObjects.at(i).getCqValues());
-//    LinearPlot * newLinearPlot = new LinearPlot(dataSet, );
-//  }
-  /*
-  newCqPlot = new NormalPlot(cqDataSet, curveIds);*/
+    
+    int nRegressions = static_cast<int> (nVectors / 2);
+    for (int j = 0; j < nRegressions; ++j) {
+      curveIds << QObject::trUtf8("q=%1")
+                  .arg(mfaObject.getQValuesForLinearRegression()->at(j));
+    }  
+    
+    dataSet = mfaObject.getLinearRegressionValues();
+    LinearPlot * newLinearPlot = new LinearPlot(dataSet, curveIds, 
+                                                linearParams);
+          
+    plots.append(newLinearPlot);
+  }
   
   return plots;
 }

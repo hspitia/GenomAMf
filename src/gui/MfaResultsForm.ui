@@ -120,7 +120,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>615</width>
+            <width>598</width>
             <height>431</height>
            </rect>
           </property>
@@ -178,7 +178,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>615</width>
+            <width>598</width>
             <height>431</height>
            </rect>
           </property>
@@ -208,6 +208,64 @@
           </spacer>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="linearRegressionTab">
+      <attribute name="icon">
+       <iconset resource="../../resources/resources.qrc">
+        <normaloff>:/icons/graph_linear_regression.png</normaloff>:/icons/graph_linear_regression.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Regresiones Lineales</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QPushButton" name="exportLinearPlotPushButton">
+           <property name="text">
+            <string>Exportar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <widget class="QScrollArea" name="linearScrollArea">
+         <property name="minimumSize">
+          <size>
+           <width>600</width>
+           <height>433</height>
+          </size>
+         </property>
+         <property name="widgetResizable">
+          <bool>false</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_4">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>615</width>
+            <height>431</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
        </item>
       </layout>
      </widget>

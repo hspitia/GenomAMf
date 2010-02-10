@@ -72,7 +72,7 @@ void MfaResultsForm::connectSignalsSlots()
 
 void MfaResultsForm::setupGraphicWidgets()
 {
-  dqGraphicWidget = new QMathGL(this);
+  /*dqGraphicWidget = new QMathGL(this);
   dqGraphicWidget->autoResize = true;
   dqGraphicWidget->setSize(609, 432);
   ui->dqScrollArea->setWidget(dqGraphicWidget);
@@ -80,7 +80,7 @@ void MfaResultsForm::setupGraphicWidgets()
   cqGraphicWidget = new QMathGL(this);
   cqGraphicWidget->autoResize = true;
   cqGraphicWidget->setSize(609, 432);
-  ui->cqScrollArea->setWidget(cqGraphicWidget);
+  ui->cqScrollArea->setWidget(cqGraphicWidget);*/
   
 //  linearRegressionGraphicWidget = new QMathGL(this);
 //  linearRegressionGraphicWidget->autoResize = true;
@@ -143,27 +143,35 @@ void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
   cqPlotWidget = cqPlot;
   cqPlotWidget->resize(620,440);
   ui->cqScrollArea->setWidget(cqPlot);
-//  cqPlotWidget->setDraw(plotter);
-//  cqPlotWidget->update();
 }
 
 void 
 MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
 {
-//  Q_UNUSED(linearPlotList);
   int nPlots = linearPlotList.count();
-  QWidget * linearPlotsWidget = new QWidget();
+  QWidget * linearPlotWidget = new QWidget();
   QGridLayout * gridLayout = new QGridLayout();
   
+  int nRows = static_cast<int>(ceil(static_cast<double>(nPlots) / 2.0));
+  
   if (nPlots > 1) {
-    int nRows = 0;
+    for (int i = 0; i < nRows; ++i) {
+      int plotIndex = i * 2;
+      gridLayout->addWidget(linearPlotList.at(plotIndex), i, 0);
+//      linearPlotList.at(plotIndex)->resize(620,440);
+      gridLayout->addWidget(linearPlotList.at(plotIndex + 1), i, 1);
+//      linearPlotList.at(plotIndex + 1)->resize(620,440);
+    }
   }
   else {
-    
+    gridLayout->addWidget(linearPlotList.at(0), 0, 0);
   }
   
-//  linearRegressionPlotWidget->setDraw(plotter);
-//  linearRegressionPlotWidget->update();
+  linearPlotWidget->setLayout(gridLayout);
+  int width  = 640 * 2;
+  int height = 500 * nRows;
+  linearPlotWidget->resize(width, height);
+  ui->linearScrollArea->setWidget(linearPlotWidget);
 }
 
 

@@ -131,35 +131,39 @@ class MultifractalAnalysis
     
     vector<double> * getLinearRegressionParameters();
     
+    vector<int> * getQValuesForLinearRegression();
+    
+    void setQValuesForLinearRegression(vector<int> * qValuesForLinearRegression);
+    
   private:
     const ChaosGameRepresentation * cgrObject; /**< Apuntador al objeto 
-      ChaosGameRepresentation sobre el que se realiza el 
+    ChaosGameRepresentation sobre el que se realiza el 
       análisis multifractal */
     
     MfaParametersSet mfaParametersSet;
     
     QString linearRegressionImgePath; /**< Ruta a la imagen
       correspondiente a la regresión lineal */
-   
+    
     QString dqSpectraImagePath; /**< Ruta a la imagen correspondiente al 
       espectro Dq */
     
     QString cqImagePath; /**< Ruta a la imagen correspondiente al 
       gráfico Dq */
-
+    
     QList<vector<double> *> linearRegressionValues; /**< Contenedor de los 
       valores de la regresión lineal */
     
-   vector<double> * dqValues; /**< Contenedor de los valores Dq  */
-   
-   vector<double> * cqValues; /**< contenedor de los valores Cq */
-
-   vector<double> * tqValues; /**< Contenedor para valores tau q */
-   
-   vector<double> * linearRegressionParameters; /**< Parámetros adicionales 
+    vector<double> * dqValues; /**< Contenedor de los valores Dq  */
+    
+    vector<double> * cqValues; /**< contenedor de los valores Cq */
+    
+    vector<double> * tqValues; /**< Contenedor para valores tau q */
+    
+    vector<double> * linearRegressionParameters; /**< Parámetros adicionales 
       calculados en la regresión lineal: pendiente e intercepto */
-   
-   
+    
+    vector<int> * qValuesForLinearRegression;
 };
 
 #endif /* MULTIFRACTALANALYSIS_H_ */

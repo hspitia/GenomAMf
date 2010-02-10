@@ -40,6 +40,7 @@ MultifractalAnalysis::MultifractalAnalysis()
   this->cqValues                   = new vector<double>();
   this->tqValues                   = new vector<double>();
   this->linearRegressionParameters = new vector<double>();
+  this->qValuesForLinearRegression = new vector<int>();
 }
 
 MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
@@ -61,7 +62,7 @@ MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation *
   this->cqValues                   = new vector<double>();
   this->tqValues                   = new vector<double>();
   this->linearRegressionParameters = new vector<double>();
-  
+  this->qValuesForLinearRegression = new vector<int>();
 }
 
 /*MultifractalAnalysis::MultifractalAnalysis(const ChaosGameRepresentation * 
@@ -98,6 +99,8 @@ MultifractalAnalysis::MultifractalAnalysis(const MultifractalAnalysis &
   this->tqValues                   = new vector<double>(*(mfaObject.tqValues));
   this->linearRegressionParameters = 
           new vector<double>(*(mfaObject.linearRegressionParameters));
+  this->qValuesForLinearRegression = 
+          new vector<int>(*(mfaObject.qValuesForLinearRegression));
 }
 
 MultifractalAnalysis & MultifractalAnalysis::operator=(const 
@@ -117,6 +120,8 @@ MultifractalAnalysis & MultifractalAnalysis::operator=(const
   this->tqValues                   = new vector<double>(*(mfaObject.tqValues));
   this->linearRegressionParameters = 
           new vector<double>(*(mfaObject.linearRegressionParameters));
+  this->qValuesForLinearRegression = 
+          new vector<int>(*(mfaObject.qValuesForLinearRegression));
  
   return *this;
 }
@@ -208,15 +213,16 @@ void MultifractalAnalysis::calculateDqValues(AnalysisType type)
                             static_cast<int>(cgrObject->getSequence()->size()),
                             newParameters);
   
-  vector<int> qValuesForReg(6);
-  qValuesForReg.at(0) = mfaParametersSet.getMinQ();
-  qValuesForReg.at(1) = -1;
-  qValuesForReg.at(2) =  0;
-  qValuesForReg.at(3) =  1;
-  qValuesForReg.at(4) =  2;
-  qValuesForReg.at(5) = mfaParametersSet.getMaxQ();
+//  vector<int> qValuesForReg(6);
+  qValuesForLinearRegression = new vector<int>(6);
+  qValuesForLinearRegression->at(0) = mfaParametersSet.getMinQ();
+  qValuesForLinearRegression->at(1) = -1;
+  qValuesForLinearRegression->at(2) =  0;
+  qValuesForLinearRegression->at(3) =  1;
+  qValuesForLinearRegression->at(4) =  2;
+  qValuesForLinearRegression->at(5) = mfaParametersSet.getMaxQ();
   
-  sandBoxObject->setQValuesForRegressionPlot(qValuesForReg);
+  sandBoxObject->setQValuesForRegressionPlot(*qValuesForLinearRegression);
   sandBoxObject->performAnalysis(type);
   
   linearRegressionValues = sandBoxObject->getLinearRegressionValues();
@@ -398,4 +404,14 @@ vector<double> * MultifractalAnalysis::getQValues() const
 vector<double> * MultifractalAnalysis::getLinearRegressionParameters()
 {
   return linearRegressionParameters;
+}
+
+vector<int> * MultifractalAnalysis::getQValuesForLinearRegression()
+{
+  return qValuesForLinearRegression;
+}
+
+void MultifractalAnalysis::setQValuesForLinearRegression(vector<int> * qValuesForLinearRegression)
+{
+  this->qValuesForLinearRegression = qValuesForLinearRegression;
 }
