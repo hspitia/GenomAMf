@@ -148,29 +148,25 @@ void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
 void 
 MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
 {
-  int nPlots = linearPlotList.count();
   QWidget * linearPlotWidget = new QWidget();
   QGridLayout * gridLayout = new QGridLayout();
   
-  int nRows = static_cast<int>(ceil(static_cast<double>(nPlots) / 2.0));
+  int nPlots = linearPlotList.count();
   
-  if (nPlots > 1) {
-    for (int i = 0; i < nRows; ++i) {
-      int plotIndex = i * 2;
-      gridLayout->addWidget(linearPlotList.at(plotIndex), i, 0);
-//      linearPlotList.at(plotIndex)->resize(620,440);
-      gridLayout->addWidget(linearPlotList.at(plotIndex + 1), i, 1);
-//      linearPlotList.at(plotIndex + 1)->resize(620,440);
-    }
-  }
-  else {
-    gridLayout->addWidget(linearPlotList.at(0), 0, 0);
+  int row = 0;
+  
+  for (int i = 0; i < nPlots; ++i) {
+    int column = i % 2;
+    gridLayout->addWidget(linearPlotList.at(i), row, column);
+    
+    if (column == 1)
+      ++row;
   }
   
-  linearPlotWidget->setLayout(gridLayout);
-  int width  = 640 * 2;
-  int height = 500 * nRows;
+  int width  = 640 * gridLayout->columnCount();
+  int height = 500 * gridLayout->rowCount();
   linearPlotWidget->resize(width, height);
+  linearPlotWidget->setLayout(gridLayout);
   ui->linearScrollArea->setWidget(linearPlotWidget);
 }
 

@@ -234,10 +234,7 @@ QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
       params->at(0) = slope;
       params->at(1) = intercept;
       
-      DEBUG("slope: " << slope << "  intercept: " <<   intercept << endl);
-      
       linearParams.append(params);
-      
     }
     
     int nRegressions = static_cast<int> (nVectors / 2);
@@ -249,7 +246,11 @@ QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
     dataSet = mfaObject.getLinearRegressionValues();
     LinearPlot * newLinearPlot = new LinearPlot(dataSet, curveIds, 
                                                 linearParams);
-          
+    
+    newLinearPlot->setTitle(QObject::trUtf8("Regresiones lineales cálculo "
+            "dimensiones Dq en Seq_%1").arg(i + 1));
+    newLinearPlot->setAxisTitle(QwtPlot::xBottom, "ln(R/L)");
+    newLinearPlot->setAxisTitle(QwtPlot::yLeft, "ln(<[M(R) / Mo]^(q-1)>) / (q-1)");
     plots.append(newLinearPlot);
   }
   
