@@ -29,7 +29,6 @@ LinearPlot::LinearPlot(const QList<vector<double> *> & dataList,
 {
   this->linearParameters = linearParameters;
   setupCurves();
-  cout<< "Hola" << endl;
   QList<QWidget* > legendItemList = legend()->legendItems();
 }
 
@@ -142,7 +141,8 @@ QwtPlotCurve * LinearPlot::createCurves(const int & nCurves)
     sym.setSize(5);
     
     QString id = curveIdentifiers.at(i);
-    tmpCurves[i].setTitle(id);
+//    tmpCurves[i].setTitle(id);
+    tmpCurves[i].setTitle("<font size=\"1\">" + id + "</font>");
     
     tmpCurves[i].setSymbol(sym);
     tmpCurves[i].setPen(pen);
@@ -164,7 +164,9 @@ QwtPlotCurve * LinearPlot::createLinearFitCurves(const int & nCurves)
     QPen pen(colorList.at(i));
     QwtSymbol sym;
     sym.setStyle(symbolList.at(0));
-    QString id = trUtf8("Ajuste lineal para ") + curveIdentifiers.at(i);
+    QString id = trUtf8("<font size=\"1\">Ajuste lineal para ") + 
+            curveIdentifiers.at(i) + 
+            trUtf8("</font>");
 
     tmpCurves[i].setPen(pen);
     tmpCurves[i].setSymbol(sym);

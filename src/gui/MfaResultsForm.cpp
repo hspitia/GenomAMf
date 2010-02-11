@@ -163,8 +163,8 @@ MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
       ++row;
   }
   
-  int width  = 640 * gridLayout->columnCount();
-  int height = 500 * gridLayout->rowCount();
+  int width  = 600 * gridLayout->columnCount();
+  int height = 420 * gridLayout->rowCount();
   linearPlotWidget->resize(width, height);
   linearPlotWidget->setLayout(gridLayout);
   ui->linearScrollArea->setWidget(linearPlotWidget);

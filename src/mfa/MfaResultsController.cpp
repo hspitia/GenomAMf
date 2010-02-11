@@ -191,6 +191,7 @@ QList<NormalPlot *> MfaResultsController::plotDqAndCqResults()
   newCqPlot = new NormalPlot(cqDataSet, curveIds);
   
   
+//  newDqPlot->setTitle(QObject::trUtf8("Espectro Dq"));
   newDqPlot->setTitle(QObject::trUtf8("Espectro Dq"));
   newDqPlot->setAxisTitle(QwtPlot::xBottom, "q");
   newDqPlot->setAxisTitle(QwtPlot::yLeft, "Dq");
@@ -247,56 +248,19 @@ QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
     LinearPlot * newLinearPlot = new LinearPlot(dataSet, curveIds, 
                                                 linearParams);
     
-    newLinearPlot->setTitle(QObject::trUtf8("Regresiones lineales cálculo "
-            "dimensiones Dq en Seq_%1").arg(i + 1));
-    newLinearPlot->setAxisTitle(QwtPlot::xBottom, "ln(R/L)");
-    newLinearPlot->setAxisTitle(QwtPlot::yLeft, "ln(<[M(R) / Mo]^(q-1)>) / (q-1)");
+    newLinearPlot->setTitle(QObject::trUtf8("<font size=\"2\">Regresiones "
+            "lineales cálculo dimensiones Dq en Seq_%1</font>").arg(i + 1));
+    newLinearPlot->setAxisTitle(QwtPlot::xBottom, "<font size=\"2\">ln(R/L)"
+            "</font>");
+    newLinearPlot->setAxisTitle(QwtPlot::yLeft, 
+                                QString("<font size=\"2\">ln(" 
+//                                        QString("\u3008") +
+                                        "<[M(R) / Mo]^(q-1)>) / (q-1) </font>"));
     plots.append(newLinearPlot);
   }
   
   return plots;
 }
-
-/*QString MfaResultsController::convertDqValuesToCsv()
-{
-
-  QList<QStringList> dqTableContent = prepareContentDqValuesTable();
-  
-  int nCols = dqTableContent.at(0).count();
-  int nRows = dqTableContent.count();
-  
-  QString informationBlock = getSequenceCodeAndNames();
-  
-  QString headers;
-  QString outString;
-  QString rows;
-  QString lineFeed  = "\n";
-  headers += "\"q\"";
-  headers += separator;
-  
-  for (int i = 1; i < nCols; ++i) {
-    headers += QString::fromUtf8("\"Dq Seq_%1\"").arg(i);
-    if (i < nCols - 1) 
-        headers += separator;
-  }
-  
-  for (int row = 0; row < nRows; ++row) {
-    QStringList contentRow = dqTableContent.at(row);
-    rows += contentRow.at(0); // q value
-    rows += separator;
-    for (int j = 1; j < nCols; ++j) {
-      rows += contentRow.at(j); // Dq value
-      
-      if (j < nCols - 1) 
-        rows += separator;
-    }
-    rows += lineFeed;
-  }
-  headers += lineFeed;
-  outString = informationBlock + lineFeed + headers + rows;
-  
-  return outString;
-}*/
 
 QString MfaResultsController::convertDqValuesToCsv()
 {
@@ -314,7 +278,7 @@ QString MfaResultsController::convertDqValuesToCsv()
   
   QStringList headersList = dqTableContent.at(0);
   for (int i = 0; i < nCols; ++i) {
-    headers += QString::fromUtf8("\"") + 
+    headers += QObject::trUtf8("\"") + 
                headersList.at(i) + 
                QObject::trUtf8("\"");
     
@@ -326,45 +290,7 @@ QString MfaResultsController::convertDqValuesToCsv()
     QStringList contentRow = dqTableContent.at(row);
 //    rows += QString("Seq_%1").arg(row + 1);
 //    rows += separator;
-    for (int j = 0; j < nCols; ++j) {
-      rows += contentRow.at(j); // Dq value
-      
-      if (j < nCols - 1) 
-        rows += separator;
-    }
-    rows += lineFeed;
-  }
-  headers += lineFeed;
-  outString = informationBlock + lineFeed + headers + rows;
-  
-  return outString;
-}
-/*QString MfaResultsController::convertDqValuesToCsv()
-{
-
-  QList<QStringList> dqTableContent = prepareContentDqValuesTable();
-  
-  int nCols = dqTableContent.at(0).count();
-  int nRows = dqTableContent.count();
-  
-  QString informationBlock = getSequenceCodeAndNames();
-  
-  QString headers;
-  QString outString;
-  QString rows;
-  QString lineFeed  = "\n";
-  headers += "\"q\"";
-  headers += separator;
-  
-  for (int i = 1; i < nCols; ++i) {
-    headers += QString::fromUtf8("\"Dq Seq_%1\"").arg(i);
-    if (i < nCols - 1) 
-        headers += separator;
-  }
-  
-  for (int row = 0; row < nRows; ++row) {
-    QStringList contentRow = dqTableContent.at(row);
-    rows += contentRow.at(0); // q value
+    rows += "\"" + contentRow.at(0) + "\""; // Código secuencia
     rows += separator;
     for (int j = 1; j < nCols; ++j) {
       rows += contentRow.at(j); // Dq value
@@ -378,7 +304,7 @@ QString MfaResultsController::convertDqValuesToCsv()
   outString = informationBlock + lineFeed + headers + rows;
   
   return outString;
-}*/
+}
 
 bool MfaResultsController::exportDqValuesToCsv(const QString & fileName)
 {
@@ -453,9 +379,9 @@ QString MfaResultsController::getSequenceCodeAndNames()
     int type = contentRow.at(0).toInt();
     rows += types.at(type);  // Tipo
     rows += separator;
-    rows += contentRow.at(1); // Código
+    rows += "\"" + contentRow.at(1) + "\""; // Código
     rows += separator;
-    rows += contentRow.at(2); // Nombre
+    rows += "\"" + contentRow.at(2) + "\""; // Nombre
     rows += lineFeed;
   }
   
@@ -473,9 +399,9 @@ QList<QStringList > MfaResultsController::prepareContentSequenceTable()
     int type = 
             utils::getAlphabetType(sequence->getAlphabet()->getAlphabetType());
     
-    QString code = QString("\"Seq_%1\"").arg(i + 1);
+    QString code = QObject::trUtf8("Seq_%1").arg(i + 1);
     
-    QString name = "\"" + QString::fromStdString(sequence->getName()) + "\"";
+    QString name = QString::fromStdString(sequence->getName());
     
     QStringList row;
     row << QString::number(type)
