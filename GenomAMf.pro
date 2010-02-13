@@ -126,7 +126,8 @@ win32 {
                    -lbpp-qt \
                    -lmgl \
                    -lmgl-qt \
-                   -lgsl
+                   -lgsl \
+                   -lqwt
     CONFIG      += console
 }
 
