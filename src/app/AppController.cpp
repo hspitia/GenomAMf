@@ -75,7 +75,6 @@ AppController::~AppController()
 QVector<int> AppController::loadSequences(const QStringList & fileName)
 {
   SeqLoader * seqLoader = new SeqLoader();
-  
   CustomSequencesContainer * tmpSeqs = new CustomSequencesContainer(); 
   seqLoader->load(fileName, tmpSeqs);
   int proteinSeqsAlreadyLoaded = 0;

@@ -1,151 +1,260 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
+  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
+  <value type="int">2</value>
+ </data>
+ <data>
   <variable>RunConfiguration0-CommandLineArguments</variable>
-  <valuelist type="QVariantList" />
+  <valuelist type="QVariantList"/>
  </data>
  <data>
   <variable>RunConfiguration0-ProFile</variable>
-  <value type="QString" >GenomAMf.pro</value>
+  <value type="QString">GenomAMf.pro</value>
  </data>
  <data>
   <variable>RunConfiguration0-RunConfiguration.name</variable>
-  <value type="QString" >GenomAMf</value>
+  <value type="QString">GenomAMf</value>
  </data>
  <data>
   <variable>RunConfiguration0-UseDyldImageSuffix</variable>
-  <value type="bool" >false</value>
+  <value type="bool">false</value>
  </data>
  <data>
   <variable>RunConfiguration0-UseTerminal</variable>
-  <value type="bool" >false</value>
+  <value type="bool">false</value>
  </data>
  <data>
   <variable>RunConfiguration0-UserEnvironmentChanges</variable>
-  <valuelist type="QVariantList" />
+  <valuelist type="QVariantList"/>
  </data>
  <data>
   <variable>RunConfiguration0-UserSetName</variable>
-  <value type="bool" >false</value>
+  <value type="bool">false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
+  <value type="bool">false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UserWorkingDirectory</variable>
+  <value type="QString"></value>
  </data>
  <data>
   <variable>RunConfiguration0-type</variable>
-  <value type="QString" >Qt4ProjectManager.Qt4RunConfiguration</value>
+  <value type="QString">Qt4ProjectManager.Qt4RunConfiguration</value>
  </data>
  <data>
   <variable>activeRunConfiguration</variable>
-  <value type="int" >0</value>
+  <value type="int">0</value>
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString" >Release</value>
+  <value type="QString">Release</value>
  </data>
  <data>
   <variable>buildConfiguration-Debug</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
-   <value key="QtVersionId" type="int" >0</value>
-   <value key="addQDumper" type="" ></value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
+   <value key="QtVersionId" type="int">0</value>
+   <value key="ToolChain" type="int">2</value>
+   <value key="addQDumper" type=""></value>
+   <value key="buildConfiguration" type="int">10</value>
   </valuemap>
  </data>
  <data>
   <variable>buildConfiguration-Release</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
-   <value key="QtVersionId" type="int" >0</value>
-   <value key="addQDumper" type="" ></value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
+   <value key="QtVersionId" type="int">0</value>
+   <value key="ToolChain" type="int">2</value>
+   <value key="addQDumper" type=""></value>
+   <value key="buildConfiguration" type="int">8</value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Debug-buildstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
-   <value key="buildConfiguration" type="int" >10</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
+   <value key="buildConfiguration" type=""></value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Debug-buildstep1</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
-   <valuelist key="makeargs" type="QVariantList" >
-    <value type="QString" >debug</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">debug</value>
    </valuelist>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Debug-cleanstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Release-buildstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
-   <value key="buildConfiguration" type="int" >8</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString">APPDATA=C:\Documents and Settings\Hector\Datos de programa</value>
+    <value type="QString">CLASSPATH=E:\projects\netbeans\sigepa_2\;E:\projects\netbeans\sigepa_2\lib</value>
+    <value type="QString">CLIENTNAME=Console</value>
+    <value type="QString">COMMONPROGRAMFILES=C:\Archivos de programa\Archivos comunes</value>
+    <value type="QString">COMPUTERNAME=EQUIPO2</value>
+    <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString">DOCUMENTS=D:\Documentos Héctor Fabio</value>
+    <value type="QString">FP_NO_HOST_CHECK=NO</value>
+    <value type="QString">HOMEDRIVE=C:</value>
+    <value type="QString">HOMEPATH=\Documents and Settings\Hector</value>
+    <value type="QString">LOGONSERVER=\\EQUIPO2</value>
+    <value type="QString">NUMBER_OF_PROCESSORS=1</value>
+    <value type="QString">OS=Windows_NT</value>
+    <value type="QString">PATH=E:\programming\Qt\2010.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Archivos de programa\Java\jdk1.6.0_14\bin;E:\programming\Qt\2010.01\qt\bin;E:\programming\Perl\site\bin;E:\programming\Perl\bin;E:\programming\doxygen;E:\programming\python;E:\programming\graphviz\bin;E:\programming\pdftk;E:\programming\Qt\2010.01\mingw\bin;E:\programming\msys\1.0\bin;E:\programming\Git\bin;</value>
+    <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 8 Stepping 1, AuthenticAMD</value>
+    <value type="QString">PROCESSOR_LEVEL=6</value>
+    <value type="QString">PROCESSOR_REVISION=0801</value>
+    <value type="QString">PROGRAMFILES=C:\Archivos de programa</value>
+    <value type="QString">QTDIR=E:/programming/Qt/2010.01/qt</value>
+    <value type="QString">SESSIONNAME=Console</value>
+    <value type="QString">SYSTEMDRIVE=C:</value>
+    <value type="QString">SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString">TEMP=C:\DOCUME~1\Hector\CONFIG~1\Temp</value>
+    <value type="QString">TMP=C:\DOCUME~1\Hector\CONFIG~1\Temp</value>
+    <value type="QString">TVDUMPFLAGS=8</value>
+    <value type="QString">USERDOMAIN=EQUIPO2</value>
+    <value type="QString">USERNAME=Hector</value>
+    <value type="QString">USERPROFILE=C:\Documents and Settings\Hector</value>
+    <value type="QString">USER_ENV=C:\Archivos de programa\Java\jdk1.6.0_14\bin;E:\programming\Qt\2010.01\qt\bin;E:\programming\Perl\site\bin;E:\programming\Perl\bin;E:\programming\doxygen;E:\programming\python;E:\programming\graphviz\bin;E:\programming\pdftk;E:\programming\Qt\2010.01\mingw\bin;E:\programming\msys\1.0\bin;E:\programming\Git\bin;</value>
+    <value type="QString">WINDIR=C:\WINDOWS</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList">
+    <value type="QString">E:/projects/eclipse/GenomAMf_definitivo/GenomAMf.pro</value>
+    <value type="QString">-spec</value>
+    <value type="QString">win32-g++</value>
+    <value type="QString">-r</value>
+    <value type="QString">CONFIG+=debug_and_release</value>
+    <value type="QString">CONFIG+=release</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString">e:/programming/qt/2010.01/qt/bin/qmake.exe</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.workingDirectory" type="QString">E:/projects/eclipse/GenomAMf_definitivo</value>
+   <value key="buildConfiguration" type=""></value>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Release-buildstep1</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
-   <valuelist key="makeargs" type="QVariantList" >
-    <value type="QString" >release</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">ALLUSERSPROFILE=C:\Documents and Settings\All Users</value>
+    <value type="QString">APPDATA=C:\Documents and Settings\Hector\Datos de programa</value>
+    <value type="QString">CLASSPATH=E:\projects\netbeans\sigepa_2\;E:\projects\netbeans\sigepa_2\lib</value>
+    <value type="QString">CLIENTNAME=Console</value>
+    <value type="QString">COMMONPROGRAMFILES=C:\Archivos de programa\Archivos comunes</value>
+    <value type="QString">COMPUTERNAME=EQUIPO2</value>
+    <value type="QString">COMSPEC=C:\WINDOWS\system32\cmd.exe</value>
+    <value type="QString">DOCUMENTS=D:\Documentos Héctor Fabio</value>
+    <value type="QString">FP_NO_HOST_CHECK=NO</value>
+    <value type="QString">HOMEDRIVE=C:</value>
+    <value type="QString">HOMEPATH=\Documents and Settings\Hector</value>
+    <value type="QString">LOGONSERVER=\\EQUIPO2</value>
+    <value type="QString">NUMBER_OF_PROCESSORS=1</value>
+    <value type="QString">OS=Windows_NT</value>
+    <value type="QString">PATH=E:\programming\Qt\2010.01\qt\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\Archivos de programa\Java\jdk1.6.0_14\bin;E:\programming\Qt\2010.01\qt\bin;E:\programming\Perl\site\bin;E:\programming\Perl\bin;E:\programming\doxygen;E:\programming\python;E:\programming\graphviz\bin;E:\programming\pdftk;E:\programming\Qt\2010.01\mingw\bin;E:\programming\msys\1.0\bin;E:\programming\Git\bin;</value>
+    <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
+    <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 8 Stepping 1, AuthenticAMD</value>
+    <value type="QString">PROCESSOR_LEVEL=6</value>
+    <value type="QString">PROCESSOR_REVISION=0801</value>
+    <value type="QString">PROGRAMFILES=C:\Archivos de programa</value>
+    <value type="QString">QTDIR=E:/programming/Qt/2010.01/qt</value>
+    <value type="QString">SESSIONNAME=Console</value>
+    <value type="QString">SYSTEMDRIVE=C:</value>
+    <value type="QString">SYSTEMROOT=C:\WINDOWS</value>
+    <value type="QString">TEMP=C:\DOCUME~1\Hector\CONFIG~1\Temp</value>
+    <value type="QString">TMP=C:\DOCUME~1\Hector\CONFIG~1\Temp</value>
+    <value type="QString">TVDUMPFLAGS=8</value>
+    <value type="QString">USERDOMAIN=EQUIPO2</value>
+    <value type="QString">USERNAME=Hector</value>
+    <value type="QString">USERPROFILE=C:\Documents and Settings\Hector</value>
+    <value type="QString">USER_ENV=C:\Archivos de programa\Java\jdk1.6.0_14\bin;E:\programming\Qt\2010.01\qt\bin;E:\programming\Perl\site\bin;E:\programming\Perl\bin;E:\programming\doxygen;E:\programming\python;E:\programming\graphviz\bin;E:\programming\pdftk;E:\programming\Qt\2010.01\mingw\bin;E:\programming\msys\1.0\bin;E:\programming\Git\bin;</value>
+    <value type="QString">WINDIR=C:\WINDOWS</value>
+   </valuelist>
+   <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
+   <valuelist key="abstractProcess.arguments" type="QVariantList">
+    <value type="QString">release</value>
+    <value type="QString">-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString">E:/programming/Qt/2010.01/mingw/bin/mingw32-make.exe</value>
+   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.workingDirectory" type="QString">E:/projects/eclipse/GenomAMf_definitivo</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">release</value>
    </valuelist>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Release-cleanstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
+   <value key="cleanConfig" type="bool">true</value>
+   <valuelist key="makeargs" type="QVariantList">
+    <value type="QString">clean</value>
+   </valuelist>
   </valuemap>
  </data>
  <data>
   <variable>buildconfigurations</variable>
-  <valuelist type="QVariantList" >
-   <value type="QString" >Release</value>
-   <value type="QString" >Debug</value>
+  <valuelist type="QVariantList">
+   <value type="QString">Release</value>
+   <value type="QString">Debug</value>
   </valuelist>
  </data>
  <data>
   <variable>buildstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
-   <value key="mkspec" type="QString" ></value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
+   <value key="mkspec" type="QString"></value>
   </valuemap>
  </data>
  <data>
   <variable>buildstep1</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
   </valuemap>
  </data>
  <data>
   <variable>buildsteps</variable>
-  <valuelist type="QVariantList" >
-   <value type="QString" >trolltech.qt4projectmanager.qmake</value>
-   <value type="QString" >trolltech.qt4projectmanager.make</value>
+  <valuelist type="QVariantList">
+   <value type="QString">trolltech.qt4projectmanager.qmake</value>
+   <value type="QString">trolltech.qt4projectmanager.make</value>
   </valuelist>
  </data>
  <data>
   <variable>cleanstep0</variable>
-  <valuemap type="QVariantMap" >
-   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
-   <value key="clean" type="bool" >true</value>
+  <valuemap type="QVariantMap">
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString"></value>
+   <value key="clean" type="bool">true</value>
   </valuemap>
  </data>
  <data>
   <variable>cleansteps</variable>
-  <valuelist type="QVariantList" >
-   <value type="QString" >trolltech.qt4projectmanager.make</value>
+  <valuelist type="QVariantList">
+   <value type="QString">trolltech.qt4projectmanager.make</value>
   </valuelist>
  </data>
  <data>
   <variable>defaultFileEncoding</variable>
-  <value type="QByteArray" >System</value>
+  <value type="QByteArray">System</value>
  </data>
  <data>
   <variable>project</variable>
-  <valuemap type="QVariantMap" />
+  <valuemap type="QVariantMap"/>
  </data>
 </qtcreator>

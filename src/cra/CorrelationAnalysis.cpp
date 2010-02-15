@@ -65,7 +65,10 @@ CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis &
 
 CorrelationAnalysis::~CorrelationAnalysis()
 {
+  if (tree !=0)
+    delete tree;
   
+  tree = 0;
 }
 
 QList<double> CorrelationAnalysis::performAnalysis()

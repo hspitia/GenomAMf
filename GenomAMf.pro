@@ -108,6 +108,7 @@ unix {
                    -lbpp-utils \
                    -lbpp-seq \
                    -lbpp-numcalc \
+                   -lbpp-phyl \
                    -lbpp-qt \
                    -lbpp-raa
     LIBS        += -L/usr/lib \
@@ -118,12 +119,14 @@ unix {
 }
 
 win32 { 
-    INCLUDEPATH += $$WIN_USER_ENV_PATH/include
+    INCLUDEPATH += $$WIN_USER_ENV_PATH/include \
+                   $$WIN_USER_ENV_PATH/include/Qwt 
     LIBS        += -L$$WIN_USER_ENV_PATH/lib \
                    -lbpp-utils \
                    -lbpp-seq \
                    -lbpp-numcalc \
                    -lbpp-qt \
+                   -lbpp-phyl \
                    -lmgl \
                    -lmgl-qt \
                    -lgsl \
