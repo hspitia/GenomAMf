@@ -47,16 +47,17 @@ MfaResultsForm::~MfaResultsForm()
 void MfaResultsForm::connectSignalsSlots()
 {
   QSignalMapper * signalMapper = new QSignalMapper(this);
-  signalMapper->setMapping(ui->exportDqPlotPushButton, Plotter::Dq_Plot);
-  signalMapper->setMapping(ui->exportCqPlotPushButton, Plotter::Cq_Plot);
-//  signalMapper->setMapping(ui->exportLinearPlotPushButton, Plotter::Linear_Plot);
+  signalMapper->setMapping(ui->exportDqPlotPushButton, GenomAMf::Dq_Plot);
+  signalMapper->setMapping(ui->exportCqPlotPushButton, GenomAMf::Cq_Plot);
+  signalMapper->setMapping(ui->exportLinearPlotPushButton, 
+                           GenomAMf::Linear_Plot);
   
   connect(ui->exportDqPlotPushButton, SIGNAL(clicked()),
           signalMapper, SLOT (map()));
   connect(ui->exportCqPlotPushButton, SIGNAL(clicked()),
           signalMapper, SLOT (map()));
-//  connect(ui->exportLinearPlotPushButton, SIGNAL(clicked()),
-//          signalMapper, SLOT (map()));
+  connect(ui->exportLinearPlotPushButton, SIGNAL(clicked()),
+          signalMapper, SLOT (map()));
   
   connect(signalMapper, SIGNAL(mapped(int /*plotType*/)),
          this, SLOT(exportImage(int /*plotType*/)));
@@ -85,6 +86,9 @@ void MfaResultsForm::setupGraphicWidgets()
 //  linearRegressionGraphicWidget = new QMathGL(this);
 //  linearRegressionGraphicWidget->autoResize = true;
 //  ui->linearRegressionScrollArea->setWidget(linearRegressionGraphicWidget);
+  
+  
+  
 }
 
 /*void MfaResultsForm::setupPlotWidgets()
@@ -106,8 +110,9 @@ void MfaResultsForm::setupGraphicWidgets()
 
 void MfaResultsForm::setupPlotWidgets()
 {
-  dqPlotWidget = 0;
-  cqPlotWidget = 0;
+  dqPlotWidget         = 0;
+  cqPlotWidget         = 0;
+  linearPlotWidgetList = QList<LinearPlot *>();
 }
 
 void MfaResultsForm::setUpDqGraphic(Plotter * plotter)
@@ -134,8 +139,6 @@ void MfaResultsForm::setUpDqPlot(NormalPlot * dqPlot)
   dqPlotWidget = dqPlot;
   dqPlotWidget->resize(620,440);
   ui->dqScrollArea->setWidget(dqPlot);
-  //  dqPlotWidget->setDraw(plotter);
-//  dqPlotWidget->update();
 }
 
 void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
@@ -148,6 +151,7 @@ void MfaResultsForm::setUpCqPlot(NormalPlot * cqPlot)
 void 
 MfaResultsForm::setUpLinearRegressionPlot(QList<LinearPlot *> linearPlotList)
 {
+  linearPlotWidgetList = linearPlotList;
   QWidget * linearPlotWidget = new QWidget();
   QGridLayout * gridLayout = new QGridLayout();
   
@@ -253,6 +257,165 @@ void MfaResultsForm::setUpDqValuesTable(/*const QList<QStringList> & contentList
 
 void MfaResultsForm::exportImage(int plotType)
 {
+//  int tabIndex = ui->resultsTabWidget->currentIndex();
+  
+  QStringList filenames;
+  filenames << trUtf8("Espectro_Dq");
+  filenames << trUtf8("Calor_especifico_analogo_Cq");
+  filenames << trUtf8("Regresión_lineal");
+  
+  QStringList formats;
+  formats << "PNG" << "JPG" << "BMP" <<"SVG"; 
+  
+  QStringList filters;
+  filters << "Imagen PNG (*.png)";
+  filters << "Imagen JPEG (*.jpg)";
+  filters << "Imagen BMP (*.bmp)";
+//  filters << "Imagen SVG (*.svg)";
+  
+  QFileDialog * fileDialog = new QFileDialog(this);
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+  fileDialog->setDirectory(QDir::homePath());
+  fileDialog->selectFile(filenames.at(plotType));
+  fileDialog->setDefaultSuffix("png");
+  
+  QString filename;
+  
+  if(fileDialog->exec()){
+    QStringList list = fileDialog->selectedFiles();
+    if(!list.isEmpty()){
+      filename = list.at(0);
+      
+//      QString formatExtension = "";
+      int formatIndex = 0;
+      for (int i = 0; i < filters.count(); ++i) {
+        if (fileDialog->selectedFilter().compare(filters.at(i)) == 0) {
+//          formatExtension = formats.at(i);
+          formatIndex = i;
+          break;
+        }
+      }
+      
+      bool succes = false;
+      switch (plotType) {
+        case GenomAMf::Dq_Plot:
+          succes = exportNormalPlot(dqPlotWidget, filename, 
+                                    formats.at(formatIndex));
+          break;
+          
+        case GenomAMf::Cq_Plot:
+          succes = exportNormalPlot(cqPlotWidget, filename, 
+                                    formats.at(formatIndex));
+          break;
+          
+        case GenomAMf::Linear_Plot:
+          succes = exportLinearPlot(linearPlotWidgetList, filename, 
+                                    formats.at(formatIndex));
+          break;
+          
+        default:
+          return;
+      }
+            
+      if(!succes){
+        QMessageBox::information(this,"Error",QString::fromUtf8("Ocurrió un "
+                "error mientras se trataba de guardar la imagen.\n "
+                "Verifique los permisos del directorio destino e intente "
+                "guardar la imagen nuevamente."),
+                QMessageBox::Ok);
+      }
+    }
+  }
+  
+}
+
+bool MfaResultsForm::exportLinearPlot(const QList<LinearPlot* > & 
+                                      linearPlotList, 
+                                      const QString & fileName,
+                                      const QString & format)
+{
+  QwtPlotPrintFilter filter;
+  int options = QwtPlotPrintFilter::PrintAll;
+  options &= ~QwtPlotPrintFilter::PrintBackground;
+  options |= QwtPlotPrintFilter::PrintFrameWithScales;
+  filter.setOptions(options);
+  
+  QSize totalSize = ui->linearScrollArea->widget()->size();
+  QImage totalImage = QImage(totalSize, QImage::Format_RGB32);
+  totalImage.fill(qRgb(255, 255, 255));
+  
+  int row = 0;
+  for (int i = 0; i < linearPlotList.count(); ++i) {
+    LinearPlot * currentPlot = linearPlotList.at(i);
+    QSize currentPlotSize = currentPlot->size();
+    QImage currentImage = QImage(currentPlotSize, QImage::Format_RGB32);
+    currentImage.fill(qRgb(255, 255, 255));
+    currentPlot->print(currentImage, filter);
+    
+    int column = i % 2;
+    
+    int width  = currentPlotSize.width();
+    int height = currentPlotSize.height();
+    int x = currentPlot->x();
+    int y = currentPlot->y();
+    QRect target = QRect(x, y, width, height);
+    QRect source = currentImage.rect();
+    QPainter painter(&totalImage);
+    painter.drawImage(target, currentImage, source);
+    
+    if (column == 1)
+      ++row;
+    
+    currentPlot = 0;
+  }
+  
+  if (format.compare("SVG") != 0)
+    return totalImage.save(fileName, format.toLatin1().data(), 100);
+  
+  QSvgGenerator generator;
+  generator.setFileName(fileName);
+  generator.setSize(totalImage.size());
+  QPainter svgPainter;
+  svgPainter.begin(&generator);
+  int imgWidth  = totalImage.width();
+  int imgHeight = totalImage.height();
+  svgPainter.drawImage(QRect(0, 0, imgWidth, imgHeight), totalImage,
+                       totalImage.rect());
+  svgPainter.end();
+//  plotWidget->print(generator);
+  return true;
+}
+
+bool MfaResultsForm::exportNormalPlot(NormalPlot * plotWidget, 
+                                      const QString & fileName,
+                                      const QString & format)
+{
+  QImage pixmap(plotWidget->size(), QImage::Format_RGB32);
+  pixmap.fill(qRgb(255, 255, 255));
+  
+  QwtPlotPrintFilter filter;
+  int options = QwtPlotPrintFilter::PrintAll;
+  options &= ~QwtPlotPrintFilter::PrintBackground;
+  options |= QwtPlotPrintFilter::PrintFrameWithScales;
+  filter.setOptions(options);
+  
+  plotWidget->print(pixmap, filter);
+  
+  if (format.compare("SVG") == 0) {
+    QSvgGenerator generator;
+    generator.setFileName(fileName);
+    generator.setSize(plotWidget->size());
+    
+    plotWidget->print(generator);
+    return true;
+  }
+  
+  return pixmap.save(fileName, format.toLatin1().data(), 100);
+}
+
+/*void MfaResultsForm::exportImage(int plotType)
+{
   
 //  int tabIndex = ui->resultsTabWidget->currentIndex();
   
@@ -344,18 +507,18 @@ void MfaResultsForm::exportImage(int plotType)
           return;
       }
       
-      /*if(!false){
+      if(!false){
         QMessageBox::information(this,"Error",QString::fromUtf8("Ocurrió un "
                 "error mientras se trataba de guardar la imagen.\n "
                 "Verifique los permisos del directorio destino e intente "
                 "guardar la imagen nuevamente."),
                 QMessageBox::Ok);
-      }*/
+      }
       currentGraphicWidget = 0;
     }
   }
   
-}
+}*/
 
 void MfaResultsForm::exportDqValuesTableToCsv()
 {

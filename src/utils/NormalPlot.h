@@ -38,10 +38,10 @@ using namespace std;
 class NormalPlot : public Plot
 {
   public:
-//    NormalPlot(const QList<QVector<double> > & dataList,
+    NormalPlot(QWidget * parent = 0);
     NormalPlot(const QList<vector<double> *> & dataList,
                const QStringList & curveIdentifiers,
-               QWidget *parent = 0);
+               QWidget * parent = 0);
     
     NormalPlot(const NormalPlot & dqPlotObject);
     NormalPlot & operator=(const NormalPlot & dqPlotObject);

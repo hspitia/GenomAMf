@@ -29,6 +29,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QGridLayout>
 #include <QtCore/QTextStream>
+#include <QtSvg/QSvgGenerator>
 
 // Project
 #include "ui_MfaResultsForm.h"
@@ -37,6 +38,7 @@
 #include <gui/TreeItem.h>
 #include <utils/NormalPlot.h>
 #include <utils/LinearPlot.h>
+#include <utils/Definitions.h>
 
 class MfaResultsController;
 
@@ -48,6 +50,8 @@ class MfaResultsController;
 
 //Qwt Library
 //#include <qwt_plot.h>
+
+using namespace GenomAMf;
 
 
 namespace Ui
@@ -134,6 +138,12 @@ class MfaResultsForm : public QWidget
     
   private slots:
     void exportImage(int plotType);
+    bool exportNormalPlot(NormalPlot * plotWidget, 
+                          const QString & fileName,
+                          const QString & format);
+    bool exportLinearPlot(const QList<LinearPlot* > & linearPlotList, 
+                          const QString & fileName,
+                          const QString & format);
     void exportDqValuesTableToCsv();
     
 };

@@ -23,30 +23,14 @@
 Plot::Plot(QWidget *parent) :
   QwtPlot(parent)
 {
+  this->dataList         = QList<vector<double> *>();
+  this->curveIdentifiers = QStringList();
+  this->curves           = 0;
+  
   initColorList();
   initSymbolList();
   setupGeneralConfiguration();
   alignScales();
-  
-  // Insert markers
-
-  //  ...a horizontal line at y = 0...
-  QwtPlotMarker *mY = new QwtPlotMarker();
-  mY->setLabel(QString::fromLatin1("y = 0"));
-  mY->setLabelAlignment(Qt::AlignRight | Qt::AlignTop);
-  mY->setLineStyle(QwtPlotMarker::HLine);
-  mY->setYValue(0.0);
-  mY->attach(this);
-  
-  //  ...a vertical line at x = 2 * pi
-  QwtPlotMarker *mX = new QwtPlotMarker();
-  mX->setLabel(QString::fromLatin1("x = 2 pi"));
-  mX->setLabelAlignment(Qt::AlignLeft | Qt::AlignBottom);
-  mX->setLabelOrientation(Qt::Vertical);
-  mX->setLineStyle(QwtPlotMarker::VLine);
-  mX->setLinePen(QPen(Qt::black, 0, Qt::DashDotLine));
-  mX->setXValue(2.0 * M_PI);
-  mX->attach(this);
 }
 
 //Plot::Plot(const QList<QVector<double> > & dataList,

@@ -82,23 +82,19 @@ class Plot : public QwtPlot
     
   protected:
     virtual void setupCurves() = 0;
-//    QwtPlotCurve * createCurves(const int & nCurves);
-//    void createCurves(const int & nCurves);
     virtual QwtPlotCurve * createCurves(const int & nCurves);
-//    QList<QVector<double> > dataList;
+    void setupGeneralConfiguration() ;
+    void alignScales() ;
+    void initColorList() ;
+    void initSymbolList() ;
+    void connectSignalsSlots() ;
+    
     QList<vector<double> *> dataList;
     QList<QColor> colorList;
     QStringList curveIdentifiers;
     QList<QwtSymbol::Style> symbolList;
     QwtPlotCurve * curves; 
-    
-    
-  private:
-    void setupGeneralConfiguration();
-    void alignScales();
-    void initColorList();
-    void initSymbolList();
-    void connectSignalsSlots();
+
     
 };
 

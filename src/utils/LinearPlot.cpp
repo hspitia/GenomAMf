@@ -21,6 +21,13 @@
 
 #include "LinearPlot.h"
 
+LinearPlot::LinearPlot(QWidget * parent) : 
+  Plot(parent)
+{
+  this->linearParameters = QList<vector<double> *>();
+  this->linearFitCurves  = 0;
+}
+
 LinearPlot::LinearPlot(const QList<vector<double> *> & dataList,
                        const QStringList curveIdentifiers,
                        const QList<vector<double> *> & linearParameters,
@@ -29,7 +36,6 @@ LinearPlot::LinearPlot(const QList<vector<double> *> & dataList,
 {
   this->linearParameters = linearParameters;
   setupCurves();
-  QList<QWidget* > legendItemList = legend()->legendItems();
 }
 
 LinearPlot::LinearPlot(const LinearPlot & dqPlotObject) :
@@ -40,7 +46,17 @@ LinearPlot::LinearPlot(const LinearPlot & dqPlotObject) :
 
 LinearPlot & LinearPlot::operator=(const LinearPlot & dqPlotObject)
 {
+  this->dataList         = dqPlotObject.dataList;
+  this->curveIdentifiers = dqPlotObject.curveIdentifiers;
   this->linearParameters = dqPlotObject.linearParameters;
+  
+  this->colorList        = dqPlotObject.colorList;
+  this->symbolList       = dqPlotObject.symbolList;
+  
+  this->setupGeneralConfiguration();
+  (*this).alignScales();
+  (*this).connectSignalsSlots();
+  
   return *this;
 }
 

@@ -2,7 +2,8 @@ TEMPLATE = app
 TARGET   = genomAMf
 DESTDIR  = bin
 QT      += core \
-           gui
+           gui \
+           svg
            
 WIN_USER_ENV_PATH = e:/programming
 
@@ -152,6 +153,7 @@ win32 {
 #CONFIG += release
 
 SUFFIX_STR = 
+
 CONFIG(debug, debug|release) {
   SUFFIX_STR = $${DEBUG_SUFFIX}
 }

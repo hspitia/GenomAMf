@@ -33,6 +33,11 @@ namespace GenomAMf
       PNG, JPEG, GIF, BMP, EPS, SVG 
   };
   
+  enum PlotType
+  {
+      Dq_Plot, Cq_Plot, Linear_Plot, Measures_Plot
+  };
+  
   typedef enum
   {
     Information, Warning, Error, Undefined

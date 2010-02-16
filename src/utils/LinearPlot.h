@@ -30,10 +30,11 @@
 class LinearPlot : public Plot
 {
   public:
+    LinearPlot(QWidget * parent = 0);
     LinearPlot(const QList<vector<double> *> & dataList,
-                       const QStringList curveIdentifiers,
-                       const QList<vector<double> *> & linearParameters,
-                       QWidget *parent = 0);
+               const QStringList curveIdentifiers,
+               const QList<vector<double> *> & linearParameters,
+               QWidget *parent = 0);
     
     LinearPlot(const LinearPlot & linearPlotObject);
     LinearPlot & operator=(const LinearPlot & linearPlotObject);

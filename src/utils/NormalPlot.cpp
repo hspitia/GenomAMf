@@ -21,7 +21,13 @@
 
 #include "NormalPlot.h"
 
-//NormalPlot::NormalPlot(const QList<QVector<double> > & dataList,
+
+NormalPlot::NormalPlot(QWidget * parent) :
+  Plot(parent)
+{
+  
+}
+
 NormalPlot::NormalPlot(const QList<vector<double> *> & dataList,
                        const QStringList & curveIdentifiers,
                        QWidget *parent) : 

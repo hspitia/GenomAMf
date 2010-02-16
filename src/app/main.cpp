@@ -1006,7 +1006,6 @@ int qwtPlotApp(int argc, char *argv[])
   QWidget vBox;
   vBox.setWindowTitle("Cpu Plot");
   
-    
 //  NormalPlot * examplePlot = qwtPlotNormalCurves(&vBox);
   LinearPlot * examplePlot = qwtPlotLinearRegressionCurves(&vBox);
   
@@ -1032,12 +1031,18 @@ int qwtPlotApp(int argc, char *argv[])
   
   QwtPlotPrintFilter filter;
   int options = QwtPlotPrintFilter::PrintAll;
-            options &= ~QwtPlotPrintFilter::PrintBackground;
-            options |= QwtPlotPrintFilter::PrintFrameWithScales;
+  options &= ~QwtPlotPrintFilter::PrintBackground;
+  options |= QwtPlotPrintFilter::PrintFrameWithScales;
   filter.setOptions(options);
   
   if(!pixmap.isNull()){
-    QString fileName = QFileDialog::getSaveFileName(examplePlot, QObject::trUtf8("Save the file as..."), QDir::currentPath(), QObject::trUtf8("JPEG (*.jpg);;Portable Network Graphics (*.png)"));
+    QString fileName = 
+            QFileDialog::getSaveFileName(examplePlot,
+                                         QObject::trUtf8("Save the file as..."),
+                                         QDir::currentPath(),
+                                         QObject::trUtf8("JPEG (*.jpg);;"
+                                                 "Portable Network "
+                                                 "Graphics (*.png)"));
     if (!fileName.isEmpty()){
       if(fileName.endsWith(".png")){
         examplePlot->print(pixmap, filter);
