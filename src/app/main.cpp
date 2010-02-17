@@ -566,9 +566,9 @@ int appNormal(int argc, char *argv[])
 int appPlot(int argc, char *argv[])
 {
 //    Plotter * plotter = sinSample();
-    Plotter * plotter = rectSample();
+//    Plotter * plotter = rectSample();
 //    Plotter * plotter = multiRectSample();
-//  Plotter * plotter = measuresSample();
+  Plotter * plotter = measuresSample();
   
   QApplication a(argc, argv);
   QMainWindow *Wnd = new QMainWindow;
@@ -581,9 +581,9 @@ int appPlot(int argc, char *argv[])
   // Create and setup QMathGL
   QMathGL *QMGL = new QMathGL(Wnd);
   //  QMGL->setPopup(popup); // if you want to setup popup menu for QMGL
-  int nPlotRows = 2;
-  //  QMGL->setSize(580, 260 * nPlotRows); // Linear regression
-  QMGL->setSize(620, 280 * nPlotRows); // Measures
+  int nPlotRows = 3;
+//    QMGL->setSize(580, 260 * nPlotRows); // Linear regression
+  QMGL->setSize(820, 320 * nPlotRows); // Measures
   QMGL->setDraw(plotter);
   // or use QMGL->setDraw(foo); for instance of class Foo:public mglDraw
   QMGL->update();

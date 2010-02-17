@@ -20,7 +20,6 @@ CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
 	initControls();
 	setUpTree();
 	setAttribute(Qt::WA_DeleteOnClose);
-//	setAttribute(Qt::WA_QuitOnClose);
 }
 
 CorrelationAnalysisResultsForm::~CorrelationAnalysisResultsForm()
@@ -74,8 +73,12 @@ void CorrelationAnalysisResultsForm::initControls()
   QGroupBox* displayOptions = new QGroupBox;
   displayOptions->setTitle(trUtf8("Información"));
   QVBoxLayout* displayLayout = new QVBoxLayout;
-  displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_NODES_ID_CTRL));
-  displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_BRLEN_VALUES_CTRL));
+  displayLayout->addWidget(treeControlers_->
+                           getControlerById(TreeCanvasControlers::
+                                            ID_DRAW_NODES_ID_CTRL));
+  displayLayout->addWidget(treeControlers_->
+                           getControlerById(TreeCanvasControlers::
+                                            ID_DRAW_BRLEN_VALUES_CTRL));
 //  displayLayout->addWidget(treeControlers_->getControlerById(TreeCanvasControlers::ID_DRAW_BOOTSTRAP_VALUES_CTRL));
   displayOptions->setLayout(displayLayout);
   

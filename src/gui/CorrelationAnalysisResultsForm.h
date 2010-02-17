@@ -22,43 +22,45 @@
 
 class CorrelationAnalysisResultsForm : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
-public:
+  public:
     CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
                                    Tree * tree,
                                    const QList<QStringList> & sequenceCodeList,
                                    QWidget *parent = 0);
-    
+
     ~CorrelationAnalysisResultsForm();
-    
+
     Tree * getTree();
-    
+
     void setTree(Tree * tree);
-    
+
     TreeCanvas & getTreeCanvas();
-    
-    
-private:
+
+  private:
     
     Ui::CorrelationAnalysisResultsFormClass *ui;
     Tree * tree;
     TreeCanvas treeCanvas;
-    
-    TreeCanvasControlers* treeControlers_;
-    QWidget* controlPanel_;
-    TreeStatisticsBox* statsPanel_;
-    
-//    QDockWidget* statsDockWidget_; 
-//    QDockWidget* controlsDockWidget_;
-    
+
+    TreeCanvasControlers * treeControlers_;
+    QWidget * controlPanel_;
+    TreeStatisticsBox * statsPanel_;
+
+    //    QDockWidget* statsDockWidget_; 
+    //    QDockWidget* controlsDockWidget_;
+
     void connectSignalsSlots();
     void setUpSequenceTable(const QList<QStringList> & sequenceCodeList);
     void setUpTree();
     QIcon getIcon(const int & type) const;
-    
+
     void initControls();
     void updateTreeControls();
+    
+  private slots:
+    bool exportToNewickTree();
 };
 
 #endif // CORRELATIONANALYSISRESULTSFORM_H

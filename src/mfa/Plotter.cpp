@@ -365,21 +365,20 @@ void Plotter::plotMeasures(mglGraph * gr)
     
     int maxValue = -800000;
     
-    for (int i = 0; i < rows; ++i)
-    {
-      for (int j = 0; j < cols; ++j)
-      {
+    for (int i = 0; i < rows; ++i) {
+      for (int j = 0; j < cols; ++j) {
         int index = i + (rows * j);
-        a.a[index] = (*(dataListMatrix.at(mainIndex)))(i,j);
-        if(maxValue < a.a[index]) maxValue = a.a[index];
+        a.a[index] = (*(dataListMatrix.at(mainIndex)))(i, j);
+        if (maxValue < a.a[index])
+          maxValue = a.a[index];
       }
     }
     gr->SetFontSizePT(7);
     gr->SubPlot(plotsPerRow, nPlotRows, mainIndex);
     gr->SetRanges(cols, 0, rows, 0, 0, maxValue);
-  //  gr->SetTicks('x', utils::round((double)cols / 8), 2);
-  //  gr->SetTicks('y', utils::round((double)rows / 8), 2);
-  //  gr->SetTicks('z', utils::round((double)maxValue / 8), 2);
+    //  gr->SetTicks('x', utils::round((double)cols / 8), 2);
+    //  gr->SetTicks('y', utils::round((double)rows / 8), 2);
+    //  gr->SetTicks('z', utils::round((double)maxValue / 8), 2);
     
     gr->SetTicks('x', -8, 2);
     gr->SetTicks('y', -8, 2);

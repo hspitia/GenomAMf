@@ -250,12 +250,12 @@ QList<LinearPlot *> MfaResultsController::plotLinearRegressionResults()
     
     newLinearPlot->setTitle(QObject::trUtf8("<font size=\"2\">Regresiones "
             "lineales cálculo dimensiones Dq en Seq_%1</font>").arg(i + 1));
-    newLinearPlot->setAxisTitle(QwtPlot::xBottom, "<font size=\"2\">ln(R/L)"
-            "</font>");
+    newLinearPlot->setAxisTitle(QwtPlot::xBottom, QObject::trUtf8("<font size="
+            "\"2\">ln(R/L)</font>"));
     newLinearPlot->setAxisTitle(QwtPlot::yLeft, 
-                                QString("<font size=\"2\">ln(" 
-//                                        QString("\u3008") +
-                                        "<[M(R) / Mo]^(q-1)>) / (q-1) </font>"));
+                                QObject::trUtf8("<font size=\"2\">"
+                                        "ln(\ue235[M(R)/Mo]^"
+                                        "(q-1)\ue236)/(q-1)</font>"));
     plots.append(newLinearPlot);
   }
   
