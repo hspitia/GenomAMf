@@ -277,7 +277,7 @@ void MfaResultsForm::exportImage(int plotType)
   fileDialog->setNameFilters(filters);
   fileDialog->setAcceptMode(QFileDialog::AcceptSave);
   fileDialog->setDirectory(QDir::homePath());
-  fileDialog->selectFile(filenames.at(plotType));
+  fileDialog->selectFile(filenames.at(plotType) + ".png");
   fileDialog->setDefaultSuffix("png");
   
   QString filename;

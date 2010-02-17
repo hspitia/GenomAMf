@@ -4,6 +4,8 @@
 #include <QtGui/QWidget>
 #include <QtGui/QFormLayout>
 #include <QtGui/QDockWidget>
+#include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
 
 // Bio++
 #include <Bpp/Qt/TreeCanvas.h>
@@ -14,9 +16,11 @@
 // Project
 #include <cra/CorrelationAnalysis.h>
 #include <cra/DistancesModel.h>
+#include <cra/CorrelationAnalysisResultsController.h>
 #include <gui/TreeItem.h>
 #include "ui_CorrelationAnalysisResultsForm.h"
 
+class CorrelationAnalysisResultsController;
 
 
 class CorrelationAnalysisResultsForm : public QWidget
@@ -27,10 +31,17 @@ class CorrelationAnalysisResultsForm : public QWidget
     CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
                                    Tree * tree,
                                    const QList<QStringList> & sequenceCodeList,
+                                   CorrelationAnalysisResultsController *
+                                   parentController,
                                    QWidget *parent = 0);
 
     ~CorrelationAnalysisResultsForm();
-
+    
+    CorrelationAnalysisResultsController * getParentController();
+    
+    void setParentController(CorrelationAnalysisResultsController * 
+                             parentController);
+    
     Tree * getTree();
 
     void setTree(Tree * tree);
@@ -38,7 +49,7 @@ class CorrelationAnalysisResultsForm : public QWidget
     TreeCanvas & getTreeCanvas();
 
   private:
-    
+    CorrelationAnalysisResultsController * parentController;
     Ui::CorrelationAnalysisResultsFormClass *ui;
     Tree * tree;
     TreeCanvas treeCanvas;
@@ -59,7 +70,7 @@ class CorrelationAnalysisResultsForm : public QWidget
     void updateTreeControls();
     
   private slots:
-    bool exportToNewickTree();
+    void exportToNewickTree();
 };
 
 #endif // CORRELATIONANALYSISRESULTSFORM_H

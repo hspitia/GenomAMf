@@ -38,7 +38,7 @@ using namespace bpp;
 #include <gui/CorrelationAnalysisResultsForm.h>
 #include <mfa/Plotter.h>
 
-
+class CorrelationAnalysisResultsForm;
 /**
  * 
  */
@@ -57,10 +57,14 @@ class CorrelationAnalysisResultsController
     virtual ~CorrelationAnalysisResultsController();
     
     CorrelationAnalysisResultsForm * contructTheResultsForm(QWidget *parent);
+    
+    bool exportTreeToNewickFormat(const QString & fileName);
+    
     // Access
     const CorrelationAnalysis * getCraObject();
     
     void setCraObject(const CorrelationAnalysis * craObject);
+    
     
   private:
     const CorrelationAnalysis * craObject;

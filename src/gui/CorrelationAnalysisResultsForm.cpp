@@ -8,12 +8,15 @@ CorrelationAnalysisResultsForm::
 CorrelationAnalysisResultsForm(DistancesModel * distancesModel,
                                Tree * tree,
                                const QList<QStringList> & sequenceCodeList,
+                               CorrelationAnalysisResultsController *
+                               parentController,
                                QWidget *parent)
     : QWidget(parent),
     ui(new Ui::CorrelationAnalysisResultsFormClass())
 {
 	ui->setupUi(this);
 	this->tree = tree;
+	this->parentController = parentController;
 	connectSignalsSlots();
 	setUpSequenceTable(sequenceCodeList);
 	ui->distanceTable->setModel(distancesModel);
@@ -26,6 +29,9 @@ CorrelationAnalysisResultsForm::~CorrelationAnalysisResultsForm()
 {
   if (tree)
     tree = 0;
+  
+  if (parentController)
+    parentController = 0;
 }
 
 void CorrelationAnalysisResultsForm::connectSignalsSlots()
@@ -36,7 +42,8 @@ void CorrelationAnalysisResultsForm::connectSignalsSlots()
 
 void CorrelationAnalysisResultsForm::initControls()
 {
-  controlPanel_ = new QWidget(ui->controlsFrame);
+//  controlPanel_ = new QWidget(ui->controlsFrame);
+  controlPanel_ = new QWidget(ui->controlsItem);
   treeControlers_ = new TreeCanvasControlers();
   
   QGroupBox* drawingOptions = new QGroupBox;
@@ -86,10 +93,13 @@ void CorrelationAnalysisResultsForm::initControls()
   layout->addWidget(drawingOptions);
   layout->addWidget(displayOptions);
   layout->addStretch(1);
+//  layout->setContentsMargins(0,0,0,0);
   controlPanel_->setLayout(layout);
-
  
-  statsPanel_ = new TreeStatisticsBox(ui->statsFrame);
+//  statsPanel_ = new TreeStatisticsBox(ui->statsFrame);
+  statsPanel_ = new TreeStatisticsBox(ui->statsItem);
+//  ui->statsFrame->setContentsMargins(0,0,0,0);
+//  ui->controlsFrame->setContentsMargins(0,0,0,0);
 }
 
 void CorrelationAnalysisResultsForm::
@@ -141,9 +151,36 @@ void CorrelationAnalysisResultsForm::updateTreeControls()
   treeControlers_->actualizeOptions();
 }
 
-bool CorrelationAnalysisResultsForm::exportToNewickTree()
+void CorrelationAnalysisResultsForm::exportToNewickTree()
 {
-  return false;
+  QString filename = trUtf8("Árbol_filogenético");
+  filename += ".tree";
+  
+  QStringList filters;
+  filters << "Newick tree format (*.tree)";
+  
+  QFileDialog * fileDialog = new QFileDialog(this);
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+  fileDialog->setDirectory(QDir::homePath());
+  fileDialog->selectFile(filename);
+  fileDialog->setDefaultSuffix("tree");
+  
+  if(fileDialog->exec()){
+    QStringList list = fileDialog->selectedFiles();
+    if(!list.isEmpty()){
+      filename = list.at(0);
+      bool succes = parentController->exportTreeToNewickFormat(filename);
+      
+      if(!succes){
+        QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
+                "error mientras se trataba de guardar el árbol.\n "
+                "Verifique los permisos del directorio destino e intente "
+                "exportar nuevamente."),
+                QMessageBox::Ok);
+      }
+    }
+  }
 }
 
 QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const
@@ -158,6 +195,18 @@ QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const
     icon = QIcon(":/icons/cgr.png");
   
   return icon;
+}
+
+CorrelationAnalysisResultsController * 
+CorrelationAnalysisResultsForm::getParentController()
+{
+  return parentController;
+}
+
+void CorrelationAnalysisResultsForm::
+setParentController(CorrelationAnalysisResultsController * parentController)
+{
+  this->parentController = parentController;
 }
 
 Tree * CorrelationAnalysisResultsForm::getTree()

@@ -70,9 +70,23 @@ CorrelationAnalysisResultsController::contructTheResultsForm(QWidget *parent)
           new CorrelationAnalysisResultsForm(model,
                                              tree,
                                              sequenceContent,
+                                             this,
                                              parent);
   
   return creResultsForm;
+}
+
+bool CorrelationAnalysisResultsController::
+exportTreeToNewickFormat(const QString & fileName)
+{
+  try {
+    Newick newick;
+    newick.write(*(craObject->getTree()), fileName.toStdString());
+  }
+  catch (Exception e) {
+    return false;
+  }
+  return true;
 }
 
 DistancesModel * CorrelationAnalysisResultsController::prepareDistancesModel()
