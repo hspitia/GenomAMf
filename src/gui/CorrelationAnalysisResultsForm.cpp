@@ -38,6 +38,8 @@ void CorrelationAnalysisResultsForm::connectSignalsSlots()
 {
   connect(ui->buttonBox, SIGNAL(rejected()), this->parent(),
           SLOT(closeSubWindow()));
+  connect(ui->exportToNewickFormatButton, SIGNAL(clicked()), this,
+          SLOT(exportToNewickTree()));
 }
 
 void CorrelationAnalysisResultsForm::initControls()
@@ -93,11 +95,12 @@ void CorrelationAnalysisResultsForm::initControls()
   layout->addWidget(drawingOptions);
   layout->addWidget(displayOptions);
   layout->addStretch(1);
-//  layout->setContentsMargins(0,0,0,0);
   controlPanel_->setLayout(layout);
+//  layout->setContentsMargins(0,0,0,0);
  
 //  statsPanel_ = new TreeStatisticsBox(ui->statsFrame);
   statsPanel_ = new TreeStatisticsBox(ui->statsItem);
+  statsPanel_->setFlat(true);
 //  ui->statsFrame->setContentsMargins(0,0,0,0);
 //  ui->controlsFrame->setContentsMargins(0,0,0,0);
 }
@@ -153,7 +156,7 @@ void CorrelationAnalysisResultsForm::updateTreeControls()
 
 void CorrelationAnalysisResultsForm::exportToNewickTree()
 {
-  QString filename = trUtf8("Árbol_filogenético");
+  QString filename = trUtf8("Arbol_filogenetico");
   filename += ".tree";
   
   QStringList filters;
@@ -170,8 +173,15 @@ void CorrelationAnalysisResultsForm::exportToNewickTree()
     QStringList list = fileDialog->selectedFiles();
     if(!list.isEmpty()){
       filename = list.at(0);
-      bool succes = parentController->exportTreeToNewickFormat(filename);
-      
+      TRACE (__LINE__ << "\n\t" << "ANtes");
+      bool succes;
+      if (parentController){
+        DEBUG(qPrintable(filename));
+        succes = parentController->exportTreeToNewickFormat(filename);
+      }
+      else 
+        DEBUG("parentController == NULL");
+      TRACE (__LINE__ << "\n\t" << "DespuEs");
       if(!succes){
         QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
                 "error mientras se trataba de guardar el árbol.\n "

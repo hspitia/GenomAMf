@@ -19,7 +19,7 @@
  *  Description:  
  */
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -80,10 +80,14 @@ bool CorrelationAnalysisResultsController::
 exportTreeToNewickFormat(const QString & fileName)
 {
   try {
+    TRACE (__LINE__ << "\n\t" << "Antes");
     Newick newick;
-    newick.write(*(craObject->getTree()), fileName.toStdString());
+    Tree * tree = craObject->getTree();
+    TRACE (__LINE__ << "\n\t" << "DespuEs");
+    newick.write(*tree, "/home/hspitia/tree.tree");
   }
   catch (Exception e) {
+    cout << e.what();
     return false;
   }
   return true;

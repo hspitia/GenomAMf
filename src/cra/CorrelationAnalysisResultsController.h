@@ -28,6 +28,7 @@
 // Bio++
 #include <Seq/Sequence.h>
 #include <NumCalc/Matrix.h>
+#include <Phyl/Newick.h>
 
 using namespace bpp;
 
