@@ -123,14 +123,21 @@ setUpSequenceTable(const QList<QStringList> & sequenceCodeList)
 
 void CorrelationAnalysisResultsForm::setUpTree()
 {
-  treeCanvas.setTree(tree);
-  treeCanvas.setTreeDrawing(*(treeControlers_->getSelectedTreeDrawing()));
-  treeCanvas.setMinimumSize(300,300);
-  treeCanvas.setMaximumSize(1200,1200);
-  treeCanvas.resize(400, 400);
-  treeControlers_->applyOptions(&treeCanvas);
-  ui->treePanelScrollArea->setWidget(&treeCanvas);
-  updateTreeControls();
+  TRACE (__LINE__ << "\n\t" << "Antes");
+  if (tree) {
+    DEBUG("NOT NULL - dir: " << tree);
+  }
+  else 
+    DEBUG("NOT NULL");
+//  treeCanvas.setTree(tree);
+//  treeCanvas.setTreeDrawing(*(treeControlers_->getSelectedTreeDrawing()));
+  TRACE (__LINE__ << "\n\t" << "DespuEs");
+//  treeCanvas.setMinimumSize(300,300);
+//  treeCanvas.setMaximumSize(1200,1200);
+//  treeCanvas.resize(400, 400);
+//  treeControlers_->applyOptions(&treeCanvas);
+//  ui->treePanelScrollArea->setWidget(&treeCanvas);
+//  updateTreeControls();
   
 }
 
@@ -139,6 +146,11 @@ void CorrelationAnalysisResultsForm::updateTreeControls()
   statsPanel_->updateTree(*tree);
   treeControlers_->setTreeCanvas(&treeCanvas);
   treeControlers_->actualizeOptions();
+}
+
+bool CorrelationAnalysisResultsForm::exportToNewickTree()
+{
+  return false;
 }
 
 QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const
@@ -169,3 +181,4 @@ TreeCanvas & CorrelationAnalysisResultsForm::getTreeCanvas()
 {
   return treeCanvas;
 }
+

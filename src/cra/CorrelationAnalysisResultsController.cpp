@@ -19,7 +19,7 @@
  *  Description:  
  */
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -65,13 +65,11 @@ CorrelationAnalysisResultsController::contructTheResultsForm(QWidget *parent)
   DistancesModel * model = prepareDistancesModel();
   Tree * tree = craObject->getTree();
   
-  
   CorrelationAnalysisResultsForm * creResultsForm = 
           new CorrelationAnalysisResultsForm(model,
                                              tree,
                                              sequenceContent,
                                              parent);
-//  Plotter * plotter = plotMuMeasures();
   
   return creResultsForm;
 }
@@ -87,9 +85,7 @@ DistancesModel * CorrelationAnalysisResultsController::prepareDistancesModel()
     sequenceCodeList.append(code);
   }
   
-  DistancesModel * model = new DistancesModel(sequenceCodeList,
-                                              distances);
-  
+  DistancesModel * model = new DistancesModel(sequenceCodeList, distances);
   return  model;
 }
 

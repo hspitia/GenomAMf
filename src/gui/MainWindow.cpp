@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  Archivo de implementacio-.n para la clase MainWindow
  */
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 #include "MainWindow.h"
 
@@ -661,7 +661,6 @@ void MainWindow::displayCraResults(const int & craKey)
   
   CorrelationAnalysisResultsController * craResultsController =
           new CorrelationAnalysisResultsController(&craObject);
-  
   CorrelationAnalysisResultsForm * craResultsForm =
           craResultsController->contructTheResultsForm(this);
   
