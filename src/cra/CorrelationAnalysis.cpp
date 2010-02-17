@@ -65,10 +65,7 @@ CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis &
 
 CorrelationAnalysis::~CorrelationAnalysis()
 {
-  if (tree !=0)
-    delete tree;
   
-  tree = 0;
 }
 
 QList<double> CorrelationAnalysis::performAnalysis()
@@ -219,9 +216,9 @@ void CorrelationAnalysis::makePhylogeneticTree()
   NeighborJoining nj(*matrix, false, false);
   
   tree = nj.getTree();
-
+  
   Newick newick;
-  newick.write(*tree, "tmp/tree.dnd");
+  newick.write(*tree,"tmp/tree.dnd");
   
   delete matrix;
 }
