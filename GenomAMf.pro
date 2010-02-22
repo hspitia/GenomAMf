@@ -110,8 +110,9 @@ unix {
                    -lbpp-seq \
                    -lbpp-numcalc \
                    -lbpp-phyl \
-                   -lbpp-qt \
-                   -lbpp-raa
+                   -lbpp-qt 
+                   #\
+                   #-lbpp-raa
     LIBS        += -L/usr/lib \
                    -lmgl \
                    -lmgl-qt

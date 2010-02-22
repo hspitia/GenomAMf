@@ -65,14 +65,15 @@ CorrelationAnalysisResultsController::contructTheResultsForm(QWidget *parent)
   DistancesModel * model = prepareDistancesModel();
   Tree * tree = craObject->getTree();
   
-  
   CorrelationAnalysisResultsForm * creResultsForm = 
           new CorrelationAnalysisResultsForm(model,
                                              tree,
                                              sequenceContent,
                                              this,
                                              parent);
-  
+  TRACE (__LINE__ << "\n\t" << "Dir tree constructResults: " << tree <<
+         "  craObject "<< craObject);
+  tree = 0;
   return creResultsForm;
 }
 
@@ -80,11 +81,11 @@ bool CorrelationAnalysisResultsController::
 exportTreeToNewickFormat(const QString & fileName)
 {
   try {
-    TRACE (__LINE__ << "\n\t" << "Antes");
     Newick newick;
     Tree * tree = craObject->getTree();
-    TRACE (__LINE__ << "\n\t" << "DespuEs");
-    newick.write(*tree, "/home/hspitia/tree.tree");
+    TRACE (__LINE__ << "\n\t" << "Dir tree in controller: " << tree  <<
+         "  craObject "<< craObject);
+    newick.write(*tree, fileName.toStdString());
   }
   catch (Exception e) {
     cout << e.what();

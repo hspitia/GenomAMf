@@ -30,6 +30,7 @@ CorrelationAnalysis::CorrelationAnalysis()
   this->nMeshFrames         = 0;
   this->distances           = QList<double>();
   this->tree                = 0;
+  this->treeTemplate        = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const 
@@ -41,6 +42,7 @@ CorrelationAnalysis::CorrelationAnalysis(const
   this->nMeshFrames         = nMeshFrames;
   this->distances           = QList<double>();
   this->tree                = 0;
+  this->treeTemplate        = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis & 
@@ -49,7 +51,10 @@ CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis &
   this->correlationElements = correlationAnalysisObject.correlationElements;
   this->nMeshFrames         = correlationAnalysisObject.nMeshFrames;
   this->distances           = correlationAnalysisObject.distances;
+//  this->tree                = correlationAnalysisObject.tree->clone();
   this->tree                = correlationAnalysisObject.tree;
+  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
+  
 }
 
 CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis & 
@@ -58,14 +63,20 @@ CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis &
   this->correlationElements = correlationAnalysisObject.correlationElements;
   this->nMeshFrames         = correlationAnalysisObject.nMeshFrames;
   this->distances           = correlationAnalysisObject.distances;
+//  this->tree                = correlationAnalysisObject.tree->clone();
   this->tree                = correlationAnalysisObject.tree;
+  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
   
   return *this;
 }
 
 CorrelationAnalysis::~CorrelationAnalysis()
 {
+  if (tree)
+    tree = 0;
   
+  if (treeTemplate)
+    treeTemplate = 0;
 }
 
 QList<double> CorrelationAnalysis::performAnalysis()
@@ -215,8 +226,9 @@ void CorrelationAnalysis::makePhylogeneticTree()
 //  NeighborJoining nj(*matrix, false, true);
   NeighborJoining nj(*matrix, false, false);
   
-  tree = nj.getTree();
+  tree = nj.getTree()->clone();
   
+  treeTemplate = new TreeTemplate<Node>(*(nj.getTree()));
   Newick newick;
   newick.write(*tree,"tmp/tree.dnd");
   
@@ -270,3 +282,14 @@ Tree * CorrelationAnalysis::getTree() const
 {
   return tree;
 }
+
+TreeTemplate<Node> * CorrelationAnalysis::getTreeTemplate() const
+{
+  return treeTemplate;
+}
+
+void CorrelationAnalysis::setTreeTemplate(TreeTemplate<Node> * treeTemplate)
+{
+  this->treeTemplate = treeTemplate;
+}
+

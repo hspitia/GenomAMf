@@ -173,15 +173,16 @@ void CorrelationAnalysisResultsForm::exportToNewickTree()
     QStringList list = fileDialog->selectedFiles();
     if(!list.isEmpty()){
       filename = list.at(0);
-      TRACE (__LINE__ << "\n\t" << "ANtes");
       bool succes;
       if (parentController){
-        DEBUG(qPrintable(filename));
+        TRACE (__LINE__ << "\n\t" << "Dir tree en Form: " << tree);
         succes = parentController->exportTreeToNewickFormat(filename);
+//        succes = true;
+//        Newick newick;
+//        newick.write(*tree, filename.toStdString());
       }
       else 
         DEBUG("parentController == NULL");
-      TRACE (__LINE__ << "\n\t" << "DespuEs");
       if(!succes){
         QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
                 "error mientras se trataba de guardar el árbol.\n "

@@ -28,6 +28,8 @@
 #include <Seq/DistanceMatrix.h>
 #include <Phyl/NeighborJoining.h>
 #include <Phyl/Tree.h>
+#include <Phyl/TreeTemplate.h>
+#include <Phyl/Node.h>
 #include <Phyl/Newick.h>
 
 using namespace bpp;
@@ -72,6 +74,10 @@ class CorrelationAnalysis
     
     Tree * getTree() const;
     
+    TreeTemplate<Node> * getTreeTemplate() const;
+    
+    void setTreeTemplate(TreeTemplate<Node> * treeTemplate);
+    
   private:
     QList<const CorrelationElement *> correlationElements;
     
@@ -82,6 +88,8 @@ class CorrelationAnalysis
     
     Tree * tree; /**< Árbol filogenético creado a partir de la matriz de 
       distancias */
+    
+    TreeTemplate<Node> * treeTemplate;
     
 //    QList<double> calculateAverages();
     

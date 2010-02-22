@@ -29,6 +29,7 @@
 #include <Seq/Sequence.h>
 #include <NumCalc/Matrix.h>
 #include <Phyl/Newick.h>
+#include <Phyl/Tree.h>
 
 using namespace bpp;
 

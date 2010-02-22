@@ -658,12 +658,10 @@ void MainWindow::displayMfaResults(const int & mfaResultSetKey)
 void MainWindow::displayCraResults(const int & craKey)
 {
   CorrelationAnalysis craObject = parentApp->getCraHash()->value(craKey);
-  
   CorrelationAnalysisResultsController * craResultsController =
           new CorrelationAnalysisResultsController(&craObject);
   CorrelationAnalysisResultsForm * craResultsForm =
           craResultsController->contructTheResultsForm(this);
-  
   ui->mdiArea->addSubWindow(craResultsForm);
   craResultsForm->show();
 }

@@ -13,6 +13,7 @@
 #include <Bpp/Qt/TreeStatisticsBox.h>
 #include <Phyl/Tree.h>
 #include <Phyl/TreeDrawing.h>
+#include <Phyl/Newick.h>
 // Project
 #include <cra/CorrelationAnalysis.h>
 #include <cra/DistancesModel.h>
