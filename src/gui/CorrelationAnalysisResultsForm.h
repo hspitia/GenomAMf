@@ -72,6 +72,7 @@ class CorrelationAnalysisResultsForm : public QWidget
     
   private slots:
     void exportToNewickTree();
+    void exportDistancesToCsv();
 };
 
 #endif // CORRELATIONANALYSISRESULTSFORM_H

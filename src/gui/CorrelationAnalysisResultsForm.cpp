@@ -40,6 +40,8 @@ void CorrelationAnalysisResultsForm::connectSignalsSlots()
           SLOT(closeSubWindow()));
   connect(ui->exportToNewickFormatButton, SIGNAL(clicked()), this,
           SLOT(exportToNewickTree()));
+  connect(ui->exportToCSVButton, SIGNAL(clicked()), this,
+          SLOT(exportDistancesToCsv()));
 }
 
 void CorrelationAnalysisResultsForm::initControls()
@@ -174,15 +176,18 @@ void CorrelationAnalysisResultsForm::exportToNewickTree()
     if(!list.isEmpty()){
       filename = list.at(0);
       bool succes;
-      if (parentController){
-        TRACE (__LINE__ << "\n\t" << "Dir tree en Form: " << tree);
-        succes = parentController->exportTreeToNewickFormat(filename);
-//        succes = true;
-//        Newick newick;
-//        newick.write(*tree, filename.toStdString());
+      
+      //      TRACE (__LINE__ << "\n\t" << "Dir tree en Form: " << tree);
+      //      succes = parentController->exportTreeToNewickFormat(filename);
+      try {
+        Newick newick;
+        newick.write(*tree, filename.toStdString());
+        succes = true;
       }
-      else 
-        DEBUG("parentController == NULL");
+      catch (Exception e) {
+        succes = false;
+      }
+      
       if(!succes){
         QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
                 "error mientras se trataba de guardar el árbol.\n "
@@ -192,6 +197,38 @@ void CorrelationAnalysisResultsForm::exportToNewickTree()
       }
     }
   }
+}
+
+void CorrelationAnalysisResultsForm::exportDistancesToCsv()
+{
+  QString fileName = trUtf8("DistanceMatrix");
+  QStringList filters;
+  filters << trUtf8("Comma separated values (*.csv)");
+  
+  QFileDialog * fileDialog = new QFileDialog(this);
+  fileDialog->setNameFilters(filters);
+  fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+  fileDialog->setDirectory(QDir::homePath());
+  fileDialog->selectFile(fileName);
+  fileDialog->setDefaultSuffix("csv");
+  
+  if(fileDialog->exec()){
+    QStringList list = fileDialog->selectedFiles();
+    if(!list.isEmpty()){
+      fileName = list.at(0);
+      
+      bool succes = parentController->exportDistanceMatrixToCsv(fileName);
+      if (!succes)
+        QMessageBox::critical(this, trUtf8("GenomAMf - Error"), 
+                              trUtf8("Ha ocurrido un error al "
+                                      "tratar de guardar el archivo:\n %1\n\n"
+                                      "Verifique los permisos del directorio "
+                                      "destino e intente guardar el archivo"
+                                      "nuevamente.").arg(fileName),
+                                      QMessageBox::Ok);
+    }
+  }
+  delete fileDialog;
 }
 
 QIcon CorrelationAnalysisResultsForm::getIcon(const int & type) const

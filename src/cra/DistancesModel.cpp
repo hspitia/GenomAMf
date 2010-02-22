@@ -60,7 +60,8 @@ QVariant DistancesModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::TextAlignmentRole) {
         return int(Qt::AlignRight | Qt::AlignVCenter);
-    } else if (role == Qt::DisplayRole) {
+    } 
+    else if (role == Qt::DisplayRole) {
         if (index.row() == index.column())
             return 0;
         int offset = offsetOf(index.row(), index.column());

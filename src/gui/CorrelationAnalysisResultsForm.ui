@@ -134,7 +134,7 @@
        <item row="0" column="1">
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="exportToCSVButton">
            <property name="text">
             <string>Exportar</string>
            </property>
@@ -194,7 +194,7 @@
         </property>
        </widget>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>452</x>
@@ -224,7 +224,7 @@
              <x>0</x>
              <y>0</y>
              <width>279</width>
-             <height>307</height>
+             <height>310</height>
             </rect>
            </property>
            <attribute name="icon">
@@ -240,8 +240,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>279</width>
-             <height>307</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="icon">

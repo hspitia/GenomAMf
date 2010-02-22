@@ -24,6 +24,7 @@
 
 // Qt
 #include <QtCore/QList>
+#include <QtCore/QTextStream>
 
 // Bio++
 #include <Seq/Sequence.h>
@@ -62,19 +63,26 @@ class CorrelationAnalysisResultsController
     
     bool exportTreeToNewickFormat(const QString & fileName);
     
+    bool exportDistanceMatrixToCsv(const QString & fileName);
+    
     // Access
     const CorrelationAnalysis * getCraObject();
     
     void setCraObject(const CorrelationAnalysis * craObject);
     
     
+    DistancesModel * getDistanceModel();
+    
   private:
     const CorrelationAnalysis * craObject;
+    DistancesModel * distanceModel;
     
     // Methods
     Plotter * plotMuMeasures();
     QList<QStringList> prepareContentSequenceTable();
     DistancesModel * prepareDistancesModel();
+    QString getSequenceCodeAndNames();
+    QString convertDistanceMatrixToCsv();
 };
 
 #endif /* CORRELATIONANALYSISRESULTSCONTROLLER_H_ */

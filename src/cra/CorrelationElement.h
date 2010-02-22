@@ -45,9 +45,9 @@ class CorrelationElement
     CorrelationElement();
     CorrelationElement(const ChaosGameRepresentation * cgrObject,
                         const int & nMeshFrames);
-    CorrelationElement(const CorrelationElement & distanceInformationObject);
+    CorrelationElement(const CorrelationElement & correlationElementObject);
     CorrelationElement & operator=(const CorrelationElement & 
-                                    distanceInformationObject);
+                                    correlationElementObject);
     
     // Destructor
     virtual ~CorrelationElement();
