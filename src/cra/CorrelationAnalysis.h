@@ -55,7 +55,8 @@ class CorrelationAnalysis
     
     virtual ~CorrelationAnalysis();
     
-    QList<double> performAnalysis();
+//    QList<double> performAnalysis();
+    void performAnalysis();
     
     QList<const CorrelationElement *> getCorrelationElements() const;
     
@@ -74,9 +75,9 @@ class CorrelationAnalysis
     
     Tree * getTree() const;
     
-    TreeTemplate<Node> * getTreeTemplate() const;
+//    TreeTemplate<Node> * getTreeTemplate() const;
     
-    void setTreeTemplate(TreeTemplate<Node> * treeTemplate);
+//    void setTreeTemplate(TreeTemplate<Node> * treeTemplate);
     
   private:
     QList<const CorrelationElement *> correlationElements;
@@ -89,8 +90,8 @@ class CorrelationAnalysis
     Tree * tree; /**< Árbol filogenético creado a partir de la matriz de 
       distancias */
     
-    TreeTemplate<Node> * treeTemplate;
-    
+//    TreeTemplate<Node> * treeTemplate;
+//    
 //    QList<double> calculateAverages();
     
 //    QList<double> calculateVariances(const QList<double> & averages);

@@ -1,4 +1,4 @@
-/**
+    /**
  * @file CorrelationElement.cpp
  * @date 25/12/2009
  * @author He-.ctor Fabio Espitia Navarro <br>
@@ -210,7 +210,7 @@ CorrelationElement::calculateMuMeasures(const ChaosGameRepresentation *
   int rows = static_cast<int>(cgrMatrix->getNumberOfRows());
   
   if (size < rows) {
-    cout<< "\nENTRO A DIVISION EN MESH" << endl;
+//    cout<< "\nENTRO A DIVISION EN MESH" << endl;
     muMeasuresMatrix = new RowMatrix<int>(size, size);
     int frameSize = static_cast<int>(rows / size);
     

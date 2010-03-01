@@ -18,7 +18,7 @@
  *      License:  GNU GPL. See more details in LICENSE file
  *  Description:  
  */
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -30,7 +30,7 @@ CorrelationAnalysis::CorrelationAnalysis()
   this->nMeshFrames         = 0;
   this->distances           = QList<double>();
   this->tree                = 0;
-  this->treeTemplate        = 0;
+//  this->treeTemplate        = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const 
@@ -42,7 +42,7 @@ CorrelationAnalysis::CorrelationAnalysis(const
   this->nMeshFrames         = nMeshFrames;
   this->distances           = QList<double>();
   this->tree                = 0;
-  this->treeTemplate        = 0;
+//  this->treeTemplate        = 0;
 }
 
 CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis & 
@@ -53,7 +53,7 @@ CorrelationAnalysis::CorrelationAnalysis(const CorrelationAnalysis &
   this->distances           = correlationAnalysisObject.distances;
 //  this->tree                = correlationAnalysisObject.tree->clone();
   this->tree                = correlationAnalysisObject.tree;
-  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
+//  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
   
 }
 
@@ -65,7 +65,7 @@ CorrelationAnalysis & CorrelationAnalysis::operator=(const CorrelationAnalysis &
   this->distances           = correlationAnalysisObject.distances;
 //  this->tree                = correlationAnalysisObject.tree->clone();
   this->tree                = correlationAnalysisObject.tree;
-  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
+//  this->treeTemplate        = correlationAnalysisObject.treeTemplate->clone();
   
   return *this;
 }
@@ -75,11 +75,26 @@ CorrelationAnalysis::~CorrelationAnalysis()
   if (tree)
     tree = 0;
   
-  if (treeTemplate)
-    treeTemplate = 0;
+//  if (treeTemplate)
+//    treeTemplate = 0;
 }
 
+/*
 QList<double> CorrelationAnalysis::performAnalysis()
+{
+  if (distances.isEmpty()) {
+    QList<double> covariances = calculateCovariances();
+    QList<double> correlCoefficients = 
+            calculateCorrelationCoefficients(variances, covariances);
+    distances = calculateDistances(correlCoefficients);
+    makePhylogeneticTree();
+  }
+  
+  return distances;
+}
+*/
+
+void CorrelationAnalysis::performAnalysis()
 {
   if (distances.isEmpty()) {
     QList<double> covariances = calculateCovariances();
@@ -88,8 +103,6 @@ QList<double> CorrelationAnalysis::performAnalysis()
     distances = calculateDistances(correlCoefficients);
     makePhylogeneticTree();
   }
-  
-  return distances;
 }
 
 /*QList<double> CorrelationAnalysis::calculateAverages()
@@ -228,7 +241,7 @@ void CorrelationAnalysis::makePhylogeneticTree()
   
   tree = nj.getTree()->clone();
   
-  treeTemplate = new TreeTemplate<Node>(*(nj.getTree()));
+//  treeTemplate = new TreeTemplate<Node>(*(nj.getTree()));
   Newick newick;
   newick.write(*tree,"tmp/tree.dnd");
   
@@ -283,13 +296,13 @@ Tree * CorrelationAnalysis::getTree() const
   return tree;
 }
 
-TreeTemplate<Node> * CorrelationAnalysis::getTreeTemplate() const
-{
-  return treeTemplate;
-}
+//TreeTemplate<Node> * CorrelationAnalysis::getTreeTemplate() const
+//{
+//  return treeTemplate;
+//}
 
-void CorrelationAnalysis::setTreeTemplate(TreeTemplate<Node> * treeTemplate)
-{
-  this->treeTemplate = treeTemplate;
-}
+//void CorrelationAnalysis::setTreeTemplate(TreeTemplate<Node> * treeTemplate)
+//{
+//  this->treeTemplate = treeTemplate;
+//}
 

@@ -1,4 +1,4 @@
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -105,6 +105,9 @@ void CorrelationAnalysisResultsForm::initControls()
   statsPanel_->setFlat(true);
 //  ui->statsFrame->setContentsMargins(0,0,0,0);
 //  ui->controlsFrame->setContentsMargins(0,0,0,0);
+  
+  //Hide the export matrix button
+  ui->exportToCSVButton->setVisible(false);
 }
 
 void CorrelationAnalysisResultsForm::

@@ -563,19 +563,33 @@ void MainWindow::makePreprocessScript()
     parameters.setOriginType(scriptForm->getOriginType());
     parameters.setSequences(scriptForm->getSequencesToDownload());
     
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Guardar script"),
-                            QDir::homePath(),
-                            tr("Python scripts (*.py)"));
+    QString fileName = trUtf8("preprocess_script");
+    QStringList filters;
+    filters << trUtf8("Python script (*.py)");
     
-    if (!fileName.isEmpty()) {
-      bool succes = parentApp->makePreprocessingScript(parameters, fileName);
-      if (!succes)
-        QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
+    QFileDialog * fileDialog = new QFileDialog(this);
+    fileDialog->setNameFilters(filters);
+    fileDialog->setAcceptMode(QFileDialog::AcceptSave);
+    fileDialog->setDirectory(QDir::homePath());
+    fileDialog->selectFile(fileName);
+    fileDialog->setDefaultSuffix("py");
+    
+    if(fileDialog->exec()){
+      QStringList list = fileDialog->selectedFiles();
+      if(!list.isEmpty()){
+        fileName = list.at(0);
+        
+        bool succes = parentApp->makePreprocessingScript(parameters, fileName);
+        if (!succes)
+          QMessageBox::information(this,"Error", trUtf8("Ocurrió un "
                 "error mientras se trataba de guardar el script.\n "
                 "Verifique los permisos del directorio destino e intente "
                 "guardar nuevamente."),
                 QMessageBox::Ok);
+      }
     }
+    delete fileDialog;
+    
   }
   
   delete scriptForm;

@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET   = genomAMf
+TARGET   = genoAMf
 DESTDIR  = bin
 QT      += core \
            gui \
@@ -140,6 +140,7 @@ RESOURCES    += resources/resources.qrc
 TRANSLATIONS += translations/genomamf_es.ts \
                 translations/genomamf_en.ts
 UI_HEADERS_DIR += src/gui
+INSTALL_DIR =
 
 unix {
     isEmpty(INSTALL_DIR) {
@@ -148,7 +149,7 @@ unix {
 }
 
 win32 {
-    INSTALL_DIR    = C:/GenomAMf
+    INSTALL_DIR    = C:/GenoAMf
 }
 
 #CONFIG += release
@@ -162,9 +163,9 @@ else {
   SUFFIX_STR = $${RELEASE_SUFFIX}
 }
 
-#OBJECTS_DIR         = obj$$SUFFIX_STR
-#MOC_DIR             = moc$$SUFFIX_STR
-#RCC_DIR             = resources
+OBJECTS_DIR         = obj$$SUFFIX_STR
+MOC_DIR             = moc$$SUFFIX_STR
+RCC_DIR             = resources
 
 target.path         = $$INSTALL_DIR/bin
 #!exists(/usr/local/bin/$$TARGET) {
@@ -177,8 +178,10 @@ source.path         = $$INSTALL_DIR/src
 source.files        = src/*
 templates.path      = $$INSTALL_DIR/templates
 templates.files     = templates/*
-tmp.path            = $$INSTALL_DIR/templates
+tmp.path            = $$INSTALL_DIR/tmp
 tmp.files           = tmp/*
+data.path           = $$INSTALL_DIR/data
+data.files          = data/*
 
 #unix {
 #  !exists($$INSTALL_DIR/tmp) {
@@ -190,4 +193,5 @@ INSTALLS += target \
             documentation \ 
             source \
             templates \
-            tmp
+            tmp \
+            data

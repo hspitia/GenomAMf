@@ -19,7 +19,7 @@
  *  Description:  
  */
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 #include <utils/Trace.h>
 
@@ -137,7 +137,7 @@ QList<QStringList>
 CorrelationAnalysisResultsController::prepareContentSequenceTable()
 {
   QList<QStringList > contentList;
-  
+  TRACE (__LINE__ << "\n\t" << "Antes de contar los elementos de correlación");
   int nElements = craObject->getCorrelationElements().count();
   TRACE (__LINE__ << "\n\t" << "nElements: " << nElements);
   for (int i = 0; i < nElements; ++i) {
@@ -166,6 +166,7 @@ CorrelationAnalysisResultsController::prepareContentSequenceTable()
 
 QString CorrelationAnalysisResultsController::getSequenceCodeAndNames()
 {
+  TRACE (__LINE__ << "\n\t" << "Antes de prepareContentSequenceTable()");
   QList<QStringList> sequenceList = prepareContentSequenceTable();
   TRACE (__LINE__ << "\n\t" << "Despues prepareContentSequenceTable()");
   QString outString;
@@ -209,6 +210,7 @@ QString CorrelationAnalysisResultsController::getSequenceCodeAndNames()
 bool CorrelationAnalysisResultsController::
 exportDistanceMatrixToCsv(const QString & fileName)
 {
+  TRACE (__LINE__ << "\n\t" << "Entes de convertDistanceMatrixToCsv()");
   QString outString = convertDistanceMatrixToCsv();
   
   /*QFile file(fileName);
