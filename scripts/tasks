@@ -3,9 +3,9 @@ make clean
 pwd
 rm -fr debug/*.*
 rm app
-rm tmp/*
+rm tmp/*.*
 rm bin/*
-rm release/*
+rm -fr release/*
 rm doc/**/*.*
 cd test/MatrixOperations
 make clean
